@@ -4,6 +4,7 @@
 title: Online-Skript Grundlagen der Datenbankensysteme
 author: Prof. Dr. Ziawasch Abedjan
 logo: DBIS_Kurzlogo.png
+theme: jekyll-theme-minimal
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
