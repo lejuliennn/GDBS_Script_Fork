@@ -1,5 +1,5 @@
 root: intro
-format: jb-book
+format: jb-article
 options: 
  numbered: true
     
