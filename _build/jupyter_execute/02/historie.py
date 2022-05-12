@@ -3,6 +3,32 @@
 
 # # Historie
 
+# ## Frühe automatisierte Speichertechnologie
+
+# ![](herman_hollerith.jpg)
+
+# ■ Herman Hollerith (1860 – 1929)
+# <br>
+# □ Gründete 1896 die Tabulating Machine Company
+# <br>
+# □ Fusion zur Computing Tabulating Recording Corporation (CTR)
+# <br>
+# □ 1924 umbenannt: International Business Machines Corporation (IBM)
+# <br>
+# <br>
+# Notiz: Wer war Herman Hollerith und was hat er gemacht
+
+# ![title](lochkarte.jpg)
+
+# □ Hollerith-Lochkartenverfahrens zur Datenverarbeitung
+# <br>
+# □ Z.B. Volkszählung USA 1890 (2 Jahre, 43 Maschinen, 500 Personen)
+# <br>
+# <br>
+# Notiz: Funktionsweise des Verfahrens, bis wann benutzt
+
+# ![title](lochkartenleser.jpg)
+
 # ## 1960er Jahre
 
 # DBS basierend auf hierarchischem Modell, Netzwerkmodell
@@ -149,3 +175,9 @@
 # ■ Data lake management
 # <br>
 # ■ Geo-distribution
+
+# ![title](festplatte_1.jpg)
+
+# ![title](lueftung.jpg)
+
+# ![title](festplatte_2.jpg)

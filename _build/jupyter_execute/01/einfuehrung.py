@@ -43,6 +43,8 @@
 
 # ## Anforderungen an DBMS nach Codd 1982
 
+# ![title](anforderungen_nach_codd.jpg)
+
 # ■ Integration
 # <br>
 # □ Einheitliche, nichtredundante Datenverwaltung

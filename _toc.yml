@@ -7,8 +7,9 @@ sections:
  - file: 01/einfuehrung 
  - file: 02/historie
  - file: 03/architektur
- - file: 04/er-modellierung
- - file: 05/relationaler_entwurf
+ - file: 04/phasenmodell_datenbankentwurf
+ - file: 05/er_modellierung
+ - file: 06/relationaler_entwurf
  - file: markdown
  - file: notebooks
  - file: markdown-notebooks
