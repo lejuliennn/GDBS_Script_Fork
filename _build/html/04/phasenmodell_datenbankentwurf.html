@@ -126,7 +126,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../06/relationaler_entwurf.html">
-   6. Entity-Relationship-Modell
+   6. Relationaler Entwurf
   </a>
  </li>
  <li class="toctree-l1">
@@ -288,6 +288,11 @@ const thebe_selector_output = ".output, .cell_output"
    4.8. Implementierung und Wartung
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#integrationskonflikte">
+   4.9. Integrationskonflikte
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -348,6 +353,11 @@ const thebe_selector_output = ".output, .cell_output"
    4.8. Implementierung und Wartung
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#integrationskonflikte">
+   4.9. Integrationskonflikte
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -375,7 +385,24 @@ const thebe_selector_output = ".output, .cell_output"
 <br>
 □ Nur „vernünftige“ (wirklich benötigte) Daten sollen gespeichert werden.
 <br>
-□ Nicht-redundante Speicherung</p>
+□ Nicht-redundante Speicherung
+<br>
+<br>
+Abfolge von Entwurfsdokumenten
+<br>
+Von abstrakter Beschreibung…
+<br>
+bis zur tatsächlichen Realisierung in einem DBMS
+<br>
+Verschiedene Beschreibungsformalismen
+<br>
+ER, Relationenmodell, SQL DDL
+<br>
+In jedem Schritt
+<br>
+Informationserhaltung
+<br>
+Konsistenzerhaltung</p>
 </div>
 <div class="section" id="anforderungsanalyse">
 <h2><span class="section-number">4.2. </span>Anforderungsanalyse<a class="headerlink" href="#anforderungsanalyse" title="Permalink to this headline">¶</a></h2>
@@ -567,6 +594,41 @@ Datensätze
 <br>
 <br>
 ■ Software Engineering</p>
+</div>
+<div class="section" id="integrationskonflikte">
+<h2><span class="section-number">4.9. </span>Integrationskonflikte<a class="headerlink" href="#integrationskonflikte" title="Permalink to this headline">¶</a></h2>
+<p>■ Namenskonflikte
+<br>
+□ Homonyme: Schloss, Kunde
+<br>
+□ Synonyme: Auto, KFZ, Fahrzeug
+<br>
+<br>
+■ Typkonflikte
+<br>
+□ Verschiedene Strukturen für das gleiche Element
+<br>
+□ String vs. int vs. date
+<br>
+<br>
+■ Wertebereichskonflikte
+<br>
+□ Verschiedene Wertebereiche für ein Element
+<br>
+□ KW 1 – 52 vs. Januar, Februar, …, Dezember
+<br>
+<br>
+■ Bedingungskonflikte
+<br>
+□ z.B. verschiedene Schlüssel für ein Element
+<br>
+□ &lt;\ISBN&gt; vs. &lt;Titel, Autor&gt;
+<br>
+<br>
+■ Strukturkonflikte
+<br>
+□ Gleicher Sachverhalt durch unterschiedliche Konstrukte ausgedrückt</p>
+<p>NICHT enthalten: S.10</p>
 </div>
 </div>
 

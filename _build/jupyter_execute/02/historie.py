@@ -181,3 +181,36 @@
 # ![title](lueftung.jpg)
 
 # ![title](festplatte_2.jpg)
+
+# ## Historie von Relationalen DBMS
+
+# ■ 70er: Datenbanksysteme (Geräte- und Datenunabhängigkeit, redundanzfrei, konsistent)
+# <br>
+# <br>
+# ■ 1970: Ted Codd (IBM)
+# <br>
+# □ Relationenmodell als konzeptionelle Grundlage relationaler DBS
+# <br>
+# <br>
+# ■ 1974: System R (IBM)
+# <br>
+# □ erster Prototyp eines RDBMS
+# <br>
+# □ ca. 80.000 LOC (PL/1, PL/S, Assembler), ca. 1,2 MB Codegröße
+# <br>
+# □ Anfragesprache SEQUEL (≠ SQL)
+# <br>
+# □ erste Installation 1977
+# <br>
+# <br>
+# ■ 1975: University of California at Berkeley (UCB)
+# <br>
+# □ Ingres
+# <br>
+# □ Anfragesprache QUEL
+# <br>
+# □ Vorgänger von Postgres, Sybase, . . .
+# <br>
+# ■ 1979: Oracle Version 2
+
+# NICHT enthalten: S. 4-8, S. 16, S. 23

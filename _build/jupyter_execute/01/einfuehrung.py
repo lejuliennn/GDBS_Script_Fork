@@ -94,3 +94,5 @@
 # ■ Katalog
 # <br>
 # □ Zugriffe auf Datenbankbeschreibungen im Data Dictionary (Metadaten)
+
+# NICHT enthalten: S.3-5, S. 22-25, S. 28, S. 38-46

@@ -102,3 +102,36 @@
 # □ Metadaten (in relationalen Systemtabelle)
 
 # Notiz: aktuelle Relevanz
+
+# ## Datenunabhängigkeit
+
+# ■ Entkopplung der jeweiligen Schichten
+# <br>
+# <br>
+# ■ Ziele
+# <br>
+# □ Portierbarkeit
+# <br>
+# □ Tuning vereinfachen
+# <br>
+# □ Standardisierte Schnittstellen
+# <br>
+# □ Stabilität der Benutzer- und Anwendungsschnittstelle gegen Änderungen
+# <br>
+# <br>
+# Physische Datenunabhängigkeit
+# <br>
+# □ Auch: Implementierungsunabhängigkeit
+# <br>
+# □ Ziel: Änderungen der Dateiorganisationen und Zugriffspfade haben keinen Einfluss auf das konzeptuelle
+# Schema.
+# <br>
+# <br>
+# Logische Datenunabhängigkeit
+# <br>
+# □ Auch: Anwendungsunabhängigkeit
+# <br>
+# □ Ziel: Änderungen am konzeptuellen und gewissen externen Schemata haben keine Auswirkungen auf andere
+# externe Schemata und Anwendungsprogramme.
+
+# NICHT enthalten: S. 30-32, S. 42-48

@@ -21,6 +21,23 @@
 # □ Nur „vernünftige“ (wirklich benötigte) Daten sollen gespeichert werden.
 # <br>
 # □ Nicht-redundante Speicherung
+# <br>
+# <br>
+# Abfolge von Entwurfsdokumenten
+# <br>
+# Von abstrakter Beschreibung…
+# <br>
+# bis zur tatsächlichen Realisierung in einem DBMS
+# <br>
+# Verschiedene Beschreibungsformalismen
+# <br>
+# ER, Relationenmodell, SQL DDL
+# <br>
+# In jedem Schritt
+# <br>
+# Informationserhaltung
+# <br>
+# Konsistenzerhaltung
 
 # ### Anforderungsanalyse
 
@@ -212,3 +229,39 @@
 # <br>
 # <br>
 # ■ Software Engineering
+
+# ## Integrationskonflikte
+
+# ■ Namenskonflikte
+# <br>
+# □ Homonyme: Schloss, Kunde
+# <br>
+# □ Synonyme: Auto, KFZ, Fahrzeug
+# <br>
+# <br>
+# ■ Typkonflikte
+# <br>
+# □ Verschiedene Strukturen für das gleiche Element
+# <br>
+# □ String vs. int vs. date
+# <br>
+# <br>
+# ■ Wertebereichskonflikte
+# <br>
+# □ Verschiedene Wertebereiche für ein Element
+# <br>
+# □ KW 1 – 52 vs. Januar, Februar, …, Dezember
+# <br>
+# <br>
+# ■ Bedingungskonflikte
+# <br>
+# □ z.B. verschiedene Schlüssel für ein Element
+# <br>
+# □ <\ISBN> vs. <Titel, Autor>
+# <br>
+# <br>
+# ■ Strukturkonflikte
+# <br>
+# □ Gleicher Sachverhalt durch unterschiedliche Konstrukte ausgedrückt
+
+# NICHT enthalten: S.10
