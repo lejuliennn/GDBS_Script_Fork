@@ -10,6 +10,8 @@ sections:
  - file: 04/phasenmodell_datenbankentwurf
  - file: 05/er_modellierung
  - file: 06/relationaler_entwurf
+ - file: 07/normalisierung
+ - file: 08/relationale_algebra
  - file: markdown
  - file: notebooks
  - file: markdown-notebooks
