@@ -12,6 +12,7 @@ sections:
  - file: 06/relationaler_entwurf
  - file: 07/normalisierung
  - file: 08/relationale_algebra
+ - file: 09/sql
  - file: markdown
  - file: notebooks
  - file: markdown-notebooks
