@@ -3,34 +3,53 @@
 
 # # Normalisierung
 
-# Motivation
+# ### Motivation
 # <br>
-# ■ Bisher: Direkte Übersetzung von ER-Diagrammen in das relationale Modell
-# <br><br>
-# ■ Verbesserungen sind möglich (Verfeinern des logischen Entwurfs)
-# <br>
-# □ Aufgrund bestimmter Nebenbedingungen
-# <br>
-# □ Insbesondere: Aufgrund von funktionalen Abhängigkeiten
-# <br>
-# – FDs: Functional dependencies
-# <br><br>
-# ■ Vermeidung von Redundanzen: Aufspalten von Relationenschemata, ohne gleichzeitig
-# <br>
-# □ semantische Informationen zu verlieren,
-# <br>
-# □ die Möglichkeit zur Rekonstruktion der Relationen zu verlieren.
-# <br>
-# ■ Verschiedene Normalformen
+# Bisher haben wir eine direkte Übersetzung von ER-Diagrammen in das relationale Modell behandelt. Dabei sind wir davon ausgegangen, dass das Ursprungsmodell sinnvoll erstellt und alle dazugehörigen Kardinalitäten sinnvoll auch im Sinne der Vermeidung von Redundanz modelliert wurden. In der Realität kann man aber nicht immer davon ausgehen, dass die Modellierung fehlerfrei durchgeführt wird. Zudem kann es nachdem konzeptionellen Entwurf zu Veränderungen hinsichtlich der Nutzung der Daten und den beziehungen zwischen den ursprünglichen Entitytypen und Relationshiptypen kommen, die zu Problem führen können. Insbesondere könnten vorher unbekannte funktionale Abhängigkeiten sichtbar werden, die eine Verfeinerung des (logischen) Entwurfes erfordern. 
+
+# ### Beispiel
+# 
+# In der folgenden Filmtabelle werden Informationen zu Filmen abgespeichert. Bei der Modellierung wurde darauf geachtet, dass die Tabelle einen Schlüssel und mehrere Attribute hat. 
+# 
+
+# |FilmID|Titel|Länger|Genre|Studio|Produktionsland|
+# |-----|-----|------|-----|-------|--------|
+# |1|Matrix I|136|SciFi|Warner Bros.|USA|
+# |2|Lord of the Rings I|178|Fantasy|Warner Bros.|USA|
+# |3|The Breakfast Club|97|Drama|Universal|USA|
+
+# Bei diesem Beispiel fällt auf, dass bestimmte Informationen mehrfach auftauchen. Insbesondere ist das bei Studio und USA der Fall. Es stellt sich heraus, dass das Produktionsland vom Studionamen abhängt. Dies ist nicht nur zufällig in dieser dargestellten Tabelle so, sondern konzeptionell auch begründet werden. Die Produktion wird dem Land zugerechnet, in dem sich das Studio befindet. 
+# An und für sich ist das kein großes Problem. Oft werden solche Abhängigkeiten hingenommen. Wenn wir jedoch eine Minimierung von Redundanz bei unserer Modellierung vornehmen wollen, müssen wir diese Abhängigkeit nutzen um Informationen die herleitbar sind nicht wiederholt zu speichern. Eine redundante Speicherung solcher Informationen kann dazu führen, dass bei zukünftigen Änderungen der Daten, die Abhängigkeit nicht in Betracht gezogen wird und Inkonsistenzen entstehen, die unsere nun erkannte Beziehung verletzen könnten.
+# Die folgende Darstellung weist dieses Problem nicht mehr auf.
+
+# ### Filmtabelle
+# 
+# |FilmID|Titel|Länger|Genre|Studio|
+# |-----|-----|------|-----|-------|
+# |1|Matrix I|136|SciFi|Warner Bros.|
+# |2|Lord of the Rings I|178|Fantasy|Warner Bros.|
+# |3|The Breakfast Club|97|Drama|Universal|
+# 
+
+# ### Studiotabelle
+# 
+# |Studio|Produktionsland|
+# |-----|-----|
+# Warner Bros.|USA|
+# Universal|USA|
+
+# Jetzt haben wir die Informationen zu jedem Studio in einer separaten Tabelle ausgelagert. Die Beziehung zwischen den Filmen ist über den Studionamen erhalten worden. Die neue Modellierung würde uns auch erlauben weitere Informationen pro Studio zu speichern ohne diese jeweils für jeden Film zu wiederholen. Es stellt sich heraus, dass in der neuen Studiotabelle das Attribut Studio die Funktion des Schlüssels übernommen hat. Das heißt, dass jeder Studioname nur ein mal vorkommt und die jeweiligen Studioeigenschaften genau bestimmt. Es gibt auch weitere Auswirkungen: Insbesondere können jetzt Studios unabhängig von Filmen existieren. Auch verschwinden Studios nicht aus unserer Datenbank, wenn wir die jeweiligen Filme löschen. In der usprünglichen Version hatten wir nur jede Studios für die wir auch Filme abgespeichert hatten. 
+# 
+# Was wir in diesem Beispiel getan haben ist eine Relation zu dekomponieren. Dafür haben wir die funktionale Abhängigkeit zwischen Studioname und Produktionsland verwendet. Im folgenden werden wir diese Konzepte genauer besprechen um ein systematisches Vorgehen für die Dekomposition von Relationen herzuleiten.
 
 # ## Funktionale Abhängigkeiten (FDs)
 
 # ### Definition – Funktionale Abhängigkeit
 
-# ■ „X → A“ ist eine Aussage über eine Relation R:
-# <br>
-# Immer wenn zwei Tupel in den Werten der Attributmenge X übereinstimmen, stimmen sie auch im Attributwert
+# Gegeben eine Relation mit einer Attributmenge $X \subset R$ und einem Attribut $A \in R$, dann ist $X \rightarrow A$ eine funktionale Abhängigkeit wenn gilt, dass immer wenn zwei Tupel in den Werten der Attributmenge X übereinstimmen, stimmen sie auch im Attributwert
 # für A überein.
+# 
+# 
 # <br>
 # □ Beispiel
 # <br>

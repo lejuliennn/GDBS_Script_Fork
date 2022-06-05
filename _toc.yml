@@ -13,6 +13,7 @@ sections:
  - file: 07/normalisierung
  - file: 08/relationale_algebra
  - file: 09/sql
+ - file: 10/integritaet_und_trigger
  - file: markdown
  - file: notebooks
  - file: markdown-notebooks
