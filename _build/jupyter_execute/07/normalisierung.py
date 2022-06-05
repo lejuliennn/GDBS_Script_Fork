@@ -44,56 +44,50 @@
 
 # ## Funktionale Abhängigkeiten (FDs)
 
-# ### Definition – Funktionale Abhängigkeit
+# Funktionen kennen Sie aus der Mathematik. Funktionen sind Abbildungen von Elementen einer Menge (Definitionsbereich) auf Elemente einer anderen Menge (Wertebereich), wobei jedem Element des Definitionsbereiches genau ein Element aus dem Werte Bereich zugeordnet wird. Die linke Abbildung unten zeigt den Graphen einer mathematischen Funktion. Die rechte Abbildung stellt jedoch keine Funktion dar, da einem X-Wert mehrere A-Werte zugeordnet wurden. Funktionale Abhängigkeiten folgen einer analogen Definition wie folgt. 
 
-# Gegeben eine Relation mit einer Attributmenge $X \subset R$ und einem Attribut $A \in R$, dann ist $X \rightarrow A$ eine funktionale Abhängigkeit wenn gilt, dass immer wenn zwei Tupel in den Werten der Attributmenge X übereinstimmen, stimmen sie auch im Attributwert
+# 
+# <img src="funktionen.jpg" alt="Funktionen" width="500"/>
+
+# **Definition – Funktionale Abhängigkeit** Gegeben eine Relation mit einer Attributmenge $X \subset R$ und einem Attribut $A \in R$, dann ist $X \rightarrow A$ eine funktionale Abhängigkeit wenn gilt, dass immer wenn zwei Tupel in den Werten der Attributmenge X übereinstimmen, stimmen sie auch im Attributwert
 # für A überein.
-# 
-# 
-# <br>
-# □ Beispiel
-# <br>
-# – Titel, Jahr → Länge
-# <br>
-# □ Notation
-# <br>
-# – …, X, Y, Z sind Attributmengen
-# <br>
-# – A, B, C, … sind Attribute
-# <br>
-# – X → A: „X bestimmt A funktional.“
-# <br>
-# – Kurzform: ABC statt {A, B, C}
-# <br>
-# – Kurzform: Falls X → A, X → B, X → C schreiben wir auch X → ABC oder auch X → Y
 
-# ![title](funktionen.jpg)
+# **Notation:**
+# - Begriffe: Funktionale Abhängigkeit oder FA, oder Functional Dependency oder FD
+# - …, X, Y, Z sind Attributmengen
+# - A, B, C, … sind Attribute
+# - X → A: „X bestimmt A funktional.“
+# - Kurzform: ABC statt {A, B, C}
+# - Kurzform: Falls X → A, X → B, X → C schreiben wir auch X → ABC oder auch X → Y
+# 
+# **Beispiele:**
+# 
+# - Titel, Jahr $\rightarrow$ Länge
+# - FilmID $\rightarrow$ Titel
+# - Studio $\rightarrow$ Produktionsland
+# 
 
 # ### Dekomposition und Vereinigung
 
-# ■ Dekompositionsregel □ A1,A2,…An → B1,B2,…,Bm
-# <br><br>
-# ■ Vereinigungsregel
-# <br>
-# □ A1,A2,…An → Bi für i=1,…,m
-# <br>
-# □ A1,A2,…An → Bi für i=1,…,m
-# <br>
-# □ A1,A2,…An → B1,B2,…,Bm 
-# <br><br>
-# ■ Beispiel
-# <br>
-# □ Titel, Jahr → Länge 
-# <br>
-# □ Titel, Jahr → Typ
-# <br>
-# □ Titel, Jahr → StudioName 
-# <br>
-# □ <=> Titel, Jahr → Länge, Typ, StudioName 
-# <br><br>
-# ■ Dekomposition funktioniert nur rechts! 
-# <br>
-# □ Titel, Jahr → Länge – ⇏ Jahr → Länge – ⇏ Titel → Länge
+# Bevor wir funktionale Abhängigkeiten einsetzen, wollen wir noch einige nützliche Transformationsregeln kennen lernen. 
+# 
+# 
+# **Dekompositionsregel** $A_1,A_2,…A_n \rightarrow B_1,B_2,…,B_m \Rightarrow  \forall i \in [1:m]. A_1,A_2,…A_n \rightarrow B_i$
+# Die Dekompositionsregel besagt, dass wir jede FD mit mehr als einem Attribut auf der rechten Seite auch als eine Menge von FDs aufschreiben können, die jeweils immer die gleiche linke Seite aber nur eine Teilmenge bzw. nur ein Element aus der ursprünglichen rechten Seite aufzeigen. Mit dieser Regel können wir FDs vereinfachen und weitere Eigenschaften, wie zum Beispiel Minimalität (wird später erklärt) leichter prüfen.
+# 
+# **Vereinigungsregel** $ \forall i \in [1:m]. A_1,A_2,…A_n \rightarrow B_i \Rightarrow  A_1,A_2,…A_n \rightarrow B_1,B_2,…,B_m$
+# Die Vereinigungsregel zeigt, dass die Umkehrung der Dekomposition möglich ist. Wir können alle FDs, die genau die gleiche Menge an Attributen auf der linken Seite aufzeigen zu einer FD zusammenfassen, indem wir die Attribute der rechten Seite aller ursprünglichen FDs vereinigen. Diese Regel dient der Zusammenfassung und Darstellbarkeit von FDs.
+# 
+# 
+# **Beispiel**
+# - Titel, Jahr → Länge 
+# - Titel, Jahr → Typ
+# - Titel, Jahr → StudioName 
+# - $\Leftrightarrow$ Titel, Jahr → Länge, Typ, StudioName 
+# 
+# ■ Beide zuvor genannte Regeln funktionieren nur für die rechte Seite von FDs. Wir können nicht die linke Seite wie im folgenden Beispiel gezeigt dekomponieren. 
+#   
+# Titel, Jahr → Länge $\not\Rightarrow$ Titel → Länge $\vee$ Jahr → Länge
 
 # ### Triviale FDs
 
