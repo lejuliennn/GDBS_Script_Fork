@@ -7,9 +7,7 @@
 # <br>
 # Bisher haben wir eine direkte Übersetzung von ER-Diagrammen in das relationale Modell behandelt. Dabei sind wir davon ausgegangen, dass das Ursprungsmodell sinnvoll erstellt und alle dazugehörigen Kardinalitäten sinnvoll auch im Sinne der Vermeidung von Redundanz modelliert wurden. In der Realität kann man aber nicht immer davon ausgehen, dass die Modellierung fehlerfrei durchgeführt wird. Zudem kann es nachdem konzeptionellen Entwurf zu Veränderungen hinsichtlich der Nutzung der Daten und den beziehungen zwischen den ursprünglichen Entitytypen und Relationshiptypen kommen, die zu Problem führen können. Insbesondere könnten vorher unbekannte funktionale Abhängigkeiten sichtbar werden, die eine Verfeinerung des (logischen) Entwurfes erfordern. 
 
-# ### Beispiel
-# 
-# In der folgenden Filmtabelle werden Informationen zu Filmen abgespeichert. Bei der Modellierung wurde darauf geachtet, dass die Tabelle einen Schlüssel und mehrere Attribute hat. 
+# **Beispiel:** In der folgenden Filmtabelle werden Informationen zu Filmen abgespeichert. Bei der Modellierung wurde darauf geachtet, dass die Tabelle einen Schlüssel und mehrere Attribute hat. 
 # 
 
 # |FilmID|Titel|Länger|Genre|Studio|Produktionsland|
@@ -22,7 +20,7 @@
 # An und für sich ist das kein großes Problem. Oft werden solche Abhängigkeiten hingenommen. Wenn wir jedoch eine Minimierung von Redundanz bei unserer Modellierung vornehmen wollen, müssen wir diese Abhängigkeit nutzen um Informationen die herleitbar sind nicht wiederholt zu speichern. Eine redundante Speicherung solcher Informationen kann dazu führen, dass bei zukünftigen Änderungen der Daten, die Abhängigkeit nicht in Betracht gezogen wird und Inkonsistenzen entstehen, die unsere nun erkannte Beziehung verletzen könnten.
 # Die folgende Darstellung weist dieses Problem nicht mehr auf.
 
-# ### Filmtabelle
+# **Filmtabelle**
 # 
 # |FilmID|Titel|Länger|Genre|Studio|
 # |-----|-----|------|-----|-------|
@@ -31,7 +29,7 @@
 # |3|The Breakfast Club|97|Drama|Universal|
 # 
 
-# ### Studiotabelle
+# **Studiotabelle**
 # 
 # |Studio|Produktionsland|
 # |-----|-----|
@@ -89,69 +87,28 @@
 #   
 # Titel, Jahr → Länge $\not\Rightarrow$ Titel → Länge $\vee$ Jahr → Länge
 
-# ### Triviale FDs
+# ### Typen von FDs
 
-# ■ Trivial: Attribute rechts sind Teilmenge der Attribute links
+# Unter den verschiedenen funktionalen Abhängigkeiten gibt es verschiedene Kategorien, die unterschiedlich interessant sind. Es gibt triviale FDs, minimale FDs und andere Spezialfälle wie Schlüssel.
+# 
+# 
+# 
+# **Trivial**: Bei trivialen FDs sind die Attribute rechts eine Teilmenge der Attribute links. Diese FDs gelten als trivial, da natürlich jedes Attribut sich selbst funktional bestimmt. Genauso bestimmt jede Attributkombination jede ihrer Teilmengen funktional. Anders ausgedrückt gilt: „Zwei Tupel, die in einer Menge von Attributen übereinstimmen, stimmen auch in einem dieser Attribute überein.“
+# 
+# Beispiel: Titel, Jahr → Titel
 # <br>
-# □ Titel, Jahr → Titel
-# <br>
-# □ Es gilt immer für jede triviale FD:
-# <br>
-# – „Zwei Tupel, die in einer Menge von Attributen übereinstimmen, stimmen auch in einem dieser Attribute überein.“
+# 
 # <br><br>
-# ■ Nicht-trivial: Wenigstens ein Attribut rechts kommt links nicht vor.
+# **Nicht-trivial**: Wenigstens ein Attribut rechts kommt links nicht vor.
 # <br>
-# □ Titel, Jahr → Jahr, Länge
+# □ Beispiel: Titel, Jahr → Jahr, Länge
 # <br><br>
-# ■ Völlig nicht-trivial: Die Attribute links und rechts sind disjunkt.
+# **Völlig nicht-trivial**: Die Attribute links und rechts sind disjunkt.
 # <br>
-# □ Titel, Jahr → Länge
+# Beispiel: Titel, Jahr → Länge
 # <br>
-# □ Im Weiteren interessieren uns nur diese.
-# <br><br>
-# ■ Formal: Triviale-Abhängigkeitsregel
-# <br>
-# □ A1,A2,…An → Ai1, …, Aik,B1,B2,…,Bm
-# <br>
-# <=>
-# <br>
-# A1,A2,…An → B1,B2,…,Bm
-
-# ![title](tabelle.jpg)
-
-# ■ Titel, Jahr → Länge
-# <br>
-# ■ Titel, Jahr → Typ
-# <br>
-# ■ Titel, Jahr → StudioName
-# <br>
-# ■ Titel, Jahr → Länge, Typ, StudioName
-# <br>
-# ■ Wenn zwei Tupel den gleichen Titel und das gleiche Jahr haben, dann haben sie auch gleiche Länge, gleichen Typ und gleichen Studionamen.
-# <br>
-# □ Klar, denn Titel und Jahr sind Schlüssel für die ursprüngliche Film-Relation: Gegeben Titel und Jahr haben wir einen eindeutigen Film, der wohl auch eine eindeutige Länge und Typ hat.
-# <br>
-# □ Wegen 1:n Beziehung zwischen Studios und Filmen ist auch zu erwarten, dass das Studio eindeutig ist.
-# <br>
-# ■ Aber Titel, Jahr → SchauspName ist falsch! Warum?
-
-# ### Schema vs. Instanz
-
-# ![title](tabelle.jpg)
-
-#  FDs sind Aussagen über das Schema, nicht die Instanz!
-#  <br>
-# ■ Titel → Typ scheint zu gelten
-#  <br>
-# □ Aber nur zufällig bei dieser Instanz
-#  <br>
-# □ Wenn zwei Filme im Titel übereinstimmen, stimmen sie (hier!) auch im Typ überein.
-#  <br>
-# □ Gegenbeispiel: King Kong von 1924 vs. King Kong von 2005.
-#  <br>
-# ■ Titel, Jahr → Typ gilt hingegen
-
-# ![title](kingkong.jpg)
+# 
+# Für die meisten Probleme, die wir betrachten interessieren wir uns immer nur für die völlig nicht-trivialen FDs. Insbesodnere können wir durch die Dekompositionsregel leicht triviale Komponenten einer FD entfernen. 
 
 # ### Schlüssel als Spezialfall einer FD
 
@@ -222,6 +179,42 @@
 # ■ Alternative Begriffe:
 # <br>
 # □ Schlüssel (=Superschlüssel)
+
+# ### Schema vs. Instanz
+
+# ![title](tabelle.jpg)
+
+# ■ Titel, Jahr → Länge
+# <br>
+# ■ Titel, Jahr → Typ
+# <br>
+# ■ Titel, Jahr → StudioName
+# <br>
+# ■ Titel, Jahr → Länge, Typ, StudioName
+# <br>
+# ■ Wenn zwei Tupel den gleichen Titel und das gleiche Jahr haben, dann haben sie auch gleiche Länge, gleichen Typ und gleichen Studionamen.
+# <br>
+# □ Klar, denn Titel und Jahr sind Schlüssel für die ursprüngliche Film-Relation: Gegeben Titel und Jahr haben wir einen eindeutigen Film, der wohl auch eine eindeutige Länge und Typ hat.
+# <br>
+# □ Wegen 1:n Beziehung zwischen Studios und Filmen ist auch zu erwarten, dass das Studio eindeutig ist.
+# <br>
+# ■ Aber Titel, Jahr → SchauspName ist falsch! Warum?
+
+# ![title](tabelle.jpg)
+
+#  FDs sind Aussagen über das Schema, nicht die Instanz!
+#  <br>
+# ■ Titel → Typ scheint zu gelten
+#  <br>
+# □ Aber nur zufällig bei dieser Instanz
+#  <br>
+# □ Wenn zwei Filme im Titel übereinstimmen, stimmen sie (hier!) auch im Typ überein.
+#  <br>
+# □ Gegenbeispiel: King Kong von 1924 vs. King Kong von 2005.
+#  <br>
+# ■ Titel, Jahr → Typ gilt hingegen
+
+# ![title](kingkong.jpg)
 
 # ### Wo kommen FDs her?
 
