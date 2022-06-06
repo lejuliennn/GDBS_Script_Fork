@@ -3,8 +3,6 @@
 
 # # Normalisierung
 
-# ### Motivation
-# <br>
 # Bisher haben wir eine direkte Übersetzung von ER-Diagrammen in das relationale Modell behandelt. Dabei sind wir davon ausgegangen, dass das Ursprungsmodell sinnvoll erstellt und alle dazugehörigen Kardinalitäten sinnvoll auch im Sinne der Vermeidung von Redundanz modelliert wurden. In der Realität kann man aber nicht immer davon ausgehen, dass die Modellierung fehlerfrei durchgeführt wird. Zudem kann es nachdem konzeptionellen Entwurf zu Veränderungen hinsichtlich der Nutzung der Daten und den beziehungen zwischen den ursprünglichen Entitytypen und Relationshiptypen kommen, die zu Problem führen können. Insbesondere könnten vorher unbekannte funktionale Abhängigkeiten sichtbar werden, die eine Verfeinerung des (logischen) Entwurfes erfordern. 
 
 # **Beispiel:** In der folgenden Filmtabelle werden Informationen zu Filmen abgespeichert. Bei der Modellierung wurde darauf geachtet, dass die Tabelle einen Schlüssel und mehrere Attribute hat. 
@@ -169,191 +167,138 @@
 # 
 # 
 
-# ### Schema vs. Instanz
+# ### Wo kommen FDs her? Schema vs. Instanz
 
 # Wir hatten bereits festgestellt, dass wir auch weitere zufällige FDs in unserer Filmrelation finden können. Zum Beispiel gilt in der dargestellten Instant {Länge, Jahr} $\rightarrow$ {Titel}. Nach unserer ursprünglichen Definition handelt es sich hierbei um eine funktionale Abhängigkeit. Noch schlimmer: {Länge, Jahr} könnte sogar als Schlüssel definiert werden. Es ist leicht einzusehen, dass dieser Schlüssel nicht sinnvoll ist.
 # 
-# Ob letztlich eine FD gelten soll, muss während der Modellierung entschieden werden. Das heißt, dass die FD unabhängig von den vorhanden Daten immer gelten muss. Das gleiche gilt auch für Schlüssel. 
-
-# ### Wo kommen FDs her?
-
-# ■ Einfach den Schlüssel K deklarieren.
-# <br>
-# □ Dann gelten (einzig) die FDs K → A für jedes Attribut A.
-# <br><br>
-# ■ FDs deklarieren.
-# <br>
-# □ Dann systematisch Schlüssel ableiten.
-# <br><br>
-# ■ FDs aus der Physik
-# <br>
-# □ Zwei Kurse können nicht zur gleichen Zeit im gleichen Raum stattfinden.
-# <br>
-# □ Zeit, Raum → Kurs
-# <br>
-# ■ FDs aus dem ER-Diagramm
-# <br>
-# □ Schlüsselattribute
-# <br>
-# □ 1:n Beziehungen
+# Ob letztlich eine FD gelten soll, muss während der Modellierung entschieden werden. Das heißt, dass die FD unabhängig von den vorhanden Daten immer gelten muss. Das gleiche gilt auch für Schlüssel. Während Schlüssel hauptsächlich dafür definiert werden um Einträge von einander unterscheiden zu können, können FDs als Einschränkungen auf einer Relation definiert werden um so Integrität von Daten herzustellen. Die Einhaltung und Überprüfung von funktionalen Abhängigkeiten hilft die Qualität und Konsistenz von Daten aufrecht zu erhalten. Beispielsweise kann man mit der Definition einer funktionalen Abhängigkeit {Postleitzahl}$\rightarrow${Stadt} sicherstellen, dass dieselbe Postleitzahl nicht fälschlicherweise mit zwei unterschiedlichen Städten assoziiert wird. 
 
 # ### Schlüssel aus ER-Diagrammen
 
-# ■ Falls die Relation von einem Entitytypen stammt
-# <br>
-# □ Der Schlüssel der Relation besteht aus den Schlüsselattributen des Entitytypen.
-# <br><br>
-# ■ Falls die Relation von einem Relationshiptypen stammt
-# <br>
-# □ m:n: Schlüssel besteht aus den Schlüsselattributen der verbundenen Entitytypen.
-# <br>
-# □ 1:n: Schlüssel besteht aus den Schlüsselattributen des Entitytypen der n-Seite.
-# <br>
-# □ 1:1: Zwei mögliche Schlüssel
-# <br>
-# – Schlüssel der beiden beteiligten Entitytypen. Wahl eines der beiden Schlüssel als Primärschlüssel (egal
-# welcher).
-# <br><br>
-# ■ Bei n-ären Relationshiptypen
-# <br>
-# □ Lage ist komplizierter
-# <br>
-# □ 1-Seite muss nie am Schlüssel beteiligt sein.
+# Schlüsselinformationen sind grundsätzlich bereits im ER-Modell bekannt und müssen anhand der folgenden **Regeln** übernommen werden.
+# 
+# 1. Falls die Relation von einem Entitytypen stammt, bestehen die Schlüsselattribute der Relation aus den Schlüsselattributen des Entitytypen.
+# 
+# 2. Falls die Relation von einem Relationshiptypen stammt muss man die Kardinalitäten betrachten.
+# 
+#     1. $m:n$: Schlüssel besteht aus den Schlüsselattributen der verbundenen Entitytypen.
+#     2. $1:n$: Schlüssel besteht aus den Schlüsselattributen des Entitytypen der n-Seite.
+#     3. $1:1$: Zwei mögliche Schlüssel. Hierbei ist zu beachten, dass die Umwandlung kapazitätserhöhend werden könnte.
+#         - Schlüssel der beiden beteiligten Entitytypen. Wahl eines der beiden Schlüssel als Primärschlüssel (egal welcher).
+# 
+# 3. Bei n-ären Relationshiptypen kann es komplizierter werden. Die 1-Seite muss nie am Schlüssel beteiligt sein.
+# 4. Falls die Relation aus einem schwachen Entitytypen stammt, müssen die Schlüssel der bestimmtenden Entitytypen mit übernommen werden.
 
+# **Beispiel 1:**
+# 
+# 
 # ![title](er_diagramm1.jpg)
 
-# ■ $Filme(\underline{Titel, Jahr}, Länge, Typ)$
-# <br>
-# ■ $Schauspieler*in(\underline{Name, Adresse})$
-# <br>
-# ■ $Studio(\underline{Name}, Adresse)$
-# <br>
-# ■ $besitzt(\underline{Titel, Jahr}, Name)$
-# <br>
-# □ -> zusammengefasst mit Filme zu Film $(\underline{Titel, Jahr}, Länge, Typ, StudioName)$
-# <br>
-# ■ $spielt_in(\underline{Titel, Jahr, Name, Adresse}, Gehalt)$
+# - $Filme(\underline{Titel, Jahr}, Länge, Typ)$ (Regel 1)
+# 
+# - $Schauspieler*in(\underline{Name, Adresse})$ (Regel 1)
+# - $Studio(\underline{Name}, Adresse)$ (Regel 1)
+# - $besitzt(\underline{Titel, Jahr}, Name)$ (Regel 2B)
+#     - zusammengefasst mit Filme zu Film $(\underline{Titel, Jahr}, Länge, Typ, StudioName)$
+# - $spielt\_in(\underline{Titel, Jahr, Name, Adresse}, Gehalt)$ (Regel 2A)
 
-# ### Schlüssel aus ER-Diagrammen
-
+# **Beispiel 2 (1:1-Beziehungen):**
+# 
 # ![title](er_diagramm2.jpg)
 
-#  $Studios(\underline{SName})$
+# - $Studios(\underline{SName})$ (Regel 1)
 #  <br>
-# ■ $Vorsitzende(\underline{VName})$
-# <br>
-# ■ $leitet(\underline{SName}, VName)$ oder leitet$(SName, \underline{VName})$
-# <br>
-# □ sprich, zwei Schlüssel: SName und VName, ein Schlüssel als Primärschlüssel gewählt
-# <br>
-# □ -> zusammengefasst zu $Studios(\underline{SName}, VName)$ oder $Vorsitzende(\underline{VName}, SName)$
+# - $Vorsitzende(\underline{VName})$ (Regel 2)
+# - $leitet(\underline{SName}, VName)$ oder leitet$(SName, \underline{VName})$ (Regel 2C)
+#     - Es gibt zwei Schlüssel: SName und VName und ein Schlüssel muss als Primärschlüssel gewählt werden.
+#     - Es gibt entsprechend zwei Möglichkeiten die Relation zusammenzufassen zu $Studios(\underline{SName}, VName)$ oder $Vorsitzende(\underline{VName}, SName)$. Je nach Umwandlung ist die Darstellung kapazitätserhöhend. In Datenbanksystemen kann man durch weitere Integritätsbedingungen wie z.B. unique verhindern, dass die Nicht-schlüsselspalte doppelte Einträge erhält.
 
-# ### Schlüssel aus ER-Diagrammen: n-äre Relationshiptypen
-
+# **Beispiel 3 (n-äre Relationshiptypen):**
+# 
 # ![title](n-aer_relationshiptypen1.jpg)
 
-#  $Studio (\underline{Name}, Adresse)$
-#  <br>
-# ■$ Schauspieler*in (\underline{Name}, Adresse)$
-# <br>
-# ■ $Film (\underline{Titel, Jahr}, Typ, Länge)$
-# <br>
-# ■ $ist_unter_Vertrag (\underline{SchauspielerName, Titel, Jahr}, StudioName, Gehalt)$
+# - $Studio (\underline{Name}, Adresse)$
+# - $ Schauspieler*in (\underline{Name}, Adresse)$
+# - $Film (\underline{Titel, Jahr}, Typ, Länge)$
+# - $ist\_unter\_Vertrag (\underline{SchauspielerName, Titel, Jahr}, StudioName, Gehalt)$. Studioname ist nicht teil des Schlüssels (Regel 3)
 
-# ![title](n-aer_relationshiptypen2.jpg)
-
-# ■ $Studio(\underline{Name}, Adresse)$
-# <br>
-# ■ $Schauspieler(\underline{Name}, Adresse)$
-# <br>
-# ■ $Film(\underline{Titel, Jahr}, Typ, Länge)$
-# <br>
-# ■ $Vertrag(\underline{SchauspielerName, StudioName, Titel, Jahr}, Gehalt)$
+# **Beispiel 4 (Schwache Entitytypen):**
+# 
+# <img src="schwacheETs.png" alt="schwacheETs" width="500"/> 
+# 
+# 
+# - $Studio(\underline{Name}, Adresse)$ (Regel 1)
+# - $Schauspieler(\underline{Name}, Adresse)$ (Regel 1)
+# - $Film(\underline{Titel, Jahr}, Typ, Länge)$ (Regel 1)
+# - $Vertrag(\underline{SchauspielerName, StudioName, Titel, Jahr}, Gehalt)$ (Regel 4)
 
 # ### Schlüssel aus ER-Diagrammen: IST-Hierarchien
 
-# ![title](IST_hierarchie.jpg)
-
-# ■ ER-Stil
-# <br>
-# □ $Film(\underline{Titel, Jahr}, Länge,Typ)$
-# <br>
-# □ $Krimi(\underline{Titel, Jahr}, Waffen)$
-# <br>
-# □ $Zeichentrickfilm(\underline{Titel, Jahr})$
-# <br><br>
-# ■ OO-Stil
-# <br>
-# □ $Film(\underline{Titel, Jahr}, Länge, Typ)$
-# <br>
-# □ $FilmZ(\underline{Titel, Jahr}, Länge, Typ)$
-# <br>
-# □ $FilmK(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
-# <br>
-# □ $FilmZK(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
-# <br><br>
-# ■ Mit NULL-Werten
-# <br>
-# □ $Film(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
+# **Beispiel 5 (IST-Hierarchien):**
+# 
+# <img src="IST_hierarchie.png" alt="ist_Hierarchie" width="400"/> 
+# 
+# 
+# Bei IST-Hierarchien müssen die Schlüsselattribute in allen Relationen mit übernommen werden. 
+# 
+# - ER-Stil: Im ER-Still muss sichergestellt werden, dass der selbe Schlüssel in der Basisrelation das selbe Objekt in der Unterklasse repräsentiert. 
+#     - $Film(\underline{Titel, Jahr}, Länge,Typ)$
+#     - $Krimi(\underline{Titel, Jahr}, Waffen)$
+#     - $Zeichentrickfilm(\underline{Titel, Jahr})$
+# 
+# - OO-Stil: Im OO-Stil muss man zusätzlich sicherstellen, dass der selbe Schlüssel nicht in mehreren Relationen gleichzeitig auftaucht. 
+#     - $Film(\underline{Titel, Jahr}, Länge, Typ)$
+#     - $FilmZ(\underline{Titel, Jahr}, Länge, Typ)$
+#     - $FilmK(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
+#     - $FilmZK(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
+# - Mit NULL-Werten: Die Schlüssel sind hier wie bei jeder normalen Relation. Die obengenannten Probleme beim OO-Stil und ER-Stil können nicht auftreten.
+#     - $Film(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
 
 # ## Ableitungsregeln für FDs
 
-# ### Motivation
+# Während man im ER-Modell bereits Schlüssel definieren kann, kann es manchmal sein, dass man bestimmte ableitbare Abhängigkeiten übersieht. Durch die funktionale Beziehung kann man aber alle geltenden funktionalen Abhängigkeiten in einer Relation ableiten.
+# Das Ziel des Datenbankentwurfes ist es alle abgeleiteten FDs an Hand von Dekomposition in Schlüsselabhängigkeiten umzuformen ohne dabei semantische Informationen zu verlieren. Diese Umwandlung dient wie im Eingangsbeispiel des Kapitels gezeigt dazu Redundanz in den Daten zu vermeiden.
 
-# ■ Gegeben eine Menge von FDs, kann man eventuell weitere FDs ableiten.
-# <br>
-# <br>
-# ■ Ziel des Datenbankentwurfs:
-# <br>
-# □ Alle gegebenen und abgeleiteten FDs in „Schlüsselabhängigkeiten“ umformen, ohne dabei semantische Information zu verlieren.
-# <br>
-# □ Umformung durch Dekomposition von Relationen
+# **Beispiel:** Gegeben sei die Relation R(A,B,C) mit folgender Instanz und es gelte $A\rightarrow B$ und $B\rightarrow C$
+# 
+# |A|B|C|
+# |-|-|-|
+# |$a_1$|$b_1$|$c_1$|
+# |$a_2$|$b_1$|$c_1$|
+# |$a_3$|$b_2$|$c_1$|
+# |$a_4$|$b_1$|$c_1$|
+# 
+# Aus den FDs $A\rightarrow B$ und $B\rightarrow C$ lässt sich durch die transitivität der funktionalen Abhängigkeit auch $A\rightarrow C$ herleiten. 
 
-# ### Ableitung von FDs – Beispiel
-
-# ![title](ableitung_fd1.jpg)
-
-# ■ Es gelte A → B und B → C
-# <br>
-# <br>
-# ■ Dann gilt auch: A → C
-# <br><br>
-# ■ Beweis
-# <br>
-# □ Z.z.: Zwei beliebige Tupel, die in A übereinstimmen, müssen auch in C übereinstimmen.
-# <br>
-# □ Zwei solche beliebige Tupel, die in A übereinstimmen:
-# <br>
-# (a, b1, c1) und (a, b2, c2)
-# <br>
-# □ Da A → B => (a, b, c1) und (a, b, c2)
-# <br>
-# □ Da B → C => (a, b, c) und (a, b, c)
-# <br>
-# □ QED
-# <br><br>
-# ■ Instanz genügt A→B und B→C
-# <br>
-# □ Es gilt auch: A→C
-# <br>
-# □ Nicht ableitbar: C→A, B→A oder C→B
+# - Beweis:
+#     - Z.z.: Zwei beliebige Tupel, die in A übereinstimmen, müssen auch in C übereinstimmen.
+#     - Beweis durch Widerspruch: Es gibt zwei beliebige Tupel, die in A übereinstimmen aber nicht in C:
+#         - $t_1 = (a, b_1, c_1)$ und $t_2 = (a, b_2, c_2)$ mit $c_1\neq c_2$
+#         - Da $A\rightarrow B$ gilt $b_1=b_2$ und  $t_1=(a, b_1, c1)$ und $t_2= (a, b_1, c_2)$
+#         - Da $B\rightarrow C$  und $b_1=b_2$ gilt  $c_1=c_2$ $\Rightarrow$ Widerspruch
+# - QED
+# 
+# - Nicht ableitbar: C→A, B→A oder C→B
 
 # ### FD-Mengen
 
-# ■ Zwei Mengen S und T an FDs heißen äquivalent, falls die Menge der gültigen Instanzen unter S die gleiche wie
-# unter T ist.
-# <br><br>
-# ■ Eine Menge S an FDs folgt aus einer Menge T an FDs, falls jede unter T gültige Instanz auch unter S gültig ist.
-# <br><br>
-# ■ Hüllenbildung:
-# <br>
-# □ Ableitung aller FDs aus einer gegebenen Menge an FDs
-# <br>
-# □ Gemäß Ableitungsregeln
-# <br>
-# □ Auch: attribute closure, closure, Attributabschluss
+# Die Tatsache, dass wir mit einer Teilmenge der geltenden FDs auf einer Relation andere geltende herleiten können ruft die Frage hervor, wann zwei solche Mengen zu den exakt gleichen FDs insgesamt führen können. Hierbei sprechen wir von Äquivalenz von FD-Mengen: 
+# - Zwei Mengen S und T an FDs heißen äquivalent, falls die Menge der gültigen Instanzen unter S die gleiche wie
+# unter T ist. Das heißt, dass für beide Mengen nach einer umfangreichen herleitung aller ableitbarer FDs die selbe Menge entstehen könnte. 
+# 
+# Wenn wir die Richtungen der Äquivalenz einzeln betrachten können wir auch aussagen: 
+# - Eine Menge S an FDs folgt aus einer Menge T an FDs, falls jede unter T gültige Instanz auch unter S gültig ist.
+# 
+# Die Äquivalenz von FD-Mengen bieten uns die Grundlage dafür ohne Informationsverlust neue FDs abzuleiten. 
+# 
+# 
 
-# ### Hülle
+# ### Hüllenbildung
+# 
+# Da wir möglichst alle geltenden FDs in Schlüsselabhängigkeiten umwandeln wollen müssen wir auch alle geltenden minimalen FDs ableiten. Das Verfahren hierfür heißt **Hüllenbildung**:
+# Hierunter versteht man genau die Ableitung aller FDs aus einer gegebenen Menge an FDs, gemäß Ableitungsregeln
+# <br
+# □ Auch: attribute closure, closure, Attributabschluss
 
 # ■ Gegeben eine Menge von Attributen A1,A2,…,Ak und eine Menge S von FDs.
 # <br>
