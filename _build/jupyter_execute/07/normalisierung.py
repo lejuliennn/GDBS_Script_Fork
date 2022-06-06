@@ -10,11 +10,12 @@
 # **Beispiel:** In der folgenden Filmtabelle werden Informationen zu Filmen abgespeichert. Bei der Modellierung wurde darauf geachtet, dass die Tabelle einen Schlüssel und mehrere Attribute hat. 
 # 
 
-# |FilmID|Titel|Länger|Genre|Studio|Produktionsland|
-# |-----|-----|------|-----|-------|--------|
-# |1|Matrix I|136|SciFi|Warner Bros.|USA|
-# |2|Lord of the Rings I|178|Fantasy|Warner Bros.|USA|
-# |3|The Breakfast Club|97|Drama|Universal|USA|
+# |FilmID|Titel|Jahr|Länge|Genre|Studio|Produktionsland|
+# |-----|-----|-----|------|-----|-------|--------|
+# |1|Matrix I|1999|136|SciFi|Warner Bros.|USA|
+# |2|Lord of the Rings I|2001|178|Fantasy|Warner Bros.|USA|
+# |3|The Breakfast Club|1985|97|Drama|Universal|USA|
+# |4|Cruel Intentions|1999|97|Drama|Columbia Pictures|USA|
 
 # Bei diesem Beispiel fällt auf, dass bestimmte Informationen mehrfach auftauchen. Insbesondere ist das bei Studio und USA der Fall. Es stellt sich heraus, dass das Produktionsland vom Studionamen abhängt. Dies ist nicht nur zufällig in dieser dargestellten Tabelle so, sondern konzeptionell auch begründet werden. Die Produktion wird dem Land zugerechnet, in dem sich das Studio befindet. 
 # An und für sich ist das kein großes Problem. Oft werden solche Abhängigkeiten hingenommen. Wenn wir jedoch eine Minimierung von Redundanz bei unserer Modellierung vornehmen wollen, müssen wir diese Abhängigkeit nutzen um Informationen die herleitbar sind nicht wiederholt zu speichern. Eine redundante Speicherung solcher Informationen kann dazu führen, dass bei zukünftigen Änderungen der Daten, die Abhängigkeit nicht in Betracht gezogen wird und Inkonsistenzen entstehen, die unsere nun erkannte Beziehung verletzen könnten.
@@ -22,11 +23,12 @@
 
 # **Filmtabelle**
 # 
-# |FilmID|Titel|Länger|Genre|Studio|
-# |-----|-----|------|-----|-------|
-# |1|Matrix I|136|SciFi|Warner Bros.|
-# |2|Lord of the Rings I|178|Fantasy|Warner Bros.|
-# |3|The Breakfast Club|97|Drama|Universal|
+# |FilmID|Titel|Jahr|Länge|Genre|Studio|
+# |-----|-----|-----|------|-----|-------|
+# |1|Matrix I|1999|136|SciFi|Warner Bros.|
+# |2|Lord of the Rings I|2001|178|Fantasy|Warner Bros.|
+# |3|The Breakfast Club|1985|97|Drama|Universal|
+# |4|Cruel Intentions|1999|97|Drama|Columbia Pictures|
 # 
 
 # **Studiotabelle**
@@ -35,6 +37,7 @@
 # |-----|-----|
 # Warner Bros.|USA|
 # Universal|USA|
+# Columbia Pictures|USA|
 
 # Jetzt haben wir die Informationen zu jedem Studio in einer separaten Tabelle ausgelagert. Die Beziehung zwischen den Filmen ist über den Studionamen erhalten worden. Die neue Modellierung würde uns auch erlauben weitere Informationen pro Studio zu speichern ohne diese jeweils für jeden Film zu wiederholen. Es stellt sich heraus, dass in der neuen Studiotabelle das Attribut Studio die Funktion des Schlüssels übernommen hat. Das heißt, dass jeder Studioname nur ein mal vorkommt und die jeweiligen Studioeigenschaften genau bestimmt. Es gibt auch weitere Auswirkungen: Insbesondere können jetzt Studios unabhängig von Filmen existieren. Auch verschwinden Studios nicht aus unserer Datenbank, wenn wir die jeweiligen Filme löschen. In der usprünglichen Version hatten wir nur jede Studios für die wir auch Filme abgespeichert hatten. 
 # 
@@ -112,109 +115,65 @@
 
 # ### Schlüssel als Spezialfall einer FD
 
-# ■ Eine Menge aus einem oder mehr Attributen {A1, A2, …, An} ist Schlüssel der Relation R, falls gilt:
-# <br>
-# □ Die Attribute bestimmen alle anderen Attribute funktional.
-# <br>
-# – Anmerkung: Relationen sind Mengen, es kann also keine zwei völlig identischen Tupel geben.
-# <br>
-# □ Keine echte Teilmenge von {A1, A2, …, An} bestimmt alle anderen Attribute funktional.
-# <br>
-# – Anmerkung: Ein Schlüssel muss also minimal sein.
-# <br><br>
-# ■ Ziel des Datenbankentwurfs: Normalisierung
-# <br>
-# □ Alle gegebenen FDs in „Schlüsselabhängigkeiten“ umformen, ohne dabei semantische Information zu verlieren.
-# <br>
-# □ Umformung durch Dekomposition von Relationen
-# <br>
-# □ Später, denn zunächst: Bestimmung aller FDs
+# Eine Menge aus einem oder mehr Attributen $\{A_1, A_2, …, A_n\}$ ist Schlüssel der Relation R, falls gilt:
+# Die Attribute bestimmen alle anderen Attribute funktional.
+# 
+# - Anmerkung: Relationen sind Mengen, es kann also keine zwei völlig identischen Tupel geben.
+# 
+# Besonders interessant sind in diesem Zusammenhang sogenannte **minimale** Schlüssel, bei denen gilt, dass Keine echte Teilmenge von $\{A_1, A_2, …, A_n\}$ alle anderen Attribute funktional bestimmt.
+# 
 
-# ![title](tabelle.jpg)
+# **Beispiel:** Betrachten wir wieder unser ursprüngliches Beispiel.
+# 
+# 
+# |FilmID|Titel|Jahr|Länge|Genre|Studio|Produktionsland|
+# |-----|-----|-----|------|-----|-------|--------|
+# |1|Matrix I|1999|136|SciFi|Warner Bros.|USA|
+# |2|Lord of the Rings I|2001|178|Fantasy|Warner Bros.|USA|
+# |3|The Breakfast Club|1985|97|Drama|Universal|USA|
+# |4|Cruel Intentions|1999|97|Drama|Columbia Pictures|USA|
 
-#  {Titel, Jahr, SchauspName} ist ein Schlüssel.
-#  <br>
-#  <br>
-# ■ {Titel, Jahr} bestimmen Länge, Typ und Studioname funktional.
-# <br>
-# <br>
-# ■ Deshalb können keine zwei Tupel gleiche Werte für Titel, Jahr und SchauspName haben. Sie
-# wären insgesamt identisch.
-# <br>
-# <br>
-# ■ Teilmengen?
-# <br>
-# □ {Titel, Jahr} bestimmen SchauspName nicht funktional
-# <br>
-# □ {Jahr, SchauspName} bestimmen Titel nicht funktional
-# <br>
-# □ {Titel, SchauspName} bestimmen Jahr nicht funktional
-# <br>
-# – Beispiele?
+# {FilmID} ist der Schlüssel für diese Relation und natürlich bestimmt FilmID jedes andere Attribut funktional.
+# 
+# Ob weitere Attributkombinationen Schlüssel sein können, hängt von der Domäne ab. In dieser kleinen Tabelle könnte man meinen, dass auch der Titel ein Schlüssel sein könnte, da jeder Titel nur einmal auftraucht und somit automatisch jedes weitere Attribut eindeutig bestimmt. Wenn wir Titel als Schlüssel betrachten, erlauben wir keine unterschiedlichen Filme mehr mit identischen Titeln. Damit könnten wir keine Filmremakes mehr in unsere Datenbank aufführen.
+# Theoretisch wäre es möglich Titel und Jahr gemeinsam als Schlüssel zu betrachten, da es unwahrscheinlich ist, dass ein Film mit dem exakt selben Titel im gleichen Jahr auftaucht. 
+# 
 
-# ### Schlüssel und Superschlüssel
+# ### Superschlüssel
 
-# ■ Eine Relation kann mehr als einen Schlüssel besitzen.
-# <br>
-# □ Wahl eines der Schlüssel als Primärschlüssel
-# <br><br>
-# ■ Eine Attributmenge, die einen Schlüssel enthält, ist ein Superschlüssel.
-# <br>
-# □ {Titel, Jahr, SchauspName} ist ein Schlüssel und ein Superschlüssel
-# <br>
-# □ {Titel, Jahr, Länge, SchauspName} ist ein Superschlüssel
-# <br>
-# – Nicht minimal
-# <br>
-# ■ Minimal vs. kleinster
-# <br>
-# □ Minimaler Schlüssel: Kein Attribut darf fehlen
-# <br>
-# – Ist nicht unbedingt kleinster Schlüssel
-# <br>
-# □ Kleinster Schlüssel: Schlüssel mit wenigsten Attributen
-# <br>
-# – Ist auch minimal
-# <br><br>
-# ■ Alternative Begriffe:
-# <br>
-# □ Schlüssel (=Superschlüssel)
+# Eine Relation kann mehr als einen Schlüssel besitzen. Es gilt jedoch immer genau einen Primärschlüssel zu spezifizieren.
+# Hierbei gilt es zu erkennen, dass jede Attributmenge, die alle Attribute eines Schlüssels enthält auch die Schlüsseleigenschaft aufweist. Eine Attributmenge, die einen Schlüssel enthält, nennt man einen Superschlüssel. Es können auch unnötige Attribute in einem Superschlüssel existieren. Ein (Primär)schlüssel ist jedoch grundsätzlich minimal. Das heißt, dass keine Teilmenge des Schlüssels auch die Schlüsseleigenschaft besitzt.
+# 
+# <img src="wikipediaPrimaryKey.svg.png" alt="wikipediaPrimaryKey" width="500" caption="by PHummel "/> 
+# 
+# In der Abbildung oben, sieht man auch, dass es sogenannte Schlüsselkandidaten gibt. Da wir grundsätzlich genau ein Primärschlüssel spezifizieren, sind alle anderen Attributkombinationen die minimal sind und Schlüsseleigesnchaften erfüllen Schlüsselkandidaten. Wir werden oft den Begriff Schlüssel für Schlüsselkandidaten nutzen. 
+# 
+# Beispiele:
+# {FilmID} ist ein Schlüssel, ein Schlüsselkandidant und ein Superschlüssel.
+# 
+# {Titel, Jahr} ist ein Schlüsselkandidat und ein Superschlüssel. Da FilmID bereits Primärschlüssel ist, kann {Titel, Jahr} nur noch Schlüsselkandidat sein.
+# 
+# {Titel, Jahr, Länge} ist ein Superschlüssel und ist nicht minimal.
+# 
+# **Minimal vs. kleinster**
+# 
+# Minimaler Schlüssel: Kein Attribut darf fehlen
+# - Ist nicht unbedingt kleinster Schlüssel
+# - Beispiel: {Titel, Jahr}
+# 
+# Kleinster Schlüssel: Schlüssel mit wenigsten Attributen
+# 
+# - Ist auch minimal
+# - Beispiel: {FilmID}
+# 
+# 
+# 
 
 # ### Schema vs. Instanz
 
-# ![title](tabelle.jpg)
-
-# ■ Titel, Jahr → Länge
-# <br>
-# ■ Titel, Jahr → Typ
-# <br>
-# ■ Titel, Jahr → StudioName
-# <br>
-# ■ Titel, Jahr → Länge, Typ, StudioName
-# <br>
-# ■ Wenn zwei Tupel den gleichen Titel und das gleiche Jahr haben, dann haben sie auch gleiche Länge, gleichen Typ und gleichen Studionamen.
-# <br>
-# □ Klar, denn Titel und Jahr sind Schlüssel für die ursprüngliche Film-Relation: Gegeben Titel und Jahr haben wir einen eindeutigen Film, der wohl auch eine eindeutige Länge und Typ hat.
-# <br>
-# □ Wegen 1:n Beziehung zwischen Studios und Filmen ist auch zu erwarten, dass das Studio eindeutig ist.
-# <br>
-# ■ Aber Titel, Jahr → SchauspName ist falsch! Warum?
-
-# ![title](tabelle.jpg)
-
-#  FDs sind Aussagen über das Schema, nicht die Instanz!
-#  <br>
-# ■ Titel → Typ scheint zu gelten
-#  <br>
-# □ Aber nur zufällig bei dieser Instanz
-#  <br>
-# □ Wenn zwei Filme im Titel übereinstimmen, stimmen sie (hier!) auch im Typ überein.
-#  <br>
-# □ Gegenbeispiel: King Kong von 1924 vs. King Kong von 2005.
-#  <br>
-# ■ Titel, Jahr → Typ gilt hingegen
-
-# ![title](kingkong.jpg)
+# Wir hatten bereits festgestellt, dass wir auch weitere zufällige FDs in unserer Filmrelation finden können. Zum Beispiel gilt in der dargestellten Instant {Länge, Jahr} $\rightarrow$ {Titel}. Nach unserer ursprünglichen Definition handelt es sich hierbei um eine funktionale Abhängigkeit. Noch schlimmer: {Länge, Jahr} könnte sogar als Schlüssel definiert werden. Es ist leicht einzusehen, dass dieser Schlüssel nicht sinnvoll ist.
+# 
+# Ob letztlich eine FD gelten soll, muss während der Modellierung entschieden werden. Das heißt, dass die FD unabhängig von den vorhanden Daten immer gelten muss. Das gleiche gilt auch für Schlüssel. 
 
 # ### Wo kommen FDs her?
 
