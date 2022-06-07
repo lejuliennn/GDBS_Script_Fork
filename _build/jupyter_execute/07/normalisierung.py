@@ -256,17 +256,22 @@
 
 # ## Ableitungsregeln für FDs
 
-# Während man im ER-Modell bereits Schlüssel definieren kann, kann es manchmal sein, dass man bestimmte ableitbare Abhängigkeiten übersieht. Durch die funktionale Beziehung kann man aber alle geltenden funktionalen Abhängigkeiten in einer Relation ableiten.
+# Während man im ER-Modell bereits Schlüssel definieren kann, kann es vorkommen, dass man bestimmte ableitbare Abhängigkeiten zur Designzeit übersieht. Mit den bereits bekannten funktionalen Beziehungen kann man aber alle geltenden funktionalen Abhängigkeiten in einer Relation herleiten.
 # Das Ziel des Datenbankentwurfes ist es alle abgeleiteten FDs an Hand von Dekomposition in Schlüsselabhängigkeiten umzuformen ohne dabei semantische Informationen zu verlieren. Diese Umwandlung dient wie im Eingangsbeispiel des Kapitels gezeigt dazu Redundanz in den Daten zu vermeiden.
 
-# **Beispiel:** Gegeben sei die Relation R(A,B,C) mit folgender Instanz und es gelte $A\rightarrow B$ und $B\rightarrow C$
+# ### Transitivitätsregel
+
+# Die wichtigste Regel bei der Ableitung weiterer funktionaler Abhängigkeiten ist die Transivitätsregel:
+# - Gegeben zwei funktionaler Abhängigkeiten $A_1,A_2,…,A_n \rightarrow B_1,B_2,…,B_m$ und $B_1,B_2,…,B_m → C_1,C_2,…,C_k$ kann daraus die funktionale Abhängigkeit $A_1,A_2,…,A_n → C_1,C_2,…,C_k$ abgeleitet werden.
+
+# **Beispiel und Beweis:** Gegeben sei die Relation R(A,B,C) mit folgender Instanz und es gelte $A\rightarrow B$ und $B\rightarrow C$
 # 
-# |A|B|C|
-# |-|-|-|
-# |$a_1$|$b_1$|$c_1$|
-# |$a_2$|$b_1$|$c_1$|
-# |$a_3$|$b_2$|$c_1$|
-# |$a_4$|$b_1$|$c_1$|
+# |A      |B      |     C|
+# |-------|-------|------|
+# | $a_1$ | $b_1$ | $c_1$|
+# | $a_2$ | $b_1$ | $c_1$|
+# | $a_3$ | $b_2$ | $c_1$|
+# | $a_4$ | $b_1$ | $c_1$|
 # 
 # Aus den FDs $A\rightarrow B$ und $B\rightarrow C$ lässt sich durch die transitivität der funktionalen Abhängigkeit auch $A\rightarrow C$ herleiten. 
 
@@ -279,6 +284,23 @@
 # - QED
 # 
 # - Nicht ableitbar: C→A, B→A oder C→B
+
+# ### Armstrong Axiome und weitere Ableitungsregeln
+
+# Die Transitivitätsregel ist eine Regel der sogenannten Armstrong Axiome, die alle möglichen Ableitungsmöglichkeiten abdecken:
+# 
+# 
+# - R1: Die Reflexivität besagt, dass jede Attributkombination sich selbst bzw. eine beliebige nicht-leere Teilmenge der eigenen Kombination funktional bestimmt, d.h., $X \supseteq Y \Rightarrow X\rightarrow Y$ (insbes. $X\rightarrow X$). Die Regel bezieht sich auf triviale FDs, wie zuvor kennen gelernt.
+# 
+# - R2: Die Akkumulation besagt, dass beim Hinzufügen des selben Attributs auf die linke und rechte Seite einer funktionalen Abhängigkeit eine neue gültige funktionale Abhängigkeit entstehen kann, d.h., $X\rightarrow Y \Rightarrow XZ\rightarrow YZ$. Diese Regel wird auch Augmentation genannt. 
+# - R3: Die Transitivität besagt, wie bereits erklärt $X\rightarrow Y \wedge Y \rightarrow Z \Rightarrow X\rightarrow Z$
+# <br>
+# 
+# Die oberen drei Axiome sind minimal, gültig und vollständig. Es gibt auch weitere Axiome, die nützlich sind aber aus den ersten drei Axiome herleitbar sind. Die Dekompositionsregel und die Vereinigungsregel haben wir bereits zuvor kennengelernt.
+# - R4: Dekomposition $X\rightarrow YZ \Rightarrow X\rightarrow Y$
+# - R5: Vereinigung $X\rightarrow Y \wedge X\rightarrow Z \Rightarrow X\rightarrow YZ$
+# 
+# - R6: Die Pseudotransitivität ist eine weitere nützliche Regel mit der Man die funktionale Abhängigkeit einer Teilmenge von Attributen ausnutzen kann um diese in einer anderen funktionalen Abhängigkeit zu ersetzen.  $X \rightarrow Y\wedge WY \rightarrow Z \Rightarrow WX\rightarrow Z$
 
 # ### FD-Mengen
 
@@ -296,9 +318,8 @@
 # ### Hüllenbildung
 # 
 # Da wir möglichst alle geltenden FDs in Schlüsselabhängigkeiten umwandeln wollen müssen wir auch alle geltenden minimalen FDs ableiten. Das Verfahren hierfür heißt **Hüllenbildung**:
-# Hierunter versteht man genau die Ableitung aller FDs aus einer gegebenen Menge an FDs, gemäß Ableitungsregeln
-# <br
-# □ Auch: attribute closure, closure, Attributabschluss
+# Hierunter versteht man genau die Ableitung aller FDs aus einer gegebenen Menge an FDs, gemäß Ableitungsregeln.
+# - Äquivalente Begriffe sind: attribute closure, closure, Attributabschluss
 
 # ■ Gegeben eine Menge von Attributen A1,A2,…,Ak und eine Menge S von FDs.
 # <br>
@@ -393,24 +414,6 @@
 # <br>
 # □ Konstruktion einer Instanz, die für FDs, aber nicht für X→Y gültig ist.
 
-# ### Transitivitätsregel
-
-# ■ Falls A1,A2,…,An → B1,B2,…,Bm und B1,B2,…,Bm → C1,C2,…,Ck
-# <br>
-# ■ => A1,A2,…,An → C1,C2,…,Ck
-
-# ![title](tabelle.jpg)
-
-# □ Titel, Jahr -> StudioName
-# <br>
-# – gilt wegen n:1 von besitzt-Beziehung
-# <br>
-# □ StudioName -> StudioAdresse
-# <br>
-# – gilt wegen Schlüsseleigenschaft von Studioname
-# <br>
-# □ Transitivität: Titel, Jahr ® StudioAdresse
-
 # ### Die „Basis“
 
 # ■ Unterscheidung zwischen gegebenen FDs und abgeleiteten FDs
@@ -440,44 +443,6 @@
 # □ Minimale Basis: {A->B, B->A, B->C, C->B}
 # <br>
 # □ Minimale Basis: {AvB, B->C, C->A}
-
-# ### Armstrong Axiome und weitere Ableitungsregeln
-
-# ■ R1 Reflexivität X $\supseteq$ Y => X→Y (insbes. X→X)
-# <br>
-# □ Triviale FDs
-# <br><br>
-# ■ R2 Akkumulation {X→Y} => XZ→YZ
-# <br>
-# □ Auch: Augmentation
-# <br><br>
-# ■ R3 Transitivität {X→Y, Y →Z} => X→Z
-# <br><br>
-# ■ R1-R3 bekannt als Armstrong-Axiome
-# <br>
-# □ Sound and complete
-# <br>
-# ■ R4 Dekomposition {X→YZ} => X→Y
-# <br><br>
-# ■ R5 Vereinigung {X→Y, X→Z} => X→YZ
-# <br><br>
-# ■ R6 Pseudotransitivität {X→Y, WY →Z} => WX→Z
-
-# #### Armstrong Axiome
-
-# ■ Die Menge der Armstrong-Axiome ist
-# <br>
-# □ Gültig (sound)
-# <br>
-# – Es wird nichts nicht-ableitbares abgeleitet.
-# <br>
-# □ Vollständig (complete)
-# <br>
-# – Durch diese Regeln können alle ableitbaren FDs abgeleitet werden.
-# <br>
-# □ Minimal
-# <br>
-# – Keine Regel kann weggelassen werden.
 
 # ### FDs nach Projektionen
 
