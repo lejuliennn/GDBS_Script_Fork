@@ -321,98 +321,65 @@
 # Hierunter versteht man genau die Ableitung aller FDs aus einer gegebenen Menge an FDs, gemäß Ableitungsregeln.
 # - Äquivalente Begriffe sind: attribute closure, closure, Attributabschluss
 
-# ■ Gegeben eine Menge von Attributen A1,A2,…,Ak und eine Menge S von FDs.
+# Gegeben eine Menge von Attributen $A_1,A_2,…,A_k$ einer Relation und eine Menge S von FDs, die Hülle der Menge A1,A2,…,Ak unter S ist die Menge Y aller Attribute für die gilt, dass für jede unter S gültige Relation auch $A_1,A_2,…,A_k \rightarrow Y$ gilt. Dies entspricht der Menge der funktional ableitbaren Attribute. Das heißt $A_1,A_2,…,A_k \rightarrow Y$ folgt aus den FDs in S.
 # <br>
-# ■ Die Hülle von A1,A2,…,Ak unter S ist die Menge Y aller Attribute für die gilt, dass für jede unter S gültige Relation auch A1,A2,…,Ak → Y gilt.
-# <br>
-# □ Menge der funktional ableitbaren Attribute
-# <br>
-# □ D.h. A1,A2,…Ak → Y folgt aus den FDs in S.
-# <br>
-# ■ Notation: Hülle von A1,A2,…,Ak ist $\{$A1,A2,…,Ak$\}^+$.
-# <br>
-# ■ Es gilt z.B. Ai $\in$ $\{$A1,A2,…,Ak$\}^+$ für i=1,…,k
-# <br>
-# □ Trivialerweise, denn A1,A2,…, Ai, …, Ak→ A
+# - Notation: Die Hülle von $A_1,A_2,…,A_k$ wird in Form von $\{$A_1,A_2,…,A_k$\}^+$ ausgedrückt.
+# - Es gilt trivialerweise und folgend aus dem Reflexivitätsaxiom: $A_i \in \{A_1,A_2,…,A_k\}^+$ für i=1,…,k
 
 # ### Berechnung der Hülle
+# 
+# Zusätzlich zu den trivialen Elementen der Hülle, wollen wir alle weiteren funktional erreichbaren Attribute entdecken. Das Verfahren dazu ist iterativ unter Anwendung aller funktionalen Abhängigkeiten, die bekannt sind oder bereits hergeleitet wurden. Damit wächst die Hülle iterativ mit jeder nicht-trivialen funktionalen Abhängigkeit wie in der Abbildung unten dargestellt. Durch die funktionalen Abhängigkeit $B_1,B_2,...,B_m \rightarrow C$ wächst die Hülle $\{B_1,B_2,...,B_m\}^+$ von $\{B_1,B_2,...,B_m\}$ auf $\{B_1,B_2,...,B_m,C\}$.
 
 # ![title](berechnung_huelle.jpg)
 
-# 1. Sei X die Menge der Attribute, die später die Hülle wird.
-# <br>
-# Initialisiere X mit {A1,A2,…Ak}.
-# <br>
-# 2. Suche wiederholt nach solchen FDs B1,B2,…,Bm→ C, dass B1,B2,…,Bm $\in$ X aber C $\notin$ X.
-# <br>
-# 3. Füge C zu X hinzu.
-# <br>
+# Arbeitsschritte der Hüllebildung von $\{A_1,A_2,…A_k\}$ unter Anwendung der FDs S:
+# 
+# 1. Initialisiere die Hülle $X$ mit $\{A_1,A_2,…A_k\}$.
+# 2. Suche wiederholt nach solchen FDs $B_1,B_2,…,B_m→ C$, dass $B_1,B_2,…,B_m \in X \wedge C \notin X$.
+# 3. Füge $C$ zu $X$ hinzu.
 # 4. Wiederhole 2. bis keine Attribute mehr gefunden werden
-# <br>
-# ■ Terminierung: X wächst nur, und Attributmenge ist endlich.
-# <br>
-# 5. X ist schließlich die Hülle, also $\{$A1,A2,…Ak$\}^+$ = X.
+#     - Terminierung: X wächst nur, und Attributmenge ist endlich.
+# 5. $X$ ist schließlich die Hülle, also $\{A_1,A_2,…A_k\}^+ = X$.
 
-# ■ Relation mit Attributen A, B, C, D, E, F
-# <br>
-# <br>
-# ■ Gegeben FDs
-# <br>
+# **Beispiel (Hüllenbildung):** Gegeben eine Relation mit Attributen A, B, C, D, E, F. Weiterhin seien gegeben FDs
 # 1. AB → C
-# <br>
 # 2. BC → AD
-# <br>
 # 3. D → E
-# <br>
 # 4. CF → B
+# 
+# Gesucht ist die Hülle von {A, B}, also $\{A,B\}^+$
 # <br>
+# - Nach der Anwendung von FD 1 kann C hinzugefügt werden: X = {A, B, C}
 # <br>
-# ■ Gesucht: Hülle von {A, B}, also {A,B$\}+$
+# - Nach der Anwendung von FD 2 kann D hinzugefügt werden: X = {A, B, C, D}
 # <br>
-# □ FD 1: X = {A, B, C}
-# <br>
-# □ FD 2: X = {A, B, C, D}
-# <br>
-# □ FD 3: X = {A, B, C, D, E} ( = {A,B$\}^+$ )
+# - Nach der Anwendung von FD 3 kann E hinzugefügt werden: X = {A, B, C, D, E}
+# - Es können keine weiteren Attribute mehr hinzugefügt werden. Deshalb gilt $X = \{A, B, C, D, E\}= \{A,B\}^+$ 
 
 # ### Membership-Problem
 
-# ■ Kann eine bestimmte FD X→Y aus der gegebenen FD Menge abgeleitet werden?
-# <br><br>
-# ■ Vorgehen: Berechne Hülle von X und teste ob Y darin enthalten ist.
-# <br><br>
-# ■ Beispiel:
+# Bei der Hüllenbildung haben wir nach und nach alle ableitbaren Attribute einer Hülle hinzugefügt. Wir haben aber noch keine konkrete neue FD hergeleitet. Die Frage die wir nun beantworten wollen, ist ob eine bestimmte FD $X\rightarrow Y$ aus der gegebenen FD Menge abgeleitet werden kann.
+# 
+# - Vorgehen: Berechne erst die Hülle von X und teste ob Y darin enthalten ist.
+# 
+# **Beispiel (Membership-Problem):**
+# Gegeben AB → C und BC → AD und D → E und CF → B, kann AB → D abgeleitet werden?
+# Wir bilden die Hülle $\{AB\}^+$
+# – $\{AB\}^+ = \{A, B, C, D, E\}$
 # <br>
-# □ AB → C und BC → AD und D → E und CF → B
-# <br>
-# □ Kann AB → D abgeleitet werden?
-# <br>
-# – {AB$\}^+$ = {A, B, C, D, E}
-# <br>
-# – D $\in$ {A, B, C, D, E}, also JA!
-# <br>
-# □ Kann D → A abgeleitet werden?
-# <br>
-# – {D$\}^+$ = {D, E}
-# <br>
-# – A $\notin$ {D, E}, also NEIN!
+# – $D \in \{A, B, C, D, E\}$, also JA!
+# 
+# Kann D → A abgeleitet werden?
+# Wir bilden die Hülle $\{D\}^+$
+# - $\{D\}^+ = \{D, E\}$
+# - $A \notin \{D, E\}$, also NEIN!
 
 # ### Analyse des Algorithmus zur Hüllenbildung
 
-# ■ Nur Beweisidee
-# <br>
-# <br>
-# ■ Korrektheit: Es werden keine ungültigen FDs erzeugt.
-# <br>
-# □ Induktion über Anzahl der Operationen
-# <br>
-# □ Transitivität bzw. Argumentation über die Tupel.
-# <br><br>
-# ■ Vollständigkeit: Es werden alle gültigen FDs erzeugt.
-# <br>
-# □ Annahme des Gegenteils, d.h. es gebe eine FD X→Y, die nicht gefunden wird.
-# <br>
-# □ Konstruktion einer Instanz, die für FDs, aber nicht für X→Y gültig ist.
+# Wir wollen nun kurz diskutieren, inwiefern der Algorithmus zur Hüllenbildung korrekt funktioniert und en vollständiges Ergebnis im Sinne der Hülle liefert. Dies kann man formal nachweisen. Wir begnügen uns jedoch nur mit der Beweisidee. 
+# - Korrektheit: Es ist wichtig nachzuvollziehen, dass der Algorithmus keine ungültigen FDs erzeugt. Dies lässt sich durch die Induktion über die Anzahl der Operationen beweisen. Da in jedem Schritt eine gültige FD für die Erweiterung der Hülle genommen wird, kann kein Element hinzugefügt werden, die nicht auf einer korrekten FD basiert. Mit dieser Intuition kann man auch leicht ein Beweis durch Widerspruch mit Hinzunahme der Transitivität und Tupelvariablen durchführen. 
+# 
+# - Vollständigkeit: Es ist weiterhin wichtig, nachzuvollziehen, dass alle gültigen FDs ausgehend von der Grundmenge erzeugt werden. Die Vollständigkeit lässt sich leicht durch ein Widerspruchsbeweis zeigen, indem man annimmt, dass es eine FD $X \rightarrow Y$ gibt, die nicht gefunden wird aber ableitbar wäre. Man muss lediglich eine Instanz konstruieren, die für alle FDs, aber nicht für $X\rightarrow Y$ gültig ist.
 
 # ### Die „Basis“
 
