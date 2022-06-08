@@ -42,11 +42,8 @@ parse:
     - linkify
     - substitution
     - deflist
-    - fieldlist
-    - html_admonition",
-    - linkify
+    - html_admonition
     - replacements
     - smartquotes
-    - strikethrough
     - tasklist
 
