@@ -3,18 +3,17 @@
 
 # # Normalisierung
 
-# ### Motivation
-# <br>
 # Bisher haben wir eine direkte Übersetzung von ER-Diagrammen in das relationale Modell behandelt. Dabei sind wir davon ausgegangen, dass das Ursprungsmodell sinnvoll erstellt und alle dazugehörigen Kardinalitäten sinnvoll auch im Sinne der Vermeidung von Redundanz modelliert wurden. In der Realität kann man aber nicht immer davon ausgehen, dass die Modellierung fehlerfrei durchgeführt wird. Zudem kann es nachdem konzeptionellen Entwurf zu Veränderungen hinsichtlich der Nutzung der Daten und den beziehungen zwischen den ursprünglichen Entitytypen und Relationshiptypen kommen, die zu Problem führen können. Insbesondere könnten vorher unbekannte funktionale Abhängigkeiten sichtbar werden, die eine Verfeinerung des (logischen) Entwurfes erfordern. 
 
 # **Beispiel:** In der folgenden Filmtabelle werden Informationen zu Filmen abgespeichert. Bei der Modellierung wurde darauf geachtet, dass die Tabelle einen Schlüssel und mehrere Attribute hat. 
 # 
 
-# |FilmID|Titel|Länger|Genre|Studio|Produktionsland|
-# |-----|-----|------|-----|-------|--------|
-# |1|Matrix I|136|SciFi|Warner Bros.|USA|
-# |2|Lord of the Rings I|178|Fantasy|Warner Bros.|USA|
-# |3|The Breakfast Club|97|Drama|Universal|USA|
+# |FilmID|Titel|Jahr|Länge|Genre|Studio|Produktionsland|
+# |-----|-----|-----|------|-----|-------|--------|
+# |1|Matrix I|1999|136|SciFi|Warner Bros.|USA|
+# |2|Lord of the Rings I|2001|178|Fantasy|Warner Bros.|USA|
+# |3|The Breakfast Club|1985|97|Drama|Universal|USA|
+# |4|Cruel Intentions|1999|97|Drama|Columbia Pictures|USA|
 
 # Bei diesem Beispiel fällt auf, dass bestimmte Informationen mehrfach auftauchen. Insbesondere ist das bei Studio und USA der Fall. Es stellt sich heraus, dass das Produktionsland vom Studionamen abhängt. Dies ist nicht nur zufällig in dieser dargestellten Tabelle so, sondern konzeptionell auch begründet werden. Die Produktion wird dem Land zugerechnet, in dem sich das Studio befindet. 
 # An und für sich ist das kein großes Problem. Oft werden solche Abhängigkeiten hingenommen. Wenn wir jedoch eine Minimierung von Redundanz bei unserer Modellierung vornehmen wollen, müssen wir diese Abhängigkeit nutzen um Informationen die herleitbar sind nicht wiederholt zu speichern. Eine redundante Speicherung solcher Informationen kann dazu führen, dass bei zukünftigen Änderungen der Daten, die Abhängigkeit nicht in Betracht gezogen wird und Inkonsistenzen entstehen, die unsere nun erkannte Beziehung verletzen könnten.
@@ -22,11 +21,12 @@
 
 # **Filmtabelle**
 # 
-# |FilmID|Titel|Länger|Genre|Studio|
-# |-----|-----|------|-----|-------|
-# |1|Matrix I|136|SciFi|Warner Bros.|
-# |2|Lord of the Rings I|178|Fantasy|Warner Bros.|
-# |3|The Breakfast Club|97|Drama|Universal|
+# |FilmID|Titel|Jahr|Länge|Genre|Studio|
+# |-----|-----|-----|------|-----|-------|
+# |1|Matrix I|1999|136|SciFi|Warner Bros.|
+# |2|Lord of the Rings I|2001|178|Fantasy|Warner Bros.|
+# |3|The Breakfast Club|1985|97|Drama|Universal|
+# |4|Cruel Intentions|1999|97|Drama|Columbia Pictures|
 # 
 
 # **Studiotabelle**
@@ -35,6 +35,7 @@
 # |-----|-----|
 # Warner Bros.|USA|
 # Universal|USA|
+# Columbia Pictures|USA|
 
 # Jetzt haben wir die Informationen zu jedem Studio in einer separaten Tabelle ausgelagert. Die Beziehung zwischen den Filmen ist über den Studionamen erhalten worden. Die neue Modellierung würde uns auch erlauben weitere Informationen pro Studio zu speichern ohne diese jeweils für jeden Film zu wiederholen. Es stellt sich heraus, dass in der neuen Studiotabelle das Attribut Studio die Funktion des Schlüssels übernommen hat. Das heißt, dass jeder Studioname nur ein mal vorkommt und die jeweiligen Studioeigenschaften genau bestimmt. Es gibt auch weitere Auswirkungen: Insbesondere können jetzt Studios unabhängig von Filmen existieren. Auch verschwinden Studios nicht aus unserer Datenbank, wenn wir die jeweiligen Filme löschen. In der usprünglichen Version hatten wir nur jede Studios für die wir auch Filme abgespeichert hatten. 
 # 
@@ -112,289 +113,213 @@
 
 # ### Schlüssel als Spezialfall einer FD
 
-# ■ Eine Menge aus einem oder mehr Attributen {A1, A2, …, An} ist Schlüssel der Relation R, falls gilt:
-# <br>
-# □ Die Attribute bestimmen alle anderen Attribute funktional.
-# <br>
-# – Anmerkung: Relationen sind Mengen, es kann also keine zwei völlig identischen Tupel geben.
-# <br>
-# □ Keine echte Teilmenge von {A1, A2, …, An} bestimmt alle anderen Attribute funktional.
-# <br>
-# – Anmerkung: Ein Schlüssel muss also minimal sein.
-# <br><br>
-# ■ Ziel des Datenbankentwurfs: Normalisierung
-# <br>
-# □ Alle gegebenen FDs in „Schlüsselabhängigkeiten“ umformen, ohne dabei semantische Information zu verlieren.
-# <br>
-# □ Umformung durch Dekomposition von Relationen
-# <br>
-# □ Später, denn zunächst: Bestimmung aller FDs
+# Eine Menge aus einem oder mehr Attributen $\{A_1, A_2, …, A_n\}$ ist Schlüssel der Relation R, falls gilt:
+# Die Attribute bestimmen alle anderen Attribute funktional.
+# 
+# - Anmerkung: Relationen sind Mengen, es kann also keine zwei völlig identischen Tupel geben.
+# 
+# Besonders interessant sind in diesem Zusammenhang sogenannte **minimale** Schlüssel, bei denen gilt, dass Keine echte Teilmenge von $\{A_1, A_2, …, A_n\}$ alle anderen Attribute funktional bestimmt.
+# 
 
-# ![title](tabelle.jpg)
+# **Beispiel:** Betrachten wir wieder unser ursprüngliches Beispiel.
+# 
+# 
+# |FilmID|Titel|Jahr|Länge|Genre|Studio|Produktionsland|
+# |-----|-----|-----|------|-----|-------|--------|
+# |1|Matrix I|1999|136|SciFi|Warner Bros.|USA|
+# |2|Lord of the Rings I|2001|178|Fantasy|Warner Bros.|USA|
+# |3|The Breakfast Club|1985|97|Drama|Universal|USA|
+# |4|Cruel Intentions|1999|97|Drama|Columbia Pictures|USA|
 
-#  {Titel, Jahr, SchauspName} ist ein Schlüssel.
-#  <br>
-#  <br>
-# ■ {Titel, Jahr} bestimmen Länge, Typ und Studioname funktional.
-# <br>
-# <br>
-# ■ Deshalb können keine zwei Tupel gleiche Werte für Titel, Jahr und SchauspName haben. Sie
-# wären insgesamt identisch.
-# <br>
-# <br>
-# ■ Teilmengen?
-# <br>
-# □ {Titel, Jahr} bestimmen SchauspName nicht funktional
-# <br>
-# □ {Jahr, SchauspName} bestimmen Titel nicht funktional
-# <br>
-# □ {Titel, SchauspName} bestimmen Jahr nicht funktional
-# <br>
-# – Beispiele?
+# {FilmID} ist der Schlüssel für diese Relation und natürlich bestimmt FilmID jedes andere Attribut funktional.
+# 
+# Ob weitere Attributkombinationen Schlüssel sein können, hängt von der Domäne ab. In dieser kleinen Tabelle könnte man meinen, dass auch der Titel ein Schlüssel sein könnte, da jeder Titel nur einmal auftraucht und somit automatisch jedes weitere Attribut eindeutig bestimmt. Wenn wir Titel als Schlüssel betrachten, erlauben wir keine unterschiedlichen Filme mehr mit identischen Titeln. Damit könnten wir keine Filmremakes mehr in unsere Datenbank aufführen.
+# Theoretisch wäre es möglich Titel und Jahr gemeinsam als Schlüssel zu betrachten, da es unwahrscheinlich ist, dass ein Film mit dem exakt selben Titel im gleichen Jahr auftaucht. 
+# 
 
-# ### Schlüssel und Superschlüssel
+# ### Superschlüssel
 
-# ■ Eine Relation kann mehr als einen Schlüssel besitzen.
-# <br>
-# □ Wahl eines der Schlüssel als Primärschlüssel
-# <br><br>
-# ■ Eine Attributmenge, die einen Schlüssel enthält, ist ein Superschlüssel.
-# <br>
-# □ {Titel, Jahr, SchauspName} ist ein Schlüssel und ein Superschlüssel
-# <br>
-# □ {Titel, Jahr, Länge, SchauspName} ist ein Superschlüssel
-# <br>
-# – Nicht minimal
-# <br>
-# ■ Minimal vs. kleinster
-# <br>
-# □ Minimaler Schlüssel: Kein Attribut darf fehlen
-# <br>
-# – Ist nicht unbedingt kleinster Schlüssel
-# <br>
-# □ Kleinster Schlüssel: Schlüssel mit wenigsten Attributen
-# <br>
-# – Ist auch minimal
-# <br><br>
-# ■ Alternative Begriffe:
-# <br>
-# □ Schlüssel (=Superschlüssel)
+# Eine Relation kann mehr als einen Schlüssel besitzen. Es gilt jedoch immer genau einen Primärschlüssel zu spezifizieren.
+# Hierbei gilt es zu erkennen, dass jede Attributmenge, die alle Attribute eines Schlüssels enthält auch die Schlüsseleigenschaft aufweist. Eine Attributmenge, die einen Schlüssel enthält, nennt man einen Superschlüssel. Es können auch unnötige Attribute in einem Superschlüssel existieren. Ein (Primär)schlüssel ist jedoch grundsätzlich minimal. Das heißt, dass keine Teilmenge des Schlüssels auch die Schlüsseleigenschaft besitzt.
+# 
+# <img src="wikipediaPrimaryKey.svg.png" alt="wikipediaPrimaryKey" width="500" caption="by PHummel "/> 
+# 
+# In der Abbildung oben, sieht man auch, dass es sogenannte Schlüsselkandidaten gibt. Da wir grundsätzlich genau ein Primärschlüssel spezifizieren, sind alle anderen Attributkombinationen die minimal sind und Schlüsseleigesnchaften erfüllen Schlüsselkandidaten. Wir werden oft den Begriff Schlüssel für Schlüsselkandidaten nutzen. 
+# 
+# Beispiele:
+# {FilmID} ist ein Schlüssel, ein Schlüsselkandidant und ein Superschlüssel.
+# 
+# {Titel, Jahr} ist ein Schlüsselkandidat und ein Superschlüssel. Da FilmID bereits Primärschlüssel ist, kann {Titel, Jahr} nur noch Schlüsselkandidat sein.
+# 
+# {Titel, Jahr, Länge} ist ein Superschlüssel und ist nicht minimal.
+# 
+# **Minimal vs. kleinster**
+# 
+# Minimaler Schlüssel: Kein Attribut darf fehlen
+# - Ist nicht unbedingt kleinster Schlüssel
+# - Beispiel: {Titel, Jahr}
+# 
+# Kleinster Schlüssel: Schlüssel mit wenigsten Attributen
+# 
+# - Ist auch minimal
+# - Beispiel: {FilmID}
+# 
+# 
+# 
 
-# ### Schema vs. Instanz
+# ### Wo kommen FDs her? Schema vs. Instanz
 
-# ![title](tabelle.jpg)
-
-# ■ Titel, Jahr → Länge
-# <br>
-# ■ Titel, Jahr → Typ
-# <br>
-# ■ Titel, Jahr → StudioName
-# <br>
-# ■ Titel, Jahr → Länge, Typ, StudioName
-# <br>
-# ■ Wenn zwei Tupel den gleichen Titel und das gleiche Jahr haben, dann haben sie auch gleiche Länge, gleichen Typ und gleichen Studionamen.
-# <br>
-# □ Klar, denn Titel und Jahr sind Schlüssel für die ursprüngliche Film-Relation: Gegeben Titel und Jahr haben wir einen eindeutigen Film, der wohl auch eine eindeutige Länge und Typ hat.
-# <br>
-# □ Wegen 1:n Beziehung zwischen Studios und Filmen ist auch zu erwarten, dass das Studio eindeutig ist.
-# <br>
-# ■ Aber Titel, Jahr → SchauspName ist falsch! Warum?
-
-# ![title](tabelle.jpg)
-
-#  FDs sind Aussagen über das Schema, nicht die Instanz!
-#  <br>
-# ■ Titel → Typ scheint zu gelten
-#  <br>
-# □ Aber nur zufällig bei dieser Instanz
-#  <br>
-# □ Wenn zwei Filme im Titel übereinstimmen, stimmen sie (hier!) auch im Typ überein.
-#  <br>
-# □ Gegenbeispiel: King Kong von 1924 vs. King Kong von 2005.
-#  <br>
-# ■ Titel, Jahr → Typ gilt hingegen
-
-# ![title](kingkong.jpg)
-
-# ### Wo kommen FDs her?
-
-# ■ Einfach den Schlüssel K deklarieren.
-# <br>
-# □ Dann gelten (einzig) die FDs K → A für jedes Attribut A.
-# <br><br>
-# ■ FDs deklarieren.
-# <br>
-# □ Dann systematisch Schlüssel ableiten.
-# <br><br>
-# ■ FDs aus der Physik
-# <br>
-# □ Zwei Kurse können nicht zur gleichen Zeit im gleichen Raum stattfinden.
-# <br>
-# □ Zeit, Raum → Kurs
-# <br>
-# ■ FDs aus dem ER-Diagramm
-# <br>
-# □ Schlüsselattribute
-# <br>
-# □ 1:n Beziehungen
+# Wir hatten bereits festgestellt, dass wir auch weitere zufällige FDs in unserer Filmrelation finden können. Zum Beispiel gilt in der dargestellten Instant {Länge, Jahr} $\rightarrow$ {Titel}. Nach unserer ursprünglichen Definition handelt es sich hierbei um eine funktionale Abhängigkeit. Noch schlimmer: {Länge, Jahr} könnte sogar als Schlüssel definiert werden. Es ist leicht einzusehen, dass dieser Schlüssel nicht sinnvoll ist.
+# 
+# Ob letztlich eine FD gelten soll, muss während der Modellierung entschieden werden. Das heißt, dass die FD unabhängig von den vorhanden Daten immer gelten muss. Das gleiche gilt auch für Schlüssel. Während Schlüssel hauptsächlich dafür definiert werden um Einträge von einander unterscheiden zu können, können FDs als Einschränkungen auf einer Relation definiert werden um so Integrität von Daten herzustellen. Die Einhaltung und Überprüfung von funktionalen Abhängigkeiten hilft die Qualität und Konsistenz von Daten aufrecht zu erhalten. Beispielsweise kann man mit der Definition einer funktionalen Abhängigkeit {Postleitzahl}$\rightarrow${Stadt} sicherstellen, dass dieselbe Postleitzahl nicht fälschlicherweise mit zwei unterschiedlichen Städten assoziiert wird. 
 
 # ### Schlüssel aus ER-Diagrammen
 
-# ■ Falls die Relation von einem Entitytypen stammt
-# <br>
-# □ Der Schlüssel der Relation besteht aus den Schlüsselattributen des Entitytypen.
-# <br><br>
-# ■ Falls die Relation von einem Relationshiptypen stammt
-# <br>
-# □ m:n: Schlüssel besteht aus den Schlüsselattributen der verbundenen Entitytypen.
-# <br>
-# □ 1:n: Schlüssel besteht aus den Schlüsselattributen des Entitytypen der n-Seite.
-# <br>
-# □ 1:1: Zwei mögliche Schlüssel
-# <br>
-# – Schlüssel der beiden beteiligten Entitytypen. Wahl eines der beiden Schlüssel als Primärschlüssel (egal
-# welcher).
-# <br><br>
-# ■ Bei n-ären Relationshiptypen
-# <br>
-# □ Lage ist komplizierter
-# <br>
-# □ 1-Seite muss nie am Schlüssel beteiligt sein.
+# Schlüsselinformationen sind grundsätzlich bereits im ER-Modell bekannt und müssen anhand der folgenden **Regeln** übernommen werden.
+# 
+# 1. Falls die Relation von einem Entitytypen stammt, bestehen die Schlüsselattribute der Relation aus den Schlüsselattributen des Entitytypen.
+# 
+# 2. Falls die Relation von einem Relationshiptypen stammt muss man die Kardinalitäten betrachten.
+# 
+#     1. $m:n$: Schlüssel besteht aus den Schlüsselattributen der verbundenen Entitytypen.
+#     2. $1:n$: Schlüssel besteht aus den Schlüsselattributen des Entitytypen der n-Seite.
+#     3. $1:1$: Zwei mögliche Schlüssel. Hierbei ist zu beachten, dass die Umwandlung kapazitätserhöhend werden könnte.
+#         - Schlüssel der beiden beteiligten Entitytypen. Wahl eines der beiden Schlüssel als Primärschlüssel (egal welcher).
+# 
+# 3. Bei n-ären Relationshiptypen kann es komplizierter werden. Die 1-Seite muss nie am Schlüssel beteiligt sein.
+# 4. Falls die Relation aus einem schwachen Entitytypen stammt, müssen die Schlüssel der bestimmtenden Entitytypen mit übernommen werden.
 
+# **Beispiel 1:**
+# 
+# 
 # ![title](er_diagramm1.jpg)
 
-# ■ $Filme(\underline{Titel, Jahr}, Länge, Typ)$
-# <br>
-# ■ $Schauspieler*in(\underline{Name, Adresse})$
-# <br>
-# ■ $Studio(\underline{Name}, Adresse)$
-# <br>
-# ■ $besitzt(\underline{Titel, Jahr}, Name)$
-# <br>
-# □ -> zusammengefasst mit Filme zu Film $(\underline{Titel, Jahr}, Länge, Typ, StudioName)$
-# <br>
-# ■ $spielt_in(\underline{Titel, Jahr, Name, Adresse}, Gehalt)$
+# - $Filme(\underline{Titel, Jahr}, Länge, Typ)$ (Regel 1)
+# 
+# - $Schauspieler*in(\underline{Name, Adresse})$ (Regel 1)
+# - $Studio(\underline{Name}, Adresse)$ (Regel 1)
+# - $besitzt(\underline{Titel, Jahr}, Name)$ (Regel 2B)
+#     - zusammengefasst mit Filme zu Film $(\underline{Titel, Jahr}, Länge, Typ, StudioName)$
+# - $spielt\_in(\underline{Titel, Jahr, Name, Adresse}, Gehalt)$ (Regel 2A)
 
-# ### Schlüssel aus ER-Diagrammen
-
+# **Beispiel 2 (1:1-Beziehungen):**
+# 
 # ![title](er_diagramm2.jpg)
 
-#  $Studios(\underline{SName})$
+# - $Studios(\underline{SName})$ (Regel 1)
 #  <br>
-# ■ $Vorsitzende(\underline{VName})$
-# <br>
-# ■ $leitet(\underline{SName}, VName)$ oder leitet$(SName, \underline{VName})$
-# <br>
-# □ sprich, zwei Schlüssel: SName und VName, ein Schlüssel als Primärschlüssel gewählt
-# <br>
-# □ -> zusammengefasst zu $Studios(\underline{SName}, VName)$ oder $Vorsitzende(\underline{VName}, SName)$
+# - $Vorsitzende(\underline{VName})$ (Regel 2)
+# - $leitet(\underline{SName}, VName)$ oder leitet$(SName, \underline{VName})$ (Regel 2C)
+#     - Es gibt zwei Schlüssel: SName und VName und ein Schlüssel muss als Primärschlüssel gewählt werden.
+#     - Es gibt entsprechend zwei Möglichkeiten die Relation zusammenzufassen zu $Studios(\underline{SName}, VName)$ oder $Vorsitzende(\underline{VName}, SName)$. Je nach Umwandlung ist die Darstellung kapazitätserhöhend. In Datenbanksystemen kann man durch weitere Integritätsbedingungen wie z.B. unique verhindern, dass die Nicht-schlüsselspalte doppelte Einträge erhält.
 
-# ### Schlüssel aus ER-Diagrammen: n-äre Relationshiptypen
-
+# **Beispiel 3 (n-äre Relationshiptypen):**
+# 
 # ![title](n-aer_relationshiptypen1.jpg)
 
-#  $Studio (\underline{Name}, Adresse)$
-#  <br>
-# ■$ Schauspieler*in (\underline{Name}, Adresse)$
-# <br>
-# ■ $Film (\underline{Titel, Jahr}, Typ, Länge)$
-# <br>
-# ■ $ist_unter_Vertrag (\underline{SchauspielerName, Titel, Jahr}, StudioName, Gehalt)$
+# - $Studio (\underline{Name}, Adresse)$
+# - $ Schauspieler*in (\underline{Name}, Adresse)$
+# - $Film (\underline{Titel, Jahr}, Typ, Länge)$
+# - $ist\_unter\_Vertrag (\underline{SchauspielerName, Titel, Jahr}, StudioName, Gehalt)$. Studioname ist nicht teil des Schlüssels (Regel 3)
 
-# ![title](n-aer_relationshiptypen2.jpg)
-
-# ■ $Studio(\underline{Name}, Adresse)$
-# <br>
-# ■ $Schauspieler(\underline{Name}, Adresse)$
-# <br>
-# ■ $Film(\underline{Titel, Jahr}, Typ, Länge)$
-# <br>
-# ■ $Vertrag(\underline{SchauspielerName, StudioName, Titel, Jahr}, Gehalt)$
+# **Beispiel 4 (Schwache Entitytypen):**
+# 
+# <img src="schwacheETs.png" alt="schwacheETs" width="500"/> 
+# 
+# 
+# - $Studio(\underline{Name}, Adresse)$ (Regel 1)
+# - $Schauspieler(\underline{Name}, Adresse)$ (Regel 1)
+# - $Film(\underline{Titel, Jahr}, Typ, Länge)$ (Regel 1)
+# - $Vertrag(\underline{SchauspielerName, StudioName, Titel, Jahr}, Gehalt)$ (Regel 4)
 
 # ### Schlüssel aus ER-Diagrammen: IST-Hierarchien
 
-# ![title](IST_hierarchie.jpg)
-
-# ■ ER-Stil
-# <br>
-# □ $Film(\underline{Titel, Jahr}, Länge,Typ)$
-# <br>
-# □ $Krimi(\underline{Titel, Jahr}, Waffen)$
-# <br>
-# □ $Zeichentrickfilm(\underline{Titel, Jahr})$
-# <br><br>
-# ■ OO-Stil
-# <br>
-# □ $Film(\underline{Titel, Jahr}, Länge, Typ)$
-# <br>
-# □ $FilmZ(\underline{Titel, Jahr}, Länge, Typ)$
-# <br>
-# □ $FilmK(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
-# <br>
-# □ $FilmZK(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
-# <br><br>
-# ■ Mit NULL-Werten
-# <br>
-# □ $Film(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
+# **Beispiel 5 (IST-Hierarchien):**
+# 
+# <img src="IST_hierarchie.png" alt="ist_Hierarchie" width="400"/> 
+# 
+# 
+# Bei IST-Hierarchien müssen die Schlüsselattribute in allen Relationen mit übernommen werden. 
+# 
+# - ER-Stil: Im ER-Still muss sichergestellt werden, dass der selbe Schlüssel in der Basisrelation das selbe Objekt in der Unterklasse repräsentiert. 
+#     - $Film(\underline{Titel, Jahr}, Länge,Typ)$
+#     - $Krimi(\underline{Titel, Jahr}, Waffen)$
+#     - $Zeichentrickfilm(\underline{Titel, Jahr})$
+# 
+# - OO-Stil: Im OO-Stil muss man zusätzlich sicherstellen, dass der selbe Schlüssel nicht in mehreren Relationen gleichzeitig auftaucht. 
+#     - $Film(\underline{Titel, Jahr}, Länge, Typ)$
+#     - $FilmZ(\underline{Titel, Jahr}, Länge, Typ)$
+#     - $FilmK(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
+#     - $FilmZK(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
+# - Mit NULL-Werten: Die Schlüssel sind hier wie bei jeder normalen Relation. Die obengenannten Probleme beim OO-Stil und ER-Stil können nicht auftreten.
+#     - $Film(\underline{Titel, Jahr}, Länge, Typ, Waffen)$
 
 # ## Ableitungsregeln für FDs
 
-# ### Motivation
+# Während man im ER-Modell bereits Schlüssel definieren kann, kann es vorkommen, dass man bestimmte ableitbare Abhängigkeiten zur Designzeit übersieht. Mit den bereits bekannten funktionalen Beziehungen kann man aber alle geltenden funktionalen Abhängigkeiten in einer Relation herleiten.
+# Das Ziel des Datenbankentwurfes ist es alle abgeleiteten FDs an Hand von Dekomposition in Schlüsselabhängigkeiten umzuformen ohne dabei semantische Informationen zu verlieren. Diese Umwandlung dient wie im Eingangsbeispiel des Kapitels gezeigt dazu Redundanz in den Daten zu vermeiden.
 
-# ■ Gegeben eine Menge von FDs, kann man eventuell weitere FDs ableiten.
-# <br>
-# <br>
-# ■ Ziel des Datenbankentwurfs:
-# <br>
-# □ Alle gegebenen und abgeleiteten FDs in „Schlüsselabhängigkeiten“ umformen, ohne dabei semantische Information zu verlieren.
-# <br>
-# □ Umformung durch Dekomposition von Relationen
+# ### Transitivitätsregel
 
-# ### Ableitung von FDs – Beispiel
+# Die wichtigste Regel bei der Ableitung weiterer funktionaler Abhängigkeiten ist die Transivitätsregel:
+# - Gegeben zwei funktionaler Abhängigkeiten $A_1,A_2,…,A_n \rightarrow B_1,B_2,…,B_m$ und $B_1,B_2,…,B_m → C_1,C_2,…,C_k$ kann daraus die funktionale Abhängigkeit $A_1,A_2,…,A_n → C_1,C_2,…,C_k$ abgeleitet werden.
 
-# ![title](ableitung_fd1.jpg)
+# **Beispiel und Beweis:** Gegeben sei die Relation R(A,B,C) mit folgender Instanz und es gelte $A\rightarrow B$ und $B\rightarrow C$
+# 
+# |A      |B      |     C|
+# |-------|-------|------|
+# | $a_1$ | $b_1$ | $c_1$|
+# | $a_2$ | $b_1$ | $c_1$|
+# | $a_3$ | $b_2$ | $c_1$|
+# | $a_4$ | $b_1$ | $c_1$|
+# 
+# Aus den FDs $A\rightarrow B$ und $B\rightarrow C$ lässt sich durch die transitivität der funktionalen Abhängigkeit auch $A\rightarrow C$ herleiten. 
 
-# ■ Es gelte A → B und B → C
+# - Beweis:
+#     - Z.z.: Zwei beliebige Tupel, die in A übereinstimmen, müssen auch in C übereinstimmen.
+#     - Beweis durch Widerspruch: Es gibt zwei beliebige Tupel, die in A übereinstimmen aber nicht in C:
+#         - $t_1 = (a, b_1, c_1)$ und $t_2 = (a, b_2, c_2)$ mit $c_1\neq c_2$
+#         - Da $A\rightarrow B$ gilt $b_1=b_2$ und  $t_1=(a, b_1, c1)$ und $t_2= (a, b_1, c_2)$
+#         - Da $B\rightarrow C$  und $b_1=b_2$ gilt  $c_1=c_2$ $\Rightarrow$ Widerspruch
+# - QED
+# 
+# - Nicht ableitbar: C→A, B→A oder C→B
+
+# ### Armstrong Axiome und weitere Ableitungsregeln
+
+# Die Transitivitätsregel ist eine Regel der sogenannten Armstrong Axiome, die alle möglichen Ableitungsmöglichkeiten abdecken:
+# 
+# 
+# - R1: Die Reflexivität besagt, dass jede Attributkombination sich selbst bzw. eine beliebige nicht-leere Teilmenge der eigenen Kombination funktional bestimmt, d.h., $X \supseteq Y \Rightarrow X\rightarrow Y$ (insbes. $X\rightarrow X$). Die Regel bezieht sich auf triviale FDs, wie zuvor kennen gelernt.
+# 
+# - R2: Die Akkumulation besagt, dass beim Hinzufügen des selben Attributs auf die linke und rechte Seite einer funktionalen Abhängigkeit eine neue gültige funktionale Abhängigkeit entstehen kann, d.h., $X\rightarrow Y \Rightarrow XZ\rightarrow YZ$. Diese Regel wird auch Augmentation genannt. 
+# - R3: Die Transitivität besagt, wie bereits erklärt $X\rightarrow Y \wedge Y \rightarrow Z \Rightarrow X\rightarrow Z$
 # <br>
-# <br>
-# ■ Dann gilt auch: A → C
-# <br><br>
-# ■ Beweis
-# <br>
-# □ Z.z.: Zwei beliebige Tupel, die in A übereinstimmen, müssen auch in C übereinstimmen.
-# <br>
-# □ Zwei solche beliebige Tupel, die in A übereinstimmen:
-# <br>
-# (a, b1, c1) und (a, b2, c2)
-# <br>
-# □ Da A → B => (a, b, c1) und (a, b, c2)
-# <br>
-# □ Da B → C => (a, b, c) und (a, b, c)
-# <br>
-# □ QED
-# <br><br>
-# ■ Instanz genügt A→B und B→C
-# <br>
-# □ Es gilt auch: A→C
-# <br>
-# □ Nicht ableitbar: C→A, B→A oder C→B
+# 
+# Die oberen drei Axiome sind minimal, gültig und vollständig. Es gibt auch weitere Axiome, die nützlich sind aber aus den ersten drei Axiome herleitbar sind. Die Dekompositionsregel und die Vereinigungsregel haben wir bereits zuvor kennengelernt.
+# - R4: Dekomposition $X\rightarrow YZ \Rightarrow X\rightarrow Y$
+# - R5: Vereinigung $X\rightarrow Y \wedge X\rightarrow Z \Rightarrow X\rightarrow YZ$
+# 
+# - R6: Die Pseudotransitivität ist eine weitere nützliche Regel mit der Man die funktionale Abhängigkeit einer Teilmenge von Attributen ausnutzen kann um diese in einer anderen funktionalen Abhängigkeit zu ersetzen.  $X \rightarrow Y\wedge WY \rightarrow Z \Rightarrow WX\rightarrow Z$
 
 # ### FD-Mengen
 
-# ■ Zwei Mengen S und T an FDs heißen äquivalent, falls die Menge der gültigen Instanzen unter S die gleiche wie
-# unter T ist.
-# <br><br>
-# ■ Eine Menge S an FDs folgt aus einer Menge T an FDs, falls jede unter T gültige Instanz auch unter S gültig ist.
-# <br><br>
-# ■ Hüllenbildung:
-# <br>
-# □ Ableitung aller FDs aus einer gegebenen Menge an FDs
-# <br>
-# □ Gemäß Ableitungsregeln
-# <br>
-# □ Auch: attribute closure, closure, Attributabschluss
+# Die Tatsache, dass wir mit einer Teilmenge der geltenden FDs auf einer Relation andere geltende herleiten können ruft die Frage hervor, wann zwei solche Mengen zu den exakt gleichen FDs insgesamt führen können. Hierbei sprechen wir von Äquivalenz von FD-Mengen: 
+# - Zwei Mengen S und T an FDs heißen äquivalent, falls die Menge der gültigen Instanzen unter S die gleiche wie
+# unter T ist. Das heißt, dass für beide Mengen nach einer umfangreichen herleitung aller ableitbarer FDs die selbe Menge entstehen könnte. 
+# 
+# Wenn wir die Richtungen der Äquivalenz einzeln betrachten können wir auch aussagen: 
+# - Eine Menge S an FDs folgt aus einer Menge T an FDs, falls jede unter T gültige Instanz auch unter S gültig ist.
+# 
+# Die Äquivalenz von FD-Mengen bieten uns die Grundlage dafür ohne Informationsverlust neue FDs abzuleiten. 
+# 
+# 
 
-# ### Hülle
+# ### Hüllenbildung
+# 
+# Da wir möglichst alle geltenden FDs in Schlüsselabhängigkeiten umwandeln wollen müssen wir auch alle geltenden minimalen FDs ableiten. Das Verfahren hierfür heißt **Hüllenbildung**:
+# Hierunter versteht man genau die Ableitung aller FDs aus einer gegebenen Menge an FDs, gemäß Ableitungsregeln.
+# - Äquivalente Begriffe sind: attribute closure, closure, Attributabschluss
 
 # ■ Gegeben eine Menge von Attributen A1,A2,…,Ak und eine Menge S von FDs.
 # <br>
@@ -489,24 +414,6 @@
 # <br>
 # □ Konstruktion einer Instanz, die für FDs, aber nicht für X→Y gültig ist.
 
-# ### Transitivitätsregel
-
-# ■ Falls A1,A2,…,An → B1,B2,…,Bm und B1,B2,…,Bm → C1,C2,…,Ck
-# <br>
-# ■ => A1,A2,…,An → C1,C2,…,Ck
-
-# ![title](tabelle.jpg)
-
-# □ Titel, Jahr -> StudioName
-# <br>
-# – gilt wegen n:1 von besitzt-Beziehung
-# <br>
-# □ StudioName -> StudioAdresse
-# <br>
-# – gilt wegen Schlüsseleigenschaft von Studioname
-# <br>
-# □ Transitivität: Titel, Jahr ® StudioAdresse
-
 # ### Die „Basis“
 
 # ■ Unterscheidung zwischen gegebenen FDs und abgeleiteten FDs
@@ -536,44 +443,6 @@
 # □ Minimale Basis: {A->B, B->A, B->C, C->B}
 # <br>
 # □ Minimale Basis: {AvB, B->C, C->A}
-
-# ### Armstrong Axiome und weitere Ableitungsregeln
-
-# ■ R1 Reflexivität X $\supseteq$ Y => X→Y (insbes. X→X)
-# <br>
-# □ Triviale FDs
-# <br><br>
-# ■ R2 Akkumulation {X→Y} => XZ→YZ
-# <br>
-# □ Auch: Augmentation
-# <br><br>
-# ■ R3 Transitivität {X→Y, Y →Z} => X→Z
-# <br><br>
-# ■ R1-R3 bekannt als Armstrong-Axiome
-# <br>
-# □ Sound and complete
-# <br>
-# ■ R4 Dekomposition {X→YZ} => X→Y
-# <br><br>
-# ■ R5 Vereinigung {X→Y, X→Z} => X→YZ
-# <br><br>
-# ■ R6 Pseudotransitivität {X→Y, WY →Z} => WX→Z
-
-# #### Armstrong Axiome
-
-# ■ Die Menge der Armstrong-Axiome ist
-# <br>
-# □ Gültig (sound)
-# <br>
-# – Es wird nichts nicht-ableitbares abgeleitet.
-# <br>
-# □ Vollständig (complete)
-# <br>
-# – Durch diese Regeln können alle ableitbaren FDs abgeleitet werden.
-# <br>
-# □ Minimal
-# <br>
-# – Keine Regel kann weggelassen werden.
 
 # ### FDs nach Projektionen
 
