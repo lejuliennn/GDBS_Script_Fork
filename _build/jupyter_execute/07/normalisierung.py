@@ -224,7 +224,7 @@
 
 # **Beispiel 4 (Schwache Entitytypen):**
 # 
-# <img src="schwacheETs.png" alt="schwacheETs" width="500"/> 
+# <img src="schwacheETs.jpg" alt="schwacheETs" width="500"/> 
 # 
 # 
 # - $Studio(\underline{Name}, Adresse)$ (Regel 1)
@@ -237,7 +237,6 @@
 # **Beispiel 5 (IST-Hierarchien):**
 # 
 # <img src="IST_hierarchie.png" alt="ist_Hierarchie" width="400"/> 
-# 
 # 
 # Bei IST-Hierarchien müssen die Schlüsselattribute in allen Relationen mit übernommen werden. 
 # 
@@ -323,7 +322,7 @@
 
 # Gegeben eine Menge von Attributen $A_1,A_2,…,A_k$ einer Relation und eine Menge S von FDs, die Hülle der Menge A1,A2,…,Ak unter S ist die Menge Y aller Attribute für die gilt, dass für jede unter S gültige Relation auch $A_1,A_2,…,A_k \rightarrow Y$ gilt. Dies entspricht der Menge der funktional ableitbaren Attribute. Das heißt $A_1,A_2,…,A_k \rightarrow Y$ folgt aus den FDs in S.
 # <br>
-# - Notation: Die Hülle von $A_1,A_2,…,A_k$ wird in Form von $\{$A_1,A_2,…,A_k$\}^+$ ausgedrückt.
+# - Notation: Die Hülle von $A_1,A_2,…,A_k$ wird in Form von $\{A_1,A_2,…,A_k\}^+$ ausgedrückt.
 # - Es gilt trivialerweise und folgend aus dem Reflexivitätsaxiom: $A_i \in \{A_1,A_2,…,A_k\}^+$ für i=1,…,k
 
 # ### Berechnung der Hülle
