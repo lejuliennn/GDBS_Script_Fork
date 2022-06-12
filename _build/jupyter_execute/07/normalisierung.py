@@ -238,6 +238,7 @@
 # 
 # <img src="IST_hierarchie.png" alt="ist_Hierarchie" width="400"/> 
 # 
+# 
 # Bei IST-Hierarchien müssen die Schlüsselattribute in allen Relationen mit übernommen werden. 
 # 
 # - ER-Stil: Im ER-Still muss sichergestellt werden, dass der selbe Schlüssel in der Basisrelation das selbe Objekt in der Unterklasse repräsentiert. 
@@ -382,486 +383,259 @@
 
 # ### Die „Basis“
 
-# ■ Unterscheidung zwischen gegebenen FDs und abgeleiteten FDs
-# <br><br>
-# ■ Wahl welche FDs zur Repräsentation aller FDs verwendet werden.
-# <br>
-# □ Eine Menge an FDs, aus der alle anderen FDs abgeleitet werden können, heißt Basis.
-# <br>
-# □ Falls keine echte Teilmenge der Basis wiederum selbst eine Basis ist, ist die Basis minimal.
-# <br><br>
-# ■ Beispiel
-# <br>
-# □ R(A, B, C); jedes Attribut bestimme funktional die anderen beiden.
-# <br>
-# □ Welche FDs gelten?
-# <br>
-# □ A->B, A->C, B->A, B->C, C->A, C->B
-# <br>
-# □ Abgeleitet: AB->C, AC->B, BC->A
-# <br>
-# □ Kurzformen: A->BC, B->AC, C->AB
-# <br>
-# □ Triviale FDs: A->A, B->B, C->C
-# <br>
-# □ Nicht-triviale FDs: AB->BC, AC->BC, …
-# <br>
-# □ Minimale Basis: {A->B, B->A, B->C, C->B}
-# <br>
-# □ Minimale Basis: {AvB, B->C, C->A}
+# Wir haben gesehen, dass es möglich ist anhand von gegebenen FDs weitere FDs herzuleiten. Insbesondere haben wir auch besprochen, dass es äquivalente FD-Mengen geben kann, die jedoch nicht exakt die gleichen FDs jeweils enthalten. Der Vorteil hierbei ist, dass man jeweils eine solche **Basis**menge nehmen kann, um eine Gesamtmenge von FDs zu repräsentieren. 
+# 
+# - Eine Menge an FDs, aus der alle anderen FDs abgeleitet werden können, heißt **Basis**.
+# - Falls keine echte Teilmenge der Basis wiederum selbst eine Basis ist, ist die Basis **minimal**.
+# 
+# 
+# **Beispiel (Basis):**
+# Gegeben eine Raltion R(A, B, C) wobei jedes Attribut die anderen beiden Attribute funktional bestimmt.
+# Damit gelten $A \rightarrow B, A\rightarrow C, B\rightarrow A, B\rightarrow C, C\rightarrow A, C\rightarrow B$.
+# Für diese Menge von FDs ist die folgende Menge eine minimale Basis: $B_1=\{A\rightarrow B, B\rightarrow A, B\rightarrow C, C\rightarrow B\}$. Alle anderen FDs lassen sich hierbei herleiten. Eine weitere minimale Basis ist $B_2=\{A\rightarrow B, B\rightarrow C, C\rightarrow A\}$. Diese minimale Basis ist kleiner als $B_1$. Dennoch ist auch $B_1$ eine minimale Basis, da wir keine der dort enthaltenen FDs weglassen können. Bei jeder echten Teilmenge von $B_1$ wird es geltende FDs geben, die wir nicht mehr ableiten können.
 
 # ### FDs nach Projektionen
 
-#  Motivation: Normalisierung bricht eine Relation in mehrere Teile.
-#  <br>
-# ■ Gegeben eine Relation R mit Menge F an FDs. Sei S das Ergebnis nach Entfernung einiger Attribute aus R („Projektion“).
-# <br><br>
-# ■ Welche FDs gelten noch für S?
-# <br>
-# □ Alle FDs, die aus F folgen,
-# <br>
-# □ und die nur Attribute aus S verwenden.
-# <br><br>
-# ■ Beispiel: R(A, B, C, D)
-# <br>
-# □ FDs: {A->B, B->C, C->D}
-# <br>
-# □ Projektion von B: S(A, C, D)
-# <br><br>
-# ■ Algorithmus: Berechne Hülle jeder Teilmenge
-# <br>
-# □ Wie viele gibt es?
-# <br>
-# □ Trick 1: Hülle der leeren und Hülle der Menge aller Attribute muss nicht gebildet werden.
-# <br>
-# □ Trick 2: Falls die Hülle von X bereits alle Attribute enthält, müssen die Supermengen von X nicht mehr geprüft werden.
-# <br>
-# – Deshalb: Beginnen mit kleinsten Teilmengen
+#  Bevor wir nun endlich zu der eigentlichen Aufgabe der Normalisierung übergehen müssen wir nur noch eine letzte Eigenschaft von FDs klären. Da Normalisierung eine Relation in mehrere Relationen dekomponiert, müssen wir klären, was mit den jeweiligen FDs passiert, dessen Attribute nicht mehr in den gleichen Relationen existieren. 
+# 
+# Gegeben eine Relation $R$ mit Menge $F$ an FDs. Sei $S$ das Ergebnis einer Projektion nach Entfernung einiger Attribute aus $R$. In $S$ gelten alle FDs aus $F$, die **nur** Attribute aus $S$ verwenden. 
+# 
 
-# ■ Beispiel: R(A, B, C, D)
+# **Beispiel (FDs nach Projektionen):**
+# Gegeben eine Relation $R(A, B, C, D)$ und eine Menge von FDs $F= \{A\rightarrow B, B\rightarrow C, C\rightarrow D\}$. Wir führen eine Projektion aus und entfernen das Attribut $B$. Das Ergebnis ist $S(A, C, D)$
 # <br><br>
-# ■ Dann gelten FDs X -> E für jedes E $\in$ {X$\}^+$ und E $\in$ S und E $\notin$ X.
-# <br><br>
-# ■ {A$\}^+$ = {A, B, C, D}
-# <br>
-# □ A -> C und A -> D
-# <br>
-# □ A -> B stimmt zwar auch, aber B nicht in S.
-# <br>
-# □ Enthält bereits alle Attribute aus S, deshalb werden Supermengen nicht berücksichtigt.
-# <br>
-# <br>
-# ■ {C$\}^+$ = {C, D}
-# <br>
-# □ C -> D
-# <br><br>
-# ■ {D$\}^+$ = {D}
-# <br><br>
-# ■ {C,D$\}^+$= {C,D}
-# <br><br>
-# ■ Ergebnis: A -> C, A -> D und C -> D
+# Um nun alle FDs, die in $S$ gelten abzuleiten bilden wir wieder die Hülle für alle Teilmengen in $S$ anhand von $F$ und entfernen alle FDs, die $B$ enthalten. 
+# 
+# Wir beginnen mit $A$: $\{A\}^+ = \{A, B, C, D\}$
+# Es gilt insbesondere $A \rightarrow  C$ und $A\rightarrow  D$. $A\rightarrow  B$ stimmt zwar auch, aber $B$ nicht in $S$.
+# Da $\{A\}^+$ bereits alle Attribute aus $S$ enthält, müssen wir keine Supermengen von $\{A\}$ berücksichtigen.
+# Für $C$ ist die Hülle analog $\{C\}^+ = \{C, D\}$ und die einzige nicht triviale minimale FD hierbei ist $C \rightarrow D$
+# Aus $D$ lassen sich keine weiteren Attribute funktional ableiten: $\{D\}^+ = \{D\}$.
+# Als nächstes müssen wir die Übermengen von $C$ und $D$ betrachten. Die Kombinationen mit $A$ sind irrelevant da $\{A\}^+$ bereits alle Attribute enthält. Es bleibt noch $\{C,D\}^+= \{C,D\}$ übrig, welche uns keine weiteren FDs mehr liefert. 
+# 
+# - Damit ist das Ergebnis für die auf $S$ gletenden FDs:  $A \rightarrow C$, $A \rightarrow  D$ und $C \rightarrow  D$
 
 # ## Normalformen
-
-# ## Schema Design – Überblick
-
-# 1. Anomalien durch schlechtes Design
-# <br>
-# 2. Dekomposition (Zerlegung) von Relationen
-# <br>
-# 3. Boyce-Codd-Normalform (BCNF)
-# <br>
-# 4. Zerlegung zur Erreichung der BCNF
-# <br>
-# 5. Andere Normalformen
-# <br>
-# – Insbesondere 3NF
+# 
+# Wir haben jetzt das Grundwerkzeug für die Normalisierung von Relationen, nämlich FDs und ihre Ableitbarkeit kennengelernt. Nun werden deren Einsatz zur Herbeiführung sogenannter Normalformen kennen lernen. Es gibt mehrere Normalformen, die jeweils unterschiedlich streng sind. Wir werden zunächst mit der gängigen **Boyce-Codd-Normalform (BCNF)** anfangen und diese motivieren und dann weitere Normalformen im Vergleich kennen lernen. 
 
 # ### Redundanzen führen zu Anomalien im Datenbankdesign
+# 
+# Wir am Anfang des Kapitels angedeutet, ist das Grundproblem von nicht-normalisierten Schemata Redundanz. Nicht nur weil Redundant Speicherplatz verschwendet sondern auch weil bestimmte Anomalien entstehen können. Betrachten wir hierzu die folgende nicht-normalisierte Tabelle. Es sollte leicht einzusehen sein, dass funktionale Abhängigkeiten hier gelten, bei der linke Seite kein Schlüssel ist. Z.B. KundenID $\rightarrow$ Kunde, Kundenaddresse. Für die selbe KundenID muss man jedes mal den Kundennamen und die Kundenadresse neu eintragen.  
+# Man sieht auch dass Service und Umfang funktional den Preis bestimmen. 
 
 # ![title](redundanz1.jpg)
 
-# Update-Anomalien
-# <br>
-# Veränderungen müssen an allen Stellen durchgeführt werden (neue Adresse für Herr Meyer)
-# <br>
-# <br>
-# Insert-Anomalien
-# <br>
-# Hinzufügen von Inkonsistenzen (gleicher Kunde mit neuer Adresse)
-# <br>
-# <br>
-# Delete Anomalien
-# <br>
-# Mehr Informationen gehen verloren als notwendig (Löschung von Auftrag 1 führt dazu, dass Reifenwechsel im Basic Format nicht mehr als Service in der Liste ist)
+# So eine Struktur mit funktinonalen Abhängigkeiten kann zu signifikanten Problemen führen. Diese werden als Anomalien bezeichnet. 
+# 
+# - **Update-Anomalien:** Veränderungen müssen an allen Stellen durchgeführt werden. Wenn Herr Meyer eine neue Adresse erhält, muss die Adresse an jeder Stelle in der Tabelle aktualisiert werden.
+# 
+# - **Insert-Anomalien:** Wenn die FD nicht als Integritätsbedingungen erzwungen wird, könnte man durch das Hinzufügen neuer Tupel Inkonsistenzen herbeiführen: Gleicher Kunde mit neuer Adresse.
+# 
+# - **Delete Anomalien:** Beim löschen einer Zeile gehen mehr Informationen verloren als notwendig. Wenn wir zum Beispiel Auftrag 1 löschen, führt das dazu, dass Reifenwechsel im Basic Format nicht mehr als Service in der Datenbank vorhanden ist. 
 
-# #### Ursachen von Anomalien
+# Die Ursachen solcher Anomalien befinden sich in das Zusammenlegen von $N:M$-Beziehungen, z.B. Kunden und Servicekombinationen, und transitive $N:1$-Beziehungen, z.B. AuftragsID $\rightarrow$ {Service, Umfang}$\rightarrow$ Preis.
 
-# N zu M Beziehungen: Kunden und Servicekombinationen
-# Transitive N zu 1 Beziehungen: Servicekombination und Preis
-# AuftragsID à {Service, Umfang}
-# {Service, Umfang} à Preis
-
-# #### Eliminierung von Anomalien durch Dekomposition
-
-# Dekomposition (Zerlegung)
+# #### Dekomposition (Zerlegung)
+# 
+# Um die obengenannten Anomalien zu vermeiden müssen wir die Relationen dekomponieren. Im unteren Bild sieht man eine erfolgreiche Dekomponierung, in der alle Anomalien beseitigt wurden. 
+# 
+# Bei einer Dekomposition werden im allgemeinen die Attribute in Teilrelationen aufgeteilt. 
+# $R(A_1,A_2,…,A_n)$ kann in $S(B_1,B_2,…,B_m)$ und $T(C_1,C_2,…,C_k)$ dekomponiert werden, falls
 # <br>
-# Aufteilung von Attribute in zwei Teilrelationen
+# $\{A_1,A_2,…,A_n\} = \{B_1,B_2,…,B_m\} \cup \{C_1,C_2,…,C_k\}$
 # <br>
-# Erzeugung neuer Tupel in den neuen Relationen
-# <br>
-# R(A1,A2,…,An) kann in S(B1,B2,…,Bm) und T(C1,C2,…,Ck) dekomponiert werden, falls
-# <br>
-# {A1,A2,…,An} = {B1,B2,…,Bm} $\cup$ {C1,C2,…,Ck}
-# <br>
-# Tupel in S sind die Projektion aller Tupel in R auf {B1,B2,…,Bm}
-# <br>
-# Insbesondere: Duplikate werden entfernt
-# <br>
-# Dadurch: Verminderung der Redundanz
-# <br>
-# Tupel in T analog
-
-# #### Beispiel einer Dekomposition
+# 
+# Für jede Relation wird dann entsprechend der Urpsrungsrelation neue Tupel erzeugt. 
+# 
+# Tupel in $S$ oder $T$ sind die Projektion aller Tupel in R auf $\{B_1,B_2,…,B_m\}$ und $\{C_1,C_2,…,C_k\}$ wobei Duplikate entfernt werden und redundanz vermindert wird. 
 
 # ![title](dekomposition1.jpg)
 
 # ### Boyce-Codd-Normalform (BCNF)
 
-# BCNF ist eine Bedingung zur Eliminierung der Anomalien
-# <br>
-# Eine Relation R ist in BCNF genau dann wenn
-# <br>
-# Für jede nicht-triviale funktionale Abhängigkeit (FD), muss die linke Seite ein Superschlüssel sein
-# <br>
-# Erinnerung:
-# <br>
-# Nichttrivial: Wenigstens ein Attribut rechts kommt links nicht vor
-# <br>
-# Superschlüssel: Supermenge eines Schlüssels
-# <br>
-# Was darf nicht sein:
-# <br>
-# Eine FD ohne Superschlüssel auf der linken Seite
-# <br>
-# Ziel:
-# <br>
-# FDs zur Schlüsselabhängigkeiten machen
+# Natürlich hilft es nicht eine Relation beliebig zu zerlegen. Um Redundanz effektiv zu beheben werden wir die bekannten funktionalen Abhängigkeiten hierfür nutzen und diese in Schlüssel umwandeln. 
+# Die BCNF ist eine Bedingung zur Eliminierung von Anomalien und es gibt einen entsprechenden Algorithmus jede Relation in BCNF umzuwandeln. 
+# 
+# - Eine Relation $R$ ist in BCNF genau dann wenn für jede nicht-triviale funktionale Abhängigkeit, die linke Seite ein Superschlüssel ist.
+# Zur Erinnerung: 
+# Nichttrivial bedeutet, dass wenigstens ein Attribut er rechts kommt links nicht vorkommt und ein Superschlüssel ist die Supermenge eines Schlüssels.
+# 
+# Im Umkerhschluss ist es nicht erlaubt, dass eine FD existiert, dessen linke Seite kein Superschlüssel ist.
 
-# #### Beispiel der BCNF-Verletzung
-
+# **Beispiel(BCNF-Verletzung):**
 # ![title](redundanz1.jpg)
 
-# Tabelle ist nicht in BCNF
-# <br>
-# Schlüssel: {AuftragsID}
-# <br>
-# Superschlüssel müssen AuftragsID enthalten
-# <br>
-# Eine FD: {KundenID} à {Kunde, Kundenadresse}
-# <br>
-# {KundenID} ist kein Superschlüssel
-# <br>
-# -> à BCNF ist verletzt
+# In der Tabelle oben ist AuftragsID der Schlüssel. Das heißt, dass alle Superschlüssel AuftragsID enthalten müssen. 
+# Gleichzeitig gibt es die FD: {KundenID} $\rightarrow$ {Kunde, Kundenadresse}. Jedoch ist {KundenID} ist kein Superschlüssel. Damit liegt eine Verletzung der BCNF vor.
 
 # #### Algorithmus für Dekomposition nach BCNF
 
-# Grundalgorithmus für Relation R:
-# <br>
-# 1. Suche verletzende nichttriviale FD: X → B1, B2, … ,Bn
-# <br>
-# mit X ⊂ R und B1, B2, … , Bn ∈ R
-# <br>
-# 2. Füge auf der rechten Seite so viele Attribute hinzu wie möglich
-# <br>
-# 1. Betrachte Hülle der FD
-# <br>
+# Kennt man die BCNF-verletzenden FDs ist die Dekomposition klar definiert. Der Grundalgorithmus ist wie folgt:
+# Gegeben eine Relation $R$:
+# 1. Suche verletzende nichttriviale FD: $X \rightarrow B_1, B_2, … ,B_n$
+# mit $X \subset R$ und $B_1, B_2, … , B_n \in R$
+# 2. Füge auf der rechten Seite so viele Attribute hinzu wie möglich:
+#     1. Betrachte alle Attribute die von $X$ funktional bestimmt werden
+#     2. Betrachte die Hülle von $X$
 # 3. Erzeuge zwei neue Relationen:
+#     - $R \backslash \{B_1, B_2, … , B_n\}$
+#     - $X \cup \{B_1,B_2,…,B_n\}$
+
+# **Beispiel(Dekomposition):** Wir betrachten unsere Auftragstabelle mit der Relation Auftrag(AuftragsID, KundenID, Kunde, Kundenaddresse, Service, Umfang, Preis) und die BCNF-verletzende FD: KundenID $\rightarrow$ Kunde, Kundenadresse
 # <br>
-# R ∖ (B1, B2, … , Bn)
-# <br>
-# X ∪ (B1,B2,…,Bn)
-# <br>
-# Grundsätzlich: Jede Relation mit zwei Attributen ist in BCNF
+# Nach der Anwendung des obigen Algorithmus ergeben sich folgende Neue Relationen die wir mit Auftrag1 und Auftrag2 bennen:
+# - Auftrag1(AuftragsID, KundenID, Service, Umfang, Preis)
+# - Auftrag2(KundenID, Kunde, Kundenadresse)
+# 
+# Wir sehen im Ergebnis der Dekomposition der Tabellen, dass die Duplikate zu Herr Meyer und Herr Schmidt entfernt wurden. 
+# 
+# 
+# **Auftrag1 ($R \backslash \{B_1, B_2, … , B_n\}$):**
+# 
+# |AuftragsID|KundenID|Service|Umfang|Preis|
+# |----------|--------|-------|------|-----|
+# |1|230|Reifenwechsel|Basic|65 Euro|
+# |2|220|Reinigung|Basic|50 Euro|
+# |3|220|Reifenwechsel|Basic|100 Euro|
+# |4|230|Reinigung|Basic|50 Euro|
+# |5|240|Reifenwechsel|Basic|100 Euro|
+# 
+# **Auftrag2 ($X \cup \{B_1,B_2,…,B_n\}$):**
+# 
+# |KundenID|Kunde|Kundenadresse|
+# |--------|-----|-------------|
+# |230|Meyer|Schlossstraße 13|
+# |220|Schmidt|Parkstraße 17|
+# |240|Meyer|Lindenstraße 17|
 
-# #### BCNF Dekomposition am Beispiel 1
-
-# Auftrag(AuftragsID, KundenID, Kunde, Kundenaddresse, Service, Umfang, Preis)
-# <br>
-# BCNF verletzende FD:
-# <br>
-# KundenID à Kunde, Kundenadresse
-# <br>
-# Neue Relationen:
-# <br>
-# Auftrag1(AuftragsID, KundenID, Service, Umfang, Preis)
-# <br>
-# Auftrag2(KundenID, Kunde, Kundenadresse)
-
-# ![title](dekomposition2.jpg)
-
-# ![title](dekomposition3.jpg)
-
-# R ∖ (B1, B2, … , Bn)
-
-# ![title](dekomposition4.jpg)
-
-# X ∪ (B1,B2,…,Bn)
-
-# Kunde ist in BCNF
-# <br>
-# KundenID ist Schlüssel
-# <br>
-# Kundenadresse ist hier zufällig auch Schlüssel. Ignorieren diesen Fall.
-# <br>
-# Auftrag1 ist nicht in BCNF
-# <br>
-# Schlüssel: {AuftragsID}
-# <br>
-# Verletzende FD: {Service, Umfang}->{Preis}
-# <br>
-# -> erneute Dekomposition
-
-# Auftrag2
-
-# ![title](dekomposition5.jpg)
-
-# R ∖ (B1, B2, … , Bn)
-
-# Service
-
-# ![title](dekomposition6.jpg)
-
-# X ∪ (B1,B2,…,Bn)
-
-# ![title](dekomposition7.jpg)
+# Auftrag2 ist in BCNF und hat den Schlüssel KundenID. Kundenadresse sieht hier zufällig auch wie ein Schlüssel aus, da jeder Wert nur einmal auftraucht. Aber nach unserer ursprünglichen Liste der Funktionalen Abhöngigkeiten gab es keine funktionale Abhängigkeit von Kundenadresse zu Kunde. Dies wäre auch nicht sinnvoll, da an einer Adresse mehrere Kunden leben könnten. 
+# 
+# In Auftrag1 haben wir eine BCNF-verletzende FD entfernt. Der Schlüssel ist immernoch AuftragsID. Es gibt weiterhin die FD: {Service, Umfang}$\rightarrow${Preis}, die die BCNF-Regel verletzt. Der nächste Schritt ist analog zum vorigen. Das heißt wir dekomponieren wieder und erhalten zwei neue Relationen:
+# 
+# - Auftrag11(AuftragsID,KundenID,Service,Umfang)
+# - Auftrag12(Service,Umfang,Preis)
+# 
+# Entsprechend ergeben sich folgende Tabellen:
+# 
+# 
+# |AuftragsID|KundenID|Service|Umfang|
+# |----------|--------|-------|------|
+# |1|230|Reifenwechsel|Basic|
+# |2|220|Reinigung|Basic|
+# |3|220|Reifenwechsel|Basic|
+# |4|230|Reinigung|Basic|
+# |5|240|Reifenwechsel|Basic|
+# 
+# und
+# 
+# |Service|Umfang|Preis|
+# |-------|------|-----|
+# |Reifenwechsel|Basic|65 Euro|
+# |Reinigung|Basic|50 Euro|
+# |Reifenwechsel|Basic|100 Euro|
+# 
+# Beide Tabellen sind in BCNF. In Auftrag12 gibt es den neuen Schlüssel {Service,Umfang}. An dieser Stelle müssen wir nichts mehr dekomponieren. Bei der Dekomposition muss beachtet werden, dass jede zerlegung jeweils auf BCNF geprüft und notfalls dekomponiert werden muss. In unserem Beispiel mussten wir immer nur die Ursprungstabelle mit AuftragsID als Schlüssel dekomponieren. Unser finales Ergebnis besteht aus drei Relationen Auftrag2, Auftrag11 und Auftrag12. Alle Anomalien sind hiermit beseitigt. Aktualisierung einer Adresse kann einmalig in der Auftrag2-Tabelle erfolgen. Beim hinzufügen der selben Person mit einer neuen Adresse wird der alten Eintrag überschrieben, da sonst die Schlüsseleigenschaft von KundenID verletzt sein würde. Egal welche Aufträge wir löschen, wir werden immer die möglichen Services in der Auftrag12-Tabelle behalten.
+# 
 
 # ### Wiederherstellbarkeit
 
-# Wiederherstellung der Ursprungsrelation durch Join
+# Man kann leicht zeigen, dass durch die Zerlegung keine Daten verloren gegangen sein könnten. wir können unsere ursprüngliche Auftrag-Tabelle jeweils durch Anwendung von zwei NATURAL JOINS wieder herstellen. 
+# 
+# Dass dies im allgemeinen funktioniert kann man auch folgendermaßen beweisen:
+# 
+# **Beweis(Wiederherstellbarkeit):** Gegeben eine Relation $R(A,B,C)$ mit einer BCNF-verletzenden FD $B \rightarrow C$.
+# Seien weiterin $t=(a,b,c)$ und $s=(x,b,z)$ zwei Tupel in $R(A,B,C)$ mit $B \rightarrow C$
 # <br>
-# Korrektheit durch Widerspruchsbeweis:
-# <br>
-# Seien t(a,b,c) und s(x,b,z) zwei Tupel in R(A,B,C) mit B -> C
-# <br>
-# Dekomposition mittels Projektion ergibt:
-# <br>
-# t1(a,b), s1(x,b) in R1 und t2(b,c), s2(b,z) in R2
-# <br>
-# Join von R1 und R2 ergibt:
-# <br>
-# Fehler?
-# <br>
-# Nein, da wegen B->C gilt c=z
-
+# Dekomposition mittels Projektion ergibt auf Tupelebene:
+# $t_1=(a,b), s_1=(x,b)$ in $R_1$ und $t_2=(b,c), s_2=(b,z)$ in $R_2$
+# 
+# Join von $R_1$ und $R_2$ ergibt:
+# 
+# 
 # ![title](wiederherstellbarkeit1.jpg)
-
-# Dekomposition ohne FD (aus Spaß)
-# <br>
-# ■ Angenommen R(A,B,C) ohne B → C
-# <br>
-# ■ Projektionen auf R1(A,B) und R2(B,C)
-# <br>
-# ■ Wiederherstellung durch Join über B
-
-# ![title](wiederherstellbarkeit2.jpg)
-
-# ![title](wiederherstellbarkeit3.jpg)
-
-# ###  Dekomposition zu BCNF – Beispiel 2
-
-# ![title](tabelle.jpg)
-
-# ■ Titel, Jahr → Länge, Typ, StudioName
-# <br>
-# ■ StudioName → StudioAdresse
-# <br>
-# ■ Transitivität: Titel, Jahr → StudioAdresse
-# <br>
-# ■ => {Titel, Jahr} ist Schlüssel
-# <br>
-# ■ StudioName → StudioAdresse verletzt also BCNF
-# <br>
-# ■ Zwei neue Relationen
-# <br>
-# □ Film1(Titel, Jahr, Länge Typ, StudioName)
-# <br>
-# □ Film2(StudioName, StudioAdresse)
-
-# ![title](tabelle1.jpg)
-
-# ![title](tabelle2.jpg)
-
-# ### Dekomposition zu BCNF – Beispiel 3
-
-# ■ Film(Titel, Jahr, StudioName, Präsident, PräsAdresse)
-# <br>
-# □ Titel, Jahr → StudioName
-# <br>
-# □ StudioName → Präsident
-# <br>
-# □ Präsident → PräsAdresse
-# <br>
-# □ => {Titel, Jahr} ist Schlüssel
-# <br><br>
-# ■ Erste Dekomposition anhand von StudioName → Präsident
-# <br>
-# □ Hinzufügen von möglichst vielen Attributen auf der rechten Seite: StudioName → Präsident,PräsAdresse
-# <br>
-# □ Film1(Titel, Jahr, StudioName)
-# <br>
-# □ Film2(StudioName, Präsident, PräsAdresse)
-# <br>
-# – Hier gilt weiter Präsident → PräsAdresse
-# <br>
-# – BCNF Verletzung
-# <br><br>
-# ■ Zweite Dekomposition
-# <br>
-# □ Film2 wird zu Film2(StudioName, Präsident)
-# <br>
-# □ Film3(Präsident, PräsAdresse)
-# <br><br>
-# ■ Verfahren terminiert: Jede neue Relation wird kleiner und 2er-Relationen sind garantiert in BCNF
+# 
+# Es entstehen zwei scheinbar neue Tupel $v=(a,b,z)$ und $w=(x,b,c)$. Das würde bedeuten dass $c\neq z$. Dies steht aber im Widerspruch zu $B\rightarrow C$ wonach gilt $c=z$. Das heißt alle neuen Tupel sind Duplikate bisher bekannter Tupel. Würde die funktionale Abhängigkeit nicht gelten, könnten wir nicht garantieren, dass neue Tupel durch den Join entstehen. 
 
 # ### Weitere Normalformen
 
-# ■ 1. Normalform (1NF)
+# Die BCNF ist die bekannteste und anwendungsorientiertste Normalform. Es gibt auch weitere Normalformen, die in Ihrer Strenge jeweils zu nehmen:
+# 
+# - **1. Normalform (1NF)**: Nur atomare Werte dürfen Attributwerte sein. Ein Attributwert darf keine Liste oder zusammengesetzter Konstrukt sein.
+# 
+# - **2. Normalform (2NF)**: Die 1NF gilt und zusätzlich darf es keine Abhängigkeiten von einem Teil eines Schlüssels geben, der selbst kein Schlüssel ist.
+# 
+# - **3. Normalform (3NF)**: Die 2NF gilt und zusätzlich dürfen keine transitiven Abhängigkeiten zu Nicht-Schlüsselattribute gelten
 # <br>
-# □ Nur atomare Werte
-# <br>
-# ■ 2. Normalform (2NF)
-# <br>
-# □ 1NF und keine Abhängigkeiten von einem Teil eines Schlüssels
-# <br>
-# ■ 3. Normalform (3NF)
-# <br>
-# □ 2NF und zusätzlich keine transitiven Abhängigkeiten
-# <br>
-# ■ Boyce-Codd Normalform (BCNF)
-# <br>
-# □ 3NF und keine transitiven Abhängigkeiten auch innerhalb des Schlüssels
+# - **Boyce-Codd Normalform (BCNF)**: Die 3NF gilt und es gibt auch keine Abhängigkeiten innerhalb eines Schlüssels
+
+# **Beispiel (1NF Verletzung):**
+# Die folgende Tabelle enthält Mengen als Attributwerte und verletzt die 1NF.
+# 
+# |Vater|Mutter|Kinder|
+# |-----|------|------|
+# |Eddard|Catelyn|{Arya,Sansa,Robb,Rickon,Brandon}|
+# |Robert|Cercei|{}|
+# |Stannis|Selyse|{Shireen}|
+# 
+# Die folgende Alternative ist wiederum in 1NF.
+# 
+# |Vater|Mutter|Kinder|
+# |-----|------|------|
+# |Eddard|Catelyn|Arya|
+# |Eddard|Catelyn|Sansa|
+# |Eddard|Catelyn|Robb|
+# |Eddard|Catelyn|Rickon|
+# |Eddard|Catelyn|Brandon|
+# |Robert|Cercei||
+# |Stannis|Selyse|Shireen|
+
+# **Beispiel (2NF Verletzung):** Die folgende Tabelle mit dem Schlüssel {MatrNr,VorlNr} ist in 1NF. Jedoch gibt es eine FD von einem Teil des Schlüssels: MatrNr $\rightarrow$ Name
+# 
+# 
+# |MatrNr|VorlNr|Name|Semester|
+# |------|------|----|--------|
+# |21620|1001|Stark|10|
+# |22620|1001|Ulutürk|6|
+# |21620|1013|Stark|11|
+# |27453|1012|Power|4|
+# 
+# 
 # 
 
-# #### 1. Normalform
+# Abhilfe kann man hier erhalten durch Dekomposition wie wir sie kennen:
+# - $R1(\underline{MatrNr}, Name)$
+# - $R2(\underline{MatrNr,VorlNr}, Semester)$
+# 
+# Das Ergebnis ist in 2NF und in diesem speziellen Fall sogar in BCNF.
 
-# ![title](normalform1.jpg)
-
-# ■ 1NF: Nur atomare Werte
-# <br>
-# □ Relation nicht in 1NF:
-# <br>
-# □ Aka: NFNF oder NF2 oder NF²
-# <br>
-# □ Umgewandelte Relation in 1NF:
-# <br>
-# □ Andere Umwandlungsmöglichkeit
-# <br>
-# – R(Vater, Mutter, Kind1, Kind2)
-# <br>
-# – Nachteile?
-
-# #### 2. Normalform
-
-# ![title](normalform2.jpg)
-
-# ■ 1NF und keine Abhängigkeiten eines Nicht-Schlüssel-Attributs von einem Teil eines Schlüssels
-# <br>
-# ■ MatrNr -> Name
-# <br>
-# □ Aber MatrNr ist nicht vollständiger Schlüssel
-# <br>
-# ■ Abhilfe: Dekomposition
-# <br>
-# □ $R1(\underline{MatrNr}, Name)$
-# <br>
-# □ $R2(\underline{MatrNr,VorlNr}, Semester)$
-
-# #### 3. Normalform
-
-# ![title](normalform3.jpg)
-
-# ■ Kinoaufführungen
-# <br>
-# □ R(Titel, Kino, Stadt)
-# <br>
-# □ FDs
-# <br>
-# – Kino -> Stadt (ein Kino steht in nur einer Stadt)
-# <br>
-# – Titel, Stadt -> Kino
-# <br>
-# (D.h.: Ein Film wird nicht zweifach in der gleichen Stadt aufgeführt)
-# <br>
-# □ Schlüssel?
-# <br>
-# – Einzelne Attribute sind nicht Schlüssel
-# <br>
-# – {Titel, Stadt} ist Schlüssel, da er funktional alle anderen Attribute bestimmt.
-# <br>
-# – {Kino, Titel} ist auch Schlüssel, da Kino -> Stadt augmentiert werden kann zu Kino, Titel -> Stadt
-# <br>
-# □ BCNF-Verletzung:
-# <br>
-# – Kino -> Stadt (da Kino nicht Superschlüssel ist
-
-# Lösung des Problems durch Relaxierung der BCNF
-# <br>
-# Eine Relation R ist in 3. Normalform genau dann wenn:
-# <br>
-# Für jede nicht-triviale FD A1A2…An -> B für R ist
-# <br>
-# {A1, A2, …, An} ein Superschlüssel für R, oder B ist Teil eines Schlüssels für R.
-# <br>
-# Kurz: Für jede FD ist entweder die linke Seite ein Superschlüssel oder die rechte Seite Teil eines Schlüssels.
-# <br>
-# Am Beispiel
-# <br>
-# R(Titel, Kino, Stadt) mit FDs
-# <br>
-# Kino -> Stadt
-# <br>
-# Titel, Stadt -> Kino
-# <br>
-# ->Verletzt nicht 3. Normalform, da Stadt Teil eines Schlüssels ist.
+# **Beispiel (3NF Verletzung 1):** Unser Ursprungsbeispiel mit der transitiven Beziehung AuftragsID $\rightarrow$ KundenID $\rightarrow$ Kunde verletzt auch die 3NF. 
+# 
+# Noch ist der Unterschied zu BCNF nicht genau ersichtlich. Dafür betrachten wir ein weiteres Beispiel wonach 3NF gilt aber nicht BCNF. Wir konstruieren ein Beispiel bei dem die transitive Beziehung zu eine Teilmenge des Schlüssels hinführt
+# 
+# **Beispiel (BCNF Verletzung):** Betrachten wir eine Relation R(Kino,Stadt,Titel) mit dem Schlüssel {Stadt,Titel}. Das heißt, dass jeweils nur ein Kino ein Titel zeigen darf. Zudem gelte die funktionale Beziehung Kino $\rightarrow$ Stadt. Anhand der Definition ist diese Relation in 3NF, da keine transitiven FDs zu Nichtschlüsselattributen hinführen. Die Relation ist jedoch nicht in BCNF, da Kino kein Superschlüssel ist. Würden wir diese Relation dekomponieren würden wir erhalten: R1(Kino,Stadt) und R2(Kino,Titel). Das Ergebnis wäre zwar in BCNF aber wir würden die Schlüsseleigenschaft {Stadt,Titel} verlieren. Damit könnte nun der gleiche Titel mehrmals in einer Stadt gezeigt werden. 
 
 # #### 3NF vs. BCNF
 
-# ■ Wichtige Eigenschaften der Dekomposition
-# <br>
-# 1. Wiederherstellbarkeit
-# <br>
-# – Projektion der ursprünglichen Relation auf die neuen Relationen und dann Rekonstruktion der ursprünglichen Relation (mittels Join).
-# <br>
-# 2. Bewahrung der FDs
-# <br>
-# – Prüfbarkeit aller FDs in den neuen Relationen
-# <br><br>
-# ■ BCNF garantiert 1.
-# <br><br>
-# ■ 3NF garantiert 1. und 2.
-# <br>
-# □ Aber: Es können Anomalien bestehen bleiben.
-# <br><br>
-# ■ Dekomposition zur 3NF
-# <br>
-# □ Anderer Algorithmus
-# <br>
-# □ Nicht hier!
+# Beim Vergleich von 3NF und BCNF kann man zwei Eigenschaften betrachten, die wichtig für eine Dekomposition sind.
+# 1. Wiederherstellbarkeit: Die Projektion der ursprünglichen Relation auf die neuen Relationen und dann Rekonstruktion der ursprünglichen Relation (mittels Join) ist immer korrekt.
+# 2. Bewahrung der FDs: Alle FDs und Schlüsselbeziehungen bleiben erhalten
+# 
+# Wir haben bereits gezeigt, dass BCNF die Wiederherstellbarkeit garantiert. Das Beispiel zuvor zeigt jedoch, dass FDs nicht immer bewahrt werden können. Nämlich genau dann wenn die zur Dekomposition ausgewählte FD auf eine Teilmenge eines Schlüssels auf der rechten Seite hat. 
+# 
+# 3NF hingegen garantiert sowohl die Widerherstellbarkeit als auch die Bewahrung der FDs. Aber: Es können Redundanzen und somit Anomalien bestehen bleiben. Für die Dekomposition zur 3NF muss man zusätzliche Eigenschaften in Betracht ziehen, die wir hier nicht mehr behandeln.
+# 
+# 
 
 # #### Zusammenfassung – Normalformen
 
-# ![title](normalform_zusammenfassung.jpg)
+# In diesem Kapitel haben wir über Redundanz und dessen systematische Verhinderung durch Dekomposition erfahren. Insbesondere haben wir die BCNF als eine Normalform kennengelernt, die Insert-, Update- und Delteanomalien verhindern kann. Bei der Dekomposition machen wir uns FDs zu Nutze. Wir haben gelernt, wie man durch die Hüllenbildung alle ableitbaren FDs herleiten kann und wie man Mengen von FDs vergleichen kann. 
+# 
+# Es gibt in der Literatur noch weitere strengere Normalformen (5NF $\Rightarrow$ SKNF $\Rightarrow$ RFNF $\Rightarrow$ ETNF $\Rightarrow$ 4NF), die wir nicht mehr im Rahmen dieser Vorlesung behandeln werden. Hierzu verweisen wir Sie auf das folgende wissenschaftliche Papier: 
+# [A Normal Form for Preventing Redundant Tuples in Relational Databases](https://dl.acm.org/doi/10.1145/2274576.2274589) (Hugh Darwen, C.J. Date, Ronald Fagin, ICDT 2012)
 
-# 5NF ⇒ SKNF ⇒ RFNF ⇒ ETNF ⇒ 4NF
-# <br>
-# Projection-join normal form (5NF)
-# <br>
-# Superkey normal form (SKNF)
-# <br>
-# Redundancy-free normal form (RFNF)
-# <br>
-# Essential tuple normal form (ETNF)
-# <br>
-# A Normal Form for Preventing Redundant Tuples in Relational Databases Hugh Darwen, C.J. Date, Ronald Fagin, ICDT 2012
-# <br>
+# In[ ]:
+
+
+
+
