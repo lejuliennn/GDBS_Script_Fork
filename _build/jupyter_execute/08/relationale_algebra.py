@@ -168,6 +168,28 @@
 
 # ![title](union_bsp.jpg)
 
+# $R$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+# |Mark Hamill|456 Oak. Rd., Brentwood|M|8/8/88|
+
+# $S$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+# |Harrison Ford|789 Palm Dr., Beverly Hills|M|7/7/77|
+
+# $R \cup S$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+# |Mark Hamill|456 Oak. Rd., Brentwood|M|8/8/88|
+# |Harrison Ford|789 Palm Dr., Beverly Hills|M|7/7/77|
+
 # ## Differenz (difference, ―, \\)
 
 # ■ Differenz R − S eliminiert die Tupel aus der ersten Relation, die auch in der zweiten Relation vorkommen.
@@ -183,6 +205,26 @@
 # ## Beispiel für Mengenoperatoren
 
 # ![title](differenz_bsp.jpg)
+
+# $R$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+# |Mark Hamill|456 Oak. Rd., Brentwood|M|8/8/88|
+
+# $S$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+# |Harrison Ford|789 Palm Dr., Beverly Hills|M|7/7/77|
+
+# $R-S$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Mark Hamill|456 Oak. Rd., Brentwood|M|8/8/88|
 
 # ## Schnittmenge (intersection, $\cap$)
 
@@ -202,6 +244,26 @@
 
 # ![title](schnittmenge_bsp.jpg)
 
+# $R$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+# |Mark Hamill|456 Oak. Rd., Brentwood|M|8/8/88|
+
+# $S$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+# |Harrison Ford|789 Palm Dr., Beverly Hills|M|7/7/77|
+
+# $R\cap S$
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |----|-------|----------|------|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+
 # ## Projektion (projection, $\pi$)
 
 # ■ Unärer Operator
@@ -219,6 +281,29 @@
 # ## Projektion – Beispiel
 
 # ![title](projektion_bsp.jpg)
+
+# Film
+# 
+# |Titel|Jahr|Länge|inFarbe|Studio|ProduzentID|
+# |-----|----|-----|-------|------|---------|
+# |Total Recall|1990|113|True|Fox|12345|
+# |Basic Instinct|1992|127|True|Disney|67890|
+# |Dead Man|1995|121|False|Paramount|99999|
+
+# $\pi_{Titel,Jahr,Länge}$(Film)
+# 
+# |Titel|Jahr|Länge|
+# |-----|----|-----|
+# |Total Recall|1990|113|
+# |Basic Instinct|1992|127|
+# |Dead Man|1995|121|False|
+
+# $\pi_{inFarbe}$(Film)
+# 
+# |inFarbe|
+# |-------|
+# |True|
+# |False|
 
 # ## Erweiterte Projektion
 
@@ -271,6 +356,27 @@
 
 # ![title](selektion_bsp2.jpg)
 
+# Film
+# 
+# |Titel|Jahr|Länge|inFarbe|Studio|ProduzentID|
+# |-----|----|-----|-------|------|---------|
+# |Total Recall|1990|113|True|Fox|12345|
+# |Basic Instinct|1992|127|True|Disney|67890|
+# |Dead Man|1995|90|False|Paramount|99999|
+
+# $\sigma_{Länge\geq100}$(Film)
+# 
+# |Titel|Jahr|Länge|inFarbe|Studio|ProduzentID|
+# |-----|----|-----|-------|------|---------|
+# |Total Recall|1990|113|True|Fox|12345|
+# |Basic Instinct|1992|127|True|Disney|67890|
+
+# $\sigma_{Länge\geq100 AND Studio='Fox'}$(Film)
+# 
+# |Titel|Jahr|Länge|inFarbe|Studio|ProduzentID|
+# |-----|----|-----|-------|------|---------|
+# |Total Recall|1990|113|True|Fox|12345|
+
 # ## Kartesisches Produkt (Cartesian product, cross product $\times$)
 
 # ■ Binärer Operator
@@ -293,6 +399,32 @@
 # ## Kartesisches Produkt – Beispiel
 
 # ![title](kprodukt_bsp.jpg)
+
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+
+# $S$
+# 
+# |B|C|D|
+# |-|-|-|
+# |2|5|6|
+# |4|7|8|
+# |9|10|11|
+
+# $R \times S$
+# 
+# |A|R.B|S.B|C|D|
+# |-|--|--|-|-|
+# |1|2|2|5|6|
+# |1|2|4|7|8|
+# |1|2|9|10|11|
+# |3|4|2|5|6|
+# |3|4|4|7|8|
+# |3|4|9|10|11|
 
 # ## Der Join – Operatorfamilie
 
@@ -341,7 +473,53 @@
 
 # ![title](njoin_bsp.jpg)
 
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+
+# $S$
+# 
+# |B|C|D|
+# |-|-|-|
+# |2|5|6|
+# |4|7|8|
+# |9|10|11|
+
+# $R ⋈ S$
+# 
+# |A|B|C|D|
+# |-|-|-|-|
+# |1|2|5|6|
+# |3|4|7|8|
+
 # ![title](njoin_bsp2.jpg)
+
+# $R$
+# 
+# |A|B|C|
+# |-|-|-|
+# |1|2|3|
+# |6|7|8|
+# |9|7|8|
+
+# $S$
+# 
+# |B|C|D|
+# |-|-|-|
+# |2|5|6|
+# |2|3|5|
+# |7|8|10|
+
+# $R ⋈ S$
+# 
+# |A|B|C|D|
+# |-|-|-|-|
+# |1|2|3|5|
+# |6|7|8|10|
+# |9|7|8|10|
 
 # ■ Anmerkungen
 # <br>
@@ -383,6 +561,32 @@
 
 # ![title](tjoin_bsp.jpg)
 
+# $R$
+# 
+# |A|B|C|
+# |-|-|-|
+# |1|2|3|
+# |6|7|8|
+# |9|7|8|
+
+# $S$
+# 
+# |B|C|D|
+# |-|-|-|
+# |2|5|6|
+# |2|3|5|
+# |7|8|10|
+
+# R $⋈_{A<D}S$
+# 
+# |A|R.B|R.C|S.B|S.C|D|
+# |-|--|--|--|--|-|
+# |1|2|3|2|5|6|
+# |1|2|3|2|3|5|
+# |1|2|3|7|8|10|
+# |6|7|8|7|8|10|
+# |9|7|8|7|8|10|
+
 # ### Komplexe Ausdrücke
 
 # ■ Idee: Kombination (Schachtelung) von Ausdrücken zur Formulierung komplexer Anfragen.
@@ -398,6 +602,14 @@
 # – Als Baum
 
 # ![title](filmtabelle.jpg)
+
+# Film
+# 
+# |Titel|Jahr|Länge|Typ|StudioName|
+# |-----|----|-----|---|----------|
+# |Total Recall|1990|113|Farbe|Fox|
+# |Basic Instinct|1992|127|Farbe|Disney|
+# |Dead Man|1995|90|s/w|Paramount|
 
 # ■ Gesucht: Titel und Jahr von Filmen, die von Fox produziert wurden und mindestens 100
 # Minuten lang sind.
@@ -427,6 +639,23 @@
 # ### Komplexe Ausdrücke – Beispiel
 
 # ![title](komplex_bsp2.jpg)
+
+# Film
+# 
+# |Titel|Jahr|Länge|Typ|StudioName|
+# |-----|----|-----|---|----------|
+# |Total Recall|1990|113|Farbe|Fox|
+# |Basic Instinct|1992|127|Farbe|Disney|
+# |Dead Man|1995|90|s/w|Paramount|
+
+# Rolle
+# 
+# |Titel|Jahr|SchauspName|
+# |-----|----|-----------|
+# |Total Recall|1990|Sharon Stone|
+# |Basic Instinct|1992|Sharon Stone|
+# |Total Recall|1990|Arnold|
+# |Dead Man|1995|Johnny Depp|
 
 # ■ Gesucht: Namen aller Schauspieler, die in Filmen spielten, die mindestens 100 Minuten lang
 # sind.
@@ -484,6 +713,32 @@
 # ### Umbenennung – Beispiel
 
 # ![title](umbenennung_bsp.jpg)
+
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+
+# $S$
+# 
+# |B|C|D|
+# |-|-|-|
+# |2|5|6|
+# |4|7|8|
+# |9|10|11
+
+# $R \times \rho_{s(X,C,D)}(S)$
+# 
+# |A|B|X|C|D|
+# |-|-|-|-|-|
+# |1|2|2|5|6|
+# |1|2|4|7|8|
+# |1|2|9|10|11
+# |3|4|2|5|6|
+# |3|4|4|7|8|
+# |3|4|9|10|11
 
 # ■ Alternativer Ausdruck: $\rho_{S(A,B,X,C,D)}$(R $\times$ S)
 
@@ -547,6 +802,17 @@
 
 # ![title](motivation.jpg)
 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |1|2|
+# |1|2|
+# 
+# Multimenge
+# <br>
+# Reihenfolge ist weiter unwichtig
+
 # ### Effizienz durch Multimengen
 
 # ■ Bei Vereinigung
@@ -575,6 +841,15 @@
 
 # ![title](effizienz_bsp.jpg)
 
+# Projektion auf (A,B)
+# 
+# |A|B|C|
+# |-|-|-|
+# |1|2|5|
+# |3|4|6|
+# |1|2|7|
+# |1|2|8|
+
 # ### Vereinigung auf Multimengen
 
 #  Sei R eine Multimenge
@@ -591,7 +866,38 @@
 
 # ![title](unionmulti1.jpg)
 
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |1|2|
+# |1|2|
+
+# $S$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |3|4|
+# |5|6|
+
 # ![title](unionmulti2.jpg)
+
+# $R \cup S$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |1|2|
+# |1|2|
+# |1|2|
+# |3|4|
+# |3|4|
+# |5|6|
 
 # ### Schnittmenge auf Multimengen
 
@@ -609,7 +915,35 @@
 
 # ![title](schnittmenge_multi.jpg)
 
-# ### Differenz auf Multimengen
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |1|2|
+# |3|4|
+# |1|2|
+
+# $S$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |3|4|
+# |5|6|
+
+# $R \cap S$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |3|4|
+# 
+
+# ## Differenz auf Multimengen
 
 # ■ Sei R eine Multimenge
 # <br>
@@ -631,6 +965,38 @@
 
 # ![title](differenz_multi.jpg)
 
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |1|2|
+# |1|2|
+
+# $S$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |3|4|
+# |5|6|
+
+# $R-S$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |1|2|
+
+# $S-R$
+# 
+# |A|B|
+# |-|-|
+# |3|4|
+# |5|6|
+
 # ### Projektion und Selektion auf Multimengen
 
 # ■ Projektion
@@ -649,6 +1015,33 @@
 
 # ![title](ps_multi.jpg)
 
+# $R$
+# 
+# |A|B|C|
+# |-|-|-|
+# |1|2|5|
+# |3|4|6|
+# |1|2|7|
+# |1|2|7|
+
+# $\pi_{A,B}(R)$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |1|2|
+# |1|2|
+
+# $\sigma_{C\geq6}(R)$
+# 
+# |A|B|C|
+# |-|-|-|
+# |1|2|5|
+# |3|4|6|
+# |1|2|7|
+# |1|2|7|
+
 # ### Kreuzprodukt auf Multimengen
 
 #  Sei R eine Multimenge
@@ -663,11 +1056,68 @@
 
 # ![title](kprodukt_multi.jpg)
 
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |1|2|
+
+# $S$
+# 
+# |B|C|
+# |-|-|
+# |2|3|
+# |4|5|
+# |4|5|
+
+# $R \times S$
+# 
+# |A|R.B|S.B|C|
+# |-|---|---|-|
+# |1|2|2|3|
+# |1|2|2|3|
+# |1|2|4|5|
+# |1|2|4|5|
+# |1|2|4|5|
+# |1|2|4|5|
+
 # ### Joins auf Multimengen
 
 # ■ Keine Überraschungen
 
 # ![title](joins_multi.jpg)
+
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |1|2|
+
+# $S$
+# 
+# |B|C|
+# |-|-|
+# |2|3|
+# |4|5|
+# |4|5|
+
+# $R⋈S$
+# 
+# |A|B|C|
+# |-|-|-|
+# |1|2|3|
+# |1|2|3|
+
+# $R⋈_{R.B<S.B}S$
+# 
+# |A|R.B|S.B|C|
+# |-|---|---|-|
+# |1|2|4|5|
+# |1|2|4|5|
+# |1|2|4|5|
+# |1|2|4|5|
 
 # ## Erweiterte Operatoren
 
@@ -701,6 +1151,22 @@
 
 # ![title](duplikat_eleminierung.jpg)
 
+# $R$
+# 
+# |A|B|C|
+# |-|-|-|
+# |1|2|a|
+# |3|4|b|
+# |1|2|c|
+# |1|2|d|
+
+# $\delta(\pi_{A,B}(R))$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+
 # ### Aggregation
 
 # ■ Aggregation fasst Werte einer Spalte zusammen.
@@ -729,6 +1195,15 @@
 
 # ![title](aggregation.jpg)
 
+# $R$
+# 
+# |A|B|
+# |-|-|
+# |1|2|
+# |3|4|
+# |1|2|
+# |1|2|
+
 # SUM(B) = 10
 # <br>
 # AVG(A) = 1,5
@@ -743,7 +1218,13 @@
 
 # ### Aggregation – Beispiele
 
-# ![title](filmtabelle.jpg)
+# Film
+# 
+# |Titel|Jahr|Länge|Typ|StudioName|
+# |-----|----|-----|---|----------|
+# |Total Recall|1990|113|Farbe|Fox|
+# |Basic Instinct|1992|127|Farbe|Disney|
+# |Dead Man|1995|90|s/w|Paramount|
 
 # ■ MAX(Jahr): Jüngster Film
 # <br>
@@ -805,7 +1286,13 @@
 
 # ### Gruppierung – Beispiele
 
-# ![title](filmtabelle.jpg)
+# Film
+# 
+# |Titel|Jahr|Länge|Typ|StudioName|
+# |-----|----|-----|---|----------|
+# |Total Recall|1990|113|Farbe|Fox|
+# |Basic Instinct|1992|127|Farbe|Disney|
+# |Dead Man|1995|90|s/w|Paramount|
 
 # ■ Durchschnittliche Filmlänge pro Studio
 # <br>
@@ -974,6 +1461,33 @@
 # □ Fehlende Werte werden mit Nullwerten ergänzt
 
 # ![title](outerjoin3.jpg)
+
+# $R$
+# 
+# |A|B|C|
+# |-|-|-|
+# |1|2|3|
+# |6|7|8|
+# |9|7|8|
+
+# $S$
+# 
+# |B|C|D|
+# |-|-|-|
+# |2|5|6|
+# |2|3|5|
+# |7|8|10|
+
+# $R⊎S$
+# 
+# |A|B|C|D|
+# |-|-|-|-|
+# |1|2|3|$\perp$|
+# |6|7|8|$\perp$|
+# |9|7|8|$\perp$|
+# |$\perp$|2|5|6|
+# |$\perp$|2|3|5|
+# |$\perp$|7|8|10|
 
 # ### Division (division, /)
 # <br>

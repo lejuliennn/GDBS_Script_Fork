@@ -3,135 +3,31 @@
 
 # # Architektur
 
-# Einführungstext.
-
-# ## Schichtenmodell
-
-# ![title](schichtenmodell.jpg)
-
-# ■ Interne (physische) Schicht/Sicht
-# <br>
-# □ Speichermedium (Tape, Festplatte)
-# <br>
-# □ Speicherort (Zylinder, Block)
-# <br>
-# Datei(en), Seiten, Blocks
-# <br>
-# <br>
-# ■ Konzeptionelle (logische) Schicht/Sicht
-# <br>
-# □ Unabhängig von physischer Schicht
-# <br>
-# □ Definiert durch Datenmodell
-# <br>
-# □ Stabiler Bezugspunkt für interne und externe Schichten
-# <br>
-# □ Schema: Relationen, Attribute, Typen,
-# Integritätsbedingungen
-# <br>
-# <br>
-# ■ Externe (logische) Schicht/Sicht
-# <br>
-# □ Anwendungsprogramme
-# <br>
-# □ Nur auf die relevanten Daten
-# <br>
-# □ Enthält möglicherweise Aggregationen und Transformationen
-# <br>
-# „SQL Views“ (Sichten)
-# <br>
-# □ Anwendungen
-# <br>
-# <br>
-
-# ## Systemarchitekturen
-
-# ■ Beschreibung der Komponenten eines Datenbanksystems
-# <br>
-# ■ Standardisierung der Schnittstellen zwischen Komponenten
-
-# ##### ANSI-SPARC-Architetktur
-
-# ![title](ansi-sparc-architektur.jpg)
-
-# ANSI-SPARC-Architektur worum gehts allgemein:
-# <br>
-# <br>
-# ■ ANSI: American National Standards Institute
-# <br>
-# ■ SPARC: Standards Planning and Requirements Committee
-# <br>
-# ■ DBMS Architekturvorschlag von 1975
-# <br>
-# ■ 3-Schichten-Architektur verfeinert
-# <br>
-# □ Interne Ebene / Betriebssystem verfeinert
-# <br>
-# □ Mehrere interaktive und Programmier-Komponenten
-# <br>
-# □ Schnittstellen bezeichnet und normiert
-
-# ANSI-SPARC-Architektur was für Komponenten gibt es:
-# <br>
-# ■ Definitionskomponenten 
-# <br>
-# □ DDL, Sichten, Dateiorganisation, Indizes
-# <br>
-# <br>
-# ■ Programmierkomponenten 
-# <br>
-# □ Entwicklungsumgebung und Programmiersprache 
-# <br>
-# □ Integration von DB-Operationen 
-# <br>
-# <br>
-# ■ Benutzerkomponenten 
-# <br>
-# □ Anfrageinterface für Experten 
-# <br>
-# □ DB-Anwendungen für Laien 
-# <br>
-# <br>
-# ■ Transformationskomp. 
-# <br>
-# □ Anfrageausführung und Darstellung der Ergebnisse
-# <br>
-# <br>
-# ■ Data Dictionary 
-# <br>
-# □ Metadaten (in relationalen Systemtabelle)
-
-# Notiz: aktuelle Relevanz
+# Bei einem Datenbankmanagementsystem handelt es sich um Software und als solche sind portierbarkeit und Datenunabhängigkeit grundsätzliche Anforderungen. 
 
 # ## Datenunabhängigkeit
 
-# ■ Entkopplung der jeweiligen Schichten
-# <br>
-# <br>
-# ■ Ziele
-# <br>
-# □ Portierbarkeit
-# <br>
-# □ Tuning vereinfachen
-# <br>
-# □ Standardisierte Schnittstellen
-# <br>
-# □ Stabilität der Benutzer- und Anwendungsschnittstelle gegen Änderungen
-# <br>
-# <br>
-# Physische Datenunabhängigkeit
-# <br>
-# □ Auch: Implementierungsunabhängigkeit
-# <br>
-# □ Ziel: Änderungen der Dateiorganisationen und Zugriffspfade haben keinen Einfluss auf das konzeptuelle
-# Schema.
-# <br>
-# <br>
-# Logische Datenunabhängigkeit
-# <br>
-# □ Auch: Anwendungsunabhängigkeit
-# <br>
-# □ Ziel: Änderungen am konzeptuellen und gewissen externen Schemata haben keine Auswirkungen auf andere
-# externe Schemata und Anwendungsprogramme.
+# Die physische Sicht auf Daten ist oft Plattformabhängig und unflexibel deshalb hat man schon sehr früh sich zum Ziel gesetzt, verschiedene Schichten zu definieren um so Zugriff auf Daten für Anwendungen zu standardisieren und Systeme portierbar zu machen. Hierbei hat teilt man die Datenunabhängigkeit insbesondere an zwei Schnittstellen auf:
+# 
+# - Physische Datenunabhängigkeit besagt, dass die Änderungen der Dateiorganisationen und Zugriffspfade keinen Einfluss auf das konzeptuelle Schema der Daten haben soll. Das heißt, dass unsere Anfragesprache immer nur das relationale Datenmodell und die definierten Schema kennen muss und nie wie diese denn tatsächlich auf der Festplatte abgelegt sind.
+# 
+# - Logische Datenunabhängigkeit besagt dass Änderungen am konzeptuellen und gewissen externen Schemata keine Auswirkungen auf andere externe Schemata und Anwendungsprogramme haben dürfen. 
 
-# NICHT enthalten: S. 30-32, S. 42-48
+# ## Schichtenmodell
+# 
+# In der unteren Abbildung sieht man die drei Sichten oder Ebenen nach der 1975 vorgestellten ANSI-SPARC-Architektur nach Felix Naumann. 
+# ANSI steht hierbei für American National Standards Institute und SPARC für Standards Planning and Requirements Committee.
+
+# ![title](ansi-sparc-architektur.jpg)
+# 
+# **ANSI-SPARC_Architektur mit Komponenten nach Felix Naumann**
+
+# - Die interne (physische) Schicht/Sicht ist durch das Speichermedium (Tape, Festplatte) definiert und kümmert sich um die Art und Weise wie Daten tatsächlich auf diesen Medien abgelegt werden. Auch wird hier das Physische Datenlayout definiert.
+# 
+# - Die konzeptionelle (logische) Schicht/Sicht bietet eine Abstraktion von der physischen sicht. Hier wird das Datenmodell definiert wodurch ein stabiler Bezugspunkt für die interne und externe Schicht geboten wird. Objekte in dieser Schicht sind Schemaobjekte, wie Relationen, Attribute und Typen aus dem relationalen Modell. 
+# 
+# - Die externe (logische) Schicht/Sicht beschreibt die Sicht der Anwendungsprogramme auf die relevanten Datenmengen. Hier treten Nutzungseinschränkungen auf. Es können hierbei weiterhin auf die relationalen Objekte zugegriffen werden. Oft werden jedoch sogenannte "Views" definiert, die den Umfang der zur Verarbeitung bereitgestellten Daten pro Anwendung einschränken.
+# 
+# Wie man in der Abbildung oben sieht kann man kann die meisten Systemkomponenten der DBMS-Software in der konzeptionellen Schicht verorten. Dort werden Anfragen verarbeitet, optimiert und ausgeführt. Es gibt natürlich Schnittstellen zu den Anwendungungsprogrammen durch Anfrageschnittstellen und zum Betriebssystem oder der Hardware durch System-APIs und Treiber.
+
+# Auch wenn es sich hierbei um einen Standard handelt, gibt es bei heutigen Datenbanksystemen oft Abweichungen. Beispielsweise haben Anwendungen oft direkten Zugriff auf die konzeptionelle Ebene. 
