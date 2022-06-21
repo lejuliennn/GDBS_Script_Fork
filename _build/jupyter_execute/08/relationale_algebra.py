@@ -166,8 +166,6 @@
 
 # ## Beispiel für Mengenoperatoren
 
-# ![title](union_bsp.jpg)
-
 # $R$
 # 
 # |Name|Adresse|Geschlecht|Geburt|
@@ -203,8 +201,6 @@
 # □ D.h. Kommuntativität gilt nicht
 
 # ## Beispiel für Mengenoperatoren
-
-# ![title](differenz_bsp.jpg)
 
 # $R$
 # 
@@ -242,8 +238,6 @@
 
 # ## Beispiel für Mengenoperatoren
 
-# ![title](schnittmenge_bsp.jpg)
-
 # $R$
 # 
 # |Name|Adresse|Geschlecht|Geburt|
@@ -279,8 +273,6 @@
 # ■ Achtung: Es können Duplikate entstehen, die implizit entfernt werden.
 
 # ## Projektion – Beispiel
-
-# ![title](projektion_bsp.jpg)
 
 # Film
 # 
@@ -352,10 +344,6 @@
 
 # ## Selektion – Beispiel
 
-# ![title](selektion_bsp.jpg)
-
-# ![title](selektion_bsp2.jpg)
-
 # Film
 # 
 # |Titel|Jahr|Länge|inFarbe|Studio|ProduzentID|
@@ -397,8 +385,6 @@
 # ![title](descartes.jpg)
 
 # ## Kartesisches Produkt – Beispiel
-
-# ![title](kprodukt_bsp.jpg)
 
 # $R$
 # 
@@ -471,8 +457,6 @@
 
 # ### Natürlicher Join – Beispiel
 
-# ![title](njoin_bsp.jpg)
-
 # $R$
 # 
 # |A|B|
@@ -495,7 +479,16 @@
 # |1|2|5|6|
 # |3|4|7|8|
 
-# ![title](njoin_bsp2.jpg)
+# $R \times S$
+# 
+# |A|R.B|S.B|C|D|
+# |---|---|---|---|---|
+# |1|2|2|5|6|
+# |1|2|4|7|8|
+# |1|2|9|10|11|
+# |3|4|2|5|6|
+# |3|4|4|7|8|
+# |3|4|9|10|11|
 
 # $R$
 # 
@@ -559,8 +552,6 @@
 
 # ### Theta-Join – Beispiel
 
-# ![title](tjoin_bsp.jpg)
-
 # $R$
 # 
 # |A|B|C|
@@ -577,7 +568,7 @@
 # |2|3|5|
 # |7|8|10|
 
-# R $⋈_{A<D}S$
+# $R ⋈_{A<D}S$
 # 
 # |A|R.B|R.C|S.B|S.C|D|
 # |-|--|--|--|--|-|
@@ -586,6 +577,12 @@
 # |1|2|3|7|8|10|
 # |6|7|8|7|8|10|
 # |9|7|8|7|8|10|
+
+# $R ⋈_{A<D \wedge R.B \neq S.B}S$
+# 
+# |A|R.B|R.C|S.B|S.C|D|
+# |-|--|--|--|--|-|
+# |1|2|3|7|8|10|
 
 # ### Komplexe Ausdrücke
 
@@ -600,8 +597,6 @@
 # – Als geschachtelter Ausdruck mittels Klammerung
 # <br>
 # – Als Baum
-
-# ![title](filmtabelle.jpg)
 
 # Film
 # 
@@ -637,8 +632,6 @@
 # ■ Alternative: $\rho_{Titel,Jahr}$($\sigma_{Länge≥100 AND StudioName=‚Fox‘}$(Film))
 
 # ### Komplexe Ausdrücke – Beispiel
-
-# ![title](komplex_bsp2.jpg)
 
 # Film
 # 
@@ -711,8 +704,6 @@
 # – Gleiche Attribute werden unterschiedlich genannt.
 
 # ### Umbenennung – Beispiel
-
-# ![title](umbenennung_bsp.jpg)
 
 # $R$
 # 
@@ -800,8 +791,6 @@
 #  <br>
 # □ bag, multiset 
 
-# ![title](motivation.jpg)
-
 # |A|B|
 # |-|-|
 # |1|2|
@@ -839,8 +828,6 @@
 # <br>
 # □ AVG(A) = ?
 
-# ![title](effizienz_bsp.jpg)
-
 # Projektion auf (A,B)
 # 
 # |A|B|C|
@@ -864,8 +851,6 @@
 # <br>
 # □ (n+m) mal.
 
-# ![title](unionmulti1.jpg)
-
 # $R$
 # 
 # |A|B|
@@ -883,8 +868,6 @@
 # |3|4|
 # |3|4|
 # |5|6|
-
-# ![title](unionmulti2.jpg)
 
 # $R \cup S$
 # 
@@ -912,8 +895,6 @@
 # ■ Tupel t erscheint in R $\cap$ S
 # <br>
 # □ min(n,m) mal.
-
-# ![title](schnittmenge_multi.jpg)
 
 # $R$
 # 
@@ -963,8 +944,6 @@
 # <br>
 # □ Jedes Vorkommen von t in S eliminiert ein t in R.
 
-# ![title](differenz_multi.jpg)
-
 # $R$
 # 
 # |A|B|
@@ -1013,8 +992,6 @@
 # <br>
 # – Sofern sie beide selektiert bleiben
 
-# ![title](ps_multi.jpg)
-
 # $R$
 # 
 # |A|B|C|
@@ -1054,8 +1031,6 @@
 # <br>
 # ■ Das Tupel tu erscheint in R $\times$ S n·m-mal.
 
-# ![title](kprodukt_multi.jpg)
-
 # $R$
 # 
 # |A|B|
@@ -1085,8 +1060,6 @@
 # ### Joins auf Multimengen
 
 # ■ Keine Überraschungen
-
-# ![title](joins_multi.jpg)
 
 # $R$
 # 
@@ -1149,8 +1122,6 @@
 # <br>
 # – Strenggenommen unnötig: Mengensemantik der relationalen Algebra
 
-# ![title](duplikat_eleminierung.jpg)
-
 # $R$
 # 
 # |A|B|C|
@@ -1192,8 +1163,6 @@
 # – Angewandt auf ein beliebiges Attribut ergibt dies die Anzahl der Tupel in der Relation.
 # <br>
 # – Zeilen mit NULL-Werten werden idR mitgezählt.
-
-# ![title](aggregation.jpg)
 
 # $R$
 # 
@@ -1459,8 +1428,6 @@
 # □ Schema ist Vereinigung der Attributmengen
 # <br>
 # □ Fehlende Werte werden mit Nullwerten ergänzt
-
-# ![title](outerjoin3.jpg)
 
 # $R$
 # 
