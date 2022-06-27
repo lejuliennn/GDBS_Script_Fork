@@ -362,8 +362,14 @@
 # <br>
 # Geburtstag IS NULL bzw. Geburtstag IS NOT NULL
 # ### Wahrheitswerte
-# ![title](wahrheitswerte1.jpg)
-# <br>
+# 
+# |AND|true|unknown|false|
+# |---|---|---|---|
+# |**true**|true|unknown|false|
+# |**unknown**|unknown|unknown|false|
+# |**false**|false|false|false|
+# 
+# 
 # ■ Rechenregeln
 # <br>
 # □ TRUE = 1
@@ -387,9 +393,12 @@
 # = MIN(1, MAX(0, ½ )
 # <br>
 # = MIN(1, ½ ) = ½.
-# <br><br>
-# ![title](wahrheitswerte2.jpg)
-# <br>
+# 
+# 
+# |Titel|Jahr|Länge|inFarbe|Studio|ProduzentinID|
+# |---|---|---|---|---|---|
+# |Total|Recall|1990|NULL|True|Fox|12345|
+# 
 #  Überraschendes Verhalten
 #  <br>
 # ```
@@ -500,27 +509,49 @@
 # ■ Ohne explizites Angeben einer Tupelvariablen wird der Relationenname als Tupelvariable verwendet.
 #  
 # ### Tupelvariablen-Selfjoin
-# ![title](selfjoin1.jpg)
+# 
+# 
+# |Name|Adresse|Geschlecht|Geburt|
+# |---|---|---|---|
+# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
+# |Mark Hamill|456 Oak Rd., Brentwood|M|8/8/88|
+# |Brad Pitt|123 Maple St., Hollywood|M|7/7/77|
+# 
 # ```
 # SELECT Star1.Name, Star2.Name
 # FROM SchauspielerIn Star1, SchauspielerIn Star2
 # WHERE Star1.Adresse = Star2.Adresse;
 # ```
-# ![title](selfjoin2.jpg)
+# |Star1.Name|Star2.Name|
+# |---|---|
+# |Carrie Fisher|Carrie Fisher|
+# |Carrie Fisher|Brad Pitt|
+# |Brad Pitt|Carrie Fisher|
+# |Brad Pitt|Brad Pitt|
+# |Mark Hamill|Mark Hamill|
+# 
+# 
 # ```
 # SELECT Star1.Name, Star2.Name
 # FROM SchauspielerIn Star1, SchauspielerIn Star2
 # WHERE Star1.Adresse = Star2.Adresse
 # AND Star1.Name <> Star2.Name;
 # ```
-# ![title](selfjoin3.jpg)
+# 
+# |Star1.Name|Star2.Name|
+# |---|---|
+# |Carrie Fisher|Brad Pitt|
+# |Brad Pitt|Carrie Fisher|
+# 
 # ```
 # SELECT Star1.Name, Star2.Name
 # FROM SchauspielerIn Star1, SchauspielerIn Star2
 # WHERE Star1.Adresse = Star2.Adresse
 # AND Star1.Name < Star2.Name;
 # ```
-# ![title](selfjoin4.jpg)
+# |Star1.Name|Star2.Name|
+# |---|---|
+# |Brad Pitt|Carrie Fisher|
 # 
 # ### Interpretation von Anfragen
 # 
@@ -682,7 +713,19 @@
 # 
 # □ Unterschied zu UNION: Nur eine Zeile pro Person
 # 
-# ![title](outerjoins.jpg)
+# ![](outerjoins.jpg)
+# 
+# |Geburtstag|Name|Adresse|Gehalt|
+# |---|---|---|---|
+# |1.2.1960|Mark Hamill|LA|NULL|
+# |27.5.1969|Carrie Fischer|New York|NULL|
+# |11.12.1940|Alec Guinness|London|NULL|
+# |22.3.1981|Ben Affleck|Boston|5Mio|
+# |23.8.1973|Quentin Tarantino|Berlin|10Mio|
+# |NULL|George Lukas |San Jose|100Mio|
+# |NULL|Steven Spielberg|LA|500Mio|
+# 
+# ->geschweifte Klammern fehlen in md Tabelle
 # 
 # ### Kreuzprodukt
 # ■ Alle Paare aus Tupeln der beteiligten Relationen
@@ -787,7 +830,27 @@
 # ■ )
 # ```
 # ### Zusammenfassung der Semantik
-# ![title](zusammenfassung_semantik.jpg)
+# 
+# 
+# |R1|R2|UNION ALL|UNION|EXCEPT ALL|EXCEPT|INTERSECT ALL|INTERSECT|
+# |---|---|---|---|---|---|---|---|
+# |1|1|1|1|1|2|1|1|
+# |1|1|1|2|2|5|1|3|
+# |1|3|1|3|2|&#xfeff;|3|4|
+# |2|3|1|4|2|&#xfeff;|4|
+# |2|3|1|5|4|
+# |2|3|2|&#xfeff;|5| 
+# |3|4|2| 
+# |4|&#xfeff;|2| 
+# |4|&#xfeff;|3| 
+# |5|&#xfeff;|3| 
+# |&#xfeff;|&#xfeff;|3| 
+# |&#xfeff;|&#xfeff;|3| 
+# |&#xfeff;|&#xfeff;|3| 
+# |&#xfeff;|&#xfeff;|4| 
+# |&#xfeff;|&#xfeff;|4| 
+# |&#xfeff;|&#xfeff;|4| 
+# |&#xfeff;|&#xfeff;|5| 
 
 # ## Geschachtelte Anfragen
 # ### Motivation
@@ -1211,7 +1274,10 @@
 # <br>
 # – Ergebnis: (NULL, NULL)
 # <br>
-# ![title](null_bsp.jpg)
+# 
+# |A|B|
+# |---|---|
+# |NULL|NULL|
 # 
 # ### Gruppierung
 # ■ Gruppierung mittels GROUP BY nach der WHERE-Klausel
@@ -1643,8 +1709,15 @@
 # □ Update und Insert kosten jeweils 2.
 # 
 # #### Indexwahl – Beispiel
-# ![title](indexwahl.jpg)
-# <br>
+# 
+# |Anfrage|Kein Index|SchauspielerIndex|FilmIndex|Beide Indizes|
+# |---|---|---|---|---|
+# |**Schauspieler = s**|10|4|10|4|
+# |**FilmTitel = t AND FilmJahr = j**|10|10|4|4|
+# |**INSERT INTO spielt_in**|2|4|4|6|
+# |**Gesamtkosten**|2+8$p_1$8$p_2$|4+6$p_2$|4+6$p_1$|6-2$p_1$-2$p_2$|
+# 
+# 
 # ■ p1: Anteil Anfrage 1
 # <br>
 # ■ p2: Anteil Anfrage 2

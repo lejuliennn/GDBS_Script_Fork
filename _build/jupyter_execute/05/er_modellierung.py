@@ -2,156 +2,166 @@
 # coding: utf-8
 
 # # ER-Modellierung
+# 
+# Beim konzeptionellen Entwurf möchten wir aus einer informellen Beschreibung einer Datenbank eine formelle Beschreibung erstellen in der Mehrdeutigkeiten und jegliche Namen- und Typkonflikte behoben sowie Einschränkungen und Bedingungen sinnvoll ausgedrückt werden können. 
+# 
+# Eine Modellierungssprache für eine solche Modellierung ist das Entity-Relationship-Modell (ER-Modell). 
+# 
 
 # ## Einführung: Das Entity-Relationship-Modell
+# 
+# Die ER-Modellerung wurde 1976 von Peter Chen vorgestellt und wird seitdem als das Standardmodell für die frühe Entwurfsphase des Datenbankentwurfes verwendet.
 
-# ![title](peter_chen.jpg)
+# Original Publikation von 1976         |  Peter Chen
+# :-------------------------:|:-------------------------:
+# <img src="peter_chen_paper.jpg" width="400" /> | <img src="peter_chen.jpg" width="400" />
+# 
+# 
 
-# ![title](peter_chen_paper.jpg)
+# Das Ergebnis einer ER-Modellierung sind ER-Diagramme, die Datenbanken beschreiben, die eine Instanz haben werden. Wir werden jetzt die zentralen Komponenten dieser Modellierungssprache und die Möglichkeiten damit Datenbedingungen und -beziehungen auszudrücken kennen lernen. 
 
-# Nach Peter P. Chen 1976
-# <br>
-# The entity-relationship model – towards a unified view of data. ACM TODS
-# <br>
-# Standardmodell in der frühen Entwurfsphase
-# <br>
-# <br>
-# <br>
-# Instanz eines ER-Diagramms:
-# <br>
-# <br>
-# ER-Diagramme beschreiben Datenbanken, die eine Instanz haben (werden).
-# <br>
-# Der „Wert“ eines Entitytypen ist die (endliche) Menge der zugehörigen Entities.
-# <br>
-# Jeder Entity hat bestimmte Werte für seine Attribute.
-# <br>
-# Die Instanz eines n-ären Relationshiptypen ist eine Menge von Listen der Länge n.
-# <br>
-# Dies alles ist nur abstrakte Denkhilfe.
-# <br>
-# Modellierung im relationalen Modell unterscheidet sich.
-# <br>
-# Speicherung in einem DBMS unterscheidet sich.
+# ## Begriffe
 
-# ## Begriffe (Komponenten)
+# ### Komponenten
+# Die zentralen Komponenten der ER-Modellierung sind Entities, Entitytypen Relationships und Relationshiptypen.
+# 
+# 
+# 
+# 
+# **Entity:** Ein Ding / Objekt der realen oder der Vorstellungswelt
+# 
+# **Relationship:** Beschreibt Beziehungen zwischen zwei („konkreten“) Entities
+# - Entities und Relationships sind nicht direkt darstellbar und werden nicht explizit im Diagram sichtbar, sondern nur über Eigenschaften ihrer Klassen beobachtbar
+# 
+# **Entitytyp (entity set):** Eine Klasse für gleichartige Objekte
+# 
+# **Relationshiptyp:** Eine Klasse für gleichartige Beziehungen
+# 
+# Komponente| Darstellung| Visuel|
+# ----------|------------|--------|
+# Entitytyp |Rechteck|<img src="rechteck.jpg" />|
+# Relationshiptyp |Raute|<img src="raute.jpg" />|
+# Attribut | Oval | <img src="oval.jpg" />|
+# 
+# **Attribut:** repräsentiert eine Eigenschaft von Entities oder von Relationships
+# - Es gibt Attribute die nur aus primitiven Datenwerten (String, Integer, …) und Operationen darauf bestehen und auch komplexere zusammengesetzte Attribute, die wir in dieser Vorlesung jedoch nicht detailliert behandeln werden. Komplexe Attribute werden dem Erweiterten ER-Modell zugeordnet. 
+# 
+# Attribute an Entitytypen: 
+# <img src="entitytypattribut.jpg" />
+# 
+# Attribute an Relationshiptypen:
+# <img src="relationshiptypattribut.jpg" />
 
-# Entity
-# <br>
-# Ein Ding / Objekt der realen oder der Vorstellungswelt
-# <br>
-# Nicht direkt darstellbar, sondern nur über Eigenschaften beobachtbar
-# <br>
-# <br>
-# Entitytyp (entity set)
-# <br>
-# Eine Klasse für gleichartige Objekte
-# <br>
-# <br>
-# Relationship
-# <br>
-# Beschreibt Beziehungen zwischen zwei („konkreten“) Entities
-# <br>
-# Meist binär
-# <br>
-# <br>
-# Relationshiptyp
-# <br>
-# Eine Klasse für gleichartige Beziehungen
-# <br>
-# Attribut
-# <br>
-# repräsentiert eine Eigenschaft von Entities oder von Relationships
-# <br>
-# Zunächst nur primitive Datenwerte (String, Integer, …) und Operationen darauf
-# <br>
-# Später auch komplexe Attribute
-
-# ![title](er_diagramm_bsp.jpg)
+# **Beispiel:** Im folgenden Diagram wollen wir Informationen über Filme, Schauspieler*innen und Studios modellieren. 
+# - Ein Film enthält daten über Titel, Jahr, Länge und Typ. 
+#     - Dargestellt über einen Entitytypen und vier Attribute
+# - Über Schauspieler*innen sollen Name und Adresse gespeichert werden
+#     - Dargestellt über einen Entitytypen und zwei Attribute
+# - Über Studios sollen Name und Adressen gespeichert werden.
+#     - Dargestellt über einen Entitytypen und zwei Attribute
+# - Es soll abgebildet werden dass Schauspieler*innen in Filmen mitspielen.
+#     - Dargestellt über einen Relatioshiptypen der Filme und Schauspieler*innen verbindet
+# - Es soll dargestellt werden, dass Studios die Rechte an Filmen besitzen. Insbesondere soll ein Film genau einem Studio gehören. 
+#     - Dargestellt über einen Relatioshiptypen der Filme und Studios verbindet. Den letzten Punkt über "genau einem Studio" werden wir später im Kontext von Kardinalitäten genauer betrachten. 
+# 
+# <img src="er_diagramm_bsp.jpg" width =700 />
 
 # ### Instanz eines ER-Diagramms
 
-# ER-Diagramme beschreiben Datenbanken, die eine Instanz haben (werden).
-# <br>
-# Der „Wert“ eines Entitytypen ist die (endliche) Menge der zugehörigen Entities.
-# <br>
-# Jeder Entity hat bestimmte Werte für seine Attribute.
-# <br>
-# Die Instanz eines n-ären Relationshiptypen ist eine Menge von Listen der Länge n.
-# <br>
-# Dies alles ist nur abstrakte Denkhilfe.
-# <br>
-# Modellierung im relationalen Modell unterscheidet sich.
-# <br>
-# Speicherung in einem DBMS unterscheidet sich.
+# Wie bereits gesagt beschreiben ER-Diagramme Datenbanken, die eine Instanz haben (werden).
+# Dabei gilt, dass der „Wert“ eines Entitytypen die (endliche) Menge der zugehörigen Entities ist. Jeder Entity hat bestimmte Werte für seine Attribute, z.B., Baisc Instinct = {Titel=Basic Instinct, Jahr = 1992, Länge = 127, Typ = Farbe}. Die Instanz eines n-ären Relationshiptypen ist eine Menge von n-Tupel, z.B spielt_in_instanz_1= (Basic Instinct, Sharon Stone).
+# Dies alles ist an dieser Stelle nur abstrakte Denkhilfe. Die Modellierung im relationalen Modell wird sich nochmal unterscheiden, sodass sich die Abspeicherung durch ein DBMS auch unterscheiden wird. 
+# 
+# **Beispiel:** Die Folgenden Tabellen stellen die Instanzen eines Teiles unseres Modells in der finalen Datenbank im **relationalen Modell** (als Tabellen) dar. 
+# 
+# 
+# <table>
+# <tr><th>Filme</th><th></th><th>Schauspieler*in</th><th></th><th>spielt_in</th></tr>
+# <tr><td>
+# 
+# 
+# |Titel|Jahr |Länge|Typ|
+# |------|----|------|----|
+# |Basic Instinct |1992|127|Farbe|
+# |Schindler's List |1993|187| S/W|
+# |Django Unchained| 2012|165| Farbe|
+# 
+# </td><td>
+# </td><td> 
+# 
+# |Name|Adresse|
+# |----|-------|
+# |Sharon Stone|Hollywood|
+# |Johnny Depp |Paris|
+# |Jaimie Foxx| Hidden Valley|
+#     
+# </td><td> 
+# </td><td> 
+#     
+# |Name|Titel|
+# |----|-------|
+# |Sharon Stone|Baisc Instinct|
+# |Johnny Depp |Dead Men|
+# |Jaimie Foxx| Django Unchained|
+#     
+# </td></tr> </table>
 
-# ![title](instanz_er.jpg)
+# ## Kardinalitäten von Relationshiptypen
 
-# ## Kardinalitäten von Relationships
+# Allgemein: Ein binärer Relationshiptyp kann beliebig viele Entities des einen Typen mit beliebig vielen des anderen Typen verbinden. Betrachten wir zum Beispiel unsere Beispieldatenbank über Filme. Hier kann eine Schauspieler*in in mehreren Filmen mitspielen und gleichzeitig mehrere Schauspieler*innen in einem einzigen Film. Hierbei nutzen wir bewusst "kann", da nicht jede Entity mit einem anderen Entity des jeweiligen typen verbunden sein muss. Beispielsweise spielen in Animationsfilme keine Schauspieler*innen. Anders ist es bei Relationshiptypen, bei denen eine Verbindung erzwungen werden muss. Beispielsweise muss jeder Film von einem Studio produziert werden - in diesem Fall sogar von genau einem Studio.
+# 
+# Man kann diese Kardinalitäten im ER-Modell genau spezifizieren. Es gibt im Allgemeinen drei häufige Kardinalitäten:
+# 
+# ### m:n Beziehungen
+# - **m:n Beziehungen** sagen aus, dass jede Entity des einen Typen mit keinem oder mehreren Entities des anderen typen verbunden sein kann.
+# 
+# <img src="mn_kardinalitaet.jpg" width=100/>
+# 
+# - Beispiele: Filme und Schauspieler*innen, Produkte und Kund*innen, Studierenden und Vorlesungen
+# 
+# 
+# 
+# ### 1:n Beziehungen
+# 
+# - **1:n Beziehungen** sagen aus, dass jede Entity des einen Typen mit maximal einem Entity des anderen Typen verbunden sein **kann**. Diese Beziehung gilt aber nur in eine Richtung. 
+# <img src="1n_kardinalitaet.jpg" width=100/>
+# - Beispiele: Ein Studio kann die Rechte an mehreren Filmen besitzen. Ein Film kann nur von einem Studio besessen werden.
+# 
+# - Darstellung mittels eines Pfeils zur „1er“ Seite.
+# 
+# 
+# ### 1:n Beziehungen
+# 
+# - **1:1 Beziehung** sagen aus, dass jede Entity des einen Typen mit maximal einem Entity des anderen Typen verbunden sein **kann und umgekehrt**.
+# 
+# <img src="11_kardinalitaet.jpg" width=100/>
+# - Beispiel: Ein Studio kann nur von einer Vorsitzenden geleitet werden. Eine Vorsitzende kann nur ein Studio leiten. Auch hier gilt immernoch "kann". Wir werden eine Notation für eine totale Abbildung, d.h., wo die Beziehung stattfinden muss, noch kennen lernen. In unserem Beispiel kann ein Studio theoretisch (vorübergehend) keinen Vorsitzenden haben.
+# - Darstellung mittels eines Pfeils zu beiden Seiten.
+# 
 
-# Allgemein: Eine binäre Relationship kann beliebig viele Entities des einen Typen mit beliebig vielen des anderen Typen verbinden.
-# <br>
-# Ein Schauspieler kann in mehreren Filmen spielen.
-# <br>
-# In einem Film spielen mehrere Schauspieler.
-# <br>
-# „Kann“: D.h. nicht jeder Entity muss mit einem anderen verbunden sein.
-# <br>
-# In einem Animationsfilm spielen keine Schauspieler.
-# <br>
-# m:n Beziehung
-# <br>
-# Einschränkungen („Spezialfälle“)
-# <br>
-# 1:n Beziehung
-# <br>
-# 1:1 Beziehung
+# ## Weitere Notationen für Kardinalitäten
+# 
+# Sie werden in der Literatur verschiedene Notationen für die Darstellung von Kardinalitäten finden. Diese sind unterschiedlich mächtig. Bisher haben wir lediglich die grafische Notation kennen gerlernt, die über Pfeiltypen ausgedrückt wird. Eine Verbindung ohne ein Pfeil eine beliebige Anzahl von verbindungen also "n" suggeriert und ein Pfeil maximal eine Verbindung also "1". Diese Notation lässt noch keine Nebenbedingungen hinsichtlich konkreter "n"-Werte zu.
+# Im folgenden werden wir noch die Min-Max-Notation und Numerische Notation kennen lernen. 
+# 
+# 
+# ### Min-Max-Notation (Look-Up-Semantik)
+# 
+# Die Min-Max-Notation schränkt die möglichen Teilnahmen von Instanzen der beteiligten Entitytypen an der Beziehung ein. Insbesondere drückt sie aus wie häufig eine Instanz minimal bzw. maxima. an einer Beziehung teilnimmt. Die Notation ist (Min,Max) an der Seite des Entitytypen. 
+# 
+# Im folgenden Beispiel sagt (0,1) an der Seite des Produktes aus, dass ein Produkt entweder in einem oder keinem Regal gelagert wird. Andersherum sagt (0,3) auf der Seite des Regals aus, dass in einem Regal 0 bis 3 unterschiedliche Produkte gelagert werden können. 
+# 
+# <img src="minmax-beispiel.jpg" width=500/>
+# 
+# 
+# ### Numerische Notation (Partizipationssemantik)
+# 
+# Die numerische Notation ist eine vereinfachende Form, in der man ausdrück mit wie vielen Instanzen des gegenüberliegenden Typen eine Verbindung aufgebaut wird. 
+# 
+# 
+# <img src="numerisch-beispiel.jpg" width=500/>
 
-# ![title](mn_kardinalitaet.jpg)
-
-# ### 1:n Relationships
-
-# Ein Entity vom Typ E kann mit beliebig vielen Entities des Typs F verbunden sein.
-# <br>
-# Ein Entity vom Typ F kann mit höchstens einem Entity des Typs E verbunden sein.
-# <br>
-# Beispiel
-# <br>
-# Ein Studio kann die Rechte an mehreren Filmen besitzen.
-# <br>
-# Ein Film kann nur von einem Studio besessen werden.
-# <br>
-# „Kann“: D.h. nicht jeder Entity muss mit einem anderen verbunden sein.
-# <br>
-# Ein neues Studio besitzt noch keinen Film.
-# <br>
-# Darstellung mittels eines Pfeils zur „1er“ Seite.
-
-# ![title](1n_kardinalitaet.jpg)
-
-# ### 1:1 Relationships
-
-# Ein Entity vom Typ E kann mit höchstens einem Entity des Typs F verbunden sein.
-# <br>
-# Ein Entity vom Typ F kann mit höchstens einem Entity des Typs E verbunden sein.
-# <br>
-# Beispiel
-# <br>
-# Ein Studio kann nur von einem Vorsitzenden geleitet werden.
-# <br>
-# Ein Vorsitzender kann nur ein Studio leiten.
-# <br>
-# „Kann“: D.h. nicht jeder Entity muss mit einem anderen verbunden sein.
-# <br>
-# Ein Studio kann (vorübergehend) keinen Vorsitzenden haben.
-
-# ![title](11_kardinalitaet.jpg)
-
-# ### Weitere Notationen
-
-# ![title](kardinalitaeten_notation.jpg)
-
-# Numerische Notation (Partizipationssemantik)
+# <img src="kardinalitaeten_notation.jpg" width=500 />
 
 # ## Rolle von Relationships
 

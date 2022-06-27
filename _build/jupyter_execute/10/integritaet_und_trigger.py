@@ -581,7 +581,12 @@
 # □ Beim Studiowechsel eines Films wird die Bedingung nicht geprüft.
 # 
 # ### Unterschiede der CHECK Bedingungen
-# ![title](bedingungen_unterschiede.jpg)
+# 
+# |Constraint-Art|Wo spezifiziert?|Wann geprüft?|Gilt immer?|
+# |---|---|---|---|
+# |**Attribut-basiertes**|CHECK Beim Attribut|Bei INSERT in Relation oder UPDATE des Attributs|Nein, falls Subanfragen verwendet werden.|
+# |**Tupel-basiertes CHECK**|Teil des Relationenschemas|Bei INSERT oder UPDATE eines Tupels|Nein, falls Subanfragen verwendet werden.|
+# |**Assertion**|Teil des Datenbankschemas|Beliebige Änderung auf einer erwähnten Relation|Ja|
 # 
 # ### Trigger
 # ■ Auch: Event-Condition-Action Rules (ECA-Rules)

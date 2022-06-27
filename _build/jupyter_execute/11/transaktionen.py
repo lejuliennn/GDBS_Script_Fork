@@ -23,7 +23,20 @@
 # – In Wahrheit: Auch einfache Anfragen bestehen oft aus mehreren Teilschritten.
 # <br><br>
 # Motivierendes Beispiel
-# ![title](transaktionen_img/motivierendes_bsp.jpg)
+# 
+# |**Kontostand: 500**|&#xfeff;|
+# |---|---|
+# |**Philipp**|**Sarah**|
+# |&#xfeff;|read(K,y)|
+# |read(K,x)|&#xfeff;|
+# |x:=x+200|&#xfeff;|
+# |write(x,K)|&#xfeff;|
+# |commit|&#xfeff;|
+# |&#xfeff;|y:=y-100|
+# |&#xfeff;|write(y,K)|
+# |&#xfeff;|commit|
+# |**Kontostand: 400**|&#xfeff;|
+# 
 
 # ## Transaktionen
 # 
@@ -116,8 +129,14 @@
 # 
 # ### Beispiel – Serialisierbarkeit
 # ■ Problem: Funktion wird von mehreren Usern zugleich aufgerufen
-# <br>
-# ![title](transaktionen_img/serialisierbarkeit_bsp.jpg)
+# 
+# |Schedule|&#xfeff;|
+# |---|---|
+# |User 1 findet leeren Platz|&#xfeff;|
+# |&#xfeff;|User 2 findet leeren Platz|
+# |User 1 besetzt Platz|&#xfeff;|
+# |&#xfeff;|User 2 besetzt Platz|
+# 
 # ■ Beide User glauben den Platz reserviert zu haben.
 # <br><br>
 # ■ Lösung gleich
@@ -164,8 +183,19 @@
 # ■ Verlorengegangenes Ändern: Lost Update
 # 
 # ### Dirty Read
-# ![title](transaktionen_img/dirty_read_bsp.jpg)
-# <br>
+# 
+# |T1|T2|
+# |---|---|
+# |read(A,x)|&#xfeff;|
+# |x:=x+100|&#xfeff;|
+# |write(x,A)|&#xfeff;|
+# |&#xfeff;|read(A,x)|
+# |&#xfeff;|read(B,y)|
+# |&#xfeff;|y:=y+x|
+# |&#xfeff;|write(y,B)|
+# |&#xfeff;|commit|
+# |abort|&#xfeff;|
+# 
 # Problem: T2 liest den veränderten A-Wert, diese Änderung ist aber nicht endgültig, sondern sogar ungültig.
 # <br>
 # Folie nach Kai-Uwe Sattler (TU Ilmenau)
@@ -178,9 +208,23 @@
 # □ Zusicherung: x = A + B + C am Ende der Transaktion T1
 # <br>
 # □ x, y, z seien lokale Variablen
-# <br>
-# ![title](transaktionen_img/nonrepeatable_read_bsp.jpg)
-# <br>
+# 
+# |T1|T2|
+# |---|---|
+# |read(A,x)|&#xfeff;|
+# |&#xfeff;|read(A,y)|
+# |&#xfeff;|y:=y/2|
+# |&#xfeff;|write(y,A)|
+# |&#xfeff;|read(C,z)|
+# |&#xfeff;|z:=z+y|
+# |&#xfeff;|write(z,C)|
+# |&#xfeff;|commit|
+# |read(B,y)|&#xfeff;|
+# |x:=x+y|&#xfeff;|
+# |read(C,z)|&#xfeff;|
+# |x:=x+z|&#xfeff;|
+# |commit|&#xfeff;|
+# 
 # Problem: A hat sich im Laufe der Transaktion geändert.
 # <br>
 # x = A + B + C gilt nicht mehr
@@ -188,8 +232,19 @@
 # Beispiel nach Kai-Uwe Sattler (TU Ilmenau)
 # 
 # ### Das Phantom-Problem
-# ![title](transaktionen_img/phantom_problem_bsp.jpg)
-# <br>
+# 
+# |T1|T2|
+# |---|---|
+# |SELECT COUNT(*)<br>INTO X<br>FROM Mitarbeiter|&#xfeff;|
+# |&#xfeff;|INSERT INTO Mitarbeiter<br>VALUES (‚Meier‘, 50000, …)|
+# |&#xfeff;|commit|
+# |UPDATE Mitarbeiter<br>SET Gehalt = Gehalt +10000/X|&#xfeff;|
+# |commit|&#xfeff;|
+# 
+# 
+# UPDATE Mitarbeiter
+# SET Gehalt = Gehalt +10000/X
+# commit
 # Problem: Meier geht nicht in die Gehaltsberechnung ein. Meier ist das Phantom.
 # <br>
 # ![title](transaktionen_img/phantom.jpg)
@@ -197,8 +252,16 @@
 # Beispiel nach Kai-Uwe Sattler (TU Ilmenau)
 # 
 # ### Lost Update
-# ![title](transaktionen_img/lost_update_bsp.jpg)
-# <br>
+# 
+# |T1|T2|A|
+# |---|---|---|
+# |read(A,x)|&#xfeff;|10|
+# |&#xfeff;|read(A,x)|10|
+# |x:=x+1|&#xfeff;|10|
+# |&#xfeff;|x:=x+1|10|
+# |write(x,A)|&#xfeff;|11|
+# |&#xfeff;|write(x,A)|11|
+# 
 # Problem: Die Erhöhung von T1 wird nicht berücksichtigt.
 # <br>
 # Folie nach Kai-Uwe Sattler (TU Ilmenau)
@@ -277,7 +340,13 @@
 # □ Transaktion sieht nur Änderungen, die zu Beginn der Transaktion committed waren (und eigene Änderungen).
 # 
 # ### Isolationsebenen – Übersicht
-# ![title](transaktionen_img/isolationsebenen_uebersicht.jpg)
+# 
+# |Isolationsebene|Dirty Read|Nonrepeatable Read|Phantom Read|Lost Update|
+# |---------------|----------|------------------|------------|-----------|
+# |Read Uncommited|+|+|+|+|
+# |Read Committed|-|+|+|-|
+# |Repeatable Read|-|-|+|-|
+# |Serializable|-|-|-|-|
 
 # ## Serialisierbarkeit
 # 
@@ -303,8 +372,18 @@
 # 
 # 
 # ### Schedules
-# ![title](serialisierbarkeit_img/bsp1.jpg)
-# <br>
+# 
+# |Schritt|T1|T3|
+# |-------|---|---|
+# |1.|Begin TA|Begin TA|
+# |2.|read(A,a1)|read(A,a2)|
+# |3.|a1 := a1 – 50|a2 := a2 – 100|
+# |4.|write(A,a1)|write(A,a2)|
+# |5.|read(B,b1)|read(B,b2)|
+# |6.|b1 := b1 + 50|b2 := b2 + 100|
+# |7.|write(B,b1)|write(B,b2)|
+# |8.|commit|commit|
+# 
 # ■ Ein Schedule ist eine geordnete Abfolge wichtiger Aktionen, die von einer oder mehreren Transaktionen durchgeführt werden.
 # <br>
 # □ Wichtige Aktionen: READ und WRITE eines Elements
@@ -325,74 +404,264 @@
 # □ Es existiert ein serieller Schedule mit identischem Effekt.
 # 
 # #### Beispiel 1
-# Serieller Schedule 
-# <br>
-# ![title](serialisierbarkeit_img/bsp2.jpg)
-# <br><br>
-# Serialisierbarer Schedule
-# <br>
-# ![title](serialisierbarkeit_img/bsp3.jpg)
-# <br><br>
+# 
+# |Serieller Schedule|&#xfeff;|&#xfeff;| 
+# |------------------|--------|--------|
+# |**Schritt**|**T1**|**T2**|
+# |1.|BOT|&#xfeff;|
+# |2.|read(A)|&#xfeff;|
+# |3.|write(A)|&#xfeff;|
+# |4.|read(B)|&#xfeff;|
+# |5.|write(B)|&#xfeff;|
+# |6.|commit|&#xfeff;|
+# |7.|&#xfeff;|BOT|
+# |8.|&#xfeff;|read(C)|
+# |9.|&#xfeff;|write(C)|
+# |10.|&#xfeff;|read(A)|
+# |11.|&#xfeff;|write(A)|
+# |12.|&#xfeff;|commit|
+# 
+# 
+# 
+# |Serialisierbarer Schedule|&#xfeff;|&#xfeff;|
+# |---|---|---|
+# |**Schritt**|**T1**|**T2**|
+# |1.|BOT|&#xfeff;|
+# |2.|read(A)|&#xfeff;|
+# |3.|&#xfeff;|BOT|
+# |4.|&#xfeff;|read(C)|
+# |5.|write(A)|&#xfeff;|
+# |6.|&#xfeff;|write(C)|
+# |7.|read(B)|&#xfeff;|
+# |8.|write(B)|&#xfeff;|
+# |9.|commit|&#xfeff;|
+# |10.|&#xfeff;|read(A)|
+# |11.|&#xfeff;|write(A)|
+# |12.|&#xfeff;|commit|
+# 
 # 
 # #### Beispiel 2
-# Serialisierbar?
-# <br>
-# ![title](serialisierbarkeit_img/bsp4.jpg)
+# 
+# |Serialisierbar?|&#xfeff;|&#xfeff;|
+# |---------------|--------|--------|
+# |**Schritt**|**T1**|**T3**|
+# |1.|BOT|&#xfeff;|
+# |2.|read(A)|&#xfeff;|
+# |3.|write(A)|&#xfeff;|
+# |4.|&#xfeff;|BOT|
+# |5.|&#xfeff;|read(A)|
+# |6.|&#xfeff;|write(A)|
+# |7.|&#xfeff;|read(B)|
+# |8.|&#xfeff;|write(B)|
+# |9.|&#xfeff;|commit|
+# |10.|read(B)|&#xfeff;|
+# |11.|write(B)|&#xfeff;|
+# |12.|commit|&#xfeff;|
 # 
 # #### Beispiel 3
 # Aufgabe: Suche äquivalenten seriellen Schedule.
-# <br>
-# ![title](serialisierbarkeit_img/bsp5.jpg)
-# <br>
+# 
+# |Schritt|T1|T3|
+# |-------|---|---|
+# |1.|BOT|&#xfeff;|
+# |2.|read(A,a1)|&#xfeff;|
+# |3.|a1 := a1 – 50|&#xfeff;|
+# |4.|write(A,a1)|&#xfeff;|
+# |5.|&#xfeff;|BOT|
+# |6.|&#xfeff;|read(A,a2)|
+# |7.|&#xfeff;|a2 := a2 – 100|
+# |8.|&#xfeff;|write(A,a2)|
+# |9.|&#xfeff;|read(B,b2)|
+# |10.|&#xfeff;|b2 := b2 + 100|
+# |11.|&#xfeff;|write(B,b2)|
+# |12.|&#xfeff;|commit|
+# |13.|read(B,b1)|&#xfeff;|
+# |14.|b1 := b1 + 50|&#xfeff;|
+# |15.|write(B,b1)|&#xfeff;|
+# |16.|commit|&#xfeff;|
+# 
 # Effekt: A = A − 150, B = B + 150
-# <br>
-# <br>
-# ![title](serialisierbarkeit_img/bsp6.jpg)
-# <br>
+# 
+# |Schritt|T1|T3|
+# |-------|---|---|
+# |1.|BOT|&#xfeff;|
+# |2.|read(A,a1)|&#xfeff;|
+# |3.|a1 := a1 – 50|&#xfeff;|
+# |4.|write(A,a1)|&#xfeff;|
+# |5.|read(B,b1)|&#xfeff;|
+# |6.|b1 := b1 + 50|&#xfeff;|
+# |7.|write(B,b1)|&#xfeff;|
+# |8.|commit|&#xfeff;|
+# |9.|&#xfeff;|BOT|
+# |10.|&#xfeff;|read(A,a2)|
+# |11.|&#xfeff;|a2 := a2 – 100|
+# |12.|&#xfeff;|write(A,a2)|
+# |13.|&#xfeff;|read(B,b2)|
+# |14.|&#xfeff;|b2 := b2 + 100|
+# |15.|&#xfeff;|write(B,b2)|
+# |16.|&#xfeff;|commit|
+# 
 # Effekt: A = A − 150, B = B + 150
 # 
 # #### Beispiel 4
-# ![title](serialisierbarkeit_img/bsp7.jpg)
-# <br>
+# 
+# |Schritt|T1|T3|A|B|
+# |-------|---|---|---|---|
+# |1.|BOT|&#xfeff;|100|100|
+# |2.|read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |3.|a1 := a1 – 50|&#xfeff;|50|&#xfeff;|
+# |4.|write(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |5.|&#xfeff;|BOT|&#xfeff;|&#xfeff;|
+# |6.|&#xfeff;|read(A,a2)|&#xfeff;|&#xfeff;|
+# |7.|&#xfeff;|a2 := a2 * 1.03|51,5|&#xfeff;|
+# |8.|&#xfeff;|write(A,a2)|&#xfeff;|&#xfeff;|
+# |9.|&#xfeff;|read(B,b2)|&#xfeff;|&#xfeff;|
+# |10.|&#xfeff;|b2 := b2 * 1.03|&#xfeff;|103|
+# |11.|&#xfeff;|write(B,b2)|&#xfeff;|&#xfeff;|
+# |12.|&#xfeff;|commit|&#xfeff;|&#xfeff;|
+# |13.|read(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |14.|b1 := b1 + 50|&#xfeff;|&#xfeff;|153|
+# |15.|write(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |16.|commit|&#xfeff;|&#xfeff;|&#xfeff;|
+# 
 # 1. Effekt: A = (A − 50) * 1.03
 # <br>
-# 2. Effekt B = B * 1.03 + 50
+# B = B * 1.03 + 50
+# 
+# |Schritt|T1|T3|A|B|
+# |-------|---|---|---|---|
+# |1.|BOT|&#xfeff;|100|100|
+# |2.|read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |3.|a1 := a1 – 50|&#xfeff;|50|&#xfeff;|
+# |4.|write(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |5.|read(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |6.|b1 := b1 + 50|&#xfeff;|&#xfeff;|150|
+# |7.|write(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |8.|Commit|&#xfeff;|&#xfeff;|&#xfeff;|
+# |9.|&#xfeff;|BOT|&#xfeff;|&#xfeff;|
+# |10.|&#xfeff;|read(A,a2)|&#xfeff;|&#xfeff;|
+# |11.|&#xfeff;|a2 := a2 * 1.03|51,5|&#xfeff;|
+# |12.|&#xfeff;|write(A,a2)|&#xfeff;|&#xfeff;|
+# |13.|&#xfeff;|read(B,b2)|&#xfeff;|&#xfeff;|
+# |14.|&#xfeff;|b2 := b2 * 1.03|&#xfeff;|154,5|
+# |15.|&#xfeff;|write(B,b2)|&#xfeff;|&#xfeff;|
+# |16.|&#xfeff;|commit|&#xfeff;|&#xfeff;|
+# 
+# 
+# 2. Effekt: A = (A − 50) * 1.03
+# <br>
+# B = (B + 50) * 1.03
 # 
 # #### Beispiel 5
-# ![title](serialisierbarkeit_img/bsp8.jpg)
-# <br>
-# 1. Effekt: A = (A − 50) * 1.03
-# <br>
-# 2. Effekt: B = (B + 50) * 1.03
+# |Schritt|T1|T3|A|B|
+# |-------|---|---|---|---|
+# |1.|BOT|&#xfeff;|100|100|
+# |2.|read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |3.|a1 := a1 – 50|&#xfeff;|50|&#xfeff;|
+# |4.|write(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |5.|&#xfeff;|BOT|&#xfeff;|&#xfeff;|
+# |6.|&#xfeff;|read(A,a2)|&#xfeff;|&#xfeff;|
+# |7.|&#xfeff;|a2 := a2 * 1.03|51,5|&#xfeff;|
+# |8.|&#xfeff;|write(A,a2)|&#xfeff;|&#xfeff;|
+# |9.|&#xfeff;|read(B,b2)|&#xfeff;|&#xfeff;|
+# |10.|&#xfeff;|b2 := b2 * 1.03|&#xfeff;|103|
+# |11.|&#xfeff;|write(B,b2)|&#xfeff;|&#xfeff;|
+# |12.|&#xfeff;|commit|&#xfeff;|&#xfeff;|
+# |13.|read(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |14.|b1 := b1 + 50|&#xfeff;|&#xfeff;|153|
+# |15.|write(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |16.|commit|&#xfeff;|&#xfeff;|&#xfeff;|
 # 
-# #### Beispiel 6
-# ![title](serialisierbarkeit_img/bsp9.jpg)
+# Effekt: A = (A − 50) * 1.03
 # <br>
-# 1. Effekt: A = (A − 50) * 1.03
-# <br>
-# 2. Effekt: B = B * 1.03 + 50
+# B = B * 1.03 + 50
 # 
-# #### Beispiel 7
-# ![title](serialisierbarkeit_img/bsp10.jpg)
-# <br>
-# 1. Effekt: A = A * 1.03 − 50
-# <br>
-# 2. Effekt: B = B * 1.03 + 50
 # 
-# #### Beispiel 8
-# ![title](serialisierbarkeit_img/bsp11.jpg)
+# |Schritt|T1|T3|A|B|
+# |-------|---|---|---|---|
+# |1.|&#xfeff;|BOT|100|100|
+# |2.|&#xfeff;|read(A,a2)|&#xfeff;|&#xfeff;|
+# |3.|&#xfeff;|a2 := a2 * 1.03|103|&#xfeff;|
+# |4.|&#xfeff;|write(A,a2)|&#xfeff;|&#xfeff;|
+# |5.|&#xfeff;|read(B,b2)|&#xfeff;|&#xfeff;|
+# |6.|&#xfeff;|b2 := b2 * 1.03|&#xfeff;|103|
+# |7.|&#xfeff;|write(B,b2)|&#xfeff;|&#xfeff;|
+# |8.|&#xfeff;|commit|&#xfeff;|&#xfeff;|
+# |9.|BOT|&#xfeff;|&#xfeff;|&#xfeff;|
+# |10.|read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|&#xfeff;|
+# |11.|a1 := a1 – 50|&#xfeff;|53|&#xfeff;|
+# |12.|write(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |13.|read(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |14.|b1 := b1 + 50|&#xfeff;|&#xfeff;|153|
+# |15.|write(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# 
+# 
+# Effekt: A = A * 1.03 − 50
 # <br>
-# Serialisierbar?
-# Nein, denn Effekt entspricht weder dem seriellen Schedule T1T3 noch dem seriellen Schedule T3T1
-# <br>
-# Nein,
-# obwohl es konkrete Beispiele solcher Transaktionen gibt, für die es einen äquivalenten seriellen Schedule gibt. Man nimmt immer das Schlimmste an.
+# B = B * 1.03 + 50
+# 
+# #### Schedules
+# 
+# |Schritt|T1|T3|
+# |-------|---|---|
+# |1.|BOT||
+# |2.|read(A)|&#xfeff;|
+# |3.|write(A)|&#xfeff;|
+# |4.|&#xfeff;|BOT|
+# |5.|&#xfeff;|read(A)|
+# |6.|&#xfeff;|write(A)|
+# |7.|&#xfeff;|read(B)|
+# |8.|&#xfeff;|write(B)|
+# |9.|&#xfeff;|commit|
+# |10.|read(B)|&#xfeff;|
+# |11.|write(B)|&#xfeff;|
+# |12.|commit|&#xfeff;|
+# 
+# Serialisierbar? Nein,denn Effekt entspricht weder dem seriellen Schedule T1T3 noch dem seriellen Schedule T3T1
+# <br><br>
+# Serialisierbar? Nein, obwohl es konkrete Beispiele solcher Transaktionen gibt, für die es einen äquivalenten seriellen Schedule gibt. Man nimmt immer das Schlimmste an.
 # 
 # #### Beispiel 9
 # Nochmal die beiden seriellen Schedules. Ist Ihnen etwas aufgefallen?
-# <br>
-# ![title](serialisierbarkeit_img/bsp12.jpg)
-# <br>
+# 
+# |Schritt|T1|T3|A|B|
+# |-------|---|---|---|---|
+# |1.|BOT|&#xfeff;|100|100|
+# |2.|read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |3.|a1 := a1 – 50|&#xfeff;|50|&#xfeff;|
+# |4.|write(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |5.|&#xfeff;|BOT|&#xfeff;|&#xfeff;|
+# |6.|&#xfeff;|read(A,a2)|&#xfeff;|&#xfeff;|
+# |7.|&#xfeff;|a2 := a2 * 1.03|51,5|&#xfeff;|
+# |8.|&#xfeff;|write(A,a2)|&#xfeff;|&#xfeff;|
+# |9.|&#xfeff;|read(B,b2)|&#xfeff;|&#xfeff;|
+# |10.|&#xfeff;|b2 := b2 * 1.03|&#xfeff;|103|
+# |11.|&#xfeff;|write(B,b2)|&#xfeff;|&#xfeff;|
+# |12.|&#xfeff;|commit|&#xfeff;|&#xfeff;|
+# |13.|read(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |14.|b1 := b1 + 50|&#xfeff;|&#xfeff;|153|
+# |15.|write(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |16.|commit|&#xfeff;|&#xfeff;|&#xfeff;|
+# 
+# |Schritt|T1|T3|A|B|
+# |-------|---|---|---|---|
+# |1.|BOT|&#xfeff;|100|100|
+# |2.|read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |3.|a1 := a1 – 50|&#xfeff;|50|&#xfeff;|
+# |4.|write(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |5.|read(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |6.|b1 := b1 + 50|&#xfeff;|&#xfeff;|150|
+# |7.|write(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |8.|Commit|&#xfeff;|&#xfeff;|&#xfeff;|
+# |9.|&#xfeff;|BOT|&#xfeff;|&#xfeff;|
+# |10.|&#xfeff;|read(A,a2)|&#xfeff;|&#xfeff;|
+# |11.|&#xfeff;|a2 := a2 * 1.03|51,5|&#xfeff;|
+# |12.|&#xfeff;|write(A,a2)|&#xfeff;|&#xfeff;|
+# |13.|&#xfeff;|read(B,b2)|&#xfeff;|&#xfeff;|
+# |14.|&#xfeff;|b2 := b2 * 1.03|&#xfeff;|154,5|
+# |15.|&#xfeff;|write(B,b2)|&#xfeff;|&#xfeff;|
+# |16.|&#xfeff;|commit|&#xfeff;|&#xfeff;|
+# 
 # T1T3 ≠ T3T1 
 # <br>
 # Ist das schlimm?
@@ -520,19 +789,59 @@
 # ##### Beispiel 1
 # Konfliktserialisierbar ?
 # 
-# ![title](konfliktserialisierbarkeit_img/schedule_bsp1.jpg)
+# |Schritt|T1|T3|
+# |-------|---|---|
+# |1.|BOT||
+# |2.|read(A)|&#xfeff;|
+# |3.|write(A)|&#xfeff;|
+# |4.|&#xfeff;|BOT|
+# |5.|&#xfeff;|read(A)|
+# |6.|&#xfeff;|write(A)|
+# |7.|&#xfeff;|read(B)|
+# |8.|&#xfeff;|write(B)|
+# |9.|&#xfeff;|commit|
+# |10.|read(B)|&#xfeff;|
+# |11.|write(B)|&#xfeff;|
+# |12.|commit|&#xfeff;|
+# 
+# ![title](konfliktserialisierbarkeit_img/graph1.jpg)
 # 
 # ##### Beispiel 2
-# ![title](konfliktserialisierbarkeit_img/schedule_bsp2.jpg)
-# <br>
+# ![title](konfliktserialisierbarkeit_img/graph2.jpg)
+# 
+# |Schritt|T1|T2|T3|
+# |-------|---|---|---|
+# |1.|r(y)|&#xfeff;|&#xfeff;|
+# |2.|&#xfeff;|&#xfeff;|r(u)|
+# |3.|&#xfeff;|r(y)|&#xfeff;|
+# |4.|w(y)|&#xfeff;|&#xfeff;|
+# |5.|w(x)|&#xfeff;|&#xfeff;|
+# |6.|&#xfeff;|w(x)|&#xfeff;|
+# |7.|&#xfeff;|w(z)|&#xfeff;|
+# |8.|&#xfeff;|&#xfeff;|w(x)|
+# 
 # S = r1(y) r3(u) r2(y) w1(y) w1(x) w2(x) w2(z) w3(x)
 # 
 # ##### Beispiel 3
 # Serialisierbarer Schedule
-# <br>
-# ![title](konfliktserialisierbarkeit_img/schedule_bsp3_1.jpg)
-# <br>
-# ![title](konfliktserialisierbarkeit_img/schedule_bsp3_2.jpg)
+# 
+# |Schritt|T1|T2|
+# |-------|---|---|
+# |1.|BOT|&#xfeff;|
+# |2.|read(A)|&#xfeff;|
+# |3.|&#xfeff;|BOT|
+# |4.|&#xfeff;|read(C)|
+# |5.|write(A)|&#xfeff;|
+# |6.|&#xfeff;|write(C)|
+# |7.|read(B)|&#xfeff;|
+# |8.|write(B)|&#xfeff;|
+# |9.|commit|&#xfeff;|
+# |10.|&#xfeff;|read(A)|
+# |11.|&#xfeff;|write(A)|
+# |12.|&#xfeff;|commit|
+# 
+# 
+# ![title](konfliktserialisierbarkeit_img/graph3.jpg)
 # 
 # #### Beweis
 # Konfliktgraph ist zykelfrei <=> Schedule ist konfliktserialisierbar
@@ -621,15 +930,34 @@
 # □ l2(A)r2(A)w2(A)
 # <br><br>
 # ■ Schedule
-# <br>
-# ![title](sperrprotokolle_img/sperre_bsp1.jpg)
 # 
+# |T1|T2|
+# |---|---|
+# |l1(A)r1(A)w1(A)u1(A)|&#xfeff;|
+# |&#xfeff;|l2(A)r2(A)w2(A)u2(A)|
+# |&#xfeff;|l2(B)r2(B)w2(B)u2(B)|
+# |l1(B)r1(B)w1(B)u1(B)|&#xfeff;|
 # 
 # □ Legal?
 # <br>
 # □ Konfliktserialisierbar?
 # 
-# ![title](sperrprotokolle_img/sperre_bsp2.jpg)
+# |T1|T3|A|B|
+# |---|---|---|---|
+# |&#xfeff;|&#xfeff;|25|25|
+# |l(A); read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |a1 := a1 + 100|&#xfeff;|125|&#xfeff;|
+# |write(A,a1); u(A)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(A); read(A,a2)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|a2 := a2 * 2|250|&#xfeff;|
+# |&#xfeff;|write(A,a2); u(A)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(B); read(B,b2)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|b2 := b2 * 2|&#xfeff;|50|
+# |&#xfeff;|write(B,b2); u(B)|&#xfeff;|&#xfeff;|
+# |l(B); read(B,b1)|&#xfeff;|&#xfeff;|
+# |b1 := b1 + 100|&#xfeff;|150|
+# |write(B,b1); u(B)|&#xfeff;|&#xfeff;|
+# 
 # <br>
 # Legal? Serialisierbar? Konfliktserialisierbar?
 # 
@@ -657,7 +985,23 @@
 # – Konsistent?
 # 
 # ### Schedules mit Sperren
-# ![title](sperrprotokolle_img/sperre_bsp3.jpg)
+# 
+# |T1|T3|A|B|
+# |---|---|---|---|
+# |&#xfeff;|&#xfeff;|25|25|
+# |l(A); read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |a1 := a1 + 100|&#xfeff;|125|&#xfeff;|
+# |write(A,a1); l(B); u(A)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(A); read(A,a2)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|a2 := a2 * 2|250|&#xfeff;|
+# |&#xfeff;|write(A,a2);|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(B); abgelehnt!|&#xfeff;|&#xfeff;|
+# |read(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |b1 := b1 + 100|&#xfeff;|&#xfeff;|125|
+# |write(B,b1); u(B)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(B); u(A); read(B,b2)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|b2 := b2 * 2|&#xfeff;|250|
+# |&#xfeff;|write(B,b2); u(B)|&#xfeff;|&#xfeff;|
 # 
 # Legal? Serialisierbar? Konfliktserialisierbar? Zufall?
 # 
@@ -675,16 +1019,58 @@
 # □ Wichtig: Bedingung an Transaktionen, nicht an Schedule
 # 
 # #### 2-Phasen Sperrprotokoll – Beispiel
-# ![title](sperrprotokolle_img/2pl_bsp1.jpg)
+# |T1|T3|A|B|
+# |---|---|---|---|
+# |&#xfeff;|&#xfeff;|25|25|
+# |l(A); read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |a1 := a1 + 100|&#xfeff;|125|&#xfeff;|
+# |write(A,a1); u(A)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(A); read(A,a2)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|a2 := a2 * 2|250|&#xfeff;|
+# |&#xfeff;|write(A,a2); u(A)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(B); read(B,b2)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|b2 := b2 * 2|&#xfeff;|50|
+# |&#xfeff;|write(B,b2); u(B)|&#xfeff;|&#xfeff;|
+# |l(B); read(B,b1)|&#xfeff;|&#xfeff;|
+# |b1 := b1 + 100|&#xfeff;|150|
+# |write(B,b1); u(B)|&#xfeff;|&#xfeff;|
+# 
+# |T1|T3|A|B|
+# |---|---|---|---|
+# |&#xfeff;|&#xfeff;|25|25|
+# |l(A); read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |a1 := a1 + 100|&#xfeff;|125|&#xfeff;|
+# |write(A,a1); l(B); u(A)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(A); read(A,a2)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|a2 := a2 * 2|250|&#xfeff;|
+# |&#xfeff;|write(A,a2);|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(B); abgelehnt!|&#xfeff;|&#xfeff;|
+# |read(B,b1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |b1 := b1 + 100|&#xfeff;|&#xfeff;|125|
+# |write(B,b1); u(B)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(B); u(A); read(B,b2)|&#xfeff;|&#xfeff;|
+# |&#xfeff;|b2 := b2 * 2|&#xfeff;|250|
+# |&#xfeff;|write(B,b2); u(B)|&#xfeff;|&#xfeff;|
 # 
 # 
 # #### Deadlocks unter 2PL möglich
 # ■ T1: l(A); r(A); A:=A+100; w(A); l(B); u(A); r(B); B:=B-100; w(B); u(B)
 # <br>
 # ■ T4: l(B); r(B); B:=B*2; w(B); l(A); u(B); r(A); A:=A*2; w(A); u(A)
-# <br>
-# ![title](sperrprotokolle_img/2pl_bsp2.jpg)
-# <br>
+# 
+# |T1|T4|A|B|
+# |---|---|---|---|
+# |&#xfeff;|&#xfeff;|25|25|
+# |l(A); read(A,a1)|&#xfeff;|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(B); read(B,b2)|&#xfeff;|&#xfeff;|
+# |a1 := a1 + 100|&#xfeff;|&#xfeff;|&#xfeff;|
+# |&#xfeff;|b2 := b2 * 2|&#xfeff;|&#xfeff;|
+# |write(A,a1)|&#xfeff;|125|&#xfeff;|
+# |&#xfeff;|write(B,b2)|&#xfeff;|50|
+# |l(B) – abgelehnt|&#xfeff;|&#xfeff;|&#xfeff;|
+# |&#xfeff;|l(A) – abgelehnt|&#xfeff;|&#xfeff;|
+# 
+# 
 # ■ Lösung 1: Timeouts
 # <br>
 # ■ Lösung 2: „Waits-for“-Graph zur Vermeidung von deadlocks
@@ -788,9 +1174,17 @@
 # □ Konsistent?
 # <br>
 # □ 2PL?
-# <br>
-# ![title](sperren_img/bedingungen_bsp.jpg)
-# <br>
+# 
+# |T1|T2|
+# |---|---|
+# |sl(A); r(A)|&#xfeff;|
+# |&#xfeff;|sl(A)r(A)|
+# |&#xfeff;|sl(B)r(B)|
+# |xl(B) – abgelehnt!|&#xfeff;|
+# |&#xfeff;|u(A)u(B)|
+# |xl(B)r(B)w(B)|&#xfeff;|
+# |u(A)u(B)|&#xfeff;|
+# 
 # Legal? Konfliktserialisierbar? 2PL funktioniert auch hier!
 # 
 # ### Weitere Sperrarten
