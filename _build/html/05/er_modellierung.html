@@ -155,7 +155,7 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../imdb/imdb/Untitled1.html">
+  <a class="reference internal" href="../imdb/imdb/sql_cell_test.html">
    12. sql test
   </a>
  </li>
@@ -241,7 +241,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/LUH-DBS/GDBS_Script/gh-pages/?urlpath=tree/05/er_modellierung.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/LUH-DBS/GDBS_Script/main/?urlpath=tree/05/er_modellierung.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -325,11 +325,16 @@ const thebe_selector_output = ".output, .cell_output"
      5.4.2. Numerische Notation (Partizipationssemantik)
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#totale-beziehung">
+     5.4.3. Totale Beziehung
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#rolle-von-relationships">
-   5.5. Rolle von Relationships
+  <a class="reference internal nav-link" href="#entitytypen-und-rollen">
+   5.5. Entitytypen und Rollen
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -543,11 +548,16 @@ const thebe_selector_output = ".output, .cell_output"
      5.4.2. Numerische Notation (Partizipationssemantik)
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#totale-beziehung">
+     5.4.3. Totale Beziehung
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#rolle-von-relationships">
-   5.5. Rolle von Relationships
+  <a class="reference internal nav-link" href="#entitytypen-und-rollen">
+   5.5. Entitytypen und Rollen
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -870,6 +880,7 @@ Dies alles ist an dieser Stelle nur abstrakte Denkhilfe. Die Modellierung im rel
 <ul class="simple">
 <li><p><strong>m:n Beziehungen</strong> sagen aus, dass jede Entity des einen Typen mit keinem oder mehreren Entities des anderen typen verbunden sein kann.</p></li>
 </ul>
+<a class="reference internal image-reference" href="../_images/mn_kardinalitaet.jpg"><img alt="../_images/mn_kardinalitaet.jpg" src="../_images/mn_kardinalitaet.jpg" style="width: 100px;" /></a>
 <ul class="simple">
 <li><p>Beispiele: Filme und Schauspieler<em>innen, Produkte und Kund</em>innen, Studierenden und Vorlesungen</p></li>
 </ul>
@@ -877,8 +888,10 @@ Dies alles ist an dieser Stelle nur abstrakte Denkhilfe. Die Modellierung im rel
 <div class="section" id="n-beziehungen">
 <h3><span class="section-number">5.3.2. </span>1:n Beziehungen<a class="headerlink" href="#n-beziehungen" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p><strong>1:n Beziehungen</strong> sagen aus, dass jede Entity des einen Typen mit maximal einem Entity des anderen Typen verbunden sein <strong>kann</strong>. Diese Beziehung gilt aber nur in eine Richtung.
-</p></li>
+<li><p><strong>1:n Beziehungen</strong> sagen aus, dass jede Entity des einen Typen mit maximal einem Entity des anderen Typen verbunden sein <strong>kann</strong>. Diese Beziehung gilt aber nur in eine Richtung.</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/1n_kardinalitaet.jpg"><img alt="../_images/1n_kardinalitaet.jpg" src="../_images/1n_kardinalitaet.jpg" style="width: 100px;" /></a>
+<ul class="simple">
 <li><p>Beispiele: Ein Studio kann die Rechte an mehreren Filmen besitzen. Ein Film kann nur von einem Studio besessen werden.</p></li>
 <li><p>Darstellung mittels eines Pfeils zur „1er“ Seite.</p></li>
 </ul>
@@ -888,9 +901,11 @@ Dies alles ist an dieser Stelle nur abstrakte Denkhilfe. Die Modellierung im rel
 <ul class="simple">
 <li><p><strong>1:1 Beziehung</strong> sagen aus, dass jede Entity des einen Typen mit maximal einem Entity des anderen Typen verbunden sein <strong>kann und umgekehrt</strong>.</p></li>
 </ul>
-<img src="11_kardinalitaet.jpg" width=100/>
-- Beispiel: Ein Studio kann nur von einer Vorsitzenden geleitet werden. Eine Vorsitzende kann nur ein Studio leiten. Auch hier gilt immernoch "kann". Wir werden eine Notation für eine totale Abbildung, d.h., wo die Beziehung stattfinden muss, noch kennen lernen. In unserem Beispiel kann ein Studio theoretisch (vorübergehend) keinen Vorsitzenden haben.
-- Darstellung mittels eines Pfeils zu beiden Seiten.
+<a class="reference internal image-reference" href="../_images/11_kardinalitaet.jpg"><img alt="../_images/11_kardinalitaet.jpg" src="../_images/11_kardinalitaet.jpg" style="width: 100px;" /></a>
+<ul class="simple">
+<li><p>Beispiel: Ein Studio kann nur von einer Vorsitzenden geleitet werden. Eine Vorsitzende kann nur ein Studio leiten. Auch hier gilt immernoch “kann”. Wir werden eine Notation für eine totale Abbildung, d.h., wo die Beziehung stattfinden muss, noch kennen lernen. In unserem Beispiel kann ein Studio theoretisch (vorübergehend) keinen Vorsitzenden haben.</p></li>
+<li><p>Darstellung mittels eines Pfeils zu beiden Seiten.</p></li>
+</ul>
 </div>
 </div>
 <div class="section" id="weitere-notationen-fur-kardinalitaten">
@@ -901,40 +916,86 @@ Im folgenden werden wir noch die Min-Max-Notation und Numerische Notation kennen
 <h3><span class="section-number">5.4.1. </span>Min-Max-Notation (Look-Up-Semantik)<a class="headerlink" href="#min-max-notation-look-up-semantik" title="Permalink to this headline">¶</a></h3>
 <p>Die Min-Max-Notation schränkt die möglichen Teilnahmen von Instanzen der beteiligten Entitytypen an der Beziehung ein. Insbesondere drückt sie aus wie häufig eine Instanz minimal bzw. maxima. an einer Beziehung teilnimmt. Die Notation ist (Min,Max) an der Seite des Entitytypen.</p>
 <p>Im folgenden Beispiel sagt (0,1) an der Seite des Produktes aus, dass ein Produkt entweder in einem oder keinem Regal gelagert wird. Andersherum sagt (0,3) auf der Seite des Regals aus, dass in einem Regal 0 bis 3 unterschiedliche Produkte gelagert werden können.</p>
+<a class="reference internal image-reference" href="../_images/minmax-beispiel.jpg"><img alt="../_images/minmax-beispiel.jpg" src="../_images/minmax-beispiel.jpg" style="width: 500px;" /></a>
 </div>
 <div class="section" id="numerische-notation-partizipationssemantik">
 <h3><span class="section-number">5.4.2. </span>Numerische Notation (Partizipationssemantik)<a class="headerlink" href="#numerische-notation-partizipationssemantik" title="Permalink to this headline">¶</a></h3>
-<p>Die numerische Notation ist eine vereinfachende Form, in der man ausdrück mit wie vielen Instanzen des gegenüberliegenden Typen eine Verbindung aufgebaut wird.</p>
-<a class="reference internal image-reference" href="../_images/kardinalitaeten_notation.jpg"><img alt="../_images/kardinalitaeten_notation.jpg" src="../_images/kardinalitaeten_notation.jpg" style="width: 500px;" /></a>
+<p>Die numerische Notation ist eine vereinfachende Form, in der man ausdrück mit wie vielen Instanzen des gegenüberliegenden Typen eine Verbindung maximal aufgebaut wird.</p>
+<p>Im folgenden Beispiel besagt die Angabe von “n” auf der Seite der Filme, dass bis zu n Filme mit einem Studio verbunden sein können. Die “1” auf der Seite von Studio besagt, dass jeder Film mit maximal einem Studio verbunden sein kann.</p>
+<a class="reference internal image-reference" href="../_images/numerisch-beispiel.jpg"><img alt="../_images/numerisch-beispiel.jpg" src="../_images/numerisch-beispiel.jpg" style="width: 500px;" /></a>
+<p>In der folgenden Tabelle sind nochmal alle drei Möglichkeiten Kardinalitäten anzugeben gegenübr gestellt.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Beziehungsart</p></th>
+<th class="head"><p>(min,max) links</p></th>
+<th class="head"><p>(min, max) rechts</p></th>
+<th class="head"><p>Numerisch links</p></th>
+<th class="head"><p>Numerisch rechts</p></th>
+<th class="head"><p>Grafische Notation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>many-to-many</p></td>
+<td><p>(0,* )</p></td>
+<td><p>(0,* )</p></td>
+<td><p>n</p></td>
+<td><p>n</p></td>
+<td><p><a class="reference internal" href="../_images/nn_notation.jpg"><img alt="../_images/nn_notation.jpg" src="../_images/nn_notation.jpg" style="width: 300px;" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>one-to-many</p></td>
+<td><p>(0,* )</p></td>
+<td><p>(0,1 )</p></td>
+<td><p>1</p></td>
+<td><p>n</p></td>
+<td><p><a class="reference internal" href="../_images/1n_notation.jpg"><img alt="../_images/1n_notation.jpg" src="../_images/1n_notation.jpg" style="width: 300px;" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>many-to-one</p></td>
+<td><p>(0,1 )</p></td>
+<td><p>(0,* )</p></td>
+<td><p>n</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../_images/n1_notation.jpg"><img alt="../_images/n1_notation.jpg" src="../_images/n1_notation.jpg" style="width: 300px;" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>one-to-one</p></td>
+<td><p>(0,1 )</p></td>
+<td><p>(0,1 )</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p><a class="reference internal" href="../_images/11_notation.jpg"><img alt="../_images/11_notation.jpg" src="../_images/11_notation.jpg" style="width: 300px;" /></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="totale-beziehung">
+<h3><span class="section-number">5.4.3. </span>Totale Beziehung<a class="headerlink" href="#totale-beziehung" title="Permalink to this headline">¶</a></h3>
+<p>Bisher haben wir hauptsächlich Beziehungstypen kennen gelernt, die auf “kann” basieren. Lediglich mit der Min-Max-Notation können wir bisher sicherstellen, dass jede Entity eines Types an einer Beziehung teilnehmen muss, in dem wir den Minimalwert auf eine Zahl größer als 0 setzen: (1,* ) bedeutet, dass jede Entity mindestens einmal an einer Beziehung teilnehmen muss. Entsprechend bedeutet (1,1), dass jedes Entity genau einmal an einer Beziehung teilnehmen muss.</p>
+<p>Die totale Abbildung stellt man grafisch entweder durch einen offenen Pfeil auf der Seite der totalen Abbildung dar oder anhand eines Doppelstriches:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Offener Pfeil</p></th>
+<th class="head"><p>Doppelstrich</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../_images/1n_total_notation1.jpg"><img alt="../_images/1n_total_notation1.jpg" src="../_images/1n_total_notation1.jpg" style="width: 300px;" /></a></p></td>
+<td><p><a class="reference internal" href="../_images/1n_total_notation2.jpg"><img alt="../_images/1n_total_notation2.jpg" src="../_images/1n_total_notation2.jpg" style="width: 300px;" /></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Analog kann man eine totale 1:1 Beziehung folgender Maßen darstellen:</p>
+<a class="reference internal image-reference" href="../_images/11_total_notation.jpg"><img alt="../_images/11_total_notation.jpg" src="../_images/11_total_notation.jpg" style="width: 300px;" /></a>
 </div>
 </div>
-<div class="section" id="rolle-von-relationships">
-<h2><span class="section-number">5.5. </span>Rolle von Relationships<a class="headerlink" href="#rolle-von-relationships" title="Permalink to this headline">¶</a></h2>
-<p><img alt="title" src="../_images/rolle_relationship.jpg" /></p>
-<p>Entitytypen können mehr als einmal in einer Relationship auftauchen.
-<br>
-Entsprechend mehrere Kanten
-<br>
-Jede Kante entspricht einer anderen Rolle.
-<br>Die Kanten werden mit den entsprechenden Rollen annotiert.</p>
-<p><img alt="title" src="../_images/rolle_relationship2.jpg" /></p>
-<p>Stammstudio eines Schauspielers erlaubt einem anderen Studio den Schauspieler für einen bestimmten Film
-auszuleihen
-<br>
-<br>
-Kardinalitäten:
-<br>
-Gegeben Schauspieler, Film und produzierendes Studio, ist das ausleihenden Stammstudio eindeutig (höchstens
-ein Studio ist das ausleihende Stammstudio).
-<br>
-Gegeben Schauspieler, Film und Stammstudio ist das produzierende Studio eindeutig (höchstens ein Studio kann
-einen Film produzieren).
-<br>
-Gegeben Schauspieler, Stammstudio und produzierendes Studio könnte es mehrere Filme geben, die in dieser
-Konstellation gedreht werden.
-<br>
-Gegeben Film, Stammstudio und produzierendes Studio könnte es mehrere Schauspieler geben, die in dieser
-Konstellation ausgeliehen werden.</p>
+<div class="section" id="entitytypen-und-rollen">
+<h2><span class="section-number">5.5. </span>Entitytypen und Rollen<a class="headerlink" href="#entitytypen-und-rollen" title="Permalink to this headline">¶</a></h2>
+<p>Entitytypen können mehr als einmal in einer Relationship auftauchen, beziehungsweise kann Entitytyp durch ein Relationshiptyp mit sich selbst verbunden sein. Dabei tauchen Sie jeweils in unterschiedlichen <strong>Rollen</strong> auf. Die ER-Modellierung ermöglicht die explizite Modellierung von Rollen durch Annotation an den Kanten der Relationships.</p>
+<p><strong>Beispiel (Rolle 1):</strong> Im folgenden Beispiel wird modelliert, dass Filme Fortsetzungen von einander sein können. Dabei taucht der Entitytyp Film ein mal in der Rolle des Originals und ein mal in der Rolle der Fortsetzung mit dem Relationshiptypen “ist_Fortsetzung” auf.</p>
+<img alt="../_images/rolle_relationship.jpg" src="../_images/rolle_relationship.jpg" />
+<p><strong>Beispiel (Rolle 2):</strong> Im folgenden Beispiel taucht Studio in zwei Rollen auf: als Stammstudio und als Vertragsstudio.
+<img alt="../_images/rolle_relationship2.jpg" src="../_images/rolle_relationship2.jpg" /></p>
+<p>Diese Modellierung impliziert, dass das Stammstudio eines Schauspielers einem anderen Studio erlaubt den/die Schauspieler*in für einen bestimmten Film
+auszuleihen.</p>
+<p>Mit Hilfe von Rollen vermeidet man unnötig redundante Entitytypen zu modellieren. Theoretisch könnte man jede Rolle als einen Entitytypen modellieren. Dies würde bedeuten, dass wir zwei Entitytypen mit den gleichen Attributen und höchstwahrscheinlich einer großen Überlappung von Entities haben würden.</p>
 <div class="section" id="n-are-relationships">
 <h3><span class="section-number">5.5.1. </span>n-äre Relationships<a class="headerlink" href="#n-are-relationships" title="Permalink to this headline">¶</a></h3>
 <p>Relationships zwischen mehr als zwei Entities
@@ -1346,7 +1407,7 @@ Studio ist nicht der n-Teil der Relationship</p>
         requestKernel: true,
         binderOptions: {
             repo: "LUH-DBS/GDBS_Script",
-            ref: "gh-pages/",
+            ref: "main/",
         },
         codeMirrorConfig: {
             theme: "abcdef",

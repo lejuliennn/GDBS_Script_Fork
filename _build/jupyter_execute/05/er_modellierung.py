@@ -64,7 +64,7 @@
 # - Es soll dargestellt werden, dass Studios die Rechte an Filmen besitzen. Insbesondere soll ein Film genau einem Studio gehören. 
 #     - Dargestellt über einen Relatioshiptypen der Filme und Studios verbindet. Den letzten Punkt über "genau einem Studio" werden wir später im Kontext von Kardinalitäten genauer betrachten. 
 # 
-# <img src="er_diagramm_bsp.jpg" width =700 />
+# <img src="er_diagramm_bsp.jpg" width ="700" />
 
 # ### Instanz eines ER-Diagramms
 
@@ -115,7 +115,7 @@
 # ### m:n Beziehungen
 # - **m:n Beziehungen** sagen aus, dass jede Entity des einen Typen mit keinem oder mehreren Entities des anderen typen verbunden sein kann.
 # 
-# <img src="mn_kardinalitaet.jpg" width=100/>
+# <img src="mn_kardinalitaet.jpg" width="100" />
 # 
 # - Beispiele: Filme und Schauspieler*innen, Produkte und Kund*innen, Studierenden und Vorlesungen
 # 
@@ -124,7 +124,9 @@
 # ### 1:n Beziehungen
 # 
 # - **1:n Beziehungen** sagen aus, dass jede Entity des einen Typen mit maximal einem Entity des anderen Typen verbunden sein **kann**. Diese Beziehung gilt aber nur in eine Richtung. 
-# <img src="1n_kardinalitaet.jpg" width=100/>
+# 
+# <img src="1n_kardinalitaet.jpg" width="100" />
+# 
 # - Beispiele: Ein Studio kann die Rechte an mehreren Filmen besitzen. Ein Film kann nur von einem Studio besessen werden.
 # 
 # - Darstellung mittels eines Pfeils zur „1er“ Seite.
@@ -134,7 +136,8 @@
 # 
 # - **1:1 Beziehung** sagen aus, dass jede Entity des einen Typen mit maximal einem Entity des anderen Typen verbunden sein **kann und umgekehrt**.
 # 
-# <img src="11_kardinalitaet.jpg" width=100/>
+# <img src="11_kardinalitaet.jpg" width="100" />
+# 
 # - Beispiel: Ein Studio kann nur von einer Vorsitzenden geleitet werden. Eine Vorsitzende kann nur ein Studio leiten. Auch hier gilt immernoch "kann". Wir werden eine Notation für eine totale Abbildung, d.h., wo die Beziehung stattfinden muss, noch kennen lernen. In unserem Beispiel kann ein Studio theoretisch (vorübergehend) keinen Vorsitzenden haben.
 # - Darstellung mittels eines Pfeils zu beiden Seiten.
 # 
@@ -151,48 +154,62 @@
 # 
 # Im folgenden Beispiel sagt (0,1) an der Seite des Produktes aus, dass ein Produkt entweder in einem oder keinem Regal gelagert wird. Andersherum sagt (0,3) auf der Seite des Regals aus, dass in einem Regal 0 bis 3 unterschiedliche Produkte gelagert werden können. 
 # 
-# <img src="minmax-beispiel.jpg" width=500/>
+# <img src="minmax-beispiel.jpg" width="500" />
 # 
 # 
 # ### Numerische Notation (Partizipationssemantik)
 # 
-# Die numerische Notation ist eine vereinfachende Form, in der man ausdrück mit wie vielen Instanzen des gegenüberliegenden Typen eine Verbindung aufgebaut wird. 
+# Die numerische Notation ist eine vereinfachende Form, in der man ausdrück mit wie vielen Instanzen des gegenüberliegenden Typen eine Verbindung maximal aufgebaut wird. 
+# 
+# Im folgenden Beispiel besagt die Angabe von "n" auf der Seite der Filme, dass bis zu n Filme mit einem Studio verbunden sein können. Die "1" auf der Seite von Studio besagt, dass jeder Film mit maximal einem Studio verbunden sein kann.
 # 
 # 
-# <img src="numerisch-beispiel.jpg" width=500/>
+# <img src="numerisch-beispiel.jpg" width="500" />
 
-# <img src="kardinalitaeten_notation.jpg" width=500 />
+# In der folgenden Tabelle sind nochmal alle drei Möglichkeiten Kardinalitäten anzugeben gegenübr gestellt.
+# 
+# 
+# |Beziehungsart|(min,max) links|(min, max) rechts| Numerisch links|Numerisch rechts|Grafische Notation|
+# |-------------|---------------|-----------------|----------------|----------------|------------------|
+# |many-to-many |     (0,* )    | (0,* )          |        n       |        n       |<img src="nn_notation.jpg" width="300"/>|
+# |one-to-many  |     (0,* )    | (0,1 )          |        1       |        n       |<img src="1n_notation.jpg" width="300"/>|
+# |many-to-one  |     (0,1 )    | (0,* )          |        n       |        1       |<img src="n1_notation.jpg" width="300"/>|
+# |one-to-one   |     (0,1 )    | (0,1 )          |        1       |        1       |<img src="11_notation.jpg" width="300"/>|
 
-# ## Rolle von Relationships
+# ### Totale Beziehung
+# 
+# Bisher haben wir hauptsächlich Beziehungstypen kennen gelernt, die auf "kann" basieren. Lediglich mit der Min-Max-Notation können wir bisher sicherstellen, dass jede Entity eines Types an einer Beziehung teilnehmen muss, in dem wir den Minimalwert auf eine Zahl größer als 0 setzen: (1,* ) bedeutet, dass jede Entity mindestens einmal an einer Beziehung teilnehmen muss. Entsprechend bedeutet (1,1), dass jedes Entity genau einmal an einer Beziehung teilnehmen muss.
+# 
+# Die totale Abbildung stellt man grafisch entweder durch einen offenen Pfeil auf der Seite der totalen Abbildung dar oder anhand eines Doppelstriches:
+# 
+# |Offener Pfeil|Doppelstrich|
+# |-------------|------------|
+# |<img src="1n_total_notation1.jpg" width="300"/>|<img src="1n_total_notation2.jpg" width="300"/>|
+# 
+# Analog kann man eine totale 1:1 Beziehung folgender Maßen darstellen:
+# 
+# <img src="11_total_notation.jpg" width="300"/>
+# 
+# 
 
-# ![title](rolle_relationship.jpg)
+# ## Entitytypen und Rollen
 
-# Entitytypen können mehr als einmal in einer Relationship auftauchen.
-# <br>
-# Entsprechend mehrere Kanten
-# <br>
-# Jede Kante entspricht einer anderen Rolle.
-# <br>Die Kanten werden mit den entsprechenden Rollen annotiert.
+# Entitytypen können mehr als einmal in einer Relationship auftauchen, beziehungsweise kann Entitytyp durch ein Relationshiptyp mit sich selbst verbunden sein. Dabei tauchen Sie jeweils in unterschiedlichen **Rollen** auf. Die ER-Modellierung ermöglicht die explizite Modellierung von Rollen durch Annotation an den Kanten der Relationships. 
+# 
+# **Beispiel (Rolle 1):** Im folgenden Beispiel wird modelliert, dass Filme Fortsetzungen von einander sein können. Dabei taucht der Entitytyp Film ein mal in der Rolle des Originals und ein mal in der Rolle der Fortsetzung mit dem Relationshiptypen "ist_Fortsetzung" auf.
+# 
+# <img src="rolle_relationship.jpg" />
 
-# ![title](rolle_relationship2.jpg)
-
-# Stammstudio eines Schauspielers erlaubt einem anderen Studio den Schauspieler für einen bestimmten Film
-# auszuleihen
-# <br>
-# <br>
-# Kardinalitäten:
-# <br>
-# Gegeben Schauspieler, Film und produzierendes Studio, ist das ausleihenden Stammstudio eindeutig (höchstens
-# ein Studio ist das ausleihende Stammstudio).
-# <br>
-# Gegeben Schauspieler, Film und Stammstudio ist das produzierende Studio eindeutig (höchstens ein Studio kann
-# einen Film produzieren).
-# <br>
-# Gegeben Schauspieler, Stammstudio und produzierendes Studio könnte es mehrere Filme geben, die in dieser
-# Konstellation gedreht werden.
-# <br>
-# Gegeben Film, Stammstudio und produzierendes Studio könnte es mehrere Schauspieler geben, die in dieser
-# Konstellation ausgeliehen werden.
+# **Beispiel (Rolle 2):** Im folgenden Beispiel taucht Studio in zwei Rollen auf: als Stammstudio und als Vertragsstudio. 
+# <img src="rolle_relationship2.jpg" />
+# 
+# Diese Modellierung impliziert, dass das Stammstudio eines Schauspielers einem anderen Studio erlaubt den/die Schauspieler*in für einen bestimmten Film
+# auszuleihen. 
+# 
+# 
+# Mit Hilfe von Rollen vermeidet man unnötig redundante Entitytypen zu modellieren. Theoretisch könnte man jede Rolle als einen Entitytypen modellieren. Dies würde bedeuten, dass wir zwei Entitytypen mit den gleichen Attributen und höchstwahrscheinlich einer großen Überlappung von Entities haben würden. 
+# 
+# 
 
 # ### n-äre Relationships
 
