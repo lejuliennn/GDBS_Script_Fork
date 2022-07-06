@@ -22,3 +22,9 @@ get_ipython().run_line_magic('sql', 'sqlite:///imdb.db')
 
 get_ipython().run_line_magic('sql', "SELECT name FROM actor WHERE name LIKE '%Krug%'")
 
+
+# In[4]:
+
+
+get_ipython().run_line_magic('sql', 'TABLE_EXISTS actor')
+

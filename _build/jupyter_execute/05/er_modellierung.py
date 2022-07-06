@@ -192,7 +192,7 @@
 # 
 # 
 
-# ## Entitytypen und Rollen
+# ### Entitytypen und Rollen
 
 # Entitytypen können mehr als einmal in einer Relationship auftauchen, beziehungsweise kann Entitytyp durch ein Relationshiptyp mit sich selbst verbunden sein. Dabei tauchen Sie jeweils in unterschiedlichen **Rollen** auf. Die ER-Modellierung ermöglicht die explizite Modellierung von Rollen durch Annotation an den Kanten der Relationships. 
 # 
@@ -213,164 +213,89 @@
 
 # ### n-äre Relationships
 
-# Relationships zwischen mehr als zwei Entities
-# <br>
-# Ein/e Schauspieler*in steht bei einem Studio für eine bestimmten Film unter Vertrag
-# <br>
-# Instanz der Relationship kann man als Tripel darstellen.
-# <br>
-# Kardinalitäten: Jede Kombination von Schauspieler und Film kann nur mit einem
-# <br>
-# Studio in Beziehung stehen.
-
-# ![title](n-aer_relationships.jpg)
+# Relationshiptypen können auch zwischen mehreren bis zu "n" Entitytypen existieren. Beispielsweise könnte man die Beziehung, dass  ein/e Schauspieler*in  bei einem Studio für eine bestimmten Film unter Vertrag steht als einen ternären Relationshiptypen wie folgt dargestellt modellieren. 
+# 
+# <img src="n-aer_relationships.jpg" width="500"/>
+# 
+# Die Instanz eines solchen Relationshiptypen kann man dann als Tripel darstellen.
+# 
+# 
+# Normalerweise versucht man n-äre Relationshiptypen zu vermeiden, da diese schwer nachzuvollziehen sind. Insbesondere sind Kardinalitäten nicht sofort ersichtlich. In unserem Beispiel muss man genau überlegen, wie der Pfeil am Studio zu interpretieren ist. Eine mögliche Interpretation ist des Pfeiles ist, dass jede Kombination von Schauspieler*in und Film mit nur einem Studio in Beziehung stehen. Man könnte aber auch rauslesen, dass jede Schauspieler*in mit beliebig vielen Filmen aber nur einem Studio in einer Beziehung steht. Analog kann jeder Film nur mit einem Studio aber beliebig vielen Schauspieler*innen in Verbindung stehen. Um solche Mehrdeutigkeiten zu verhindern, sollte man sich bei der Modellierung auf binäre Relationshiptypen einschränken.
 
 # ### Konvertierung in binäre Relationships
 
-# Umwandlung n-ärer Relationships in binäre Relationships
-# <br>
-# Erstellung eines neuen, verbindenden Entitytyps
-# <br>
-# Neue n:1 Relationships zwischen dem neuen Entitytyp und den alten Entitytypen
-# <br>
+# Manchmal bietet sich im Modellierungsprozess an zunächst komplexe Relationshiptypen als n-äre Relationshiptypen zu modellieren und diese erst dann in binäre Relationshiptypen umzuwandeln. Bei dieser Konvertierung entsteht ein neuer Entitytyp welches durch binäre N:1 Relationshiptypen alle anderen Entitytypen verbindet. 
+# 
 # Falls ein Entitytyp mehrere Rollen spielt, entsteht pro Rolle ein Relationshiptyp.
-# <br>
 # Attribute des Relationshiptyps werden an den neuen Entitytyp angehängt.
+# 
+# **Beispiel (Konvertierung in binäre Relationshiptypen):** Im folgenden haben wir unser Modell mit dem 4-ären Relationshiptypen ist_unter_vertrag von **Beispiel (Rolle 2)** in ein Modell mit nur binären Relationshiptypen umgewandelt.
+# 
+# | n-äre Relationshiptypen | konvertiert zu binären Relationshiptypen |
+# |-------------------------|------------------------------------------|
+# <img src="rolle_relationship2.jpg" width="500" /> | <img src="n-aer_relationships_konvertiert.jpg" width="500" />
+# 
+# Wir haben einen neuen Entitypen "Vertrag" definiert welche in N:1 Beziehung die ursprünglichen Beziehungen darstellt. Die Modellierung ist nicht vollständig äquivalent. Theoretisch könnte es nun mehrere Verträge mit der gleichen Kombination von  Studios, Schauspiler*innen und Filmen existieren. Das wären dann Vertragsduplikate. In der ursprünglichen Modellierung könnte das nicht passieren, da der Vertrag als Relationshiptyp mit entsprechenden Kardinalitäten eingeschränkt ist. 
 
 # ### Attribute an Relationships
 
-# In manchen Fällen ist es hilfreich, Relationships Attribute zuzuordnen
-# <br>
-# Bsp: In dem Drehvertrag wird ein Gehalt festgestellt.
-# <br>
-# Zuordnung zu Schauspieler? Er könnte für verschiedene Filme unterschiedliche Gehälter bekommen.
-# <br>
-# Zuordnung zum Film? Verschiedene Schauspieler könnten unterschiedliche Gehälter bekommen.
-# <br>
-# Zuordnung zum Studio? Es könnte verschiedenen Schauspielern unterschiedliche Gehälter zahlen.
+# In manchen Fällen ist es hilfreich, Relationships Attribute zuzuordnen. Damit stellt man sicher, dass das Attribut nur gesetzt ist, wenn eine Beziehung zwischen zwei Entitytypen existiert. 
+# 
+# **Beispiel:** Im folgenden Modell wird modelliert, dass in einem Vetrag ein Gehalt festgestellt wird. Eine Zuordnuung an Schauspieler*in, Film oder Studio ist hier nicht sinnvoll
+# Eine Schauspieler*in könnte für verschiedene Filme unterschiedliche Gehälter bekommen. Verschiedene Schauspieler*innen könnten für den selben Film unterschiedliche Gehälter bekommen. Ein Studio könnte verschiedenen Schauspieler*innen unterschiedliche Gehälter zahlen.
+# 
+# <img src="attribute_relationship.jpg"  width="500"/>
+# 
 # 
 
-# ![title](attribute_relationship.jpg)
+# ## Spezielle Relationshiptypen: IST-Beziehung
 
-# ## IST-Beziehung
+# Das ER-Modell erlaubt spezielle Beziehungen, wie Subklassenbeziehungen explizit zu modellieren. Dabei wird modelliert, dass ein Entitytyp in einer Subklassenbeziehung zu einem anderen Entitytypen steht. Dabei ist die Subklasse jeweils eine Spezialisierung der oberen Klasse. Somit gibt könnte es weniger Entitäten in der Subklasse geben, die jedoch mehr spezialisiere Attribute haben und in weiteren speziellen Relationshiptypen auftauchen. 
+# Im ER-Modell gibt es hierzu den Relationshiptypen IST oder is-a. Zudem wird der Relationshiptyp als Dreieck dargestellt wobei die Spitze des Dreiecks zur Superklasse zeigt. IST-Relationshiptypen haben immer eine 1:1 Kardinalität: Ein Entity der Subklasse ist auch immer Entity der Superklasse. Pfeile sind bei dieser Darstellung nicht notwendig. 
+# Das ist anders als bei objekt-orientierte (OO) Modelle
+# In OO sind Objekte immer einer Klassezugehörig und Subklassen erben von Superklasse.
+# In ER sind Entities in allen Subklassen repräsentiert, in die sie gehören, und der jeweiligen Superklasse.
+# 
+# **Beispiel (ist-relationship):** In folgenden Beispiel wurde modelliert, dass jede Filmentität entweder der Subklasse Krimi oder Zeichentrickfilm beiden oder keinem angehören kann. Die Entität muss dann entsprechend in den jeweiligen Entitytypen auftauchen.
+# 
+# <img src="ist_relationship.jpg" WIDTH="500" />
 
-# Subklasse
-# <br>
-# Spezialfall / Spezialisierung
-# <br>
-# Weniger Entities
-# <br>
-# Mehr Attribute
-# <br>
-# Eventl. mehr Relationships
-# <br>
-# Besonderer Relationshiptyp
-# <br>
-# IST (is-a)
-# <br>
-# Darstellung durch Dreieck
-# <br>
-# Spitze zeigt zur Superklasse
-# <br>
-# Immer 1:1
-# <br>
-# Trotzdem keine Pfeile
-
-# ### IST-Beziehung als Bäume
-
-# IST-Beziehungen nur als Bäume
-# <br>
-# Keine Mehrfachvererbung
-# <br>
-# Ein Entity kann aus mehreren Komponenten des IST-Baumes bestehen.
-# <br>
-# „Krieg der Sterne“ hat vier Attribute.
-# <br>
-# „Cinderella“ hat vier Attribute und „Stimmen“-Relationships.
-# <br>
-# „Der dritte Mann“ hat vier Attribute und zusätzlich das Attribut „Waffen“.
-# <br>
-# „Roger Rabbit“ hat vier Attribute, zusätzlich das Attribut „Waffen“ und „Stimmen“-Relationships.
-# <br>
-# Anders als objekt-orientierte Modelle
-# <br>
-# In OO sind Objekte immer in genau einer Klasse; Subklassen erben von Superklasse(n).
-# <br>
-# In ER sind Entities in allen Subklassen repräsentiert, in die sie gehören.
-# <br>
-# In ER ist ein Entity in einer Subklasse auch automatisch in den Superklassen repräsentiert.
+# Beispielfilme:
+# - „Krieg der Sterne“ ist weder ein Zeichentrickfilm noch ein Krimi und hat somit vier Attribute.
+# - „Prinzessin Mononoke“ ist ein Zeichentrickfilm und hat somit vier Attribute und „Stimmen“-Relationships.
+# - „Prisoner“ hat vier Attribute und zusätzlich das Attribut „Waffen“.
+# - „Roger Rabbit“ ist sowohl ein Krimi als auch ein Zeichentrickfilm und hat somit die vier Filmattribute, zusätzlich das Attribut „Waffen“ und „Stimmen“-Relationships.
 
 # ## Nebenbedingungen(Constraints)
 
-# Schlüssel
-# <br>
-# Ein oder mehrere Attribute
-# <br>
-# Werte identifizieren eindeutig ein Entity.
-# <br>
-# Referentielle Integrität
-# <br>
-# Existenz des referenzierten Entities
-# <br>
-# Entspricht „dangling pointer“
-# <br>
-# Domänen
-# <br>
-# Einschränkung des Wertebereichs
-# <br>
-# Allgemeine Nebenbedingungen (assertions)
-# <br>
-# Z.B. nicht mehr als 10 Schauspieler pro Film
-# <br>
-# Nebenbedingungen sind Teil des Schemas. Sie leiten sich nicht aus den Daten ab!
+# Daten unterliegen häufig bestimmten Einschränkungen und Nebenbedingungen. Nebenbedingungen dienen oft dazu Entitytypen und Relatioshiptypen eindeutig identifizieren oder einschränken zu können. 
+# Zu den gebräuchlichen Nebenbedingungen gehören unter anderem Schlüssel und Fremdschlüssel. Schlüssel sind Attributkombinationen die Entities eindeutig identifizierbar machen. Fremdschlüssel andererseits stellen referenzielle Integrität her. Damit wird die Existenz von bestimmten Entitytypen von anderen abhängig. Andere Einschränkungen betreffen Wertebereiche von Attribute und Kardinalitäten. Wir werden im Folgenden die wichtigsten Nebenbedingungen, die man im Rahmen der ER-Modellierung verwendet genauer betrachten. Wichtig ist bei der Bewertung von Nebenbedingung, dass diese als Teil des konzeptionellen Entwurfes allgemeingültig definiert werden. Zufällig existierende Beziehungen in konkreten Daten können nicht automatisch zur Nebenbedingung qualifiziert werden.
 
-# ## Schlüssel
+# ### Schlüssel
 
-# Ein Schlüssel ist eine (minimale) Menge von Attributen eines Entitytyps, für die gilt, dass keine zwei Entities gleiche Werte in allen Schlüsselattributen haben.
-# <br>
-# Einige Attributwerte können übereinstimmen.
-# <br>
-# Oft nur ein Attribut
-# <br>
-# Für jeden Entitytyp muss ein Schlüssel angegeben werden.
-# <br>
-# Es kann mehr als einen Schlüssel für einen Entitytyp geben.
-# <br>
-# Üblich: Primärschlüssel auswählen
-# <br>
-# Bei IST-Beziehungen muss die Wurzel-Superklasse sämtliche Schlüsselattribute enthalten.
-# <br>
-# Darstellung durch Unterstreichen der Attributnamen
+# Ein Schlüssel ist eine (minimale) Menge von Attributen eines Entitytyps, für die gilt, dass keine zwei Entities gleiche Werte in allen Schlüsselattributen haben. Beispielsweise könnte für unseren Entitytypen Filem die Kombination aus Film und Jahr als Schlüssel fungieren. Die Wahl eines solchen Schlüssels muss mit Bedacht geschehen. Die Unterscheidbarkeit von Entities in der realen Welt muss durch die Schlüsseleigenschaften gewährleistet sein. Anderenfalls wird man ähnliche Entities nicht zeitgleich im Modell aufnehmen und von einander unterscheiden können. Würde man beispielsweise, nur den Titel eines Films als den Schlüssel auswählen, könnte man nicht mehr unterschiedliche Filme mit dem gleichen Titel von einander unterscheiden. Dabei gibt es oft Wiederverfilmungen der gleichen Geschichte mit dem gleichen Titel, wie z.B. "Hamlet", "King Kong". Die Kombination {Titel, Jahr} ist hier wahrscheinlich sinnvoller. 
+# 
+# Generell muss bei der ER-Modellierung für jeden Entitytypen ein Schlüssel angegeben werden. Manchmal gibt es mehrere Möglichkeiten einen Schlüssel zu definieren. Beispielsweise wird in Deutschland jede Person durch die Personalausweisnummer sowie der Steuernummer eindeutig identifiziert. Bei Modellierung von Entitytypen ist es jedoch üblich einen Primärschlüssel auszuwählen. Bei IST-Beziehungen muss die Wurzel-Superklasse sämtliche Schlüsselattribute enthalten.
+# 
+# 
+# Schlüsselattribute werden im ER-Modell durch Unterstreichen der Attributnamen dargestellt. 
+# 
+# **Beispiel:** Im folgenden Beispiel haben wir für jeden Entitytypen Schlüsselattribute angegeben. Filme werden durch {Titel, Jahr} , Schauspieler\*innen durch {Name, Adresse} und Studios durch {Name} jeweils eindeutig identifziert. 
+# 
+# <img src="schluesselbeispiel_film.jpg" width="500" />
+# 
 
 # ### Referentielle Integrität
 
-# Schlüssel: Höchstens ein bestimmter Wert für ein Attribut
-# <br>
-# Bzw. höchstens eine Wertekombination bei mehreren Attributen im Schlüssel
-# <br>
-# Referentielle Integrität: Genau ein bestimmter Wert
-# <br>
-# Bsp. n:1 Relationship zwischen „Filme“ und „Studios“
-# <br>
-# Ein Film kann zu höchsten einem Studio gehören.
-# <br>
-# Aber ein Film muss zu keinem Studio gehören.
-# <br>
-# Auch wenn ein Film zu einem Studio gehört, muss dieses nicht in der DB repräsentiert sein.
-# <br>
-# Referentielle Integrität erzwingt die Existenz und Repräsentation des Studios
-# <br>
-# „Erzwingen“
-# <br>
-# Bei Einfügen/Ändern eines Films muss entsprechendes Studio vorhanden sein.
-# <br>
-# Ein Studio darf nicht gelöscht werden, solange es noch Filme besitzt.
-# <br<
-# Oder: Wenn ein Studio gelöscht wird, werden auch alle entsprechenden Filme gelöscht.
-# <br>
-# Verschiedene Einstellungen im DBMS
+# Referentielle Integrität erzwingt die Zuordnung von Entities zu einem Entity eines anderen Entitytypen. Bisher haben wir N:1-Relationshiptypen betrachtet, bei denen gilt, dass eine Beziehung zwischen einem Entity der n-Seite mit höchstens einem Entitytypen der 1-Seite existiert. Aber in diese Modellierung kann ein Entity der n-Seite auch mit keinem Entity der 1-Seite in Verbingung stehen. Beispiesweise kann in unserem Film-Beispiel ein Film zu höchstens einem Studio gehören. Ein Film kann auch ohne ein Studio existieren. 
+# Referentielle Integrität erzwingt die Existenz und Repräsentation des Studios. Damit stellt man sicher, dass nur Filme in der Datenbank aufgenommen werden, die auch wirklich einem Studio zugehören. 
+# Das heißtl, dass das Datenbanksystem beim Einfügen/Ändern eines Films muss prüfen muss, dass ein entsprechendes Studio vorhanden ist. Weiterhin wird sicher gestellt, dass ein Studio nicht gelöscht werden darf, solange es noch Filme besitzt.
+# 
+# Die Darstellung von referenzieller Integrität erfolgt im ER-Modell anhand eines offenen Pfeiles. Diese Darstellung haben wir für die Modellierung von totalen Beziehungen kennen gelernt. Eine referenzielle Integrität beschreibt tatsächlich eine totale Abbildung eines Entitytypen auf einen anderen Entitytypen.
 
-# ![title](referentielle_integritaet.jpg)
+# **Beispiel:** Im folgenden Beispiel wird an zwei Stellen referenzielle Integrität erzwungen. Zunächst wird erzwungen, dass jeder Film genau einem Studio zugeordnet werden muss. Weiterhin leitet jede/r Vorsitzend/e genau ein Studio. Vorsitzende können nicht ohne Studios existieren. Ein Studio kann jedoch ohne Vorsitzende existieren. 
+# 
+# <img src="referentielle_integritaet.jpg" width="500"/>
 
 # ### Weitere Nebenbedingungen
 

@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>9. SQL &#8212; Online-Skript Grundlagen der Datenbanksysteme</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -39,20 +37,21 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="10. Integrität und Trigger" href="../10/integritaet_und_trigger.html" />
@@ -64,7 +63,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +86,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -93,14 +107,15 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro.html">
-   Grundlagen der Datenbanksysteme
-  </a>
- </li>
-</ul>
-<ul class="current nav bd-sidenav">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Grundlagen der Datenbanksysteme
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01/einfuehrung.html">
    1. Einführung
@@ -156,113 +171,240 @@ const thebe_selector_output = ".output, .cell_output"
    11. Transaktionsmanagement
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../imdb/imdb/sql_cell_test.html">
+   12. sql test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../imdb/imdb/xeus-sqlite_kernel_test.html">
+   13. kernel test
+  </a>
+ </li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/09/sql.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/LUH-DBS/GDBS_Script"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/LUH-DBS/GDBS_Script/issues/new?title=Issue%20on%20page%20%2F09/sql.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/LUH-DBS/GDBS_Script/main/?urlpath=tree/09/sql.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <button type="button" class="btn btn-secondary topbarbtn"
-            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
-                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/LUH-DBS/GDBS_Script/main/?urlpath=tree/09/sql.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/LUH-DBS/GDBS_Script"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/LUH-DBS/GDBS_Script/issues/new?title=Issue%20on%20page%20%2F09/sql.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/09/sql.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#einfuhrung">
    9.1. Einführung
@@ -762,12 +904,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>SQL</h1>
@@ -1283,15 +1424,16 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="sql">
-<h1><span class="section-number">9. </span>SQL<a class="headerlink" href="#sql" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="einfuhrung">
-<h2><span class="section-number">9.1. </span>Einführung<a class="headerlink" href="#einfuhrung" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="sql-historie">
-<h3><span class="section-number">9.1.1. </span>SQL-Historie<a class="headerlink" href="#sql-historie" title="Permalink to this headline">¶</a></h3>
+  <section class="tex2jax_ignore mathjax_ignore" id="sql">
+<h1><span class="section-number">9. </span>SQL<a class="headerlink" href="#sql" title="Permalink to this headline">#</a></h1>
+<section id="einfuhrung">
+<h2><span class="section-number">9.1. </span>Einführung<a class="headerlink" href="#einfuhrung" title="Permalink to this headline">#</a></h2>
+<section id="sql-historie">
+<h3><span class="section-number">9.1.1. </span>SQL-Historie<a class="headerlink" href="#sql-historie" title="Permalink to this headline">#</a></h3>
 <p>■ SEQUEL (1974, IBM Research Labs San Jose)
 <br><br>
 ■ SEQUEL2 (1976, IBM Research Labs San Jose)
@@ -1305,9 +1447,9 @@ const thebe_selector_output = ".output, .cell_output"
 <img alt="title" src="../_images/historie2.jpg" />
 <br>
 <img alt="title" src="../_images/historie3.jpg" /></p>
-</div>
-<div class="section" id="sql-standardisierung">
-<h3><span class="section-number">9.1.2. </span>SQL – Standardisierung<a class="headerlink" href="#sql-standardisierung" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="sql-standardisierung">
+<h3><span class="section-number">9.1.2. </span>SQL – Standardisierung<a class="headerlink" href="#sql-standardisierung" title="Permalink to this headline">#</a></h3>
 <p>■ SQL1 von ANSI als Standard verabschiedet (1986)
 <br>
 <br>
@@ -1344,9 +1486,9 @@ const thebe_selector_output = ".output, .cell_output"
 □ Adds row pattern matching, polymorphic table functions, JSON.
 <br><br>
 Trotz Standardisierung: Inkompatibilitäten zwischen Systemen der einzelnen Hersteller</p>
-</div>
-<div class="section" id="sql-2008-struktur">
-<h3><span class="section-number">9.1.3. </span>SQL:2008 Struktur<a class="headerlink" href="#sql-2008-struktur" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="sql-2008-struktur">
+<h3><span class="section-number">9.1.3. </span>SQL:2008 Struktur<a class="headerlink" href="#sql-2008-struktur" title="Permalink to this headline">#</a></h3>
 <p>■ Part 1: Framework (SQL/Framework) – 82 Seiten
 <br>
 □ Überblick
@@ -1384,9 +1526,9 @@ Trotz Standardisierung: Inkompatibilitäten zwischen Systemen der einzelnen Hers
 □ XML Datentyp und Erweiterung von SQL um XQuery
 <br><br>
 =&gt; Zusammen: 3777 Seiten</p>
-</div>
-<div class="section" id="motivation-fur-sql">
-<h3><span class="section-number">9.1.4. </span>Motivation für SQL<a class="headerlink" href="#motivation-fur-sql" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="motivation-fur-sql">
+<h3><span class="section-number">9.1.4. </span>Motivation für SQL<a class="headerlink" href="#motivation-fur-sql" title="Permalink to this headline">#</a></h3>
 <p>■ Meist-verbreitete Datenbankanfragesprache
 <br><br>
 ■ Ad-hoc und einfach
@@ -1408,16 +1550,16 @@ Trotz Standardisierung: Inkompatibilitäten zwischen Systemen der einzelnen Hers
 ■ Achtung: Syntax kann sich von System zu System leicht unterscheiden.
 <br><br>
 ■ Achtung: Funktionalität kann sich von System zu System leicht unterscheiden.</p>
-</div>
-</div>
-<div class="section" id="einfach-anfragen">
-<h2><span class="section-number">9.2. </span>Einfach Anfragen<a class="headerlink" href="#einfach-anfragen" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="beispielschema">
-<h3><span class="section-number">9.2.1. </span>Beispielschema<a class="headerlink" href="#beispielschema" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="einfach-anfragen">
+<h2><span class="section-number">9.2. </span>Einfach Anfragen<a class="headerlink" href="#einfach-anfragen" title="Permalink to this headline">#</a></h2>
+<section id="beispielschema">
+<h3><span class="section-number">9.2.1. </span>Beispielschema<a class="headerlink" href="#beispielschema" title="Permalink to this headline">#</a></h3>
 <p><img alt="title" src="../_images/beispielschema.jpg" /></p>
-</div>
-<div class="section" id="select-from-where">
-<h3><span class="section-number">9.2.2. </span>SELECT … FROM … WHERE …<a class="headerlink" href="#select-from-where" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="select-from-where">
+<h3><span class="section-number">9.2.2. </span>SELECT … FROM … WHERE …<a class="headerlink" href="#select-from-where" title="Permalink to this headline">#</a></h3>
 <p>■</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SELECT *
 FROM Film
@@ -1440,9 +1582,9 @@ WHERE StudioName = ‘Disney‘ AND Jahr= 1990;
 <br>
 □ Für jedes Tupel aus „Film“ prüfe die Bedingungen und gebe gültige Tupel aus</p></li>
 </ol>
-</div>
-<div class="section" id="grosz-und-kleinschreibung">
-<h3><span class="section-number">9.2.3. </span>Groß- und Kleinschreibung<a class="headerlink" href="#grosz-und-kleinschreibung" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="grosz-und-kleinschreibung">
+<h3><span class="section-number">9.2.3. </span>Groß- und Kleinschreibung<a class="headerlink" href="#grosz-und-kleinschreibung" title="Permalink to this headline">#</a></h3>
 <p>■ In SQL wird Groß- und Kleinschreibung nicht beachtet
 <br></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">From</span> <span class="o">=</span> <span class="n">FROM</span> <span class="o">=</span> <span class="kn">from</span> <span class="o">=</span> <span class="n">FrOm</span>
@@ -1470,9 +1612,9 @@ WHERE StudioName = ‘Disney‘ AND Jahr= 1990;
 □ Schlüsselworte großschreiben
 <br>
 □ Schemaelemente kleinschreiben</p>
-</div>
-<div class="section" id="projektion-in-sql-select-pi">
-<h3><span class="section-number">9.2.4. </span>Projektion in SQL (SELECT, <span class="math notranslate nohighlight">\(\pi\)</span>)<a class="headerlink" href="#projektion-in-sql-select-pi" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="projektion-in-sql-select-pi">
+<h3><span class="section-number">9.2.4. </span>Projektion in SQL (SELECT, <span class="math notranslate nohighlight">\(\pi\)</span>)<a class="headerlink" href="#projektion-in-sql-select-pi" title="Permalink to this headline">#</a></h3>
 <p>■ Spezifikation in der SELECT Klausel</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">Film</span>
 </pre></div>
@@ -1498,9 +1640,9 @@ WHERE StudioName = ‘Disney‘ AND Jahr= 1990;
 ‘std.‘ AS inStunden FROM Film
 </pre></div>
 </div>
-</div>
-<div class="section" id="selektion-in-sql-where-sigma">
-<h3><span class="section-number">9.2.5. </span>Selektion in SQL (WHERE, <span class="math notranslate nohighlight">\(\sigma\)</span>)<a class="headerlink" href="#selektion-in-sql-where-sigma" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="selektion-in-sql-where-sigma">
+<h3><span class="section-number">9.2.5. </span>Selektion in SQL (WHERE, <span class="math notranslate nohighlight">\(\sigma\)</span>)<a class="headerlink" href="#selektion-in-sql-where-sigma" title="Permalink to this headline">#</a></h3>
 <p>■ Spezifikation in der WHERE Klausel
 <br>
 □ Bedingungen wie in einer Programmiersprache
@@ -1532,9 +1674,9 @@ WHERE StudioName = ‘Disney‘ AND Jahr= 1990;
 </pre></div>
 </div>
 <p>– Vorname || ` ` || Nachname = `Luke Skywalker`</p>
-</div>
-<div class="section" id="selektion-in-sql">
-<h3><span class="section-number">9.2.6. </span>Selektion in SQL<a class="headerlink" href="#selektion-in-sql" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="selektion-in-sql">
+<h3><span class="section-number">9.2.6. </span>Selektion in SQL<a class="headerlink" href="#selektion-in-sql" title="Permalink to this headline">#</a></h3>
 <p>■ Ergebnis ist stets Boole‘scher Wert
 <br>
 □ TRUE oder FALSE
@@ -1557,9 +1699,9 @@ FROM Film
 WHERE (Jahr &gt; 1970 OR Länge &lt; 90) AND StudioName = ‘MGM‘;
 </pre></div>
 </div>
-</div>
-<div class="section" id="stringvergleiche">
-<h3><span class="section-number">9.2.7. </span>Stringvergleiche<a class="headerlink" href="#stringvergleiche" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="stringvergleiche">
+<h3><span class="section-number">9.2.7. </span>Stringvergleiche<a class="headerlink" href="#stringvergleiche" title="Permalink to this headline">#</a></h3>
 <p>■ Datentypen
 <br>
 □ Array fester Länge, Buchstabenliste variabler Länge, Konstanten
@@ -1577,9 +1719,9 @@ WHERE (Jahr &gt; 1970 OR Länge &lt; 90) AND StudioName = ‘MGM‘;
 □ Sortierreihenfolge upper-case/lower-case usw. je nach DBMS
 <br>
 □ Achtung: Auch nicht immer identisch zur Reihenfolge in Programmiersprachen</p>
-</div>
-<div class="section" id="string-mustervergleiche-mit-like">
-<h3><span class="section-number">9.2.8. </span>String-Mustervergleiche mit LIKE<a class="headerlink" href="#string-mustervergleiche-mit-like" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="string-mustervergleiche-mit-like">
+<h3><span class="section-number">9.2.8. </span>String-Mustervergleiche mit LIKE<a class="headerlink" href="#string-mustervergleiche-mit-like" title="Permalink to this headline">#</a></h3>
 <p>■ string LIKE pattern
 <br>
 □ bzw. string NOT LIKE pattern
@@ -1598,9 +1740,9 @@ WHERE Titel LIKE ‘Star _ _ _ _‘;
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SELECT Titel FROM Film WHERE Titel LIKE ‘%War%‘;
 </pre></div>
 </div>
-</div>
-<div class="section" id="datum-und-uhrzeit">
-<h3><span class="section-number">9.2.9. </span>Datum und Uhrzeit<a class="headerlink" href="#datum-und-uhrzeit" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="datum-und-uhrzeit">
+<h3><span class="section-number">9.2.9. </span>Datum und Uhrzeit<a class="headerlink" href="#datum-und-uhrzeit" title="Permalink to this headline">#</a></h3>
 <p>■ Spezielle Datentypen und Repräsentationen
 <br>
 □ Datumskonstante:
@@ -1624,9 +1766,9 @@ WHERE Titel LIKE ‘Star _ _ _ _‘;
 – TIME ‘15:00:02.5‘ &lt; TIME ‘15:02:02.5‘ ergibt TRUE
 <br>
 – Selektion: ERSCHEINUNGSTAG &gt;= DATE ‘1949-11-12‘</p>
-</div>
-<div class="section" id="nullwerte">
-<h3><span class="section-number">9.2.10. </span>Nullwerte<a class="headerlink" href="#nullwerte" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="nullwerte">
+<h3><span class="section-number">9.2.10. </span>Nullwerte<a class="headerlink" href="#nullwerte" title="Permalink to this headline">#</a></h3>
 <p>Darstellung: NULL bzw. ⊥
 <br>
 <br>
@@ -1664,9 +1806,9 @@ x = 3 ergibt UNKNOWN.
 Prüfen von Nullwerten in WHERE Klausel
 <br>
 Geburtstag IS NULL bzw. Geburtstag IS NOT NULL</p>
-</div>
-<div class="section" id="wahrheitswerte">
-<h3><span class="section-number">9.2.11. </span>Wahrheitswerte<a class="headerlink" href="#wahrheitswerte" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="wahrheitswerte">
+<h3><span class="section-number">9.2.11. </span>Wahrheitswerte<a class="headerlink" href="#wahrheitswerte" title="Permalink to this headline">#</a></h3>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p>AND</p></th>
@@ -1746,9 +1888,9 @@ UNKNOWN = ½
 <p>□ Tupel erscheint nicht im Ergebnis.
 <br><br>
 ■ Ausführungspriorität: NOT vor AND vor OR</p>
-</div>
-<div class="section" id="sortierung">
-<h3><span class="section-number">9.2.12. </span>Sortierung<a class="headerlink" href="#sortierung" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="sortierung">
+<h3><span class="section-number">9.2.12. </span>Sortierung<a class="headerlink" href="#sortierung" title="Permalink to this headline">#</a></h3>
 <p>■ ORDER BY Klausel ans Ende der Anfrage
 <br>
 □ ORDER BY &lt;Attributliste&gt; DESC/ASC
@@ -1767,20 +1909,20 @@ WHERE StudioName = ‘Disney‘ AND Jahr = 1990
 ORDER BY Länge ASC, Titel DESC;
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="anfragen-uber-mehrere-relationen">
-<h2><span class="section-number">9.3. </span>Anfragen über mehrere Relationen<a class="headerlink" href="#anfragen-uber-mehrere-relationen" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="motivation">
-<h3><span class="section-number">9.3.1. </span>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="anfragen-uber-mehrere-relationen">
+<h2><span class="section-number">9.3. </span>Anfragen über mehrere Relationen<a class="headerlink" href="#anfragen-uber-mehrere-relationen" title="Permalink to this headline">#</a></h2>
+<section id="motivation">
+<h3><span class="section-number">9.3.1. </span>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">#</a></h3>
 <p>■ Hauptstärke der Relationalen Algebra ist die Kombination von Relationen
 <br><br>
 ■ Erst mit mehreren Relationen sind viele interessante Anfragen möglich.
 <br><br>
 ■ Nennung der beteiligten Relationen in der FROM Klausel</p>
-</div>
-<div class="section" id="kreuzprodukt-und-join">
-<h3><span class="section-number">9.3.2. </span>Kreuzprodukt und Join<a class="headerlink" href="#kreuzprodukt-und-join" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="kreuzprodukt-und-join">
+<h3><span class="section-number">9.3.2. </span>Kreuzprodukt und Join<a class="headerlink" href="#kreuzprodukt-und-join" title="Permalink to this headline">#</a></h3>
 <p>■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
 <br>
 ■ Manager*in(Name, Adresse, ManagerinID, Gehalt)</p>
@@ -1805,9 +1947,9 @@ WHERE ProduzentinID = ManagerinID
 AND Titel = ‘Star Wars‘;
 </pre></div>
 </div>
-</div>
-<div class="section" id="uneindeutige-attributnamen">
-<h3><span class="section-number">9.3.3. </span>Uneindeutige Attributnamen<a class="headerlink" href="#uneindeutige-attributnamen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="uneindeutige-attributnamen">
+<h3><span class="section-number">9.3.3. </span>Uneindeutige Attributnamen<a class="headerlink" href="#uneindeutige-attributnamen" title="Permalink to this headline">#</a></h3>
 <p>■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
 <br><br>
 ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)
@@ -1823,9 +1965,9 @@ AND Titel = ‘Star Wars‘;
 <p>□ Präfix ist auch erlaubt wenn Attributname eindeutig ist.
 <br>
 – Erleichtert das Lesen von SQL Anfragen</p>
-</div>
-<div class="section" id="tupelvariablen">
-<h3><span class="section-number">9.3.4. </span>Tupelvariablen<a class="headerlink" href="#tupelvariablen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="tupelvariablen">
+<h3><span class="section-number">9.3.4. </span>Tupelvariablen<a class="headerlink" href="#tupelvariablen" title="Permalink to this headline">#</a></h3>
 <p>■ Zur eindeutigen Kennzeichnung von Tupeln beteiligter Relationen
 <br>
 □ „Alias“ einer Relation
@@ -1847,9 +1989,9 @@ AND Titel = ‘Star Wars‘;
 </pre></div>
 </div>
 <p>■ Ohne explizites Angeben einer Tupelvariablen wird der Relationenname als Tupelvariable verwendet.</p>
-</div>
-<div class="section" id="tupelvariablen-selfjoin">
-<h3><span class="section-number">9.3.5. </span>Tupelvariablen-Selfjoin<a class="headerlink" href="#tupelvariablen-selfjoin" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="tupelvariablen-selfjoin">
+<h3><span class="section-number">9.3.5. </span>Tupelvariablen-Selfjoin<a class="headerlink" href="#tupelvariablen-selfjoin" title="Permalink to this headline">#</a></h3>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
@@ -1944,9 +2086,9 @@ AND Titel = ‘Star Wars‘;
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="interpretation-von-anfragen">
-<h3><span class="section-number">9.3.6. </span>Interpretation von Anfragen<a class="headerlink" href="#interpretation-von-anfragen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="interpretation-von-anfragen">
+<h3><span class="section-number">9.3.6. </span>Interpretation von Anfragen<a class="headerlink" href="#interpretation-von-anfragen" title="Permalink to this headline">#</a></h3>
 <p>■ Drei Interpretationsvarianten für Anfragen mit mehreren Relationen
 <br>
 □ Nested Loops (geschachtelte Schleifen)
@@ -1992,9 +2134,9 @@ AND Titel = ‘Star Wars‘;
 ■ Tatsächliches Resultat: leere Menge
 <br>
 □ Ausführung als drei geschachtelte Schleifen</p>
-</div>
-<div class="section" id="joins">
-<h3><span class="section-number">9.3.7. </span>Joins<a class="headerlink" href="#joins" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="joins">
+<h3><span class="section-number">9.3.7. </span>Joins<a class="headerlink" href="#joins" title="Permalink to this headline">#</a></h3>
 <p><img alt="title" src="../_images/joins.jpg" /></p>
 <p>Man kann Joins auch auf andere Weise ausdrücken.
 <br>
@@ -2021,12 +2163,12 @@ JOIN SchauspielerIn ON spielt_in.Name = SchauspielerIn.Name WHERE Geschlecht = �
 <p>□ Schauspieler NATURAL JOIN Manager
 <br>
 – Natural Join; Eliminiert redundante Attribute</p>
-</div>
-<div class="section" id="the-tpc-h-schema">
-<h3><span class="section-number">9.3.8. </span>The TPC-H Schema<a class="headerlink" href="#the-tpc-h-schema" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-tpc-h-schema">
+<h3><span class="section-number">9.3.8. </span>The TPC-H Schema<a class="headerlink" href="#the-tpc-h-schema" title="Permalink to this headline">#</a></h3>
 <p><img alt="title" src="../_images/tpc-h_schema.jpg" /></p>
-<div class="section" id="tpc-query-2-minimum-cost-supplier">
-<h4><span class="section-number">9.3.8.1. </span>TPC Query 2 - Minimum Cost Supplier<a class="headerlink" href="#tpc-query-2-minimum-cost-supplier" title="Permalink to this headline">¶</a></h4>
+<section id="tpc-query-2-minimum-cost-supplier">
+<h4><span class="section-number">9.3.8.1. </span>TPC Query 2 - Minimum Cost Supplier<a class="headerlink" href="#tpc-query-2-minimum-cost-supplier" title="Permalink to this headline">#</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">s_acctbal</span><span class="p">,</span> <span class="n">s_name</span><span class="p">,</span> <span class="n">n_name</span><span class="p">,</span> <span class="n">p_partkey</span><span class="p">,</span> <span class="n">p_mfgr</span><span class="p">,</span> <span class="n">s_address</span><span class="p">,</span> <span class="n">s_phone</span><span class="p">,</span>
 <span class="n">s_comment</span>
 <span class="n">FROM</span> <span class="n">part</span><span class="p">,</span> <span class="n">supplier</span><span class="p">,</span> <span class="n">partsupp</span><span class="p">,</span> <span class="n">nation</span><span class="p">,</span> <span class="n">region</span>
@@ -2048,9 +2190,9 @@ JOIN SchauspielerIn ON spielt_in.Name = SchauspielerIn.Name WHERE Geschlecht = �
 TYPE is randomly selected within the list Syllable 3 defined for Types
 <br>
 REGION is randomly selected within the list of values defined for R_NAME</p>
-</div>
-<div class="section" id="the-tpc-h-universal-table">
-<h4><span class="section-number">9.3.8.2. </span>The TPC-H Universal Table<a class="headerlink" href="#the-tpc-h-universal-table" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="the-tpc-h-universal-table">
+<h4><span class="section-number">9.3.8.2. </span>The TPC-H Universal Table<a class="headerlink" href="#the-tpc-h-universal-table" title="Permalink to this headline">#</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">l_linenumber</span><span class="p">,</span> <span class="n">l_quantity</span><span class="p">,</span> <span class="n">l_extendedprice</span><span class="p">,</span> <span class="n">l_discount</span><span class="p">,</span> <span class="n">l_tax</span><span class="p">,</span> <span class="n">l_returnflag</span><span class="p">,</span> <span class="n">l_linestatus</span><span class="p">,</span> <span class="n">l_shipdate</span><span class="p">,</span> <span class="n">l_commitdate</span><span class="p">,</span> <span class="n">l_receiptdate</span><span class="p">,</span> <span class="n">l_shipinstruct</span><span class="p">,</span> <span class="n">l_shipmode</span><span class="p">,</span> <span class="n">l_comment</span><span class="p">,</span> <span class="n">o_orderkey</span><span class="p">,</span> <span class="n">o_orderstatus</span><span class="p">,</span> <span class="n">o_totalprice</span><span class="p">,</span> <span class="n">o_orderdate</span><span class="p">,</span> <span class="n">o_orderpriority</span><span class="p">,</span> <span class="n">o_clerk</span><span class="p">,</span> <span class="n">o_shippriority</span><span class="p">,</span> <span class="n">o_comment</span><span class="p">,</span> <span class="n">ps_availqty</span><span class="p">,</span> <span class="n">ps_supplycost</span><span class="p">,</span> <span class="n">ps_comment</span><span class="p">,</span> <span class="n">p_partkey</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p_mfgr</span><span class="p">,</span> <span class="n">p_brand</span><span class="p">,</span> <span class="n">p_type</span><span class="p">,</span> <span class="n">p_size</span><span class="p">,</span> <span class="n">p_container</span><span class="p">,</span> <span class="n">p_retailprice</span><span class="p">,</span> <span class="n">p_comment</span><span class="p">,</span> <span class="n">c_custkey</span><span class="p">,</span> <span class="n">c_name</span><span class="p">,</span> <span class="n">c_address</span><span class="p">,</span> <span class="n">c_phone</span><span class="p">,</span> <span class="n">c_acctbal</span><span class="p">,</span> <span class="n">c_mktsegment</span><span class="p">,</span> <span class="n">c_comment</span><span class="p">,</span> <span class="n">s_suppkey</span><span class="p">,</span> <span class="n">s_name</span><span class="p">,</span> <span class="n">s_address</span><span class="p">,</span> <span class="n">s_phone</span><span class="p">,</span> <span class="n">s_acctbal</span><span class="p">,</span> <span class="n">s_comment</span><span class="p">,</span> <span class="n">n_nationkey</span><span class="p">,</span> <span class="n">n_name</span><span class="p">,</span> <span class="n">n_comment</span><span class="p">,</span> <span class="n">r_regionkey</span><span class="p">,</span> <span class="n">r_name</span><span class="p">,</span> <span class="n">r_comment</span>
 
 <span class="n">FROM</span> <span class="n">lineitem</span><span class="p">,</span> <span class="n">orders</span><span class="p">,</span> <span class="n">partsupp</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">customer</span><span class="p">,</span> <span class="n">supplier</span><span class="p">,</span> <span class="n">nation</span><span class="p">,</span> <span class="n">region</span>
@@ -2072,10 +2214,10 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 <span class="n">AND</span> <span class="n">o_orderkey</span> <span class="o">=</span> <span class="n">l_orderkey</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="outer-joins">
-<h3><span class="section-number">9.3.9. </span>Outer Joins<a class="headerlink" href="#outer-joins" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="outer-joins">
+<h3><span class="section-number">9.3.9. </span>Outer Joins<a class="headerlink" href="#outer-joins" title="Permalink to this headline">#</a></h3>
 <p>■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
 <br><br>
 ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)
@@ -2149,9 +2291,9 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 </tbody>
 </table>
 <p>-&gt;geschweifte Klammern fehlen in md Tabelle</p>
-</div>
-<div class="section" id="kreuzprodukt">
-<h3><span class="section-number">9.3.10. </span>Kreuzprodukt<a class="headerlink" href="#kreuzprodukt" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="kreuzprodukt">
+<h3><span class="section-number">9.3.10. </span>Kreuzprodukt<a class="headerlink" href="#kreuzprodukt" title="Permalink to this headline">#</a></h3>
 <p>■ Alle Paare aus Tupeln der beteiligten Relationen</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span>
 <span class="n">FROM</span> <span class="n">SchauspielerIn</span> <span class="n">CROSS</span> <span class="n">JOIN</span> <span class="n">Film</span>
@@ -2164,9 +2306,9 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 <p>■ Selten verwendet
 <br>
 ■ Grundbaustein für Joins</p>
-</div>
-<div class="section" id="mengenoperationen-in-sql">
-<h3><span class="section-number">9.3.11. </span>Mengenoperationen in SQL<a class="headerlink" href="#mengenoperationen-in-sql" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="mengenoperationen-in-sql">
+<h3><span class="section-number">9.3.11. </span>Mengenoperationen in SQL<a class="headerlink" href="#mengenoperationen-in-sql" title="Permalink to this headline">#</a></h3>
 <p>Vereinigung: UNION
 <br><br>
 ■ Schnittmenge: INTERSECT
@@ -2190,8 +2332,8 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 ■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
 <br><br>
 ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)</p>
-<div class="section" id="schnittmenge-intersect">
-<h4><span class="section-number">9.3.11.1. </span>Schnittmenge: INTERSECT<a class="headerlink" href="#schnittmenge-intersect" title="Permalink to this headline">¶</a></h4>
+<section id="schnittmenge-intersect">
+<h4><span class="section-number">9.3.11.1. </span>Schnittmenge: INTERSECT<a class="headerlink" href="#schnittmenge-intersect" title="Permalink to this headline">#</a></h4>
 <p>■ Entspricht dem logischen „und“</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">SELECT</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Adresse</span> <span class="n">FROM</span> <span class="n">SchauspielerIn</span><span class="p">)</span>
 <span class="n">INTERSECT</span>
@@ -2208,9 +2350,9 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 </pre></div>
 </div>
 <p>■ Multimengen-Semantik: INTERSECT ALL</p>
-</div>
-<div class="section" id="vereinigung-union">
-<h4><span class="section-number">9.3.11.2. </span>Vereinigung: UNION<a class="headerlink" href="#vereinigung-union" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="vereinigung-union">
+<h4><span class="section-number">9.3.11.2. </span>Vereinigung: UNION<a class="headerlink" href="#vereinigung-union" title="Permalink to this headline">#</a></h4>
 <p>■ Entspricht dem logischen „oder“</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">SELECT</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Adresse</span> <span class="n">FROM</span> <span class="n">SchauspielerIn</span><span class="p">)</span>
            <span class="n">UNION</span>
@@ -2228,9 +2370,9 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 – Multimengensemantik erwünscht
 <br>
 – Mengeneigenschaft von Input und Output bereits bekannt</p>
-</div>
-<div class="section" id="differenz-except">
-<h4><span class="section-number">9.3.11.3. </span>Differenz: EXCEPT<a class="headerlink" href="#differenz-except" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="differenz-except">
+<h4><span class="section-number">9.3.11.3. </span>Differenz: EXCEPT<a class="headerlink" href="#differenz-except" title="Permalink to this headline">#</a></h4>
 <p>■ Auch MINUS</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">SELECT</span> <span class="n">Titel</span><span class="p">,</span> <span class="n">Jahr</span>
  <span class="n">FROM</span> <span class="n">Film</span><span class="p">)</span>
@@ -2240,9 +2382,9 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 </pre></div>
 </div>
 <p>■ Multimenge: EXCEPT ALL</p>
-</div>
-<div class="section" id="klammerung">
-<h4><span class="section-number">9.3.11.4. </span>Klammerung<a class="headerlink" href="#klammerung" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="klammerung">
+<h4><span class="section-number">9.3.11.4. </span>Klammerung<a class="headerlink" href="#klammerung" title="Permalink to this headline">#</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>■ SELECT * 
 ■ FROM 
 ■ ( 
@@ -2256,10 +2398,10 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 ■ )
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="zusammenfassung-der-semantik">
-<h3><span class="section-number">9.3.12. </span>Zusammenfassung der Semantik<a class="headerlink" href="#zusammenfassung-der-semantik" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="zusammenfassung-der-semantik">
+<h3><span class="section-number">9.3.12. </span>Zusammenfassung der Semantik<a class="headerlink" href="#zusammenfassung-der-semantik" title="Permalink to this headline">#</a></h3>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p>R1</p></th>
@@ -2428,12 +2570,12 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="geschachtelte-anfragen">
-<h2><span class="section-number">9.4. </span>Geschachtelte Anfragen<a class="headerlink" href="#geschachtelte-anfragen" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3><span class="section-number">9.4.1. </span>Motivation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="geschachtelte-anfragen">
+<h2><span class="section-number">9.4. </span>Geschachtelte Anfragen<a class="headerlink" href="#geschachtelte-anfragen" title="Permalink to this headline">#</a></h2>
+<section id="id1">
+<h3><span class="section-number">9.4.1. </span>Motivation<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
 <p>■ Eine Anfrage kann Teil einer anderen Anfrage sein.
 <br>
 □ Theoretisch beliebig tiefe Schachtelung
@@ -2450,9 +2592,9 @@ werden kann.
 <br>
 – Wie jede normale Relation</p></li>
 </ol>
-</div>
-<div class="section" id="skalare-subanfragen">
-<h3><span class="section-number">9.4.2. </span>Skalare Subanfragen<a class="headerlink" href="#skalare-subanfragen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="skalare-subanfragen">
+<h3><span class="section-number">9.4.2. </span>Skalare Subanfragen<a class="headerlink" href="#skalare-subanfragen" title="Permalink to this headline">#</a></h3>
 <p>■ Allgemeine Anfragen produzieren Relationen.
 <br>
 □ Mit mehreren Attributen
@@ -2495,8 +2637,8 @@ WHERE Titel = ‘Star Wars‘ AND Jahr = ‘1977‘ );
 □ Falls kein Tupel: null
 <br>
 □ Falls mehr als ein Tupel: Laufzeitfehler</p>
-<div class="section" id="skalare-subanfragen-beispiel">
-<h4><span class="section-number">9.4.2.1. </span>Skalare Subanfragen – Beispiel<a class="headerlink" href="#skalare-subanfragen-beispiel" title="Permalink to this headline">¶</a></h4>
+<section id="skalare-subanfragen-beispiel">
+<h4><span class="section-number">9.4.2.1. </span>Skalare Subanfragen – Beispiel<a class="headerlink" href="#skalare-subanfragen-beispiel" title="Permalink to this headline">#</a></h4>
 <p>■ Abteilungen, deren durchschnittliche Bonuszahlungen höher sind als deren durchschnittliches Gehalt.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">a</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">Standort</span>
 <span class="n">FROM</span> <span class="n">Abteilung</span> <span class="n">a</span>
@@ -2528,10 +2670,10 @@ AND a.AbtID = p.AbtID
 GROUP BY a.AbtID, a.Name
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="bedingungen-mit-relationen">
-<h3><span class="section-number">9.4.3. </span>Bedingungen mit Relationen<a class="headerlink" href="#bedingungen-mit-relationen" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="bedingungen-mit-relationen">
+<h3><span class="section-number">9.4.3. </span>Bedingungen mit Relationen<a class="headerlink" href="#bedingungen-mit-relationen" title="Permalink to this headline">#</a></h3>
 <p>■ Bestimmte SQL Operatoren auf Relationen erzeugen Boole‘sche Werte
 <br>
 □ EXISTS R
@@ -2565,9 +2707,9 @@ GROUP BY a.AbtID, a.Name
 – Alternativer Befehl: SOME
 <br>
 □ Negation mit NOT(…) ist immer möglich.</p>
-</div>
-<div class="section" id="exists-beispiele">
-<h3><span class="section-number">9.4.4. </span>EXISTS Beispiele<a class="headerlink" href="#exists-beispiele" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="exists-beispiele">
+<h3><span class="section-number">9.4.4. </span>EXISTS Beispiele<a class="headerlink" href="#exists-beispiele" title="Permalink to this headline">#</a></h3>
 <p>■ ISBNs aller ausgeliehenen Bücher</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">ISBN</span>
 <span class="n">FROM</span> <span class="n">BuchExemplar</span>
@@ -2595,9 +2737,9 @@ ihm nicht geprüft wurde.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="in-beispiele">
-<h3><span class="section-number">9.4.5. </span>IN Beispiele<a class="headerlink" href="#in-beispiele" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="in-beispiele">
+<h3><span class="section-number">9.4.5. </span>IN Beispiele<a class="headerlink" href="#in-beispiele" title="Permalink to this headline">#</a></h3>
 <p>■ Eine Auswahl an Büchern</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SELECT Titel
 FROM Bücher
@@ -2627,9 +2769,9 @@ AND P1.Prüfer = P2.Prüfer
 </pre></div>
 </div>
 <p>■ Achtung: Korrelierte Subanfrage</p>
-</div>
-<div class="section" id="all-und-any-beispiele">
-<h3><span class="section-number">9.4.6. </span>ALL und ANY Beispiele<a class="headerlink" href="#all-und-any-beispiele" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="all-und-any-beispiele">
+<h3><span class="section-number">9.4.6. </span>ALL und ANY Beispiele<a class="headerlink" href="#all-und-any-beispiele" title="Permalink to this headline">#</a></h3>
 <p>■ Die schlechteste Note des Studenten mit Matrikel 123456</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>SELECT Note
 FROM Prüft
@@ -2646,9 +2788,9 @@ AND Note &gt;= ALL (SELECT Note
                       <span class="n">FROM</span> <span class="n">Prüft</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bedingungen-mit-tupeln">
-<h3><span class="section-number">9.4.7. </span>Bedingungen mit Tupeln<a class="headerlink" href="#bedingungen-mit-tupeln" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="bedingungen-mit-tupeln">
+<h3><span class="section-number">9.4.7. </span>Bedingungen mit Tupeln<a class="headerlink" href="#bedingungen-mit-tupeln" title="Permalink to this headline">#</a></h3>
 <p>■ Verallgemeinerung von IN, ALL und ANY auf Tupel
 <br>
 □ t IN R
@@ -2694,9 +2836,9 @@ AND Jahr = FilmJahr
 AND SchauspielerName = ‘Harrison Ford‘;
 </pre></div>
 </div>
-</div>
-<div class="section" id="subanfragen-in-from-klausel">
-<h3><span class="section-number">9.4.8. </span>Subanfragen in FROM-Klausel<a class="headerlink" href="#subanfragen-in-from-klausel" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="subanfragen-in-from-klausel">
+<h3><span class="section-number">9.4.8. </span>Subanfragen in FROM-Klausel<a class="headerlink" href="#subanfragen-in-from-klausel" title="Permalink to this headline">#</a></h3>
 <p>■ Bisher: Nur Subanfragen in WHERE-Klausel
 <br>
 □ Anstelle einfacher Relation steht eine geklammerte Subanfrage
@@ -2712,9 +2854,9 @@ FROM ManagerIn M, (SELECT ProduzentinID AS ID
 WHERE M.ManagerinID = ProduzentIn.ID;
 </pre></div>
 </div>
-</div>
-<div class="section" id="korrelierte-subanfragen">
-<h3><span class="section-number">9.4.9. </span>Korrelierte Subanfragen<a class="headerlink" href="#korrelierte-subanfragen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="korrelierte-subanfragen">
+<h3><span class="section-number">9.4.9. </span>Korrelierte Subanfragen<a class="headerlink" href="#korrelierte-subanfragen" title="Permalink to this headline">#</a></h3>
 <p>■ Unkorreliert: Subanfragen einmalig ausführen und das Ergebnis weiterverwenden
 <br><br>
 ■ Korrelierte Subanfragen werden mehrfach ausgeführt, einmal pro Bindung der korrelierten Variable der äußeren
@@ -2755,12 +2897,12 @@ Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbud
 <span class="n">p</span><span class="o">.</span><span class="n">AbtID</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="operationen-auf-einer-relation">
-<h2><span class="section-number">9.5. </span>Operationen auf einer Relation<a class="headerlink" href="#operationen-auf-einer-relation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="duplikateliminierung">
-<h3><span class="section-number">9.5.1. </span>Duplikateliminierung<a class="headerlink" href="#duplikateliminierung" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="operationen-auf-einer-relation">
+<h2><span class="section-number">9.5. </span>Operationen auf einer Relation<a class="headerlink" href="#operationen-auf-einer-relation" title="Permalink to this headline">#</a></h2>
+<section id="duplikateliminierung">
+<h3><span class="section-number">9.5.1. </span>Duplikateliminierung<a class="headerlink" href="#duplikateliminierung" title="Permalink to this headline">#</a></h3>
 <p>Relationale DBMS verwenden i.d.R. Multimengensemantik, nicht Mengensemantik.
 <br>
 □ Duplikate entstehen durch
@@ -2787,8 +2929,8 @@ Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbud
 </pre></div>
 </div>
 <p><img alt="title" src="../_images/duplikateliminierung.jpg" /></p>
-<div class="section" id="wdh-duplikateliminierung-bei-mengenoperationen">
-<h4><span class="section-number">9.5.1.1. </span>Wdh.: Duplikateliminierung bei Mengenoperationen<a class="headerlink" href="#wdh-duplikateliminierung-bei-mengenoperationen" title="Permalink to this headline">¶</a></h4>
+<section id="wdh-duplikateliminierung-bei-mengenoperationen">
+<h4><span class="section-number">9.5.1.1. </span>Wdh.: Duplikateliminierung bei Mengenoperationen<a class="headerlink" href="#wdh-duplikateliminierung-bei-mengenoperationen" title="Permalink to this headline">#</a></h4>
 <p>■ Mengenoperationen in SQL entfernen Duplikate
 <br>
 □ UNION, INTERSECT, EXCEPT
@@ -2807,10 +2949,10 @@ Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbud
 □ R INTERSECT ALL S
 <br>
 □ R EXCEPT ALL S</p>
-</div>
-</div>
-<div class="section" id="aggregation">
-<h3><span class="section-number">9.5.2. </span>Aggregation<a class="headerlink" href="#aggregation" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="aggregation">
+<h3><span class="section-number">9.5.2. </span>Aggregation<a class="headerlink" href="#aggregation" title="Permalink to this headline">#</a></h3>
 <p>■ Standardaggregationsoperatoren
 <br>
 □ SUM, AVG, MIN, MAX, COUNT
@@ -2830,8 +2972,8 @@ Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbud
 □ COUNT(DISTINCT Jahr)
 <br>
 □ SUM(DISTINCT Gehalt)</p>
-<div class="section" id="aggregation-beispiele">
-<h4><span class="section-number">9.5.2.1. </span>Aggregation – Beispiele<a class="headerlink" href="#aggregation-beispiele" title="Permalink to this headline">¶</a></h4>
+<section id="aggregation-beispiele">
+<h4><span class="section-number">9.5.2.1. </span>Aggregation – Beispiele<a class="headerlink" href="#aggregation-beispiele" title="Permalink to this headline">#</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">AVG</span><span class="p">(</span><span class="n">Gehalt</span><span class="p">)</span>
 <span class="n">FROM</span> <span class="n">Manager</span><span class="p">;</span>
 
@@ -2846,10 +2988,10 @@ Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbud
 <span class="n">WHERE</span> <span class="n">Jahr</span> <span class="o">=</span> <span class="mi">1990</span><span class="p">;</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="gruppierung-aggregation-und-null">
-<h3><span class="section-number">9.5.3. </span>Gruppierung, Aggregation und NULL<a class="headerlink" href="#gruppierung-aggregation-und-null" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="gruppierung-aggregation-und-null">
+<h3><span class="section-number">9.5.3. </span>Gruppierung, Aggregation und NULL<a class="headerlink" href="#gruppierung-aggregation-und-null" title="Permalink to this headline">#</a></h3>
 <p>■ NULL wird bei Aggregation ignoriert.
 <br>
 □ Trägt also nicht zu SUM, AVG oder COUNT bei.
@@ -2884,9 +3026,9 @@ Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbud
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="gruppierung">
-<h3><span class="section-number">9.5.4. </span>Gruppierung<a class="headerlink" href="#gruppierung" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="gruppierung">
+<h3><span class="section-number">9.5.4. </span>Gruppierung<a class="headerlink" href="#gruppierung" title="Permalink to this headline">#</a></h3>
 <p>■ Gruppierung mittels GROUP BY nach der WHERE-Klausel</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">StudioName</span><span class="p">,</span> <span class="n">SUM</span><span class="p">(</span><span class="n">Länge</span><span class="p">)</span>
 <span class="n">FROM</span> <span class="n">Film</span>
@@ -2957,9 +3099,9 @@ Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbud
 <br>
 ■ Nur Gruppierungsattribute dürfen un-aggregiert in HAVING Klausel erscheinen (wie bei
 SELECT-Klausel).</p>
-</div>
-<div class="section" id="zusammenfassung-sql">
-<h3><span class="section-number">9.5.5. </span>Zusammenfassung SQL<a class="headerlink" href="#zusammenfassung-sql" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="zusammenfassung-sql">
+<h3><span class="section-number">9.5.5. </span>Zusammenfassung SQL<a class="headerlink" href="#zusammenfassung-sql" title="Permalink to this headline">#</a></h3>
 <p>Grundbausteine einer SQL Anfrage (mit empfohlener Lesereihenfolge)
 <br>
 □ 6. SELECT
@@ -2979,12 +3121,12 @@ SELECT-Klausel).</p>
 □ Ausnahme: z.B. SELECT 7 + 3
 <br><br>
 ■ HAVING darf nur in Kombination mit GROUP BY erscheinen.</p>
-</div>
-</div>
-<div class="section" id="datenbearbeitung-dml">
-<h2><span class="section-number">9.6. </span>Datenbearbeitung(DML)<a class="headerlink" href="#datenbearbeitung-dml" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="uberblick">
-<h3><span class="section-number">9.6.1. </span>Überblick<a class="headerlink" href="#uberblick" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="datenbearbeitung-dml">
+<h2><span class="section-number">9.6. </span>Datenbearbeitung(DML)<a class="headerlink" href="#datenbearbeitung-dml" title="Permalink to this headline">#</a></h2>
+<section id="uberblick">
+<h3><span class="section-number">9.6.1. </span>Überblick<a class="headerlink" href="#uberblick" title="Permalink to this headline">#</a></h3>
 <p>■  CRUD: Create, Read, Update, Delete
 <br><br>
 ■ Einfügen
@@ -2998,9 +3140,9 @@ SELECT-Klausel).</p>
 ■ Ändern
 <br>
 □ UPDATE … SET … WHERE …</p>
-</div>
-<div class="section" id="einfugen">
-<h3><span class="section-number">9.6.2. </span>Einfügen<a class="headerlink" href="#einfugen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="einfugen">
+<h3><span class="section-number">9.6.2. </span>Einfügen<a class="headerlink" href="#einfugen" title="Permalink to this headline">#</a></h3>
 <p>■ Grundbaustein
 <br>
 □ INSERT INTO R(A1, …, An) VALUES (v1,…,vn);
@@ -3022,8 +3164,8 @@ VALUES (‘Star Wars‘, 1977, ‘Alec Guinness‘);
 </div>
 <p>– Reihenfolge entsprechend der Spezifikation des Schemas
 (CREATE TABLE …)</p>
-<div class="section" id="einfugen-per-anfrage">
-<h4><span class="section-number">9.6.2.1. </span>Einfügen per Anfrage<a class="headerlink" href="#einfugen-per-anfrage" title="Permalink to this headline">¶</a></h4>
+<section id="einfugen-per-anfrage">
+<h4><span class="section-number">9.6.2.1. </span>Einfügen per Anfrage<a class="headerlink" href="#einfugen-per-anfrage" title="Permalink to this headline">#</a></h4>
 <p>Füge in Studio-Tabelle alle Studios der Filme-Relation ein
 <br>
 □ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
@@ -3040,10 +3182,10 @@ VALUES (‘Star Wars‘, 1977, ‘Alec Guinness‘);
 <p>Adresse und VorsitzendeIDbleiben NULL.
 <br>
 □ Erzeugt im Allgemeinen Redundanz und sollte vermieden werden.</p>
-</div>
-</div>
-<div class="section" id="ausfuhrungsreihenfolge-beim-einfugen">
-<h3><span class="section-number">9.6.3. </span>Ausführungsreihenfolge beim Einfügen<a class="headerlink" href="#ausfuhrungsreihenfolge-beim-einfugen" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="ausfuhrungsreihenfolge-beim-einfugen">
+<h3><span class="section-number">9.6.3. </span>Ausführungsreihenfolge beim Einfügen<a class="headerlink" href="#ausfuhrungsreihenfolge-beim-einfugen" title="Permalink to this headline">#</a></h3>
 <p>Wann wird eingefügt?
 <br>
 Nach vollständiger Ausführung der SELECT FROM WHERE Anfrage?
@@ -3072,8 +3214,8 @@ SQL Standard: Erst gesamte Anfrage ausführen</p>
     <span class="n">FROM</span> <span class="n">Studio</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="section" id="bulk-insert">
-<h4><span class="section-number">9.6.3.1. </span>Bulk insert<a class="headerlink" href="#bulk-insert" title="Permalink to this headline">¶</a></h4>
+<section id="bulk-insert">
+<h4><span class="section-number">9.6.3.1. </span>Bulk insert<a class="headerlink" href="#bulk-insert" title="Permalink to this headline">#</a></h4>
 <p>■ INSERT
 <br>
 □ Zeilenbasiertes Einfügen aus SQL statements
@@ -3099,10 +3241,10 @@ SQL Standard: Erst gesamte Anfrage ausführen</p>
 ■ Syntax ist jeweils DBMS-spezifisch.
 <br>
 □ Viele Parameter</p>
-</div>
-</div>
-<div class="section" id="loschen">
-<h3><span class="section-number">9.6.4. </span>Löschen<a class="headerlink" href="#loschen" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="loschen">
+<h3><span class="section-number">9.6.4. </span>Löschen<a class="headerlink" href="#loschen" title="Permalink to this headline">#</a></h3>
 <p>■ Grundbaustein
 <br>
 □ DELETE FROM R WHERE …
@@ -3121,9 +3263,9 @@ AND Schauspieler = ‘Sydney Greenstreet‘;
 </pre></div>
 </div>
 <p>■ Alle Manager-Tupel löschen: DELETE FROM Manager;</p>
-</div>
-<div class="section" id="verandern-update">
-<h3><span class="section-number">9.6.5. </span>Verändern (update)<a class="headerlink" href="#verandern-update" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="verandern-update">
+<h3><span class="section-number">9.6.5. </span>Verändern (update)<a class="headerlink" href="#verandern-update" title="Permalink to this headline">#</a></h3>
 <p>■ Grundbaustein
 <br>
 □ UPDATE R SET … WHERE …
@@ -3140,12 +3282,12 @@ WHERE ManagerinID IN
 (SELECT PräsidentID FROM Studios);
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="schemata-ddl">
-<h2><span class="section-number">9.7. </span>Schemata(DDL)<a class="headerlink" href="#schemata-ddl" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3><span class="section-number">9.7.1. </span>Überblick<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="schemata-ddl">
+<h2><span class="section-number">9.7. </span>Schemata(DDL)<a class="headerlink" href="#schemata-ddl" title="Permalink to this headline">#</a></h2>
+<section id="id2">
+<h3><span class="section-number">9.7.1. </span>Überblick<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
 <p>■ Datentypen
 <br>
 ■ Tabellen
@@ -3153,9 +3295,9 @@ WHERE ManagerinID IN
 ■ Default-Werte
 <br>
 ■ Indizes</p>
-</div>
-<div class="section" id="datentypen">
-<h3><span class="section-number">9.7.2. </span>Datentypen<a class="headerlink" href="#datentypen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="datentypen">
+<h3><span class="section-number">9.7.2. </span>Datentypen<a class="headerlink" href="#datentypen" title="Permalink to this headline">#</a></h3>
 <p>■ Jedes Attribut muss einen Datentyp haben.
 <br>
 □ CHAR(n) – String fester Länge (n Zeichen)
@@ -3173,13 +3315,13 @@ WHERE ManagerinID IN
 □ DECIMAL (n,d) – Z.B. Gehalt DECIMAL(7,2) – 7 Stellen, davon 2 Nachkommastellen
 <br>
 □ CLOB und BLOB</p>
-</div>
-<div class="section" id="uberblick-db2-datentypen">
-<h3><span class="section-number">9.7.3. </span>Überblick DB2 Datentypen<a class="headerlink" href="#uberblick-db2-datentypen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="uberblick-db2-datentypen">
+<h3><span class="section-number">9.7.3. </span>Überblick DB2 Datentypen<a class="headerlink" href="#uberblick-db2-datentypen" title="Permalink to this headline">#</a></h3>
 <p><img alt="title" src="../_images/db2_datentypen.jpg" /></p>
-</div>
-<div class="section" id="tabellen">
-<h3><span class="section-number">9.7.4. </span>Tabellen<a class="headerlink" href="#tabellen" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="tabellen">
+<h3><span class="section-number">9.7.4. </span>Tabellen<a class="headerlink" href="#tabellen" title="Permalink to this headline">#</a></h3>
 <p>■ Grundbaustein zum Erzeugen</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CREATE TABLE R …
 CREATE TABLE Schauspieler (
@@ -3202,9 +3344,9 @@ Geburtstag DATE );
 □ ALTER TABLE Schauspieler DROP Geburtstag;
 <br>
 □ ALTER TABLE Schauspieler MODIFY Telefon CHAR(10);</p>
-</div>
-<div class="section" id="default-werte">
-<h3><span class="section-number">9.7.5. </span>Default-Werte<a class="headerlink" href="#default-werte" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="default-werte">
+<h3><span class="section-number">9.7.5. </span>Default-Werte<a class="headerlink" href="#default-werte" title="Permalink to this headline">#</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CREATE TABLE Schauspieler (
 Name CHAR(30),
 Adresse VARCHAR(255),
@@ -3215,9 +3357,9 @@ ALTER TABLE Schauspieler
 ADD Telefon CHAR(16) DEFAULT ‚unbekannt‘;
 </pre></div>
 </div>
-</div>
-<div class="section" id="constraints-und-trigger">
-<h3><span class="section-number">9.7.6. </span>Constraints und Trigger<a class="headerlink" href="#constraints-und-trigger" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="constraints-und-trigger">
+<h3><span class="section-number">9.7.6. </span>Constraints und Trigger<a class="headerlink" href="#constraints-und-trigger" title="Permalink to this headline">#</a></h3>
 <p>Weitere Optionen für Tabellen
 <br>
 □ PRIMARY KEY
@@ -3235,9 +3377,9 @@ ADD Telefon CHAR(16) DEFAULT ‚unbekannt‘;
 □ CREATE TRIGGER
 <br>
 ■ Siehe separater Foliensatz</p>
-</div>
-<div class="section" id="indizes">
-<h3><span class="section-number">9.7.7. </span>Indizes<a class="headerlink" href="#indizes" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="indizes">
+<h3><span class="section-number">9.7.7. </span>Indizes<a class="headerlink" href="#indizes" title="Permalink to this headline">#</a></h3>
 <p>■ Ein Index auf einem Attribut ist eine Datenstruktur, die es dem DBMS erleichtert, Tupel mit einem bekannten Wert des Attributs zu finden.
 <br>
 □ Nicht SQL-Standard, aber in (fast) jedem DBMS verfügbar.
@@ -3273,8 +3415,8 @@ WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
 ■ Löschen
 <br>
 □ DROP INDEX JahrIndex;</p>
-<div class="section" id="indexwahl">
-<h4><span class="section-number">9.7.7.1. </span>Indexwahl<a class="headerlink" href="#indexwahl" title="Permalink to this headline">¶</a></h4>
+<section id="indexwahl">
+<h4><span class="section-number">9.7.7.1. </span>Indexwahl<a class="headerlink" href="#indexwahl" title="Permalink to this headline">#</a></h4>
 <p>■ Abwägung
 <br>
 □ Index beschleunigt Punkt- (und Bereichs-) Anfragen und Join-Anfragen erheblich.
@@ -3294,9 +3436,9 @@ WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
 – Häufiger Vergleich mit Konstanten
 <br>
 – Häufiges Joinattribut</p>
-</div>
-<div class="section" id="indexwahl-voruberlegungen">
-<h4><span class="section-number">9.7.7.2. </span>Indexwahl – Vorüberlegungen<a class="headerlink" href="#indexwahl-voruberlegungen" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="indexwahl-voruberlegungen">
+<h4><span class="section-number">9.7.7.2. </span>Indexwahl – Vorüberlegungen<a class="headerlink" href="#indexwahl-voruberlegungen" title="Permalink to this headline">#</a></h4>
 <p>■ Relationen sind typischerweise über mehrere Diskblöcke gespeichert.
 <br>
 □ Wichtigste Datenbankkosten sind die Anzahl der Diskblöcke, die in den Hauptspeicher gelesen werden müssen.
@@ -3308,9 +3450,9 @@ WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
 – IdR viel mehr Tupel pro Block repräsentiert: Nur Schlüsselwert und Speicheradresse, keine Daten
 <br>
 □ Updates kosten sogar doppelt: Lesen und Schreiben auch der Index-Blöcke</p>
-</div>
-<div class="section" id="indexwahl-beispiel">
-<h4><span class="section-number">9.7.7.3. </span>Indexwahl – Beispiel<a class="headerlink" href="#indexwahl-beispiel" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="indexwahl-beispiel">
+<h4><span class="section-number">9.7.7.3. </span>Indexwahl – Beispiel<a class="headerlink" href="#indexwahl-beispiel" title="Permalink to this headline">#</a></h4>
 <p>■ spielt_in(FilmTitel, FilmJahr, Schauspieler)
 <br><br>
 ■ Drei typische Anfragen</p>
@@ -3337,9 +3479,9 @@ WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
 □ Lesen und Schreiben kostet 1.
 <br>
 □ Update und Insert kosten jeweils 2.</p>
-</div>
-<div class="section" id="id3">
-<h4><span class="section-number">9.7.7.4. </span>Indexwahl – Beispiel<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="id3">
+<h4><span class="section-number">9.7.7.4. </span>Indexwahl – Beispiel<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h4>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Anfrage</p></th>
@@ -3382,10 +3524,10 @@ WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
 <br>
 ■ 1‒p1‒p2: Anteil Anfrage 3
 <br></p>
-</div>
-</div>
-<div class="section" id="verteilung-in-imdb-real-world-daten-stand-ca-2010">
-<h3><span class="section-number">9.7.8. </span>Verteilung in IMDB (Real-world Daten, Stand ca. 2010)<a class="headerlink" href="#verteilung-in-imdb-real-world-daten-stand-ca-2010" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="verteilung-in-imdb-real-world-daten-stand-ca-2010">
+<h3><span class="section-number">9.7.8. </span>Verteilung in IMDB (Real-world Daten, Stand ca. 2010)<a class="headerlink" href="#verteilung-in-imdb-real-world-daten-stand-ca-2010" title="Permalink to this headline">#</a></h3>
 <p><img alt="title" src="../_images/imdb.jpg" /></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WITH</span>
 <span class="n">m</span> <span class="n">AS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="n">AS</span> <span class="n">ZahlMovies</span> <span class="n">FROM</span> <span class="n">imdb</span><span class="o">.</span><span class="n">movie</span><span class="p">),</span>
@@ -3407,12 +3549,12 @@ WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
 </pre></div>
 </div>
 <p>Spielfilme pro Schauspieler: 4,2</p>
-</div>
-</div>
-<div class="section" id="sichten">
-<h2><span class="section-number">9.8. </span>Sichten<a class="headerlink" href="#sichten" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="virtuelle-relationen">
-<h3><span class="section-number">9.8.1. </span>Virtuelle Relationen<a class="headerlink" href="#virtuelle-relationen" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="sichten">
+<h2><span class="section-number">9.8. </span>Sichten<a class="headerlink" href="#sichten" title="Permalink to this headline">#</a></h2>
+<section id="virtuelle-relationen">
+<h3><span class="section-number">9.8.1. </span>Virtuelle Relationen<a class="headerlink" href="#virtuelle-relationen" title="Permalink to this headline">#</a></h3>
 <p>■ Relationen aus CREATE TABLE Ausdrücken existieren tatsächlich (materialisiert, physisch) in der Datenbank.
 <br>
 □ Persistenz
@@ -3431,9 +3573,9 @@ WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
 <img alt="title" src="../_images/stonebraker2.jpg" />
 <br>
 Michael Stonebraker: Implementation of Integrity Constraints and Views by Query Modification. SIGMOD Conference 1975: 65-78</p>
-</div>
-<div class="section" id="sichten-in-sql">
-<h3><span class="section-number">9.8.2. </span>Sichten in SQL<a class="headerlink" href="#sichten-in-sql" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="sichten-in-sql">
+<h3><span class="section-number">9.8.2. </span>Sichten in SQL<a class="headerlink" href="#sichten-in-sql" title="Permalink to this headline">#</a></h3>
 <p>■ CREATE VIEW Name AS Anfrage</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CREATE VIEW ParamountFilme AS
 SELECT Titel, Jahr
@@ -3456,9 +3598,9 @@ WHERE StudioName = ‘Paramount‘;
 <br>
 □ Basisdaten bleiben unverändert.</p></li>
 </ol>
-</div>
-<div class="section" id="anfragen-an-sichten">
-<h3><span class="section-number">9.8.3. </span>Anfragen an Sichten<a class="headerlink" href="#anfragen-an-sichten" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="anfragen-an-sichten">
+<h3><span class="section-number">9.8.3. </span>Anfragen an Sichten<a class="headerlink" href="#anfragen-an-sichten" title="Permalink to this headline">#</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CREATE VIEW ParamountFilme AS
 SELECT Titel, Jahr
 FROM Film
@@ -3517,9 +3659,9 @@ AND Titel = ‘Gone with the Wind‘;
 <span class="n">FROM</span> <span class="n">Film</span><span class="p">;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="diskussion">
-<h3><span class="section-number">9.8.4. </span>Diskussion<a class="headerlink" href="#diskussion" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="diskussion">
+<h3><span class="section-number">9.8.4. </span>Diskussion<a class="headerlink" href="#diskussion" title="Permalink to this headline">#</a></h3>
 <p>■ Vorteile
 <br>
 □ Vereinfachung von Anfragen
@@ -3545,9 +3687,9 @@ AND Titel = ‘Gone with the Wind‘;
 □ Änderungen auf Sichten
 <br>
 □ Updatepropagierung für materialisierte Sichten</p>
-</div>
-<div class="section" id="updates-auf-sichten">
-<h3><span class="section-number">9.8.5. </span>Updates auf Sichten<a class="headerlink" href="#updates-auf-sichten" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="updates-auf-sichten">
+<h3><span class="section-number">9.8.5. </span>Updates auf Sichten<a class="headerlink" href="#updates-auf-sichten" title="Permalink to this headline">#</a></h3>
 <p>■ In einigen Fällen ist es möglich, Einfüge-, Lösch- oder Updateoperationen auf Sichten durchzuführen.
 <br>
 □ Wo speichern?
@@ -3567,9 +3709,9 @@ AND Titel = ‘Gone with the Wind‘;
 – Kein DISTINCT
 <br>
 □ Nur falls genug Attribute verwendet werden, so dass alle anderen Attribute mit NULL oder dem Default-Wert gefüllt werden können.</p>
-</div>
-<div class="section" id="einfugen-auf-sichten-beispiel">
-<h3><span class="section-number">9.8.6. </span>Einfügen auf Sichten – Beispiel<a class="headerlink" href="#einfugen-auf-sichten-beispiel" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="einfugen-auf-sichten-beispiel">
+<h3><span class="section-number">9.8.6. </span>Einfügen auf Sichten – Beispiel<a class="headerlink" href="#einfugen-auf-sichten-beispiel" title="Permalink to this headline">#</a></h3>
 <p>■ Filme(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CREATE VIEW ParamountFilme AS
     SELECT Titel, Jahr
@@ -3594,9 +3736,9 @@ VALUES (‚Star Trek‘, 1979, ‚Paramount‘);
 <p>Dies muss Paramount sein. Ein anderes Studio entspricht nicht der View.
 <br><br>
 ■ Neues Tupel (‚Star Trek‘, 1979, 0, NULL, ‚Paramount‘, NULL)</p>
-</div>
-<div class="section" id="loschen-und-updates-auf-sichten">
-<h3><span class="section-number">9.8.7. </span>Löschen und Updates auf Sichten<a class="headerlink" href="#loschen-und-updates-auf-sichten" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="loschen-und-updates-auf-sichten">
+<h3><span class="section-number">9.8.7. </span>Löschen und Updates auf Sichten<a class="headerlink" href="#loschen-und-updates-auf-sichten" title="Permalink to this headline">#</a></h3>
 <p>■ Löschen</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>DELETE FROM ParamountFilme
 WHERE Titel LIKE ‚%Trek%‘;
@@ -3619,9 +3761,9 @@ SET Jahr = 1979
 WHERE Titel = ‚Star Trek the Movie‘ AND StudioName = ‚Paramount‘;
 </pre></div>
 </div>
-</div>
-<div class="section" id="tupelmigration">
-<h3><span class="section-number">9.8.8. </span>Tupelmigration<a class="headerlink" href="#tupelmigration" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="tupelmigration">
+<h3><span class="section-number">9.8.8. </span>Tupelmigration<a class="headerlink" href="#tupelmigration" title="Permalink to this headline">#</a></h3>
 <p>■ Manager(Name, Adresse, ManagerinID, Gehalt)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">VIEW</span> <span class="n">Reiche</span> <span class="n">AS</span>
     <span class="n">SELECT</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Gehalt</span><span class="p">,</span> <span class="n">ManagerinID</span>
@@ -3645,9 +3787,9 @@ WHERE Titel = ‚Star Trek the Movie‘ AND StudioName = ‚Paramount‘;
 </pre></div>
 </div>
 <p>□ Verhindert Tupelmigration durch Ablehnung problematischer Updates.</p>
-</div>
-<div class="section" id="anfrageplanung-mit-sichten">
-<h3><span class="section-number">9.8.9. </span>Anfrageplanung mit Sichten<a class="headerlink" href="#anfrageplanung-mit-sichten" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="anfrageplanung-mit-sichten">
+<h3><span class="section-number">9.8.9. </span>Anfrageplanung mit Sichten<a class="headerlink" href="#anfrageplanung-mit-sichten" title="Permalink to this headline">#</a></h3>
 <p>■ Baumdarstellung von Anfragen
 <br>
 □ Blätter repräsentieren Relationen
@@ -3680,9 +3822,9 @@ WHERE StudioName = ‚Paramount‘;
 <img alt="title" src="../_images/anfrageplanung3.jpg" />
 <br>
 <img alt="title" src="../_images/anfrageplanung4.jpg" /></p>
-</div>
-<div class="section" id="materialisierte-sichten">
-<h3><span class="section-number">9.8.10. </span>Materialisierte Sichten<a class="headerlink" href="#materialisierte-sichten" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="materialisierte-sichten">
+<h3><span class="section-number">9.8.10. </span>Materialisierte Sichten<a class="headerlink" href="#materialisierte-sichten" title="Permalink to this headline">#</a></h3>
 <p>■ Viele Anfragen an eine Datenbank wiederholen sich häufig
 <br>
 □ Business Reports, Bilanzen, Umsätze
@@ -3700,8 +3842,8 @@ WHERE StudioName = ‚Paramount‘;
 □ Materialisierte Sicht (materialized view, MV)
 <br>
 Drei Folien nach Prof. Ulf Leser, HU Berlin</p>
-<div class="section" id="mv-themen-und-probleme">
-<h4><span class="section-number">9.8.10.1. </span>MV – Themen und Probleme<a class="headerlink" href="#mv-themen-und-probleme" title="Permalink to this headline">¶</a></h4>
+<section id="mv-themen-und-probleme">
+<h4><span class="section-number">9.8.10.1. </span>MV – Themen und Probleme<a class="headerlink" href="#mv-themen-und-probleme" title="Permalink to this headline">#</a></h4>
 <p>■ Wahl von Views zur Materialisierung
 <br>
 □ MVs kosten: Platz und Aktualisierungsaufwand
@@ -3727,10 +3869,10 @@ Drei Folien nach Prof. Ulf Leser, HU Berlin</p>
 □ Schwierigkeit hängt von Komplexität der Anfrage / Views ab
 <br>
 □ Algorithmen zur transparenten und kostenoptimalen Verwendung der materialisierten Sichten</p>
-</div>
-</div>
-<div class="section" id="answering-queries-using-views">
-<h3><span class="section-number">9.8.11. </span>„Answering Queries using Views“<a class="headerlink" href="#answering-queries-using-views" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="answering-queries-using-views">
+<h3><span class="section-number">9.8.11. </span>„Answering Queries using Views“<a class="headerlink" href="#answering-queries-using-views" title="Permalink to this headline">#</a></h3>
 <p>■ Gegeben
 <br>
 □ Eine Anfrage Q
@@ -3746,10 +3888,10 @@ Drei Folien nach Prof. Ulf Leser, HU Berlin</p>
 □ Kann man Q mit V vollständig beantworten?
 <br>
 □ Ist es günstig, Sichten aus V zur Beantwortung von Q zu verwenden? Welche?</p>
-</div>
-</div>
-<div class="section" id="zusammenfassung">
-<h2><span class="section-number">9.9. </span>Zusammenfassung<a class="headerlink" href="#zusammenfassung" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="zusammenfassung">
+<h2><span class="section-number">9.9. </span>Zusammenfassung<a class="headerlink" href="#zusammenfassung" title="Permalink to this headline">#</a></h2>
 <p>Die Anfragesprache SQL
 <br>
 Der SFW Block
@@ -3795,8 +3937,8 @@ Sichten
 Anfragen (und updates)
 <br>
 Materialisierte Sichten</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -3820,9 +3962,11 @@ Materialisierte Sichten</p>
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="../08/relationale_algebra.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -3838,24 +3982,28 @@ Materialisierte Sichten</p>
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Prof. Dr. Ziawasch Abedjan<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By Prof. Dr. Ziawasch Abedjan<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

@@ -1,0 +1,3 @@
+%LOAD imdb.db
+
+SELECT name FROM actor WHERE name LIKE '%Krug%'
