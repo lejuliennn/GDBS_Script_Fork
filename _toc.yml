@@ -15,5 +15,3 @@ sections:
  - file: 09/sql
  - file: 10/integritaet_und_trigger
  - file: 11/transaktionen
- - file: imdb/imdb/sql_cell_test
- - file: imdb/imdb/xeus-sqlite_kernel_test
