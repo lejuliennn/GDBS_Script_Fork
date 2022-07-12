@@ -299,213 +299,102 @@
 
 # ### Weitere Nebenbedingungen
 
-# Ohne formale Notation im ER-Diagramm
-# <br>
-# Datentyp
-# <br>
-# Integer, String, …
-# <br>
-# Wertebereich / Domäne
-# <br>
-# ≤ 100, {Krimi,Doku,Zeichentrick}
-# <br>
-# Länge eines Attributes
-# <br>
-# Stringlänge < 25
-# <br>
-# Kardinalität von Relationships
-# <br>
-# Höchstens 10 Schauspieler pro Film
-# <br>
-# Oder mittels min/max Notation
+# Es gibt weitere Nebenbedingungen, die man informell mitmodellieren kann. Beispielsweise könnte man Datentypen, und Wertebereiche von Attribute modellieren. Grundsätzlich ist an dieser Stelle, dieser Detailgrad vermutlich nicht sinnvoll, da Datentypen oft Datenbankabhängig sind. 
+# Was man jedoch möglicherweise bereits modellieren möchte, sind alle Einschränkungen hinsichtlich Kardinalitäten. Hierzu haben wir die min/max und die numerische Notation kennen gelernt, die uns erlauben die Anzahl der Beziehungen, die ein Entity eingehen kann genauer zu spezifizieren und zu erzwingen. 
 
 # ## Schwache Entitytypen
 
-# ### Motivation
-
-# Motivation
-# <br>
 # In bestimmten Situationen können Entities nicht allein anhand ihrer Attribute identifiziert werden:
 # <br>
-# 1. Falls sie in eine nicht-IST-Hierarchie fallen.
+# 1. Falls sie in eine Teil-Von-Hierarchie fallen. Zum Beispiel sind Geschäftszweige Untergruppen eines Unternehmens und benötigen zur weiteren Identifizierung auch die Bezeichnung des Unternehmens. Dies ist anders in der IST-Hierarchie, in der Subklassen Spezialisierungen aber nicht Bausteine der generalisierenden Entitytypen sind.  
 # <br>
 # 2. Entities, die zur Eliminierung n-ärer Relationships erschaffen wurden.
 # <br>
-# Ein Entitytyp ist schwach wenn es zur eindeutigen Identifizierung eines Entities nötig ist, eine oder mehr n:1 Relationships zu folgen und den Schlüssel der verwandten Entities hinzuzunehmen.
-
-# ![title](schwache_ent_bsp1.jpg)
-
-# Ein Studio beschäftigt mehrere Filmcrews.
-# <br>
-# Filmcrews werden mit einer Nummer versehen.
-# <br>
-# Verschiedene Studios könnten eigene Crews mit gleichen Nummern beschäftigen.
-# <br>
-# Nummer ist also kein Schlüssel
-# <br>
-# Nimmt man den Schlüssel der Studios hinzu ist eine eindeutige Identifizierung möglich.
-
-# ![title](schwache_ent_bsp2.jpg)
-
-# Eine Spezies ist definiert durch den Namen der Gattung und des Spezies.
-# <br>
-# Gattung: homo
-# <br>
-# Spezies: homo sapiens
-
-# ![title](schwache_ent_bsp3.jpg)
-
-# Fall 2: Auflösung einer ternären Relationship Vertrag hat kein Attribut, das Teil des Schlüssels ist.
-
-# ![title](schwache_ent_bsp4.jpg)
-
-# ### Schwache Entitytypen
-
-# Man scheut sich oft einen Schlüssel zu deklarieren.
-# <br>
-# Die Folge: Man schwächt ein Entitytyp und macht alle seine Relationships zu unterstützenden Relationships.
-# <br>
-# In der Realität werden sehr oft künstliche IDs verwendet.
-# <br>
-# ISBN, SNN, VIN, etc.
-# <br>
-# Grund für das Fehlen eines solchen Schlüssels: Es gibt keine entsprechende Autorität, die einen solchen Schlüssel vergeben könnte.
-# <br>
-# Bsp: Es ist unwahrscheinlich, dass jedem Fußballer der Welt eine eindeutige ID zugewiesen wird.
-
-# ### Schlüssel schwacher Entitytypen
-
+# 
+# Solche Entitytypen werden als schwache Entitytypen bezeichnet. 
+# Ein Entitytyp ist schwach, wenn es zur eindeutigen Identifizierung dessen Entities, n:1 Relationshiptypen zu anderen Entities hinzugezogen werden müssen um Schlüssel der verwandten Entities hinzuzunehmen. Die Darstellung eines schachen Entitytypen erfolft durch eine doppelte Umrandung des Entitytypen. Zudem werden alle unterstützenden N:1 Relationshiptypen doppelt umrandet. Man kann hier zur besseren Verdeutlichung auch den pfeil der totalen Beziehung nutzen. 
+# 
+# 
 # Falls E ein schwacher Entitytyp ist, besteht sein Schlüssel aus…
+# - … null oder mehr eigenen Attributen
+# - … und den Schlüsselattributen von Entitytypen, die über „unterstützenden Relationshiptypen“ n:1 erreicht werden können.
 # <br>
-# … null oder mehr eigenen Attributen
-# <br>
-# … und den Schlüsselattributen von Entitytypen, die über bestimmte n:1
-# <br>
-# Relationshiptypen, den „unterstützenden Relationshiptypen“ erreicht werden können.
-# <br>
-# Supporting relationships
-# <br>
-# Unterstützende Relationshiptypen
-# <br>
-# n:1 vom schwachen Entitytypen zu einem anderen Entitytypen
-# <br>
-# Es muss referentielle Integrität gelten.
-# <br>
+# 
+# Unterstützende Relationshiptypen bilden n:1 vom schwachen Entitytypen zu einem anderen Entitytypen ab.
+# Es muss hierbei referentielle Integrität gelten, das heißt, dass die Abbildung total sein muss.
 # Falls referenzierter Entitytyp wiederum schwach ist, werden (rekursiv) weitere Schlüsselattribute übernommen. 
 
-# ## Erweitertes ER-Modell
+# **Beispiel(Nicht-IST-Hierarchie 1):**
+# Im folgenden Beispiel sieht man die Modellierung von Crews und Studios. Es ist davon auszugehen, dass jedes Studio mehrere Crews hat. Das heißt, dass eine strukturelle Hierarchie hier herrscht. Jede Crew hat zwar eine Nummer als Schlüssel, es ist jedoch unwahrscheinlich, dass Crews verschiedener Studios immer unterschiedliche Nummern haben. Vermutlich fängt die Numerierung in jedem Studio bei 1 an. Deshalb ist zu der Idenzifizierung einer Crew, in einer Datenbank auch der Schlüssel des jeweiligen Studios notwendig. Damit ist Crew ein schwacher Entitytyp.
+# 
+# <img src="schwache_ent_bsp1.jpg" width="500" />
+# 
+
+# **Beispiel (Auflösung n-ärer Relationshiptypen):** Der Entitytyp-vetrag wurde als Verbindungsentityp eingeführt um den 3-ären Relationshiptypen ist\_unter\_Vertrag durch mehrere binäre Relationshiptypen zu ersetzen. Beachten Sie, dass all jene Relationshiptypen N:1 sind. Es sollte nicht möglich sein, dass ein Vetrag ohne Zuordnung zu allen Parteien, wie Schauspieler\*in und Studio sowie dem eigentlichen Film als Gegenstand des Vertrages existiert. Damit ist Vetrag ein schwacher Entitytyp und kann nur durch die Aufzählung der Schlüssel aller anderen in Beziehung stehenden Entitytypen eindeutig identifiziert werden.
+# 
+# <img src="schwache_ent_bsp3.jpg" width="500" />
+
+# ### Kann man schwache Entitytypen vermeiden?
+
+# Eine der Ursachen für die Entstehung von schwachen Entitytypen ist, dass es nicht möglich ist einen allgemeingültigen Schlüssel zu deklarieren.
+# In der Realität werden sehr oft künstliche IDs verwendet.
+# - ISBN, SNN, VIN, etc.
+# 
+# Für unser Vertragsbeispiel hätten wir theoretisch auch eine Vertragsnummer definieren können. Zwar hätten wir immernoch die totale Beziehung zu den Vertragsgegenständen und Parteien, jedoch wäre jeder Vertrag als solches eindeutig identifizierbar. 
+# 
+# Um ein solches künstliches Schlüssel zu definieren bedarf es einer anerkannten Autorität. 
+# 
+
+# ## Erweitertes ER-Modell (EER)
+# 
+# Bisher haben wir die Kernkonzepte der ER-Modellierung kennen gelernt. Die ER-Modellierungssprache beinhaltet auch weitere Erweiterungen, die es ermöglichen, Konzepte konkreter zu modellieren. In dieser Vorlesung stellen wir lediglich einige dieser Möglichkeiten vor.
 
 # ### Weitere Attributarten
+# 
+# Die erste Erweiterung im EER sind weiter Spezifikationen von Attribute. Wie in den dargestellten Beispielen zu sehen ist ist es möglich verschiedene Nebenbedingungen zu modellieren. 
 
-# ![title](weitere_attributnamen.jpg)
+# <img src="weitere_attributnamen.jpg" />
 
-# Optionales Attribut
-# <br>
-# Attributwert nicht für jede Entität vorhanden
-# <br>
-# Abgeleitetes Attribut
-# <br>
-# Wert wird anhand einer Berechnungsvorschrift aus nicht-abgeleiteten Attributen errechnet.
-# <br>
-# Mengenwertiges Attribut
-# <br>
-# Enthält Menge von Werten
-# <br>
-# Strukturiertes Attribut
-# <br>
-# Wird durch weitere Attribute beschrieben
-# <br>
-# Wert des strukturierten Attributs entspricht Verkettung der Unterattribute.
-
-# ### Spezialisierung Generalisierung
-
-# Spezialisierung
-# <br>
-# entpricht IST-Beziehung
-# <br>
-# Drachen sind Spezialisierung von Produkt
-# <br>
-# Generalisierung
-# <br>
-# Entities in einen allgemeineren Kontext
-# <br>
-# Drachen oder Windspiel als Produkt
-# <br>
-# Partitionierung
-# <br>
-# mehrere disjunkte Entity-Typen
-# <br>
-# Spezialfall der Spezialisierung
-# <br>
-# Partitionierung von Produkten in Zubehör und Drachen
+# **Optionales Attribut**  ist ein Attribut, bei dem der Attributwert nicht für jede Entität vorhanden sein muss. Dies wird durch ein O auf der Verbindungskante gezeigt. Beispielsweise, handelt es sich bei Telefon um ein Optionales Attribut.
+# 
+# **Abgeleitetes Attribut** ist ein Attribut, dessen Wert von anderen Attributen hergeleitet werden kann. Beispielsweise kann der Bruttopreis aus dem Nettopreis und dem Steuersatz berechnet werden. 
+# 
+# **Mengenwertiges Attribut** enthält eine Menge von Werten. Beispielsweise kann ein Kunde mehrere Vornamen haben. 
+# 
+# **Strukturiertes Attribut** ist ein Attribut welches sich aus anderen Attributen zusammensetzt. Beispielsweise setzt sich eine Adresse aus drei unterschiedlichen Komponenten zusammen: Straßenname, Postleitzahl und Ort. 
 
 # ### Aggregation
 
-# Generalisierung (IST): Gleichartige Entitytypen (is-a)
-# <br>
-# Aggregation: Unterschiedliche Entitytypen
-# <br>
-# „Teil-von“ (part-of)
-# <br>
-# Entity aus einzelnen Instanzen anderer Entity-Typen zusammengesetzt.
+# Wir haben bereits die IST-Beziehung kennen gelernt. Wir haben auch über Teil-von-Beziehungen im Rahmen von schwachen Entitytypen gesprochen. Im EER werden letztere als Aggregationen dargestellt und ermöglichen eine entsprechende Visualisierung, die man durch hierarchie Darstellung der Zusammensetzung wie unten im Fahrradbeispiel zu sehen ist, modellieren kann.  
+# Ohne EER-Semantik müsste man die Kardinalitäten zusätzlich modellieren. In der Darstellung unten, erwartet man, dass diese Kardinalitäten implizit vorhanden sind. 
 
-# ![title](aggregation.jpg)
+# <img src="aggregation.jpg" />
 
 # ## Designprinzipien
 
-# Einleitungstext. 
+# Jetzt wo wir die wichtigsten Modellierungselemente der ER-Sprache kennen, wären wir in der Lage beliebige Informationen zu modellieren. Wir haben jedoch noch nicht darüber gesprochen, mit welchem Ansatz man jeweils diese Modellierungselemente wählen sollte. Es ist häufig so, dass man den selben Sachverhalt auf unterschiedlicher Weise modellieren kann. Jedoch ist nicht jede Modellierung sinnvoll. Im folgenden wollen wir drei Grundprinzipien kennen lernen, die uns helfen eine sinnvolle Darstellung für eine informelle Beschreibung auszuwählen:
 
-# ### Grundprinzipien
-
-# Treue zur Anwendung
-# <br>
-# Vermeidung von Redundanz
-# <br>
-# Einfachheit
-# <br>
-# Sparsamer Einsatz von Relationships
-# <br>
-# Sparsamer Einsatz von Attributen
-# <br>
-# Sparsamer Einsatz von schwachen Entitytypen
+# - Treue zur Anwendung
+# - Vermeidung von Redundanz
+# - Einfachheit
+#     - Sparsamer Einsatz von Relationships
+#     - Sparsamer Einsatz von Attributen
+#     - Sparsamer Einsatz von schwachen Entitytypen
 
 # ### Anwendungstreue
 
-# Entitytypen und Attribute sollten Realität widerspiegeln.
-# <br>
-# Filme haben keine Zylinderkopfanzahl
-# <br>
-# Relationshiptypen sollen Verhältnisse der Realität widerspiegeln.
-# <br>
-# Schauspieler und Filme stehen in einer m:n Beziehung
-# <br>
-# n:1, 1:n oder 1:1 wären inkorrekte Wiedergaben der Realität
-# <br>
-# Schwierigerer Fall: Kurs und Lehrer – je nach Semantik
-# <br>
-# Ein Kurs kann nur von einem (verantwortlichen) Lehrer gegeben werden.
-# <br>
-# Lehrer geben im Team einen Kurs.
-# <br>
-# Nicht aktuelle Kursvergabe sondern auch Historie
+# Die Anwendungstreue ist zunächst die offensichtlichste Anforderung. 
+# Entitytypen und Attribute sollten natürlich die Realität widerspiegeln. Entitytypen sollten Attribute führen, die spezifiziert werden können. Relationshiptypen sollen Verhältnisse der Realität widerspiegeln. Dazu gehören reelle Kardinalitätsbeziehungen und Abbildungen. 
+# 
+# **Beispiel:** Schauspieler und Filme stehen in einer m:n Beziehung. n:1, 1:n oder 1:1 wären inkorrekte Wiedergaben der Realität
 
 # ### Redundanz
 
-# Redundanz tritt auf, wenn der gleiche Sachverhalt auf mehr als eine Weise ausgedrückt wird.
-# <br>
-# Redundanz verschwendet Platz.
-# <br>
-# Auf dem Papier
-# <br>
-# Auf der Festplatte
-# <br>
-# Redundanz fördert Inkonsistenz.
-# <br>
-# Veränderung eines Sachverhalts wird nur an einer Stelle repräsentiert.
+# Redundanz tritt auf, wenn der gleiche Sachverhalt auf mehr als eine Weise ausgedrückt wird. Dies kann durch ungeschickte Modellierung passieren. In der Datenbankwelt möchte man nach möglichkeit **unbeabsichtigte** Redundanz verhindern, da Redundanz nicht nur Platzverschwendet sondern auch Situationen hervorrufen kann, dass Daten nicht mehr konsistent vorliegen. Man muss bei Änderung von Daten an allen redundanten Stellen die Daten ändern. 
 
-# ![title](redundanz1.jpg)
+# **Beispiel (Redundanz):** Im folgenden Beispiel sehen wir drei Möglichkeiten um Studios zu modellieren. Alle drei Varianten sind anwendungstreu. Die Modellierung in der oberen Zeile ist eine sinnvolle Modellierung. In der mittleren Zeile, haben wir für jedes Film den Studionamen zusätzlich als Attribut modelliert. Damit taucht der Name redundant auf. Dies ist ein offensichtliches Beispiel für redundante Modellierung, da zu jedem Film der Studioname zwei mal gespeichert wird. Die Modellierung in der unteren Zeile modelliert Studio nur als Attribute von Film. Hier gibt es zwar keine Dopplung pro Film, jedoch besteht weiterhin Redundanz. Wenn wir davon ausgehen, dass ein Studio mehrere Filme besitzt, speichern wir den Namen und die Adresse jedes Studios mehrmals, nämlich ein mal pro Film. Bei unserer Modllierung in der obersten Zeile speichern wir jedes Studio nur einmal und Film sind durch die besitzt Beziehung jeweils mit dem gleichen Studioentity verbunden. 
 
-# ![title](redundanz2.jpg)
+# <img src="redundanz1.jpg" />
 
 # ### Einfachheit
 
@@ -556,5 +445,3 @@
 # besser
 
 # ![title](attributvselement3.jpg)
-
-# NICHT enthalten: S. 20 , S. 34, S. 36, S. 38, S. 43-45
