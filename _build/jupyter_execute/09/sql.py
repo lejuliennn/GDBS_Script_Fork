@@ -3,6 +3,20 @@
 
 # # SQL
 
+# In[1]:
+
+
+get_ipython().system('pip install sqlalchemy==1.3.9')
+get_ipython().system('pip install ipython-sql')
+
+
+# In[2]:
+
+
+get_ipython().run_line_magic('load_ext', 'sql')
+get_ipython().run_line_magic('sql', 'sqlite:///imdb/imdb/imdb.db')
+
+
 # ## Einführung
 # ### SQL-Historie
 # ■ SEQUEL (1974, IBM Research Labs San Jose)
@@ -121,13 +135,13 @@
 # ### Beispielschema
 # ![title](beispielschema.jpg)
 # ### SELECT … FROM … WHERE …
-# ■ 
-# ```
-# SELECT *
-# FROM Film
-# WHERE StudioName = ‘Disney‘ AND Jahr= 1990;
-# ```
-# <br><br>
+
+# In[3]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE StudioName = ‘Disney‘ AND Jahr= 1990;')
+
+
 # ■ Lesereihenfolge (und Schreibreihenfolge):
 # <br>
 # 1. FROM: Relation(en) aus denen die Daten stammen
@@ -177,30 +191,50 @@
 # □ Schemaelemente kleinschreiben
 # ### Projektion in SQL (SELECT, $\pi$)
 # ■ Spezifikation in der SELECT Klausel
-# ```
-# SELECT * FROM Film
-# ```
+
+# In[4]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT * FROM Film')
+
+
 # – Alle Attribute
-# ```
-# SELECT Titel, Jahr, inFarbe FROM Film
-# ```
+
+# In[5]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT Titel, Jahr, inFarbe FROM Film')
+
+
 # – Projektion auf die drei Attribute
 # <br><br>
 # ■ Erweiterte Projektion
 # <br>
 # □ Umbenennung:
-# ```
-# SELECT Titel AS Name, Jahr AS Zeit FROM Film
-# ```
+
+# In[6]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT Titel AS Name, Jahr AS Zeit FROM Film')
+
+
 # □ Arithmetischer Ausdruck:
-# ```
-# SELECT Titel, Länge * 0.016667 AS Stunden FROM Film
-# ```
+
+# In[7]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT Titel, Länge * 0.016667 AS Stunden FROM Film')
+
+
 # □ Konstanten:
-# ```
-# SELECT Titel, Länge * 0.016667 AS Stunden,
-# ‘std.‘ AS inStunden FROM Film
-# ```
+
+# In[8]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT Titel, Länge * 0.016667 AS Stunden,')
+‘std.‘ AS inStunden FROM Film
+
+
 # ### Selektion in SQL (WHERE, $\sigma$)
 # ■ Spezifikation in der WHERE Klausel
 # <br>
@@ -248,18 +282,25 @@
 # <br>
 # <br>
 # ■ Beispiele
-# 
-# ```
-# SELECT Titel
-# FROM Film
-# WHERE Jahr > 1970 AND NOT inFarbe;
-# ```
-# ```
-# SELECT Titel
-# FROM Film
-# WHERE (Jahr > 1970 OR Länge < 90) AND StudioName = ‘MGM‘;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel
+FROM Film
+WHERE Jahr > 1970 AND NOT inFarbe;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel
+FROM Film
+WHERE (Jahr > 1970 OR Länge < 90) AND StudioName = ‘MGM‘;
+
+
 # ### Stringvergleiche
 # ■ Datentypen
 # <br>
@@ -290,15 +331,22 @@
 # <br>
 # □ ‘_‘: Ein beliebiges Zeichen
 # <br><br>
-# ```
-# SELECT Titel FROM Film
-# WHERE Titel LIKE ‘Star _ _ _ _‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film')
+WHERE Titel LIKE ‘Star _ _ _ _‘;
+
+
 # □ Star Wars und Star Trek
-# ```
-# SELECT Titel FROM Film WHERE Titel LIKE ‘%War%‘;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE Titel LIKE ‘%War%‘;')
+
+
 # ### Datum und Uhrzeit
 # ■ Spezielle Datentypen und Repräsentationen
 # <br>
@@ -400,13 +448,15 @@
 # |Total|Recall|1990|NULL|True|Fox|12345|
 # 
 #  Überraschendes Verhalten
-#  <br>
-# ```
-# SELECT *
-# FROM Film
-# WHERE Länge <= 90 OR Länge > 90; --Länge <= 90 == UNKNOWN und Länge > 90
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT *')
+FROM Film
+WHERE Länge <= 90 OR Länge > 90; --Länge <= 90 == UNKNOWN und Länge > 90
+
+
 # □ Tupel erscheint nicht im Ergebnis.
 # <br><br>
 # ■ Ausführungspriorität: NOT vor AND vor OR
@@ -419,18 +469,24 @@
 # <br>
 # □ ASC (aufsteigend) ist default
 # <br>
-# ```
-# SELECT *
-# FROM Film
-# WHERE StudioName = ‘Disney‘ AND Jahr = 1990
-# ORDER BY Länge, Titel;
-# ```
-# ```
-# SELECT *
-# FROM Film
-# WHERE StudioName = ‘Disney‘ AND Jahr = 1990
-# ORDER BY Länge ASC, Titel DESC;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT *')
+FROM Film
+WHERE StudioName = ‘Disney‘ AND Jahr = 1990
+ORDER BY Länge, Titel;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT *')
+FROM Film
+WHERE StudioName = ‘Disney‘ AND Jahr = 1990
+ORDER BY Länge ASC, Titel DESC;
+
 
 # ## Anfragen über mehrere Relationen
 # 
@@ -445,12 +501,16 @@
 # ■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
 # <br>
 # ■ Manager*in(Name, Adresse, ManagerinID, Gehalt)
-# ```
-# SELECT Name
-# FROM Film, ManagerIn --Kreuzprodukt
-# WHERE Titel = ‘Star Wars‘ --Selektionsbedingung
-# AND ProduzentinID = ManagerinID; --Joinbedingung
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', 'SELECT Name')
+FROM Film, ManagerIn --Kreuzprodukt
+WHERE Titel = ‘Star Wars‘ --Selektionsbedingung
+AND ProduzentinID = ManagerinID; --Joinbedingung
+
+
 # ■ Semantik
 # <br>
 # □ Betrachte jedes Tupelpaar der Relationen Film und Manager.
@@ -461,13 +521,16 @@
 # ■ Kreuzprodukt gefolgt von Selektion: Join
 # <br><br>
 # ■ Reihenfolge der WHERE Bedingungen egal
-# 
-# ```
-# SELECT Name FROM Film, ManagerIn
-# WHERE ProduzentinID = ManagerinID
-# AND Titel = ‘Star Wars‘;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name FROM Film, ManagerIn
+WHERE ProduzentinID = ManagerinID
+AND Titel = ‘Star Wars‘;
+
+
 # ### Uneindeutige Attributnamen
 # ■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
 # <br><br>
@@ -476,11 +539,16 @@
 # ■ Bei gleichen Attributnamen aus mehreren beteiligten Relationen:
 # <br>
 # □ Relationenname als Präfix:
-# ```
-# SELECT SchauspielerIn.Name, ManagerIn.Name
-# FROM SchauspielerIn, Manager
-# WHERE SchauspielerIn.Adresse = ManagerIn.Adresse;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT SchauspielerIn.Name, ManagerIn.Name
+FROM SchauspielerIn, Manager
+WHERE SchauspielerIn.Adresse = ManagerIn.Adresse;
+
+
 # □ Präfix ist auch erlaubt wenn Attributname eindeutig ist.
 # <br>
 # – Erleichtert das Lesen von SQL Anfragen
@@ -493,19 +561,29 @@
 # □ Insbesondere: Bei der mehrfachen Verwendung einer Relation in einer Anfrage
 # <br><br>
 # ■ Gesucht: Schauspieler, die zusammen leben
-# ```
-# SELECT Star1.Name, Star2.Name
-# FROM SchauspielerIn Star1, SchauspielerIn Star2
-# WHERE Star1.Adresse = Star2.Adresse
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Star1.Name, Star2.Name
+FROM SchauspielerIn Star1, SchauspielerIn Star2
+WHERE Star1.Adresse = Star2.Adresse
+
+
 # □ Äquivalent zu Schauspieler AS Star2
 # <br><br>
 # ■ Auch sinnvoll als abkürzenden Schreibweise
-# ```
-# SELECT S.Name, M.Name
-# FROM SchauspielerIn S, ManagerIn M
-# WHERE S.Adresse = M.Adresse;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT S.Name, M.Name
+FROM SchauspielerIn S, ManagerIn M
+WHERE S.Adresse = M.Adresse;
+
+
 # ■ Ohne explizites Angeben einer Tupelvariablen wird der Relationenname als Tupelvariable verwendet.
 #  
 # ### Tupelvariablen-Selfjoin
@@ -516,12 +594,16 @@
 # |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
 # |Mark Hamill|456 Oak Rd., Brentwood|M|8/8/88|
 # |Brad Pitt|123 Maple St., Hollywood|M|7/7/77|
-# 
-# ```
-# SELECT Star1.Name, Star2.Name
-# FROM SchauspielerIn Star1, SchauspielerIn Star2
-# WHERE Star1.Adresse = Star2.Adresse;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Star1.Name, Star2.Name
+FROM SchauspielerIn Star1, SchauspielerIn Star2
+WHERE Star1.Adresse = Star2.Adresse;
+
+
 # |Star1.Name|Star2.Name|
 # |---|---|
 # |Carrie Fisher|Carrie Fisher|
@@ -529,26 +611,32 @@
 # |Brad Pitt|Carrie Fisher|
 # |Brad Pitt|Brad Pitt|
 # |Mark Hamill|Mark Hamill|
-# 
-# 
-# ```
-# SELECT Star1.Name, Star2.Name
-# FROM SchauspielerIn Star1, SchauspielerIn Star2
-# WHERE Star1.Adresse = Star2.Adresse
-# AND Star1.Name <> Star2.Name;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Star1.Name, Star2.Name
+FROM SchauspielerIn Star1, SchauspielerIn Star2
+WHERE Star1.Adresse = Star2.Adresse
+AND Star1.Name <> Star2.Name;
+
+
 # |Star1.Name|Star2.Name|
 # |---|---|
 # |Carrie Fisher|Brad Pitt|
 # |Brad Pitt|Carrie Fisher|
-# 
-# ```
-# SELECT Star1.Name, Star2.Name
-# FROM SchauspielerIn Star1, SchauspielerIn Star2
-# WHERE Star1.Adresse = Star2.Adresse
-# AND Star1.Name < Star2.Name;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Star1.Name, Star2.Name
+FROM SchauspielerIn Star1, SchauspielerIn Star2
+WHERE Star1.Adresse = Star2.Adresse
+AND Star1.Name < Star2.Name;
+
+
 # |Star1.Name|Star2.Name|
 # |---|---|
 # |Brad Pitt|Carrie Fisher|
@@ -575,26 +663,34 @@
 # ■ Gegeben drei Relationen: R(A), S(A) und T(A)
 # <br><br>
 # ■ Gesucht: R $\cap$ (S $\cup$ T) (= (R $\cap$ S) $\cup$ (R $\cap$ T) )
-# ```
-# SELECT R.A
-# FROM R, S, T
-# WHERE R.A = S.A
-# OR R.A = T.A;
-# ```
-# 
-# ```
-# SELECT *
-# FROM
-# (
-#     (SELECT A FROM R)
-#      INTERSECT
-#     (SELECT * FROM
-#      (SELECT A FROM S)
-#       UNION
-#     (SELECT A FROM T)
-#     )
-# )
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT R.A
+FROM R, S, T
+WHERE R.A = S.A
+OR R.A = T.A;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT *
+FROM
+(
+    (SELECT A FROM R)
+     INTERSECT
+    (SELECT * FROM
+     (SELECT A FROM S)
+      UNION
+    (SELECT A FROM T)
+    )
+)
+
+
 # ■ Problemfall: T ist leer, hat also kein Tupel
 # <br><br>
 # ■ Vermeintliches Resultat: R $\cap$ S
@@ -615,19 +711,36 @@
 # – Kreuzprodukt
 #  <br>
 # – Doppelte Attributnamen werden mit Präfix der Relation aufgelöst
-# ```
-# Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr
+
+
 # – Theta-Join
-# – SELECT Titel, Jahr, Länge, inFarbe, StudioName,
-# ProduzentinID, SchauspielerName FROM Film JOIN spielt_in ON Titel = FilmTitel
-# AND Jahr = FilmJahr;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel, Jahr, Länge, inFarbe, StudioName,
+ProduzentinID, SchauspielerName FROM Film JOIN spielt_in ON Titel = FilmTitel
+AND Jahr = FilmJahr;
+
+
 # – Eliminiert redundante Attribute FilmTitel und FilmJahr
-# ```
-# SELECT Titel, Jahr
-# FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr
-# JOIN SchauspielerIn ON spielt_in.Name = SchauspielerIn.Name WHERE Geschlecht = ‘w‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel, Jahr
+FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr
+JOIN SchauspielerIn ON spielt_in.Name = SchauspielerIn.Name WHERE Geschlecht = ‘w‘;
+
+
 # □ Schauspieler NATURAL JOIN Manager
 # <br>
 # – Natural Join; Eliminiert redundante Attribute
@@ -636,23 +749,27 @@
 # ![title](tpc-h_schema.jpg)
 #  
 # #### TPC Query 2 - Minimum Cost Supplier
-# 
-# ```
-# SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone,
-# s_comment
-# FROM part, supplier, partsupp, nation, region
-# WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
-# AND p_size = [SIZE] AND p_type like '%[TYPE]'
-# AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
-# AND r_name = '[REGION]'
-# AND ps_supplycost =
-# (SELECT min(ps_supplycost)
-# FROM partsupp, supplier, nation, region
-# WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
-# AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
-# AND r_name = '[REGION]' )
-# ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone,
+s_comment
+FROM part, supplier, partsupp, nation, region
+WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
+AND p_size = [SIZE] AND p_type like '%[TYPE]'
+AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
+AND r_name = '[REGION]'
+AND ps_supplycost =
+(SELECT min(ps_supplycost)
+FROM partsupp, supplier, nation, region
+WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
+AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
+AND r_name = '[REGION]' )
+ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
+
+
 # SIZE is randomly selected within [1. 50];
 # <br>
 # TYPE is randomly selected within the list Syllable 3 defined for Types
@@ -660,55 +777,78 @@
 # REGION is randomly selected within the list of values defined for R_NAME
 # 
 # #### The TPC-H Universal Table
-# 
-# ```
-# SELECT l_linenumber, l_quantity, l_extendedprice, l_discount, l_tax, l_returnflag, l_linestatus, l_shipdate, l_commitdate, l_receiptdate, l_shipinstruct, l_shipmode, l_comment, o_orderkey, o_orderstatus, o_totalprice, o_orderdate, o_orderpriority, o_clerk, o_shippriority, o_comment, ps_availqty, ps_supplycost, ps_comment, p_partkey, p_name, p_mfgr, p_brand, p_type, p_size, p_container, p_retailprice, p_comment, c_custkey, c_name, c_address, c_phone, c_acctbal, c_mktsegment, c_comment, s_suppkey, s_name, s_address, s_phone, s_acctbal, s_comment, n_nationkey, n_name, n_comment, r_regionkey, r_name, r_comment
-# 
-# FROM lineitem, orders, partsupp, part, customer, supplier, nation, region
-# 
-# WHERE p_partkey = ps_partkey
-# 
-# AND s_suppkey = ps_suppkey
-# 
-# AND n_nationkey = s_nationkey
-# 
-# AND r_regionkey = n_regionkey
-# 
-# AND c_custkey = o_custkey
-# 
-# AND ps_partkey = l_partkey
-# 
-# AND ps_suppkey = l_suppkey
-# 
-# AND o_orderkey = l_orderkey
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT l_linenumber, l_quantity, l_extendedprice, l_discount, l_tax, l_returnflag, l_linestatus, l_shipdate, l_commitdate, l_receiptdate, l_shipinstruct, l_shipmode, l_comment, o_orderkey, o_orderstatus, o_totalprice, o_orderdate, o_orderpriority, o_clerk, o_shippriority, o_comment, ps_availqty, ps_supplycost, ps_comment, p_partkey, p_name, p_mfgr, p_brand, p_type, p_size, p_container, p_retailprice, p_comment, c_custkey, c_name, c_address, c_phone, c_acctbal, c_mktsegment, c_comment, s_suppkey, s_name, s_address, s_phone, s_acctbal, s_comment, n_nationkey, n_name, n_comment, r_regionkey, r_name, r_comment
+
+FROM lineitem, orders, partsupp, part, customer, supplier, nation, region
+
+WHERE p_partkey = ps_partkey
+
+AND s_suppkey = ps_suppkey
+
+AND n_nationkey = s_nationkey
+
+AND r_regionkey = n_regionkey
+
+AND c_custkey = o_custkey
+
+AND ps_partkey = l_partkey
+
+AND ps_suppkey = l_suppkey
+
+AND o_orderkey = l_orderkey
+
+
 # ### Outer Joins
 # ■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
 # <br><br>
 # ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)
 # <br><br>
 # ■ Schauspieler*innen, die zugleich Manager*in sind
-# ```
-# SELECT Name, Adresse, Geburtstag, Gehalt
-# FROM Schauspieler NATURAL INNER JOIN Manager
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name, Adresse, Geburtstag, Gehalt
+FROM Schauspieler NATURAL INNER JOIN Manager
+
+
 # ■ SchauspielerIn und gegebenenfalls ihre ManagerIninfo
-# ```
-# …FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+…FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn
+
+
 # □ Gehalt bleibt gegebenenfalls NULL
 # 
 # ■ ManagerIn und gegebenenfalls ihre Schauspielerinfo
-# ```
-# …FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn
+
+
 # □ Geburtstag bleibt gegebenenfalls NULL
 # 
 # ■ Alle Schauspieler*innen und Manager*innen
-# ```
-# …FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+…FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn
+
+
 # □ Geburtstag oder Gehalt bleiben gegebenenfalls leer
 # 
 # □ Unterschied zu UNION: Nur eine Zeile pro Person
@@ -729,14 +869,23 @@
 # 
 # ### Kreuzprodukt
 # ■ Alle Paare aus Tupeln der beteiligten Relationen
-# ```
-# SELECT *
-# FROM SchauspielerIn CROSS JOIN Film
-# ```
-# ```
-# SELECT *
-# FROM SchauspielerIn, Film
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT *
+FROM SchauspielerIn CROSS JOIN Film
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT *
+FROM SchauspielerIn, Film
+
+
 # ■ Selten verwendet
 # <br>
 # ■ Grundbaustein für Joins
@@ -768,29 +917,43 @@
 # 
 # #### Schnittmenge: INTERSECT
 # ■ Entspricht dem logischen „und“
-# ```
-# (SELECT Name, Adresse FROM SchauspielerIn)
-# INTERSECT
-# (SELECT Name, Adresse FROM ManagerIn);
-# ```
-# ```
-# (SELECT Name, Adresse
-#  FROM SchauspielerIn
-#  WHERE Geschlecht = ‘F‘)
-#            INTERSECT
-# (SELECT Name, Adresse
-#  FROM ManagerIn
-#  WHERE Gehalt > 1000000)
-# ``` 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+(SELECT Name, Adresse FROM SchauspielerIn)
+INTERSECT
+(SELECT Name, Adresse FROM ManagerIn);
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+(SELECT Name, Adresse
+ FROM SchauspielerIn
+ WHERE Geschlecht = ‘F‘)
+           INTERSECT
+(SELECT Name, Adresse
+ FROM ManagerIn
+ WHERE Gehalt > 1000000)
+
+
 # ■ Multimengen-Semantik: INTERSECT ALL
 # 
 # #### Vereinigung: UNION
 # ■ Entspricht dem logischen „oder“
-# ```
-# (SELECT Name, Adresse FROM SchauspielerIn)
-#            UNION
-# (SELECT Name, Adresse FROM ManagerIn);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+(SELECT Name, Adresse FROM SchauspielerIn)
+           UNION
+(SELECT Name, Adresse FROM ManagerIn);
+
+
 # ■ Multimenge: UNION ALL
 # <br>
 # □ Beliebt, da schnell
@@ -806,6 +969,7 @@
 # #### Differenz: EXCEPT
 # 
 # ■ Auch MINUS
+
 # ```
 # (SELECT Titel, Jahr
 #  FROM Film)
@@ -813,22 +977,29 @@
 # (SELECT FilmTitel AS Titel, FilmJahr AS Jahr
 #  FROM spielt_in)
 #  ```
+#  
+
 # ■ Multimenge: EXCEPT ALL
 # 
 # #### Klammerung
-# ```
-# ■ SELECT * 
-# ■ FROM 
-# ■ ( 
-# ■  (SELECT A FROM R) 
-# ■    INTERSECT 
-# ■   (SELECT * FROM 
-# ■    (SELECT A FROM S) 
-# ■     UNION 
-# ■    (SELECT A FROM T) 
-# ■    ) 
-# ■ )
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+ SELECT * 
+ FROM 
+ ( 
+  (SELECT A FROM R) 
+    INTERSECT 
+   (SELECT * FROM 
+    (SELECT A FROM S) 
+     UNION 
+    (SELECT A FROM T) 
+    ) 
+ )
+
+
 # ### Zusammenfassung der Semantik
 # 
 # 
@@ -894,20 +1065,27 @@
 # ■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
 # <br>
 # ■ Gesucht: Produzent von Star Wars
+
 # ```
 # SELECT Name
 # FROM Film, ManagerIn WHERE Titel = ‘Star Wars‘ AND Jahr = ‘1977‘
 # AND ProduzentinID = ManagerinID;
 # ```
+
 # ■ Oder aber
-# ```
-# SELECT Name
-# FROM ManagerIn
-# WHERE ManagerinID =
-# ( SELECT ProduzentinID
-# FROM Film
-# WHERE Titel = ‘Star Wars‘ AND Jahr = ‘1977‘ );
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name
+FROM ManagerIn
+WHERE ManagerinID =
+( SELECT ProduzentinID
+FROM Film
+WHERE Titel = ‘Star Wars‘ AND Jahr = ‘1977‘ );
+
+
 # ■ DBMS erwartet maximal ein Tupel als Ergebnis der Teilanfrage
 # <br>
 # □ Falls kein Tupel: null
@@ -916,36 +1094,43 @@
 # 
 # #### Skalare Subanfragen – Beispiel 
 # ■ Abteilungen, deren durchschnittliche Bonuszahlungen höher sind als deren durchschnittliches Gehalt.
-# ```
-# SELECT a.Name, a.Standort
-# FROM Abteilung a
-# WHERE (SELECT AVG(bonus)
-#        FROM personal p
-#        WHERE a.AbtID = p.AbtID)
-#               >
-#       (SELECT AVG(gehalt)
-#        FROM personal p
-#        WHERE a.AbtID = p.AbtID)
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT a.Name, a.Standort FROM Abteilung a WHERE (SELECT AVG(bonus) FROM personal p WHERE a.AbtID = p.AbtID)>(SELECT AVG(gehalt)FROM personal pWHERE a.AbtID = p.AbtID)
+
+
 # ■ Alle Potsdamer Abteilungen mit ihrem Maximalgehalt.
-# ```
-# SELECT a.AbtID, a.Name,
-#            (SELECT MAX(Gehalt)
-#                 FROM Personal p
-#             WHERE a.AbtID = p.AbtID) AS maxGehalt
-# FROM Abteilung a
-# WHERE a.Ort = ‘Potsdam‘
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT a.AbtID, a.Name,
+           (SELECT MAX(Gehalt)
+                FROM Personal p
+            WHERE a.AbtID = p.AbtID) AS maxGehalt
+FROM Abteilung a
+WHERE a.Ort = ‘Potsdam‘
+
+
 # ■ Anmerkung: Auch Abteilungen ohne Mitarbeiter erscheinen im Ergebnis.
 # <br><br>
 # ■ Nicht so in der folgenden Anfrage:
-# ```
-# SELECT a.AbtID, a.Name, MAX(p.Gehalt) AS maxGehalt
-# FROM Abteilung a, Personal p
-# WHERE a.Ort = ‘Potsdam‘
-# AND a.AbtID = p.AbtID
-# GROUP BY a.AbtID, a.Name
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT a.AbtID, a.Name, MAX(p.Gehalt) AS maxGehalt
+FROM Abteilung a, Personal p
+WHERE a.Ort = ‘Potsdam‘
+AND a.AbtID = p.AbtID
+GROUP BY a.AbtID, a.Name
+
+
 # ### Bedingungen mit Relationen
 # ■ Bestimmte SQL Operatoren auf Relationen erzeugen Boole‘sche Werte
 # <br>
@@ -982,83 +1167,120 @@
 # □ Negation mit NOT(…) ist immer möglich.
 # ### EXISTS Beispiele
 # ■ ISBNs aller ausgeliehenen Bücher
-# ```
-# SELECT ISBN
-# FROM BuchExemplar
-# WHERE EXISTS
-#      (SELECT *
-#       FROM Ausleihe
-#       WHERE Ausleihe.Inventarnr = BuchExemplar.Inventarnr)
-# ```      
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT ISBN
+FROM BuchExemplar
+WHERE EXISTS
+     (SELECT *
+      FROM Ausleihe
+      WHERE Ausleihe.Inventarnr = BuchExemplar.Inventarnr) 
+
+
 # ■ Lehrstuhlbezeichnungen der Professor*innen, die alle von ihnen gelesenen Vorlesungen auch schon einmal
 # geprüft haben.
 # <br><br>
 # ■ bzw. Lehrstuhlbezeichnungen von Professor*innen, so dass keine von diesem gelesene Vorlesung existiert, die von
 # ihm nicht geprüft wurde.
-# ``` 
-# SELECT Lehrstuhlbezeichnung
-# FROM Prof
-# WHERE NOT EXISTS
-#       (SELECT *
-#        FROM Liest
-#        WHERE Liest.PANr = Prof.PANr
-#        AND NOT EXISTS (SELECT *
-#                    FROM Prüft
-#                    WHERE Prüft.PANr = Prof.PANr
-#                    AND Prüft.VL_NR = Liest.VL_NR)
-# )
-# ``` 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Lehrstuhlbezeichnung
+FROM Prof
+WHERE NOT EXISTS
+      (SELECT *
+       FROM Liest
+       WHERE Liest.PANr = Prof.PANr
+       AND NOT EXISTS (SELECT *
+                   FROM Prüft
+                   WHERE Prüft.PANr = Prof.PANr
+                   AND Prüft.VL_NR = Liest.VL_NR)
+) 
+
+
 # ### IN Beispiele
 # ■ Eine Auswahl an Büchern
-# ``` 
-# SELECT Titel
-# FROM Bücher
-# WHERE ISBN IN (‘3898644006‘, ‘1608452204‘, ‘0130319953‘)
-# ``` 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel
+FROM Bücher
+WHERE ISBN IN (‘3898644006‘, ‘1608452204‘, ‘0130319953‘)
+
+
 # ■ Matrikel der Studenten, die zumindest einen Prüfer gemeinsam mit dem Studenten der Matrikel ‚123456‘ haben
-# ``` 
-# SELECT DISTINCT Matrikel
-# FROM Prüft
-# WHERE Prüfer IN ( SELECT Prüfer
-#                   FROM Prüft
-#                   WHERE Matrikel = ‘123456‘)
-# ``` 
-# ``` 
-# SELECT DISTINCT P1.Matrikel
-# FROM Prüft P1, Prüft P2
-# WHERE P2.Matrikel = `123456`
-# AND P1.Prüfer = P2.Prüfer
-# ``` 
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT DISTINCT Matrikel
+FROM Prüft
+WHERE Prüfer IN ( SELECT Prüfer
+                  FROM Prüft
+                  WHERE Matrikel = ‘123456‘)``` 
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT DISTINCT P1.Matrikel
+FROM Prüft P1, Prüft P2
+WHERE P2.Matrikel = `123456`
+AND P1.Prüfer = P2.Prüfer
+
+
 # ■ Nachnamen aller Professor*innen, die schon einmal eine 1,0 vergeben haben.
-# ```
-# SELECT Nachname
-# FROM Prof
-# WHERE 1.0 IN ( SELECT Note
-# FROM Prüft
-# WHERE Prüfer = Prof.ID )
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Nachname
+FROM Prof
+WHERE 1.0 IN ( SELECT Note
+FROM Prüft
+WHERE Prüfer = Prof.ID )
+
+
 # ■ Achtung: Korrelierte Subanfrage
 # 
 # ### ALL und ANY Beispiele
 # 
 # ■ Die schlechteste Note des Studenten mit Matrikel 123456
-# ```
-# SELECT Note
-# FROM Prüft
-# WHERE Matrikel = ‘123456‘
-# AND Note >= ALL (SELECT Note
-#                  FROM Prüft
-#                  WHERE Matrikel = ‘123456‘)
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Note
+FROM Prüft
+WHERE Matrikel = ‘123456‘
+AND Note >= ALL (SELECT Note
+                 FROM Prüft
+                 WHERE Matrikel = ‘123456‘)
+
+
 # ■ Alle Studenten, die mindestens eine Prüfung absolvierten
-# ```
-# SELECT Name, Matrikel
-# FROM Student
-# WHERE Matrikel = ANY (SELECT Matrikel
-#                       FROM Prüft)
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name, Matrikel
+FROM Student
+WHERE Matrikel = ANY (SELECT Matrikel
+                      FROM Prüft)
+
+
 # ### Bedingungen mit Tupeln
 # ■ Verallgemeinerung von IN, ALL und ANY auf Tupel
 # <br>
@@ -1082,29 +1304,39 @@
 # <br>
 # <br>
 # ■ Namen von Produzenten von Filmen mit Harrison Ford
-# ```
-# SELECT Name
-# FROM Manager
-# WHERE ManagerinID IN
-#     ( SELECT ProduzentinID
-#       FROM Film
-#       WHERE (Titel, Jahr) IN
-#            ( SELECT FilmTitel AS Titel, FilmJahr AS Jahr
-#              FROM spielt_in
-#              WHERE SchauspielerName = ‘Harrison Ford‘
-#     ));
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name
+FROM Manager
+WHERE ManagerinID IN
+    ( SELECT ProduzentinID
+      FROM Film
+      WHERE (Titel, Jahr) IN
+           ( SELECT FilmTitel AS Titel, FilmJahr AS Jahr
+             FROM spielt_in
+             WHERE SchauspielerName = ‘Harrison Ford‘
+    ));
+
+
 # ■ Analyse am besten von innen nach außen
 # <br><br>
 # ■ Alternative Formulierung
-# ```
-# SELECT Name
-# FROM Manager, Film, spielt_in
-# WHERE ManagerinID = ProduzentinID
-# AND Titel = FilmTitel
-# AND Jahr = FilmJahr
-# AND SchauspielerName = ‘Harrison Ford‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name
+FROM Manager, Film, spielt_in
+WHERE ManagerinID = ProduzentinID
+AND Titel = FilmTitel
+AND Jahr = FilmJahr
+AND SchauspielerName = ‘Harrison Ford‘;
+
+
 # ### Subanfragen in FROM-Klausel
 # ■ Bisher: Nur Subanfragen in WHERE-Klausel
 # <br>
@@ -1112,16 +1344,20 @@
 # <br>
 # □ Es muss ein Alias vergeben werden.
 # <br>
-# ```
-# SELECT M.Name
-# FROM ManagerIn M, (SELECT ProduzentinID AS ID
-#                   FROM Film, spielt_in
-#                   WHERE Titel = FilmTitel
-#                   AND Jahr = FilmJahr
-#                   AND SchauspielerIn = ‘Harrison Ford‘) ProduzentIn
-# WHERE M.ManagerinID = ProduzentIn.ID;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT M.Name
+FROM ManagerIn M, (SELECT ProduzentinID AS ID
+                  FROM Film, spielt_in
+                  WHERE Titel = FilmTitel
+                  AND Jahr = FilmJahr
+                  AND SchauspielerIn = ‘Harrison Ford‘) ProduzentIn
+WHERE M.ManagerinID = ProduzentIn.ID;
+
+
 # ### Korrelierte Subanfragen
 # ■ Unkorreliert: Subanfragen einmalig ausführen und das Ergebnis weiterverwenden
 # <br><br>
@@ -1129,14 +1365,19 @@
 # Anfrage
 # <br><br>
 # ■ Alle mehrfachen Filme mit Ausnahme der jeweils jüngsten Ausgabe
-# ```
-# SELECT Titel, Jahr
-# FROM Film Alt
-# WHERE Jahr < ANY
-#     ( SELECT Jahr
-#     FROM Film
-#     WHERE Titel = Alt.Titel);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel, Jahr
+FROM Film Alt
+WHERE Jahr < ANY
+    ( SELECT Jahr
+    FROM Film
+    WHERE Titel = Alt.Titel);
+
+
 # □ Ausführung der Subanfrage für jedes Tupel in Filme
 # 
 # Scope: Attributnamen gehören zunächst zur Tupelvariablen der aktuellen Anfrage. Sonst: Suche von innen nach außen.
@@ -1144,27 +1385,36 @@
 # Unkorreliert:
 # <br>
 # Name und Gehalt aller Mitarbeiter in Potsdam
-# ```
-# SELECT Name, Gehalt
-# FROM Personal p
-# WHERE AbtID IN
-#     (SELECT AbtID
-#     FROM Abteilung
-#     WHERE Ort =
-# ‘Potsdam‘)
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name, Gehalt
+FROM Personal p
+WHERE AbtID IN
+    (SELECT AbtID
+    FROM Abteilung
+    WHERE Ort =
+‘Potsdam‘)
+
+
 # Korreliert:
 # <br>
 # Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbudgets ist.
-# ```
-# SELECT Name, Gehalt
-# FROM Personal p
-# WHERE Gehalt >
-#     (SELECT 0.1*Budget
-#     FROM Abteilung a
-#     WHERE a.AbtID =
-# p.AbtID)
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name, Gehalt
+FROM Personal p
+WHERE Gehalt >
+    (SELECT 0.1*Budget
+    FROM Abteilung a
+    WHERE a.AbtID =
+p.AbtID)
+
 
 # ## Operationen auf einer Relation
 # ### Duplikateliminierung
@@ -1189,10 +1439,15 @@
 # □ Kosten sind hoch: Sortierung oder hashing
 #  <br>
 # ■ Alle Filme, in denen mindestens ein Schauspieler mitspielt
-# ```
-# SELECT DISTINCT Titel, Jahr
-# FROM spielt_in
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT DISTINCT Titel, Jahr
+FROM spielt_in
+
+
 # ![title](duplikateliminierung.jpg)
 # #### Wdh.: Duplikateliminierung bei Mengenoperationen
 # ■ Mengenoperationen in SQL entfernen Duplikate
@@ -1203,11 +1458,16 @@
 # <br>
 # □ Solche Duplikateliminierung verhindern durch ALL
 # <br>
-# ```
-# (SELECT Titel, Jahr, FROM Film)
-#     UNION ALL
-# (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+(SELECT Titel, Jahr, FROM Film)
+    UNION ALL
+(SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in);
+
+
 # – Film mit drei Schauspielern erscheint also 4 Mal im Ergebnis
 # <br>
 # □ R INTERSECT ALL S
@@ -1236,21 +1496,40 @@
 # □ SUM(DISTINCT Gehalt)
 # 
 # #### Aggregation – Beispiele
-# ```
-# SELECT AVG(Gehalt)
-# FROM Manager;
-# 
-# SELECT COUNT(*)
-# FROM spielt_in;
-# 
-# SELECT COUNT(Schauspieler)
-# FROM spielt_in;
-# 
-# SELECT COUNT(DISTINCT Schauspieler)
-# FROM spielt_in
-# WHERE Jahr = 1990;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT AVG(Gehalt)
+FROM Manager;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT COUNT(*)
+FROM spielt_in;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT COUNT(Schauspieler)
+FROM spielt_in;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT COUNT(DISTINCT Schauspieler)
+FROM spielt_in
+WHERE Jahr = 1990;
+
+
 # ### Gruppierung, Aggregation und NULL
 # ■ NULL wird bei Aggregation ignoriert.
 # <br>
@@ -1281,11 +1560,16 @@
 # 
 # ### Gruppierung
 # ■ Gruppierung mittels GROUP BY nach der WHERE-Klausel
-# ```
-# SELECT StudioName, SUM(Länge)
-# FROM Film
-# GROUP BY StudioName
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT StudioName, SUM(Länge)
+FROM Film
+GROUP BY StudioName
+
+
 # ■ In SELECT-Klausel zwei „Sorten“ von Attributen
 # <br>
 # 1. Gruppierungsattribute
@@ -1295,24 +1579,37 @@
 # □ Nicht-aggregierte Werte der SELECT-Klausel müssen in der GROUP BY-Klausel erscheinen.
 # <br>
 # □ Keine der beiden Sorten muss erscheinen.
-# 
-# ```
-# SELECT StudioName
-# FROM Film
-# GROUP BY StudioName
-# 
-# SELECT SUM(Länge)
-# FROM Film
-# GROUP BY StudioName
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT StudioName
+FROM Film
+GROUP BY StudioName
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT SUM(Länge)
+FROM Film
+GROUP BY StudioName
+
+
 # ■ Gruppierung bei Verwendung mehrerer Relationen wird am Schluss durchgeführt.
-# ```
-# SELECT Name, SUM(Länge)
-# FROM Manager, Film
-# WHERE ManagerinID = ProduzentinID
-# GROUP BY Name
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name, SUM(Länge)
+FROM Manager, Film
+WHERE ManagerinID = ProduzentinID
+GROUP BY Name
+
+
 # ■ Reihenfolge der Ausführung (und des Lesens)
 # <br>
 # 1. FROM-Klausel
@@ -1325,27 +1622,40 @@
 # <br>
 # <br>
 # ■ Einschränkung der Ergebnismenge nach der Gruppierung durch HAVING
-# 
-# ```
-# SELECT Name, SUM(Länge)
-# FROM Manager, Film
-# WHERE ManagerinID = ProduzentinID
-# AND Gehalt > 1000000
-# GROUP BY Name
-# 
-# SELECT Name, SUM(Länge)
-# FROM Manager, Film
-# WHERE ManagerinID = ProduzentinID
-# GROUP BY Name
-# HAVING SUM(Länge) > 1000
-# 
-# SELECT Name
-# FROM Manager, Film
-# WHERE ManagerinID = ProduzentinID
-# GROUP BY Name
-# HAVING SUM(Länge) > 1000
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name, SUM(Länge)
+FROM Manager, Film
+WHERE ManagerinID = ProduzentinID
+AND Gehalt > 1000000
+GROUP BY Name
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name, SUM(Länge)
+FROM Manager, Film
+WHERE ManagerinID = ProduzentinID
+GROUP BY Name
+HAVING SUM(Länge) > 1000
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name
+FROM Manager, Film
+WHERE ManagerinID = ProduzentinID
+GROUP BY Name
+HAVING SUM(Länge) > 1000
+
+
 # ■ Aggregationen in HAVING-Klausel beziehen sich nur auf aktuelle Gruppe.
 # <br>
 # ■ Nur Gruppierungsattribute dürfen un-aggregiert in HAVING Klausel erscheinen (wie bei
@@ -1396,17 +1706,27 @@
 # – Default-Wert aus Tabellendefinition (NULL, falls nicht anders angegeben)
 # <br>
 # □ Beispiel
-# ```
-# INSERT INTO spielt_in(FilmTitel, FilmJahr, Schauspieler)
-# VALUES (‘Star Wars‘, 1977, ‘Alec Guinness‘);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+INSERT INTO spielt_in(FilmTitel, FilmJahr, Schauspieler)
+VALUES (‘Star Wars‘, 1977, ‘Alec Guinness‘);
+
+
 # – Reihenfolge der Werte und Attribute wird beachtet.
 # 
 # □ Falls alle Attribute gesetzt werden, kann Attributliste fehlen:
-# ```
-# INSERT INTO spielt_in
-# VALUES (‘Star Wars‘, 1977, ‘Alec Guinness‘);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+INSERT INTO spielt_in
+VALUES (‘Star Wars‘, 1977, ‘Alec Guinness‘);
+
+
 # – Reihenfolge entsprechend der Spezifikation des Schemas
 # (CREATE TABLE …)
 # #### Einfügen per Anfrage
@@ -1415,14 +1735,19 @@
 # □ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
 #  <br>
 # □ Studio(Name, Adresse, VorsitzendeID)
-# ```
-# INSERT INTO Studio(Name)
-# SELECT DISTINCT StudioName
-# FROM Film
-# WHERE StudioName NOT IN
-#     (SELECT Name
-#     FROM Studio);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+INSERT INTO Studio(Name)
+SELECT DISTINCT StudioName
+FROM Film
+WHERE StudioName NOT IN
+    (SELECT Name
+    FROM Studio);
+
+
 # Adresse und VorsitzendeIDbleiben NULL.
 #  <br>
 # □ Erzeugt im Allgemeinen Redundanz und sollte vermieden werden.
@@ -1440,22 +1765,31 @@
 # Was passiert jeweils bei Anfrage 2?
 # <br>
 # SQL Standard: Erst gesamte Anfrage ausführen
-# 
-# ```
-# INSERT INTO Studio(Name)
-# SELECT DISTINCT StudioName
-# FROM Film
-# WHERE StudioName NOT IN
-#     (SELECT Name
-#     FROM Studio);
-# 
-# INSERT INTO Studio(Name)
-# SELECT StudioName
-# FROM Film
-# WHERE StudioName NOT IN
-#     (SELECT Name
-#     FROM Studio);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+INSERT INTO Studio(Name)
+SELECT DISTINCT StudioName
+FROM Film
+WHERE StudioName NOT IN
+    (SELECT Name
+    FROM Studio);
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+INSERT INTO Studio(Name)
+SELECT StudioName
+FROM Film
+WHERE StudioName NOT IN
+    (SELECT Name
+    FROM Studio);
+
+
 # #### Bulk insert
 # 
 # ■ INSERT
@@ -1490,18 +1824,28 @@
 # □ DELETE FROM R WHERE …
 # <br>
 # □ Lösche alle Tupel in R, für die die Bedingung wahr ist.
-# ```
-# DELETE FROM spielt_in
-# WHERE FilmTitel = ‘The Maltese Falcon‘
-# AND FilmJahr = 1942
-# AND Schauspieler = ‘Sydney Greenstreet‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+DELETE FROM spielt_in
+WHERE FilmTitel = ‘The Maltese Falcon‘
+AND FilmJahr = 1942
+AND Schauspieler = ‘Sydney Greenstreet‘;
+
+
 # ■ Tupel können im Gegensatz zum Einfügen nicht direkt angegeben werden, sondern müssen umschrieben werden.
 # <br>
-# ```
-# DELETE FROM Manager
-# WHERE Gehalt < 10000000;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+DELETE FROM Manager
+WHERE Gehalt < 10000000;
+
+
 # ■ Alle Manager-Tupel löschen: DELETE FROM Manager;
 # 
 # ### Verändern (update)
@@ -1515,12 +1859,16 @@
 # <br>
 # – Komma-separiert
 # <br>
-# ```
-# UPDATE Manager
-# SET Name = ‘Präs. ‘ || Name
-# WHERE ManagerinID IN
-# (SELECT PräsidentID FROM Studios);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+UPDATE Manager
+SET Name = ‘Präs. ‘ || Name
+WHERE ManagerinID IN
+(SELECT PräsidentID FROM Studios);
+
 
 # ## Schemata(DDL)
 # ### Überblick
@@ -1556,14 +1904,19 @@
 # 
 # ### Tabellen
 # ■ Grundbaustein zum Erzeugen
-# ```
-# CREATE TABLE R …
-# CREATE TABLE Schauspieler (
-# Name CHAR(30),
-# Adresse VARCHAR(255),
-# Geschlecht CHAR(1),
-# Geburtstag DATE );
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE TABLE R …
+CREATE TABLE Schauspieler (
+Name CHAR(30),
+Adresse VARCHAR(255),
+Geschlecht CHAR(1),
+Geburtstag DATE );
+
+
 # ■ Löschen
 # <br>
 # □ DROP TABLE Schauspieler;
@@ -1579,17 +1932,21 @@
 # □ ALTER TABLE Schauspieler MODIFY Telefon CHAR(10);
 # 
 # ### Default-Werte
-# ```
-# CREATE TABLE Schauspieler (
-# Name CHAR(30),
-# Adresse VARCHAR(255),
-# Geschlecht CHAR(1) DEFAULT ‚?‘,
-# Geburtstag DATE DEFAULT DATE ‚0000-00-00‘);
-# 
-# ALTER TABLE Schauspieler
-# ADD Telefon CHAR(16) DEFAULT ‚unbekannt‘;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE TABLE Schauspieler (
+Name CHAR(30),
+Adresse VARCHAR(255),
+Geschlecht CHAR(1) DEFAULT ‚?‘,
+Geburtstag DATE DEFAULT DATE ‚0000-00-00‘);
+
+ALTER TABLE Schauspieler
+ADD Telefon CHAR(16) DEFAULT ‚unbekannt‘;
+
+
 # ### Constraints und Trigger
 #  Weitere Optionen für Tabellen
 #  <br>
@@ -1615,11 +1972,16 @@
 # □ Nicht SQL-Standard, aber in (fast) jedem DBMS verfügbar.
 # <br><br>
 # ■ Motivation
-# ```
-# SELECT *
-# FROM Film
-# WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT *
+FROM Film
+WHERE StudioName = ‘Disney‘ AND Jahr = ‘1990‘;
+
+
 # □ Variante 1: Alle 100.000 Tupel durchsuchen und WHERE Bedingung prüfen
 # <br>
 # □ Variante 2: Direkt alle 2000 Filme aus 1990 betrachten und auf ‚Disney‘ prüfen.
@@ -1627,19 +1989,29 @@
 # – CREATE INDEX JahrIndex ON Film(Jahr);
 # <br>
 # □ Variante 3: Direkt alle 100 Filme aus 1990 von ‘Disney‘ holen.
-# ```
-# CREATE INDEX JahrStudioIndex
-# ON Film(Jahr, Studioname);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE INDEX JahrStudioIndex
+ON Film(Jahr, Studioname);
+
+
 # ■ Indizes auf einzelnen Attributen
 # <br>
 # □ CREATE INDEX JahrIndex ON Film(Jahr);
 # <br><br>
 # ■ Indizes auf mehreren Attributen
-# ```
-# CREATE INDEX JahrStudioIndex
-# ON Film(Jahr, Studioname);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE INDEX JahrStudioIndex
+ON Film(Jahr, Studioname);
+
+
 # □ Reihenfolge wichtig! Warum?
 # <br><br>
 # ■ Löschen
@@ -1684,14 +2056,24 @@
 # ■ spielt_in(FilmTitel, FilmJahr, Schauspieler)
 # <br><br>
 # ■ Drei typische Anfragen
-# ```
-# SELECT FilmTitel, FilmJahr FROM spielt_in
-# WHERE Schauspieler = s;
-# 
-# SELECT Schauspieler FROM spielt_in
-# WHERE FilmTitel = t AND FilmJahr = j;
-# INSERT INTO spielt_in VALUES(t, j, s);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT FilmTitel, FilmJahr FROM spielt_in
+WHERE Schauspieler = s;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Schauspieler FROM spielt_in
+WHERE FilmTitel = t AND FilmJahr = j;
+INSERT INTO spielt_in VALUES(t, j, s);
+
+
 # ■ Annahmen
 # <br>
 # □ spielt_in ist auf 10 Disk-Blöcke verteilt.
@@ -1728,25 +2110,35 @@
 # 
 # ### Verteilung in IMDB (Real-world Daten, Stand ca. 2010)
 # ![title](imdb.jpg)
-# ```
-# WITH
-# m AS (SELECT count(*) AS ZahlMovies FROM imdb.movie),
-# actress AS (SELECT count(*) AS ZahlActress FROM imdb.actress),
-# actor AS (SELECT count(*) AS ZahlActor FROM imdb.actor),
-# actors AS (SELECT (ZahlActress + ZahlActor) AS GesamtActors
-# FROM actress, actor)
-# SELECT DOUBLE(actors.GesamtActors) / DOUBLE(m.ZahlMovies)
-# FROM m, actors
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+WITH
+m AS (SELECT count(*) AS ZahlMovies FROM imdb.movie),
+actress AS (SELECT count(*) AS ZahlActress FROM imdb.actress),
+actor AS (SELECT count(*) AS ZahlActor FROM imdb.actor),
+actors AS (SELECT (ZahlActress + ZahlActor) AS GesamtActors
+FROM actress, actor)
+SELECT DOUBLE(actors.GesamtActors) / DOUBLE(m.ZahlMovies)
+FROM m, actors
+
+
 # Schauspieler*in pro Spielfilm: 8,7
-# ```
-# WITH
-# actors AS (SELECT * FROM imdb.actor UNION
-# SELECT * FROM imdb.actress),
-# counts AS (SELECT name, count(movie_id) AS m
-# FROM actors GROUP BY name)
-# SELECT AVG(DOUBLE(m)) FROM counts
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+WITH
+actors AS (SELECT * FROM imdb.actor UNION
+SELECT * FROM imdb.actress),
+counts AS (SELECT name, count(movie_id) AS m
+FROM actors GROUP BY name)
+SELECT AVG(DOUBLE(m)) FROM counts
+
+
 # Spielfilme pro Schauspieler: 4,2
 
 # ## Sichten
@@ -1773,12 +2165,17 @@
 # 
 # ### Sichten in SQL
 # ■ CREATE VIEW Name AS Anfrage
-# ```
-# CREATE VIEW ParamountFilme AS
-# SELECT Titel, Jahr
-# FROM Film
-# WHERE StudioName = ‘Paramount‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW ParamountFilme AS
+SELECT Titel, Jahr
+FROM Film
+WHERE StudioName = ‘Paramount‘;
+
+
 # □ Auch mehr als eine Relation möglich!
 # <br><br>
 # ■ Bedeutung einer Anfrage an die Sicht
@@ -1794,66 +2191,109 @@
 # □ Basisdaten bleiben unverändert.
 # 
 # ### Anfragen an Sichten
-# 
-# ```
-# CREATE VIEW ParamountFilme AS
-# SELECT Titel, Jahr
-# FROM Film
-# WHERE StudioName = ‘Paramount‘;
-# 
-# SELECT Titel
-# FROM ParamountFilme
-# WHERE Jahr = 1979;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW ParamountFilme AS
+SELECT Titel, Jahr
+FROM Film
+WHERE StudioName = ‘Paramount‘;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel
+FROM ParamountFilme
+WHERE Jahr = 1979;
+
+
 # ■ Umwandlung der ursprünglichen Anfrage in eine Anfrage an Basisrelationen
-# ```
-# SELECT Titel
-# FROM Film
-# WHERE StudioName = ‘Paramount‘ AND Jahr = 1979;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel
+FROM Film
+WHERE StudioName = ‘Paramount‘ AND Jahr = 1979;
+
+
 # □ Übersetzung durch DBMS
 # <br>
 # ■ Anfrage zugleich an Sichten und Basisrelationen möglich
-# ```
-# SELECT DISTINCT SchauspielerIn
-# FROM ParamountFilme, spielt_in
-# WHERE Titel = FilmTitel AND Jahr = FilmJahr;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT DISTINCT SchauspielerIn
+FROM ParamountFilme, spielt_in
+WHERE Titel = FilmTitel AND Jahr = FilmJahr;
+
+
 # ■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
 # ■ Manager(Name, Adresse, ManagerinID, Gehalt)
-# ```
-# CREATE VIEW FilmeProduzenten AS
-#     SELECT Titel, Name
-#     FROM Film, Manager
-#     WHERE ProduzentinID = ManagerinID;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW FilmeProduzenten AS
+    SELECT Titel, Name
+    FROM Film, Manager
+    WHERE ProduzentinID = ManagerinID;
+
+
 # ■ Anfrage
-# ```
-# SELECT Name
-# FROM FilmeProduzenten
-# WHERE Titel = ‘Gone with the Wind‘
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name
+FROM FilmeProduzenten
+WHERE Titel = ‘Gone with the Wind‘
+
+
 # ■ Bedeutung
-# ```
-# SELECT Name
-# FROM Film, Manager
-# WHERE ProduzentinID = ManagerinID
-# AND Titel = ‘Gone with the Wind‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Name
+FROM Film, Manager
+WHERE ProduzentinID = ManagerinID
+AND Titel = ‘Gone with the Wind‘;
+
+
 # ■ Nebenbei: Umbenennung von Attributen
-# ```
-# CREATE VIEW FilmeProduzenten(FilmTitel, Produzentenname) AS
-# SELECT Titel, Name
-# FROM Film, ManagerIn
-# WHERE ProduzentinID = ManagerinID;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW FilmeProduzenten(FilmTitel, Produzentenname) AS
+SELECT Titel, Name
+FROM Film, ManagerIn
+WHERE ProduzentinID = ManagerinID;
+
+
 # ■ Oder auch: Sicht einfach nur zur Umbenennung
-# ```
-# CREATE VIEW Movie(title, year, length, inColor, studio, producerID) AS
-# SELECT *
-# FROM Film;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW Movie(title, year, length, inColor, studio, producerID) AS
+SELECT *
+FROM Film;
+
+
 # ### Diskussion
 # ■ Vorteile
 # <br>
@@ -1904,77 +2344,131 @@
 # 
 # ### Einfügen auf Sichten – Beispiel
 # ■ Filme(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
-# ```
-# CREATE VIEW ParamountFilme AS
-#     SELECT Titel, Jahr
-#     FROM Filme
-#     WHERE StudioName = ‚Paramount‘;
-# 
-# INSERT INTO ParamountFilme
-# VALUES (‚Star Trek‘, 1979);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW ParamountFilme AS
+    SELECT Titel, Jahr
+    FROM Filme
+    WHERE StudioName = ‚Paramount‘;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+INSERT INTO ParamountFilme
+VALUES (‚Star Trek‘, 1979);
+
+
 # □ Wert für Studioname?
 # □ Einfügen also nicht erlaubt.
-# ```
-# CREATE VIEW ParamountFilme AS
-#     SELECT Titel, Jahr, StudioName
-#     FROM Filme
-#     WHERE StudioName = ‚Paramount‘;
-# 
-# INSERT INTO ParamountFilme
-# VALUES (‚Star Trek‘, 1979, ‚Paramount‘);
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW ParamountFilme AS
+    SELECT Titel, Jahr, StudioName
+    FROM Filme
+    WHERE StudioName = ‚Paramount‘;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+INSERT INTO ParamountFilme
+VALUES (‚Star Trek‘, 1979, ‚Paramount‘);
+
+
 # Dies muss Paramount sein. Ein anderes Studio entspricht nicht der View.
 # <br><br>
 # ■ Neues Tupel (‚Star Trek‘, 1979, 0, NULL, ‚Paramount‘, NULL)
 # 
 # ### Löschen und Updates auf Sichten
 # ■ Löschen
-# ```
-# DELETE FROM ParamountFilme
-# WHERE Titel LIKE ‚%Trek%‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+DELETE FROM ParamountFilme
+WHERE Titel LIKE ‚%Trek%‘;
+
+
 # ■ Wird umgeschrieben zu
-# ```
-# DELETE FROM Filme
-# WHERE Titel LIKE ‚%Trek%‘ AND StudioName = ‚Paramount‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+DELETE FROM Filme
+WHERE Titel LIKE ‚%Trek%‘ AND StudioName = ‚Paramount‘;
+
+
 # ■ Update
-# ```
-# UPDATE ParamountFilme
-# SET Jahr = 1979
-# WHERE Titel = ‚Star Trek the Movie‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+UPDATE ParamountFilme
+SET Jahr = 1979
+WHERE Titel = ‚Star Trek the Movie‘;
+
+
 # ■ Wird zu
-# ```
-# UPDATE Filme
-# SET Jahr = 1979
-# WHERE Titel = ‚Star Trek the Movie‘ AND StudioName = ‚Paramount‘;
-# ```
-# 
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+UPDATE Filme
+SET Jahr = 1979
+WHERE Titel = ‚Star Trek the Movie‘ AND StudioName = ‚Paramount‘;
+
+
 # ### Tupelmigration
 # ■ Manager(Name, Adresse, ManagerinID, Gehalt)
-# ```
-# CREATE VIEW Reiche AS
-#     SELECT Name, Gehalt, ManagerinID
-#     FROM ManagerIn
-#     WHERE Gehalt > 2000000;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW Reiche AS
+    SELECT Name, Gehalt, ManagerinID
+    FROM ManagerIn
+    WHERE Gehalt > 2000000;
+
+
 # ■ Tupelmigration:
 # <br>
 # □ Ein Tupel (‚Eisner\`, ‚Hollywood‘, 25, 3000000) wird aus der Sicht „herausbewegt“.
-# ```
-# UPDATE Reiche SET Gehalt = 1500000
-# WHERE ManagerinID = 25;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+UPDATE Reiche SET Gehalt = 1500000
+WHERE ManagerinID = 25;
+
+
 # ■ Vorsicht bei der Implementierung, oder explizite Verhinderung:
-# ```
-# CREATE VIEW Reiche AS
-# SELECT Name, Gehalt
-# FROM ManagerIn
-# WHERE Gehalt > 2000000
-# WITH CHECK OPTION;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW Reiche AS
+SELECT Name, Gehalt
+FROM ManagerIn
+WHERE Gehalt > 2000000
+WITH CHECK OPTION;
+
+
 # □ Verhindert Tupelmigration durch Ablehnung problematischer Updates.
 # 
 # ### Anfrageplanung mit Sichten
@@ -1993,18 +2487,28 @@
 # ![title](anfrageplanung1.jpg)
 # <br><br>
 # ■ Sicht
-# ```
-# CREATE VIEW ParamountFilme AS
-# SELECT Titel, Jahr
-# FROM Filme
-# WHERE StudioName = ‚Paramount‘;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE VIEW ParamountFilme AS
+SELECT Titel, Jahr
+FROM Filme
+WHERE StudioName = ‚Paramount‘;
+
+
 # ■ Anfrage
-# ```
-# SELECT Titel
-# FROM ParamountFilme
-# WHERE Jahr = 1979;
-# ```
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+SELECT Titel
+FROM ParamountFilme
+WHERE Jahr = 1979;
+
+
 # ![title](anfrageplanung2.jpg)
 # <br>
 # ![title](anfrageplanung3.jpg)
