@@ -398,50 +398,49 @@
 
 # ### Einfachheit
 
-# KISS: Keep It Simple, St…
-# <br>
-# Unnötige Verwendung von Entitytypen vermeiden.
-# <br>
-# Ein Film wird von einer Holding repräsentiert
+# Eine Anforderung an Informationsmodellierung ist, dass Konzepte möglichst einfach modelliert werden. Einfachfachheit bezieht sich hierbei darauf, dass man versucht die gleiche Information mit weniger Strukturelemente zu modellieren. Insbesondere geht es darum unnötige Entitytypen und Relationshiptypen zu vermeiden. Dies gilt insbeondere für ableitbare Relationshiptypen. 
 
-# ![title](einfachheit.jpg)
+# **Beispiel:** Das folgende Beispiel zeigt eine semantisch korrekte Modellierung der Informationen zu Filmen, Holdings und Studios. Man hätte jedoch die 1:1 beziehung zwischen Holding und Studio wesentlich einfacher durch Attributbeziehungen modellieren können. 
+# 
+# <img src="einfachheit.jpg" width="700"/>
 
-# ### Relationships
+# #### Relationships
 
-# Nicht jede mögliche Beziehung sollte abgebildet werden.
-# <br>
-# Vermeidung von Redundanz, wenn manche Beziehungen abgeleitet werden können.
-# <br>
-# Änderungen auf der Datenbank werden komplex
-# <br>
-# Eine Änderung eines Entities verursacht viele Änderungen in den Relationships.
-# <br>
-# Fehlergefahr
-# <br>
-# Vermehrter Aufwand
+# Nicht jede mögliche Beziehung sollte abgebildet werden. Die Darstellung von ableitbaren Bezieheungen führt zu Redundanz und unnötige Komplexität. Dies erschwert nachträgliche Änderungen in einer Datenbank. 
+# Änderungen auf der Datenbank werden komplex, was Aufwand und Fehleranfälligkeit erhöht. 
+# 
+# **Beispiel:** Im folgenden Beispiel werden zusätzlich zu der ternären Beziehung *ist\_unter\_Vertrag* auch zwei weitere Beziehungen *spield\_in* und *besitzt* modelliert. Beide Beziehungen gelten jedoch immer nur dann wenn eine Schauspieler\*in mit einem Studio zu einem Film im Vertrag steht. Damit sind beide Beziehungen ableitbar. Jede Änderung oder Löschung der *ist\_unter\_Vertra*g Beziehung muss dazuführen, dass auch entsprechende Relationships in *spielt\_in* und *besitzt* geändert bzw. gelöscht werden müssen. 
 
-# ![title](relationships1.jpg)
+# <img src="relationships1.jpg" width="700" />
+# 
 
-# ![title](relationships2.jpg)
+# #### Attribut vs. Element
 
-# ### Attribut vs. Element
+# Eine weitere Möglichkeit Modelle zu vereinfachen besteht, darin wenn möglich Attribteue statt Entitytypen und Relationshiptypen zu nutzen. Dies sind auch einfacher zu implementieren. 
+# 
+# Grundsätzlich ist ein Entitytyp gerechtfertigt falls…
+# - er mehr als nur den Namen eines Objekts darstellt,
+# - oder er der n-Teil einer 1:n Relationship ist.
+# 
+# **Beispiel:** Im folgenden Beispiel sind beide Entitytypen *Filme* und *Studios* gerechtfertigt. *Filme* ist der n-Teil des *besitzt* Relationshiptypen und *Studios* hat mehr als ein Attribut. 
 
-# Attribute sind einfacher zu implementieren als Entities und Relationships.
-# <br>
-# Ein Entitytyp ist gerechtfertigt falls…
-# <br>
-# … er mehr als nur den Namen eines Objekts darstellt,
-# <br>
-# … oder er der n-Teil einer 1:n Relationship ist.
+# <img src="attributvselement1.jpg" />
+# 
 
-# ![title](attributvselement1.jpg)
+# Beim folgenden Beispiel könnte man argumentieren, dass Studios einfach als Attributname von Filme modelliert werden könnte. 
 
-# Studio ist nur ein Name
-# <br>
-# Studio ist nicht der n-Teil der Relationship
+# <img src="attributvselement2.jpg" />
 
-# ![title](attributvselement2.jpg)
+# Tatsächlich ist das folgende Modell deutlich einfacher und modelliert den selben Sachverhalt. Jedoch aus der Diskussion zu Redundanz wissen wir, dass die folgende Modellierung zur redundanten Speicherung des gleichen *Studios* für unterschiedliche *Filme* führen kann. Tatsächlich können die Anforderungen Einfachheit und Redundanzfreiheit manchmal im Widerspruch stehen. 
 
-# besser
+# <img src="attributvselement3.jpg" />
 
-# ![title](attributvselement3.jpg)
+# ## Zusammenfassung ER-Modellierung
+# 
+# In diesem Kapitel haben wir die ER-Modellierungssprache kennen gelernt, die uns erlaubt aus informellen Informationsbeschreibungen visuelle und formalisierte Informationen anhand von Entitytypen, Relationshiptypen und Attributen zu modellieren. In der ER-Modellierung können wir auch bereits Nebenbedingungen wie Kardinalitäten und Schlüsselbeziehungen modellieren. Schließlich haben wir Anforderungen für eine sinnvolle Modllierung diskutiert. Im nächsten Kapitel werden wir den nächsten Schritt im Datenbankentwurf besprechen. Es soll nun darum gehen, wie man aus einem ER-Modell ein relationales Modell herleiten kann, welches dann direkt in Datenbankmanagementsysteme abgebildet werden kann. 
+
+# In[ ]:
+
+
+
+

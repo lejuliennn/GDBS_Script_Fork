@@ -2,87 +2,47 @@
 # coding: utf-8
 
 # # Relationaler Entwurf
+# 
+# Die meisten kommerziellen Datenbanken unterstützen das relationale Datenmodell. 
+# In diesem Kapitel lernen wir das relationale Modell kennen und diskutieren Methoden zur Überführung von Datenspezifikationen aus dem ER-Modell ins relationale Modell.
 
 # ## Das Relationale Modell
+# 
+# Im folgenden werden wir ähnlich zum ER-Modell die grundlegenden Bausteine des relationalen Modells kennen lernen. Zentrale Grundbegriffe des relationalen Modells sind Relationen und Tupel. 
 
-# ### Die Relation in der Mathematik
-
-# ■ Eine Relation R ist eine Menge von n-Tupeln.
-# <br>
-# <br>
-# ■ Dinge, die in der Relation R zueinander stehen, bilden ein n-Tupel, das Element von R ist.
-# <br>
-# <br>
-# ■ Teilmenge des Kartesischen Produkts
-# <br>
-# □ R $\subseteq$ A1 ×… × An
-# <br>
-# □ A1 ×… × An := {(a1,…, an) | a1$\subseteq$A1$\in$ … $\in$an $\subseteq$An}
-# <br>
-# ■ Für Datenbanken:
-# <br>
-# □ Mengen A1,…, An sind Domänen (Wertebereiche)
-# <br>
-# – Z.B.: Integer, String, String, Boolean, usw.
-# <br>
-# – Entspricht Spalten einer Tabelle
-# <br>
-# □ Tupel (a1,…, an) sind die Datenwerte
-# <br>
-# – Z.B. (4, Abedjan, Berlin, m)
-# <br>
-# – Entspricht Zeilen einer Tabelle
+# In der Mathematik ist eine Relation $R$ eine Teilmenge des Kreuzproduktes von $n$ Mengen: $R\subset A_1 \times A_2 \times \cdots \times A_n$. Ein Element der Relation ist ein n-Tupel: $\forall t \in R. t=(a_1,a_2,\cdots, a_n) \wedge a_i \in A_i$
+# 
+# 
+# Für Datenbanken gelten die aus der Mathematik bekannten Beziehungen mit folgenden zusätzlichen semantischen Erweiterungen. 
+# Die Mengen $A_i$ sind im Datenkontext Domänen bzw. Wertebereiche. Diese Wertebereiche können im allgemeinen Standarddatentypen wie Integer, String, Boolean, usw. sein oder konkrete Wertebereiche, die durch Attribute definiert werden, wie zum Beispiel ID, Name, Alter, Geschlecht. Prinzipiell entspricht eine solche Menge der Spalte einer Tabelle.
+# 
+# Analog bilden die Einträge der Tupel $(a_1,\cdots, a_n)$ die Datenwerten einer Tabelle, z.B. (4, Abedjan, 36, m). Ein Tupel entspricht eine Zeile einer Tabelle.
 
 # ### Die Relation
 
-# ■ Konzeptuell ist eine Datenbank eine Menge von Tabellen.
-# <br>
-# □ Relation zwischen Werten der Attributdomänen
-# <br>
-# □ Tabellen = Relationen
-# <br>
-# <br>
-# ■ Die Relation ist das einzige Konstrukt des relationalen Modells
-# <br>
-# □ Sehr einfach
-# <br>
-# □ Einfach in einer DB abzubilden (zwei-dimensional)
-# <br>
-# □ Relationen können nicht nur Entities sondern auch Relationships darstellen.
-# <br>
-# □ Entspricht oft unserer Vorstellung der Daten
-# <br>
-# □ Ist das abstrakte Modell hinter SQL
+# Konzeptuell ist eine Datenbank eine Menge von Tabellen. Jede Tabelle stellt die Daten einer Relation dar. Eine Tabelle besteht aus Spalten, die in Relation zu einander stehen. Damit beinhaltet jede Zeile Datenwerte aus den jeweiligen Domänen, die in Relation zu einander stehen. Wir werden oft Tabellen und Relationen alternierend nutzen, obwohl diese konzeptionell unterschiedliche Konzepte sind. Eie Relation ist ein mathematisches Konzept, welches aus Mengen und Tupeln zusammensetzt, während eine Tabelle ein zweidimensionales Feld bestehend aus Spalten und Zeilen ist. Es ist jedoch leicht einzusehen, dass jede Relation als Tabelle darstellbar ist. 
+# 
+# Rückführend auf den ersten Satz dieses Unterabschnitt stellen wir also fest, dass die Relation das einzige Konstrukt des relationalen Modells ist und folgende Vorteile sich dadurch ergeben:
+# 
+# - Leicht beschreibbar. Entspricht oft unserer Vorstellung der Daten.
+# - Einfach in einer DB abzubilden (zwei-dimensionales Array, Liste von Arrays, usw. )
+# - Relationen bilden sowohl Entitytypen als auch Relationshiptypen ab.
+# - Ist das abstrakte Modell hinter SQL
 
 # ### Elemente des Relationalen Modells
 
-# ![title](elemente_rm.jpg)
+# Zentrale Elemente des relationalen Modells sind Attribute, Tupel und Schema. 
+# 
+# - Datenbankschema: Im groben beschreibt jedes relationale Modell ein Datenbankschema, welche aus einem oder mehreren Relationenschemata besteht. 
+# - Relationenschema: Jede Relation wird durch ihr Schema identifiziert. Das Relationenschema besteht aus dem Namen der Relation und der Liste der Attribute und ihrer Domänen. In einer Tabelle entspricht die Kopfzeile dem Relationenschema. Alle weiteren (Daten-)Einträge in der Tabelle bilden die „Relation“
+# - Die Relation besteht aus keinem oder mehr Tupeln. Im relationalen Modell bilden Tupel einer Relation immer eine Menge. Das heißt, dass kein Tupel in seiner gesamten Ausprägung doppelt auftauchen kann. Diese Annahme gilt in echten Datenbanksystemen nur dann, wenn ein Schlüssel vorhanden ist. 
+# - Attribute entsprechen den Bezeichnern der zu einander in Relation stehenden Domänenmengen. In Tabellen entsprechen Attribute den Spaltenbezeichnern ( Überschriften). In einem Relationenschema kann ein Attribut nicht doppelt vorkommen. Das Relationenschema ist somit eine Menge.
+# - Attributwert: Jeder Dateneintrag in einem Tupel entspricht dem Attributwert der jeweiligen Spalte. Attributwerte sind atomar und stammen aus einer elementaren Domäne. 
+# - Ein Tupel entspricht aus einer vollständigen Kombination von Attributwerten.
+# 
+# In der Abbildung unten sind die jeweiligen Elemente nochmal visuell dargestellt. Wir haben Primärschlüssel und Fremdschlüssel auch bereits dargestellt. Diese sind wie bekannt aus dem ER-Modell, Attribute die referenzielle Integrität gewährleisten. Hierauf werden wir später in diesem Kapitel genauer eingehen. 
 
-# Datenbankschema
-# <br>
-# Besteht aus einem oder mehreren Relationenschemata.
-# <br>
-# Relationenschema
-# <br>
-# Name der Relations sowie Liste der Attribute mit Domäne
-# <br>
-# Weitere Einträge in der Tabelle: Die „Relation“
-# <br>
-# Besteht aus keinem oder mehr Tupeln.
-# <br>
-# Eine Zeile der Tabelle: Tupel
-# <br>
-# Die Tupel bilden eine Menge (nicht eine Liste).
-# <br>
-# Eine Spaltenüberschrift: Attribut
-# <br>
-# Attribute bilden eine Menge (nicht eine Liste).
-# <br>
-# Ein Eintrag: Attributwert
-# <br>
-# Atomar
-# <br>
-# Stammt aus einer elementaren Domäne (Integer, String, …)
+# ![title](elemente_rm.jpg)
 
 # ### Formal
 

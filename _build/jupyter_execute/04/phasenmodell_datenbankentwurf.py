@@ -81,5 +81,3 @@
 # - Portierung auf neue Datenbankmanagementsysteme
 # 
 # Diese Phase ist grundsätzlich die kostenaufwendigste.
-
-# NICHT enthalten: S.10
