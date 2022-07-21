@@ -7,7 +7,7 @@
 
 # ## Was sind Daten
 
-# Datenbanksysteme beherbergen Daten. Unter Daten verstehen wir digitale Repräsentation von Dingen, Entitäten, Wissen und Informationen aus der wirklichen Welt. Die digitale Repräsentation von Daten kann hierbei unterschiedlich sein. Daten können strukturiert (tabellarisch) oder unstrukturiert (Fließtext) vorliegen. Daten können textuell oder multi-medial sein. 
+# Datenbanksysteme beherbergen Daten. Unter Daten verstehen wir digitale Repräsentationen von Dingen, Entitäten, Wissen und Informationen aus der wirklichen Welt. Die digitale Repräsentation von Daten kann hierbei unterschiedlich sein. Daten können strukturiert (tabellarisch) oder unstrukturiert (Fließtext) vorliegen. Daten können textuell oder multi-medial sein. 
 # 
 # Um mit Daten zu arbeiten, ergeben sich folgende Kernfragen: 
 # - Welche Daten speichere ich? 

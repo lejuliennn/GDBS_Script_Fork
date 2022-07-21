@@ -24,17 +24,17 @@
 
 # ![title](lochkartenleser.jpg)
 # 
-# **Lochkartenleser** Bei der Volkszähling in 1890 wurden über 40 solcher Maschinen zum lesen und stanzen von Lochkarten eingesetzt. Lochkartensysteme wurden bis in der 60er Jahre als Speichermedien benutzt bis sie dann von Magnetbänder abgelöst werden konnten. 
+# **Lochkartenleser** Bei der Volkszähling in 1890 wurden über 40 solcher Maschinen zum lesen und stanzen von Lochkarten eingesetzt. Lochkartensysteme wurden bis in der 60er Jahre als Speichermedien benutzt bis sie dann von Magnetbändern abgelöst werden konnten. 
 
 # ## 1960er Jahre
 
 # In den 60er Jahren wurden mit der Entwicklung von neuen Speichermedien neue DBS entwickelt, die durch Zeigerstrukturen navigierende Datenmanipulation erlaubten. Es war auch möglich Daten hinsichtlich ihrer konzeptionellen und internen Darstellung zu abstrahieren. Zu diesen Abstraktionsebenen werden wir im nächsten Kapitel mehr erfahren. 
-# Die ersten Systeme dieser art waren anwendungsspezifisch und geräteabhängig. Redundanz und Inkonsistenz von Daten konnte man nicht sinnvoll kontrollieren. 
+# Die ersten Systeme dieser Art waren anwendungsspezifisch und geräteabhängig. Redundanz und Inkonsistenz von Daten konnte man nicht sinnvoll kontrollieren. 
 
 # ## 1970er bis 1980er Jahre
 
 # In den 70er Jahren gab es die ersten fundamentalen Theorien zu Relationalen Datenbanksystemen, die die sinnvolle Darstellung von Daten in Tabellenstrukturen erklärten. 
-# Zudem gab wurde das 3-Ebenen-Konzept für die Abstraktion von Datenspeicherung vorgestellt und der Bedarf an deklarativen Anfragesprachen erörtert. 
+# Zudem wurde das 3-Ebenen-Konzept für die Abstraktion von Datenspeicherung vorgestellt und der Bedarf an deklarativen Anfragesprachen erörtert. 
 # Es entstanden die ersten geräte- und datenunabhängigen Datenbanksysteme, die anhand des relationalen Modells von Codd Redundanzfreiheit und Konsistenz ermöglichen konnten. Die parallelen Entwicklungsstränge befanden sich bei IBM mit System R, UC Berkeley mit Ingres, und Oracle
 # 
 # - 1970: [Ted Codd](https://en.wikipedia.org/wiki/Edgar_F._Codd) (IBM): Relationenmodell als konzeptionelle Grundlage relationaler DBS
@@ -49,19 +49,19 @@
 
 # ## 1980er bis 1990er Jahre
 
-# In den 80er und 90er Jahren wurden die Entwicklung und FOrschung fortwährend fortgesetzt. Datenmengen wurden größer, es gab neue Speichermedien, wie Magnetdisks, CDs, und Festplatten. Zu textuellen Daten kamen mehr komplexe Datenobjekte hinzu. Um die Verarbeitung der Datenmengen zu gewährleisten gab es auch die ersten Ansätze zur parallelen Datenverarbeitung. 
+# In den 80er und 90er Jahren wurden die Entwicklung und Forschung fortwährend fortgesetzt. Datenmengen wurden größer, es gab neue Speichermedien, wie Magnetdisks, CDs, und Festplatten. Zu textuellen Daten kamen mehr komplexe Datenobjekte hinzu. Um die Verarbeitung der Datenmengen zu gewährleisten gab es auch die ersten Ansätze zur parallelen Datenverarbeitung. 
 # Gleichzeitig konnten die Systeme plattformunabhängig auch auf kleinen Rechnern installiert werden.
 # 
 
 # ## 2000er Jahre
 
-# In den 2000er Jahren und mit der Verbreitung von Internet gab es weitere Entwicklungen zur Verarbeitung von neuen Datenarten, wie zum Beispiel multimodale Objekte und semi-strukturierte Daten. Gleichzeitig gab es neue Programmierparadigma für verteilte Datenverarbeitung, die auch durch die neuen großen Webunternehmen gefördert wurden. Dies heizte auch die Forschung im Bereich paralleler Datenbanksysteme weiter an. Auch von Interesse waren nunmehr integrierte Systeme, bei denen heterogäne Datenbanksysteme anhand von Mediatoren oder in Föderationen benutzt werden konnten. 
+# In den 2000er Jahren und mit der Verbreitung vom Internet gab es weitere Entwicklungen zur Verarbeitung von neuen Datenarten, wie zum Beispiel multimodale Objekte und semi-strukturierte Daten. Gleichzeitig gab es neue Programmierparadigma für verteilte Datenverarbeitung, die auch durch die neuen großen Webunternehmen gefördert wurden. Dies heizte auch die Forschung im Bereich paralleler Datenbanksysteme weiter an. Auch von Interesse waren nunmehr integrierte Systeme, bei denen heterogäne Datenbanksysteme anhand von Mediatoren oder in Föderationen benutzt werden konnten. 
 # Gleichzeitig konnte mit den neuen Trends im Bereich von Mobile Computing an entsprechenden Systemen für Kleinstgeräte geforscht werden. 
 
 # ## 2010er bis heute
 
-# In 2010 und später sind Verarbeitung von Terabytes von Daten keine fundamentale Herausforderung mehr. Web-scale Datamanagement ist Stand der technik großer Internetriesen, wie Google, Facebook und Twitter. 
+# In 2010 und später ist die Verarbeitung von Terabytes von Daten keine fundamentale Herausforderung mehr. Web-scale Datamanagement ist Stand der Technik großer Internetriesen, wie Google, Facebook und Twitter. 
 # 
-# Mit den neuen Trends im bereich des Big Data und den Erwartungen an Maschinelles Lernen, wuchs der Markt für sogenannte "Systems for ML" und "Data lake management". Mehr dazu in den Mastervorlesungen. 
+# Mit den neuen Trends im Bereich des Big Data und den Erwartungen an maschinelles Lernen, wuchs der Markt für sogenannte "Systems for ML" und "Data lake management". Mehr dazu in den Mastervorlesungen. 
 # 
 # Ein weiterer Forschungsstrang bot neue Entwicklungen aus dem Bereich der Hardware: FPGA, GPGPU, SSD, Main-Memory, Infiniband, die Annahmen über Speicherhierarchien und Kostenmodelle verändern würden.
