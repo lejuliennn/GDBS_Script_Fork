@@ -6,16 +6,25 @@
 # In[1]:
 
 
-get_ipython().system('pip install sqlalchemy==1.3.9')
-get_ipython().system('pip install ipython-sql')
+import sqlite3
+get_ipython().run_line_magic('load_ext', 'sql')
+get_ipython().run_line_magic('sql', 'sqlite:///filme/filme.db')
+get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB')
 
 
 # In[2]:
 
 
-get_ipython().run_line_magic('load_ext', 'sql')
-get_ipython().run_line_magic('sql', 'sqlite:///filme/filme.db')
-get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB.db')
+__SQL__ = " SELECT * FROM Film"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ## Einführung
@@ -140,7 +149,20 @@ get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB.db')
 # In[3]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE StudioName = "Disney" AND Jahr= 1990;')
+#SELECT * 
+#FROM Film 
+#WHERE StudioName = "Disney" AND Jahr= 1990;
+
+__SQL__ = "SELECT * FROM Film WHERE StudioName = 'Disney' AND Jahr= 1990"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Lesereihenfolge (und Schreibreihenfolge):
@@ -196,7 +218,19 @@ get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE StudioName = "Disn
 # In[4]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM Film')
+#SELECT * 
+#FROM Film
+
+__SQL__ = " SELECT * FROM Film"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # – Alle Attribute
@@ -204,7 +238,19 @@ get_ipython().run_line_magic('sql', 'SELECT * FROM Film')
 # In[5]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel, Jahr, inFarbe FROM Film')
+#SELECT Titel, Jahr, inFarbe 
+#FROM Film
+
+__SQL__ = "SELECT Titel, Jahr, inFarbe FROM Film"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # – Projektion auf die drei Attribute
@@ -216,7 +262,19 @@ get_ipython().run_line_magic('sql', 'SELECT Titel, Jahr, inFarbe FROM Film')
 # In[6]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel AS Name, Jahr AS Zeit FROM Film')
+#SELECT Titel AS Name, Jahr AS Zeit 
+#FROM Film
+
+__SQL__ = "SELECT Titel AS Name, Jahr AS Zeit FROM Film"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Arithmetischer Ausdruck:
@@ -224,7 +282,19 @@ get_ipython().run_line_magic('sql', 'SELECT Titel AS Name, Jahr AS Zeit FROM Fil
 # In[7]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel, Laenge * 0.016667 AS Stunden FROM Film')
+#SELECT Titel, Laenge * 0.016667 AS Stunden 
+#FROM Film
+
+__SQL__ = "SELECT Titel, Laenge * 0.016667 AS Stunden FROM Film"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Konstanten:
@@ -232,8 +302,18 @@ get_ipython().run_line_magic('sql', 'SELECT Titel, Laenge * 0.016667 AS Stunden 
 # In[8]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel, Laenge * 0.016667 AS Stunden,')
-‘std.‘ AS inStunden FROM Film
+#SELECT Titel, Laenge * 0.016667 AS Stunden, ‘std.‘ AS inStunden FROM Film
+
+__SQL__ = "SELECT Titel, Laenge * 0.016667 AS Stunden, ‘std.‘ AS inStunden FROM Film"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ### Selektion in SQL (WHERE, $\sigma$)
@@ -284,16 +364,42 @@ get_ipython().run_line_magic('sql', 'SELECT Titel, Laenge * 0.016667 AS Stunden,
 # <br>
 # ■ Beispiele
 
-# In[16]:
+# In[18]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE Jahr > 1970 AND NOT inFarbe;')
+#SELECT Titel 
+#FROM Film 
+#WHERE Jahr > 1970 AND NOT inFarbe;
+
+__SQL__ = "SELECT Titel FROM Film WHERE Jahr > 1970 AND NOT inFarbe"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[19]:
+# In[4]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE (Jahr > 1970 OR Laenge < 90) AND StudioName = "MGM";')
+#SELECT Titel 
+#FROM Film 
+#WHERE (Jahr > 1970 OR Laenge < 90) AND StudioName = "MGM";
+
+__SQL__ = "SELECT Titel FROM Film WHERE (Jahr > 1970 OR Laenge < 90) AND StudioName = 'MGM';"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ### Stringvergleiche
@@ -327,10 +433,22 @@ get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE (Jahr > 1970 O
 # □ ‘_‘: Ein beliebiges Zeichen
 # <br><br>
 
-# In[4]:
+# In[21]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE Titel LIKE "Star ____";')
+#SELECT Titel 
+#FROM Film WHERE Titel LIKE "Star ____";
+
+__SQL__ = "SELECT Titel FROM Film WHERE Titel LIKE 'Star ____'"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Star Wars und Star Trek
@@ -338,7 +456,20 @@ get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE Titel LIKE "St
 # In[22]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE Titel LIKE "%War%";')
+#SELECT Titel 
+#FROM Film 
+#WHERE Titel LIKE "%War%";
+
+__SQL__ = "SELECT Titel FROM Film WHERE Titel LIKE '%War%'"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ### Datum und Uhrzeit
@@ -443,10 +574,24 @@ get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE Titel LIKE "%W
 # 
 #  Überraschendes Verhalten
 
-# In[25]:
+# In[23]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE Laenge <= 90 OR Laenge > 90; --Laenge <= 90 == UNKNOWN und Länge > 90')
+#SELECT * 
+#FROM Film 
+#WHERE Laenge <= 90 
+#OR Laenge > 90; --Laenge <= 90 == UNKNOWN und Länge > 90
+
+__SQL__ = "SELECT * FROM Film WHERE Laenge <= 90 OR Laenge > 90; --Laenge <= 90 == UNKNOWN und Länge > 90"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Tupel erscheint nicht im Ergebnis.
@@ -462,16 +607,44 @@ get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE Laenge <= 90 OR La
 # □ ASC (aufsteigend) ist default
 # <br>
 
-# In[28]:
+# In[25]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE StudioName = "Disney" AND Jahr = 1990 ORDER BY Laenge, Titel;')
+#SELECT * 
+#FROM Film 
+#WHERE StudioName = "Disney" 
+#AND Jahr = 1990 ORDER BY Laenge, Titel;
+
+__SQL__ = "SELECT * FROM Film WHERE StudioName = 'Disney' AND Jahr = 1990 ORDER BY Laenge, Titel;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[29]:
+# In[27]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE StudioName = "Disney" AND Jahr = 1990 ORDER BY Laenge ASC, Titel DESC;')
+#SELECT * 
+#FROM Film 
+#WHERE StudioName = "Disney" 
+#AND Jahr = 1990 ORDER BY Laenge ASC, Titel DESC;
+
+__SQL__ = "SELECT * FROM Film WHERE StudioName = 'Disney' AND Jahr = 1990 ORDER BY Laenge ASC, Titel DESC;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ## Anfragen über mehrere Relationen
@@ -488,17 +661,33 @@ get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE StudioName = "Disn
 # <br>
 # ■ Manager*in(Name, Adresse, ManagerinID, Gehalt)
 
-# In[7]:
+# In[29]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name FROM Film, ManagerIn WHERE Titel = "Star Wars" AND ProduzentinID = ManagerinID;')
+#SELECT Name 
+#FROM Film, ManagerIn 
+#WHERE Titel = "Star Wars" 
+#AND ProduzentinID = ManagerinID; 
+
+__SQL__ = "SELECT Name FROM Film, ManagerIn WHERE Titel = 'Star Wars' AND ProduzentinID = ManagerinID"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # In[ ]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name FROM Film, ManagerIn --Kreuzprodukt')
-WHERE Titel = ‘Star Wars‘--Selektionsbedingung AND ProduzentinID = ManagerinID; --Joinbedingung
+#SELECT Name 
+#FROM Film, ManagerIn --Kreuzprodukt
+#WHERE Titel = ‘Star Wars‘--Selektionsbedingung 
+#AND ProduzentinID = ManagerinID; --Joinbedingung
 
 
 # ■ Semantik
@@ -512,10 +701,24 @@ WHERE Titel = ‘Star Wars‘--Selektionsbedingung AND ProduzentinID = Managerin
 # <br><br>
 # ■ Reihenfolge der WHERE Bedingungen egal
 
-# In[32]:
+# In[30]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name FROM Film, ManagerIn WHERE ProduzentinID = ManagerinID AND Titel = "Star Wars";')
+#SELECT Name 
+#FROM Film, ManagerIn 
+#WHERE Titel = "Star Wars" 
+#AND ProduzentinID = ManagerinID; 
+
+__SQL__ = "SELECT Name FROM Film, ManagerIn WHERE Titel = 'Star Wars' AND ProduzentinID = ManagerinID"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ### Uneindeutige Attributnamen
@@ -527,10 +730,24 @@ get_ipython().run_line_magic('sql', 'SELECT Name FROM Film, ManagerIn WHERE Prod
 # <br>
 # □ Relationenname als Präfix:
 
-# In[34]:
+# In[33]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT SchauspielerIn.Name, ManagerIn.Name FROM SchauspielerIn, ManagerIn WHERE SchauspielerIn.Adresse = ManagerIn.Adresse;')
+#SELECT SchauspielerIn.Name, ManagerIn.Name 
+#FROM SchauspielerIn, ManagerIn 
+#WHERE SchauspielerIn.Adresse = ManagerIn.Adresse;
+
+
+__SQL__ = "SELECT SchauspielerIn.Name, ManagerIn.Name FROM SchauspielerIn, ManagerIn WHERE SchauspielerIn.Adresse = ManagerIn.Adresse;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Präfix ist auch erlaubt wenn Attributname eindeutig ist.
@@ -549,7 +766,20 @@ get_ipython().run_line_magic('sql', 'SELECT SchauspielerIn.Name, ManagerIn.Name 
 # In[35]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Star1.Name, Star2.Name FROM SchauspielerIn Star1, SchauspielerIn Star2 WHERE Star1.Adresse = Star2.Adresse')
+#SELECT Star1.Name, Star2.Name 
+#FROM SchauspielerIn Star1, SchauspielerIn Star2 
+#WHERE Star1.Adresse = Star2.Adresse
+
+__SQL__ = "SELECT Star1.Name, Star2.Name FROM SchauspielerIn Star1, SchauspielerIn Star2 WHERE Star1.Adresse = Star2.Adresse"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Äquivalent zu Schauspieler AS Star2
@@ -559,10 +789,21 @@ get_ipython().run_line_magic('sql', 'SELECT Star1.Name, Star2.Name FROM Schauspi
 # In[ ]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT S.Name, M.Name
-FROM SchauspielerIn S, ManagerIn M
-WHERE S.Adresse = M.Adresse;
+#SELECT S.Name, M.Name
+#FROM SchauspielerIn S, ManagerIn M
+#WHERE S.Adresse = M.Adresse;
+
+
+__SQL__ = "SELECT S.Name, M.Name FROM SchauspielerIn S, ManagerIn M WHERE S.Adresse = M.Adresse;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Ohne explizites Angeben einer Tupelvariablen wird der Relationenname als Tupelvariable verwendet.
@@ -576,13 +817,23 @@ WHERE S.Adresse = M.Adresse;
 # |Mark Hamill|456 Oak Rd., Brentwood|M|8/8/88|
 # |Brad Pitt|123 Maple St., Hollywood|M|7/7/77|
 
-# In[ ]:
+# In[36]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Star1.Name, Star2.Name
-FROM SchauspielerIn Star1, SchauspielerIn Star2
-WHERE Star1.Adresse = Star2.Adresse;
+#SELECT Star1.Name, Star2.Name
+#FROM SchauspielerIn Star1, SchauspielerIn Star2
+#WHERE Star1.Adresse = Star2.Adresse;
+
+__SQL__ = "SELECT Star1.Name, Star2.Name FROM SchauspielerIn Star1, SchauspielerIn Star2 WHERE Star1.Adresse = Star2.Adresse;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # |Star1.Name|Star2.Name|
@@ -593,30 +844,30 @@ WHERE Star1.Adresse = Star2.Adresse;
 # |Brad Pitt|Brad Pitt|
 # |Mark Hamill|Mark Hamill|
 
-# In[ ]:
+# In[37]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Star1.Name, Star2.Name
-FROM SchauspielerIn Star1, SchauspielerIn Star2
-WHERE Star1.Adresse = Star2.Adresse
-AND Star1.Name <> Star2.Name;
+#SELECT Star1.Name, Star2.Name
+#FROM SchauspielerIn Star1, SchauspielerIn Star2
+#WHERE Star1.Adresse = Star2.Adresse
+#AND Star1.Name <> Star2.Name;
+
+__SQL__ = "SELECT Star1.Name, Star2.Name FROM SchauspielerIn Star1, SchauspielerIn Star2 WHERE Star1.Adresse = Star2.Adresse AND Star1.Name <> Star2.Name;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # |Star1.Name|Star2.Name|
 # |---|---|
 # |Carrie Fisher|Brad Pitt|
 # |Brad Pitt|Carrie Fisher|
-
-# In[ ]:
-
-
-get_ipython().run_line_magic('sql', '')
-SELECT Star1.Name, Star2.Name
-FROM SchauspielerIn Star1, SchauspielerIn Star2
-WHERE Star1.Adresse = Star2.Adresse
-AND Star1.Name < Star2.Name;
-
 
 # |Star1.Name|Star2.Name|
 # |---|---|
@@ -693,26 +944,64 @@ FROM
 #  <br>
 # – Doppelte Attributnamen werden mit Präfix der Relation aufgelöst
 
-# In[8]:
+# In[38]:
 
 
-get_ipython().run_line_magic('sql', 'Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr')
+#Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr
+
+__SQL__ = "Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # – Theta-Join
 
-# In[10]:
+# In[40]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel, Jahr, Laenge, inFarbe, StudioName, ProduzentinID, Name FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr;')
+#SELECT Titel, Jahr, Laenge, inFarbe, StudioName, ProduzentinID, Name 
+#FROM Film JOIN spielt_in ON Titel = FilmTitel 
+#AND Jahr = FilmJahr;
+
+__SQL__ = "SELECT Titel, Jahr, Laenge, inFarbe, StudioName, ProduzentinID, Name FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # – Eliminiert redundante Attribute FilmTitel und FilmJahr
 
-# In[11]:
+# In[43]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel, Jahr FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr JOIN SchauspielerIn ON spielt_in.Name = SchauspielerIn.Name WHERE Geschlecht = "f";')
+#SELECT Titel, Jahr 
+#FROM Film JOIN spielt_in ON Titel = FilmTitel 
+#AND Jahr = FilmJahr JOIN SchauspielerIn ON spielt_in.Name = SchauspielerIn.Name 
+#WHERE Geschlecht = "f";
+
+__SQL__ = "SELECT Titel, Jahr FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr JOIN SchauspielerIn ON spielt_in.Name = SchauspielerIn.Name WHERE Geschlecht = 'f'"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Schauspieler NATURAL JOIN Manager
@@ -742,6 +1031,27 @@ WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
 AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
 AND r_name = '[REGION]' )
 ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
+
+
+# In[ ]:
+
+
+SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = [SIZE] AND p_type like '%[TYPE]' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
+
+
+# In[8]:
+
+
+__SQL__ = "SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = [SIZE] AND p_type like '%[TYPE]' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;"
+conn = sqlite3.connect("salesDB/salesDB")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # SIZE is randomly selected within [1. 50];
@@ -784,10 +1094,23 @@ AND o_orderkey = l_orderkey
 # <br><br>
 # ■ Schauspieler*innen, die zugleich Manager*in sind
 
-# In[42]:
+# In[44]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name, Adresse, Geburtstag, Gehalt FROM SchauspielerIn NATURAL INNER JOIN ManagerIn')
+#SELECT Name, Adresse, Geburtstag, Gehalt 
+#FROM SchauspielerIn 
+#NATURAL INNER JOIN ManagerIn
+
+__SQL__ = "SELECT Name, Adresse, Geburtstag, Gehalt FROM SchauspielerIn NATURAL INNER JOIN ManagerIn"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ SchauspielerIn und gegebenenfalls ihre ManagerIninfo
@@ -795,8 +1118,7 @@ get_ipython().run_line_magic('sql', 'SELECT Name, Adresse, Geburtstag, Gehalt FR
 # In[ ]:
 
 
-get_ipython().run_line_magic('sql', '')
-…FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn
+#…FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn
 
 
 # □ Gehalt bleibt gegebenenfalls NULL
@@ -806,8 +1128,7 @@ get_ipython().run_line_magic('sql', '')
 # In[ ]:
 
 
-get_ipython().run_line_magic('sql', '')
-…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn
+#…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn
 
 
 # □ Geburtstag bleibt gegebenenfalls NULL
@@ -817,8 +1138,7 @@ get_ipython().run_line_magic('sql', '')
 # In[ ]:
 
 
-get_ipython().run_line_magic('sql', '')
-…FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn
+#…FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn
 
 
 # □ Geburtstag oder Gehalt bleiben gegebenenfalls leer
@@ -842,16 +1162,40 @@ get_ipython().run_line_magic('sql', '')
 # ### Kreuzprodukt
 # ■ Alle Paare aus Tupeln der beteiligten Relationen
 
-# In[43]:
+# In[46]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM SchauspielerIn CROSS JOIN Film')
+#SELECT * 
+#FROM SchauspielerIn CROSS JOIN Film
+
+__SQL__ = "SELECT * FROM SchauspielerIn CROSS JOIN Film"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[44]:
+# In[48]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM SchauspielerIn, Film')
+#SELECT * 
+#FROM SchauspielerIn, Film
+
+__SQL__ = "SELECT * FROM SchauspielerIn, Film"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Selten verwendet
@@ -886,16 +1230,38 @@ get_ipython().run_line_magic('sql', 'SELECT * FROM SchauspielerIn, Film')
 # #### Schnittmenge: INTERSECT
 # ■ Entspricht dem logischen „und“
 
-# In[13]:
+# In[49]:
 
 
-get_ipython().run_line_magic('sql', '(SELECT Name, Adresse FROM SchauspielerIn) INTERSECT (SELECT Name, Adresse FROM ManagerIn);')
+#(SELECT Name, Adresse FROM SchauspielerIn) INTERSECT (SELECT Name, Adresse FROM ManagerIn);
+
+__SQL__ = "(SELECT Name, Adresse FROM SchauspielerIn) INTERSECT (SELECT Name, Adresse FROM ManagerIn)"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[48]:
+# In[51]:
 
 
-get_ipython().run_line_magic('sql', '(SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = "f") INTERSECT (SELECT Name, Adresse FROM ManagerIn WHERE Gehalt > 1000000)')
+#%sql (SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = "f") INTERSECT (SELECT Name, Adresse FROM ManagerIn WHERE Gehalt > 1000000)
+
+__SQL__ = "(SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = "f") INTERSECT (SELECT Name, Adresse FROM ManagerIn WHERE Gehalt > 1000000)"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Multimengen-Semantik: INTERSECT ALL
@@ -903,10 +1269,21 @@ get_ipython().run_line_magic('sql', '(SELECT Name, Adresse FROM SchauspielerIn W
 # #### Vereinigung: UNION
 # ■ Entspricht dem logischen „oder“
 
-# In[49]:
+# In[52]:
 
 
-get_ipython().run_line_magic('sql', '(SELECT Name, Adresse FROM SchauspielerIn) UNION (SELECT Name, Adresse FROM ManagerIn);')
+#(SELECT Name, Adresse FROM SchauspielerIn) UNION (SELECT Name, Adresse FROM ManagerIn);
+
+__SQL__ = "(SELECT Name, Adresse FROM SchauspielerIn) UNION (SELECT Name, Adresse FROM ManagerIn)"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Multimenge: UNION ALL
@@ -925,10 +1302,21 @@ get_ipython().run_line_magic('sql', '(SELECT Name, Adresse FROM SchauspielerIn) 
 # 
 # ■ Auch MINUS
 
-# In[50]:
+# In[53]:
 
 
-get_ipython().run_line_magic('sql', '(SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in)')
+#%sql (SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in) 
+
+__SQL__ = "(SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in)"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Multimenge: EXCEPT ALL
@@ -1007,18 +1395,45 @@ get_ipython().run_line_magic('sql', 'SELECT * FROM ((SELECT A FROM R)INTERSECT(S
 # <br>
 # ■ Gesucht: Produzent von Star Wars
 
-# ```
-# SELECT Name
-# FROM Film, ManagerIn WHERE Titel = ‘Star Wars‘ AND Jahr = ‘1977‘
-# AND ProduzentinID = ManagerinID;
-# ```
+# In[55]:
+
+
+#SELECT Name 
+#FROM Film, ManagerIn 
+#WHERE Titel = ‘Star Wars‘ 
+#AND Jahr = ‘1977‘ 
+#AND ProduzentinID = ManagerinID;
+
+__SQL__ = "SELECT Name FROM Film, ManagerIn WHERE Titel = 'Star Wars' AND Jahr = 1977 AND ProduzentinID = ManagerinID"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
+
 
 # ■ Oder aber
 
-# In[16]:
+# In[57]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name FROM ManagerIn WHERE ManagerinID = ( SELECT ProduzentinID FROM Film WHERE Titel = "Star Wars" AND Jahr = 1977 );')
+#SELECT Name FROM ManagerIn 
+#WHERE ManagerinID = ( SELECT ProduzentinID FROM Film WHERE Titel = "Star Wars" AND Jahr = 1977 );
+
+__SQL__ = "SELECT Name FROM ManagerIn WHERE ManagerinID = ( SELECT ProduzentinID FROM Film WHERE Titel = 'Star Wars' AND Jahr = 1977 );"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ DBMS erwartet maximal ein Tupel als Ergebnis der Teilanfrage
@@ -1240,20 +1655,50 @@ WHERE Matrikel = ANY (SELECT Matrikel
 # <br>
 # ■ Namen von Produzenten von Filmen mit Harrison Ford
 
-# In[53]:
+# In[59]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name FROM ManagerIn WHERE ManagerinID IN( SELECT ProduzentinID FROM Film WHERE (Titel, Jahr) IN( SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in WHERE Name = "Harrison Ford"));')
+#SELECT Name 
+#FROM ManagerIn 
+#WHERE ManagerinID IN( SELECT ProduzentinID FROM Film WHERE (Titel, Jahr) 
+#IN( SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in WHERE Name = "Harrison Ford"));
+
+__SQL__ = "SELECT Name FROM ManagerIn WHERE ManagerinID IN( SELECT ProduzentinID FROM Film WHERE (Titel, Jahr) IN( SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in WHERE Name = 'Harrison Ford'))"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Analyse am besten von innen nach außen
 # <br><br>
 # ■ Alternative Formulierung
 
-# In[17]:
+# In[61]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name FROM ManagerIn, Film, spielt_in WHERE ManagerinID = ProduzentinID AND Titel = FilmTitel AND Jahr = FilmJahr AND SchauspielerIn.Name = "Harrison Ford";')
+#SELECT Name 
+#FROM ManagerIn, Film, spielt_in 
+#WHERE ManagerinID = ProduzentinID 
+#AND Titel = FilmTitel 
+#AND Jahr = FilmJahr 
+#AND SchauspielerIn.Name = "Harrison Ford";
+
+__SQL__ = "SELECT Name FROM ManagerIn, Film, spielt_in WHERE ManagerinID = ProduzentinID AND Titel = FilmTitel AND Jahr = FilmJahr AND SchauspielerIn.Name = 'Harrison Ford'"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ### Subanfragen in FROM-Klausel
@@ -1264,10 +1709,23 @@ get_ipython().run_line_magic('sql', 'SELECT Name FROM ManagerIn, Film, spielt_in
 # □ Es muss ein Alias vergeben werden.
 # <br>
 
-# In[19]:
+# In[64]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT M.Name FROM ManagerIn M, (SELECT ProduzentinID AS ID FROM Film, spielt_in WHERE Titel = FilmTitel AND Jahr = FilmJahr AND Name = "Harrison Ford") ProduzentIn WHERE M.ManagerinID = ProduzentIn.ID;')
+#SELECT M.Name 
+#FROM ManagerIn M, (SELECT ProduzentinID AS ID FROM Film, spielt_in WHERE Titel = FilmTitel AND Jahr = FilmJahr AND Name = "Harrison Ford") ProduzentIn 
+#WHERE M.ManagerinID = ProduzentIn.ID;
+
+__SQL__ = "SELECT M.Name FROM ManagerIn M, (SELECT ProduzentinID AS ID FROM Film, spielt_in WHERE Titel = FilmTitel AND Jahr = FilmJahr AND Name = 'Harrison Ford') ProduzentIn WHERE M.ManagerinID = ProduzentIn.ID"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ### Korrelierte Subanfragen
@@ -1278,10 +1736,23 @@ get_ipython().run_line_magic('sql', 'SELECT M.Name FROM ManagerIn M, (SELECT Pro
 # <br><br>
 # ■ Alle mehrfachen Filme mit Ausnahme der jeweils jüngsten Ausgabe
 
-# In[58]:
+# In[65]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel, Jahr FROM Film Alt WHERE Jahr < ANY ( SELECT Jahr FROM Film WHERE Titel = Alt.Titel);')
+#%sql SELECT Titel, Jahr 
+#FROM Film Alt 
+#WHERE Jahr < ANY ( SELECT Jahr FROM Film WHERE Titel = Alt.Titel);
+
+__SQL__ = "SELECT Titel, Jahr FROM Film Alt WHERE Jahr < ANY ( SELECT Jahr FROM Film WHERE Titel = Alt.Titel)"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Ausführung der Subanfrage für jedes Tupel in Filme
@@ -1346,10 +1817,22 @@ p.AbtID)
 #  <br>
 # ■ Alle Filme, in denen mindestens ein Schauspieler mitspielt
 
-# In[21]:
+# In[66]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT DISTINCT FilmTitel, FilmJahr FROM spielt_in')
+#SELECT DISTINCT FilmTitel, FilmJahr 
+#FROM spielt_in
+
+__SQL__ = "SELECT DISTINCT FilmTitel, FilmJahr FROM spielt_in"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ![title](duplikateliminierung.jpg)
@@ -1363,10 +1846,21 @@ get_ipython().run_line_magic('sql', 'SELECT DISTINCT FilmTitel, FilmJahr FROM sp
 # □ Solche Duplikateliminierung verhindern durch ALL
 # <br>
 
-# In[59]:
+# In[69]:
 
 
-get_ipython().run_line_magic('sql', '(SELECT Titel, Jahr, FROM Film) UNION ALL (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in);')
+#(SELECT Titel, Jahr, FROM Film) UNION ALL (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in);
+
+__SQL__ = "(SELECT Titel, Jahr, FROM Film) UNION ALL (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in)"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # – Film mit drei Schauspielern erscheint also 4 Mal im Ergebnis
@@ -1398,28 +1892,77 @@ get_ipython().run_line_magic('sql', '(SELECT Titel, Jahr, FROM Film) UNION ALL (
 # 
 # #### Aggregation – Beispiele
 
-# In[60]:
+# In[70]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT AVG(Gehalt) FROM ManagerIn;')
+#SELECT AVG(Gehalt) 
+#FROM ManagerIn;
+
+__SQL__ = "SELECT AVG(Gehalt) FROM ManagerIn"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[61]:
+# In[71]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT COUNT(*) FROM spielt_in;')
+#SELECT COUNT(*) 
+#FROM spielt_in;
+
+__SQL__ = "SELECT COUNT(*) FROM spielt_in;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[22]:
+# In[72]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT COUNT(Name) FROM spielt_in;')
+#SELECT COUNT(Name) 
+#FROM spielt_in;
+
+__SQL__ = "SELECT COUNT(Name) FROM spielt_in;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[24]:
+# In[74]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT COUNT(DISTINCT Name) FROM spielt_in WHERE FilmJahr = 1990;')
+#SELECT COUNT(DISTINCT Name) 
+#FROM spielt_in 
+#WHERE FilmJahr = 1990;
+
+__SQL__ = "SELECT COUNT(DISTINCT Name) FROM spielt_in WHERE FilmJahr = 1990;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ### Gruppierung, Aggregation und NULL
@@ -1453,10 +1996,22 @@ get_ipython().run_line_magic('sql', 'SELECT COUNT(DISTINCT Name) FROM spielt_in 
 # ### Gruppierung
 # ■ Gruppierung mittels GROUP BY nach der WHERE-Klausel
 
-# In[64]:
+# In[75]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT StudioName, SUM(Laenge) FROM Film GROUP BY StudioName')
+#SELECT StudioName, SUM(Laenge) 
+#FROM Film GROUP BY StudioName
+
+__SQL__ = "SELECT StudioName, SUM(Laenge) FROM Film GROUP BY StudioName"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ In SELECT-Klausel zwei „Sorten“ von Attributen
@@ -1469,24 +2024,64 @@ get_ipython().run_line_magic('sql', 'SELECT StudioName, SUM(Laenge) FROM Film GR
 # <br>
 # □ Keine der beiden Sorten muss erscheinen.
 
-# In[65]:
+# In[76]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT StudioName FROM Film GROUP BY StudioName')
+#SELECT StudioName 
+#FROM Film 
+#GROUP BY StudioName
+
+__SQL__ = "SELECT StudioName FROM Film GROUP BY StudioName"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[66]:
+# In[77]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT SUM(Laenge) FROM Film GROUP BY StudioName')
+#SELECT SUM(Laenge) 
+#FROM Film 
+#GROUP BY StudioName
+
+__SQL__ = "SELECT SUM(Laenge) FROM Film GROUP BY StudioName"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Gruppierung bei Verwendung mehrerer Relationen wird am Schluss durchgeführt.
 
-# In[68]:
+# In[79]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name')
+#SELECT Name, SUM(Laenge) 
+#FROM ManagerIn, Film 
+#WHERE ManagerinID = ProduzentinID 
+#GROUP BY Name
+
+__SQL__ = "SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Reihenfolge der Ausführung (und des Lesens)
@@ -1502,22 +2097,64 @@ get_ipython().run_line_magic('sql', 'SELECT Name, SUM(Laenge) FROM ManagerIn, Fi
 # <br>
 # ■ Einschränkung der Ergebnismenge nach der Gruppierung durch HAVING
 
-# In[70]:
+# In[81]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID AND Gehalt > 1000000 GROUP BY Name')
+#SELECT Name, SUM(Laenge) 
+#FROM ManagerIn, Film 
+#WHERE ManagerinID = ProduzentinID 
+#AND Gehalt > 1000000 GROUP BY Name
+
+__SQL__ = "SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID AND Gehalt > 1000000 GROUP BY Name"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[73]:
+# In[85]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) > 1000')
+#SELECT Name, SUM(Laenge) 
+#FROM ManagerIn, Film 
+#WHERE ManagerinID = ProduzentinID 
+#GROUP BY Name HAVING SUM(Laenge) > 1000
+
+__SQL__ = "SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) > 1000"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[75]:
+# In[86]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) > 1000')
+#SELECT Name 
+#FROM ManagerIn, Film 
+#WHERE ManagerinID = ProduzentinID 
+#GROUP BY Name HAVING SUM(Laenge) > 1000
+
+__SQL__ = "SELECT Name FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) > 1000"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Aggregationen in HAVING-Klausel beziehen sich nur auf aktuelle Gruppe.
@@ -1833,10 +2470,24 @@ ADD Telefon CHAR(16) DEFAULT ‚unbekannt‘;
 # <br><br>
 # ■ Motivation
 
-# In[76]:
+# In[87]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM Film WHERE StudioName = "Disney" AND Jahr = 1990;')
+#%sql SELECT * 
+#FROM Film 
+#WHERE StudioName = "Disney" 
+#AND Jahr = 1990;
+
+__SQL__ = "SELECT * FROM Film WHERE StudioName = 'Disney' AND Jahr = 1990"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Variante 1: Alle 100.000 Tupel durchsuchen und WHERE Bedingung prüfen
@@ -1914,10 +2565,22 @@ ON Film(Jahr, Studioname);
 # <br><br>
 # ■ Drei typische Anfragen
 
-# In[26]:
+# In[88]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT FilmTitel, FilmJahr FROM spielt_in WHERE Name = s;')
+#%sql SELECT FilmTitel, FilmJahr 
+#FROM spielt_in WHERE Name = s;
+
+__SQL__ = "SELECT FilmTitel, FilmJahr FROM spielt_in WHERE Name = s"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # In[ ]:
@@ -2068,23 +2731,49 @@ WHERE Jahr = 1979;
 
 # ■ Umwandlung der ursprünglichen Anfrage in eine Anfrage an Basisrelationen
 
-# In[78]:
+# In[10]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Titel FROM Film WHERE StudioName = "Paramount" AND Jahr = 1979;')
+#SELECT Titel 
+#FROM Film 
+#WHERE StudioName = "Paramount" 
+#AND Jahr = 1979;
+
+__SQL__ = "SELECT Titel FROM Film WHERE StudioName = 'Paramount' AND Jahr = 1979;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Übersetzung durch DBMS
 # <br>
 # ■ Anfrage zugleich an Sichten und Basisrelationen möglich
 
-# In[ ]:
+# In[13]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT DISTINCT SchauspielerIn
-FROM ParamountFilme, spielt_in
-WHERE Titel = FilmTitel AND Jahr = FilmJahr;
+#Anfrage aus VL Folien
+#SELECT DISTINCT SchauspielerIn
+#FROM ParamountFilme, spielt_in
+#WHERE Titel = FilmTitel AND Jahr = FilmJahr;
+
+#Anfrage für filme.db
+__SQL__ = "SELECT DISTINCT Name FROM Film, spielt_in WHERE Titel = FilmTitel AND Jahr = FilmJahr;"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
@@ -2102,21 +2791,40 @@ CREATE VIEW FilmeProduzenten AS
 
 # ■ Anfrage
 
-# In[ ]:
+# In[93]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Name
-FROM FilmeProduzenten
-WHERE Titel = ‘Gone with the Wind‘
+#%sql SELECT Name FROM FilmeProduzenten WHERE Titel = ‘Gone with the Wind‘
+
+__SQL__ = "SELECT Name FROM FilmeProduzenten WHERE Titel = 'Gone with the Wind'"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Bedeutung
 
-# In[80]:
+# In[94]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT Name FROM Film, ManagerIn WHERE ProduzentinID = ManagerinID AND Titel = "Gone with the Wind";')
+#%sql SELECT Name FROM Film, ManagerIn WHERE ProduzentinID = ManagerinID AND Titel = 'Gone with the Wind';
+
+__SQL__ = "SELECT Name FROM Film, ManagerIn WHERE ProduzentinID = ManagerinID AND Titel = 'Gone with the Wind';"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Nebenbei: Umbenennung von Attributen
@@ -2348,13 +3056,25 @@ WHERE StudioName = ‚Paramount‘;
 
 # ■ Anfrage
 
-# In[ ]:
+# In[14]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Titel
-FROM ParamountFilme
-WHERE Jahr = 1979;
+#Anfrage aus VL Folien
+#SELECT Titel 
+#FROM ParamountFilme 
+#WHERE Jahr = 1979;
+
+#Neue Anfrage für filme.db
+__SQL__ = "SELECT Titel FROM Film WHERE Jahr = 1979"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ![title](anfrageplanung2.jpg)
