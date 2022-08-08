@@ -10,7 +10,7 @@ Create Table Film(
 
 
 DROP TABLE IF EXISTS SchauspielerIn;
-CREATE TABLE actor (
+CREATE TABLE SchauspielerIn (
  Name varchar(127) NOT NULL PRIMARY KEY,
  Adresse varchar(127),
  Geschlecht varchar(127),

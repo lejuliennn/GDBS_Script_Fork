@@ -5,7 +5,7 @@ Ratatouille,2007,111,TRUE,Pixar,4567
 Star Wars,1977,121,TRUE,Pinewood,78910
 Star Trek,1979,132,TRUE,Paramount ,6789
 Lady Bird,2017,95,TRUE,Scott Rudin Productions,3456
-Into the Wild,2007,148,TRUE,Paramount ,6789
+Into the Wild,2007,148,TRUE,Paramount,6789
 Brokeback Mountain,2005,134,TRUE,River Road,4712
 The Lighthouse,2019,109,FALSE,A24,1748
 Roma,2018,135,FALSE,Participant,5123
@@ -23,3 +23,4 @@ House of Gucci,2021,158,TRUE,MGM,5555
 James Bond 007: Spectre,2015,148,TRUE,MGM,5555
 Shipwrecked,1990,92,TRUE,Disney,1234
 The Rescuers Down Under,1990,77,TRUE,Disney,1234
+Gone with the Wind,1939,221,TRUE,MGM,5555

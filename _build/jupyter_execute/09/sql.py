@@ -730,7 +730,7 @@ for row in rows:
 # <br>
 # □ Relationenname als Präfix:
 
-# In[33]:
+# In[7]:
 
 
 #SELECT SchauspielerIn.Name, ManagerIn.Name 
@@ -763,7 +763,7 @@ for row in rows:
 # <br><br>
 # ■ Gesucht: Schauspieler, die zusammen leben
 
-# In[35]:
+# In[8]:
 
 
 #SELECT Star1.Name, Star2.Name 
@@ -786,7 +786,7 @@ for row in rows:
 # <br><br>
 # ■ Auch sinnvoll als abkürzenden Schreibweise
 
-# In[ ]:
+# In[60]:
 
 
 #SELECT S.Name, M.Name
@@ -817,7 +817,7 @@ for row in rows:
 # |Mark Hamill|456 Oak Rd., Brentwood|M|8/8/88|
 # |Brad Pitt|123 Maple St., Hollywood|M|7/7/77|
 
-# In[36]:
+# In[10]:
 
 
 #SELECT Star1.Name, Star2.Name
@@ -844,7 +844,7 @@ for row in rows:
 # |Brad Pitt|Brad Pitt|
 # |Mark Hamill|Mark Hamill|
 
-# In[37]:
+# In[11]:
 
 
 #SELECT Star1.Name, Star2.Name
@@ -944,12 +944,16 @@ FROM
 #  <br>
 # – Doppelte Attributnamen werden mit Präfix der Relation aufgelöst
 
-# In[38]:
+# In[13]:
 
 
+#alte Anfrage
 #Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr
 
-__SQL__ = "Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr"
+#neue Anfrage
+#SELECT * FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr
+
+__SQL__ = "SELECT * FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -984,7 +988,7 @@ for row in rows:
 
 # – Eliminiert redundante Attribute FilmTitel und FilmJahr
 
-# In[43]:
+# In[14]:
 
 
 #SELECT Titel, Jahr 
@@ -1039,7 +1043,7 @@ ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
 SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = [SIZE] AND p_type like '%[TYPE]' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
 
 
-# In[8]:
+# In[15]:
 
 
 __SQL__ = "SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = [SIZE] AND p_type like '%[TYPE]' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;"
@@ -1094,7 +1098,7 @@ AND o_orderkey = l_orderkey
 # <br><br>
 # ■ Schauspieler*innen, die zugleich Manager*in sind
 
-# In[44]:
+# In[61]:
 
 
 #SELECT Name, Adresse, Geburtstag, Gehalt 
@@ -1115,30 +1119,63 @@ for row in rows:
 
 # ■ SchauspielerIn und gegebenenfalls ihre ManagerIninfo
 
-# In[ ]:
+# In[62]:
 
 
 #…FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn
+
+__SQL__ = "SELECT * FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Gehalt bleibt gegebenenfalls NULL
 # 
 # ■ ManagerIn und gegebenenfalls ihre Schauspielerinfo
 
-# In[ ]:
+# In[18]:
 
 
 #…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn
+
+__SQL__ = "SELECT * FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Geburtstag bleibt gegebenenfalls NULL
 # 
 # ■ Alle Schauspieler*innen und Manager*innen
 
-# In[ ]:
+# In[19]:
 
 
 #…FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn
+
+__SQL__ = "SELECT * FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # □ Geburtstag oder Gehalt bleiben gegebenenfalls leer
@@ -1230,12 +1267,12 @@ for row in rows:
 # #### Schnittmenge: INTERSECT
 # ■ Entspricht dem logischen „und“
 
-# In[49]:
+# In[66]:
 
 
 #(SELECT Name, Adresse FROM SchauspielerIn) INTERSECT (SELECT Name, Adresse FROM ManagerIn);
 
-__SQL__ = "(SELECT Name, Adresse FROM SchauspielerIn) INTERSECT (SELECT Name, Adresse FROM ManagerIn)"
+__SQL__ = "SELECT Name, Adresse FROM SchauspielerIn INTERSECT SELECT Name, Adresse FROM ManagerIn"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1247,12 +1284,12 @@ for row in rows:
     print()
 
 
-# In[51]:
+# In[65]:
 
 
 #%sql (SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = "f") INTERSECT (SELECT Name, Adresse FROM ManagerIn WHERE Gehalt > 1000000)
 
-__SQL__ = "(SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = "f") INTERSECT (SELECT Name, Adresse FROM ManagerIn WHERE Gehalt > 1000000)"
+__SQL__ = "SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = 'f' INTERSECT SELECT Name, Adresse FROM ManagerIn WHERE Gehalt > 1000000"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1269,12 +1306,12 @@ for row in rows:
 # #### Vereinigung: UNION
 # ■ Entspricht dem logischen „oder“
 
-# In[52]:
+# In[63]:
 
 
 #(SELECT Name, Adresse FROM SchauspielerIn) UNION (SELECT Name, Adresse FROM ManagerIn);
 
-__SQL__ = "(SELECT Name, Adresse FROM SchauspielerIn) UNION (SELECT Name, Adresse FROM ManagerIn)"
+__SQL__ = "SELECT Name, Adresse FROM SchauspielerIn UNION SELECT Name, Adresse FROM ManagerIn"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1302,12 +1339,12 @@ for row in rows:
 # 
 # ■ Auch MINUS
 
-# In[53]:
+# In[67]:
 
 
 #%sql (SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in) 
 
-__SQL__ = "(SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in)"
+__SQL__ = "SELECT Titel, Jahr FROM Film EXCEPT SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1395,7 +1432,7 @@ get_ipython().run_line_magic('sql', 'SELECT * FROM ((SELECT A FROM R)INTERSECT(S
 # <br>
 # ■ Gesucht: Produzent von Star Wars
 
-# In[55]:
+# In[27]:
 
 
 #SELECT Name 
@@ -1418,7 +1455,7 @@ for row in rows:
 
 # ■ Oder aber
 
-# In[57]:
+# In[28]:
 
 
 #SELECT Name FROM ManagerIn 
@@ -1449,7 +1486,14 @@ for row in rows:
 
 
 get_ipython().run_line_magic('sql', '')
-SELECT a.Name, a.Standort FROM Abteilung a WHERE (SELECT AVG(bonus) FROM personal p WHERE a.AbtID = p.AbtID)>(SELECT AVG(gehalt)FROM personal pWHERE a.AbtID = p.AbtID)
+SELECT a.Name, a.Standort 
+FROM Abteilung a 
+WHERE (SELECT AVG(bonus) 
+           FROM personal p 
+           WHERE a.AbtID = p.AbtID)>
+      (SELECT AVG(gehalt)
+            FROM personal p
+               WHERE a.AbtID = p.AbtID)
 
 
 # ■ Alle Potsdamer Abteilungen mit ihrem Maximalgehalt.
@@ -1619,6 +1663,29 @@ AND Note >= ALL (SELECT Note
                  WHERE Matrikel = ‘123456‘)
 
 
+# In[ ]:
+
+
+SELECT FilmTitel FROM spielt_in WHERE Schauspieler = "Heath Ledger" AND FilmJahr >= ALL (SELECT FilmTitel FROM spielt_in WHERE Schauspiele = "Heath Ledger")
+
+
+# In[69]:
+
+
+#ALternative zu oben: der längste Film in dem Heath Ledger mitspielt
+
+__SQL__ = "SELECT FilmTitel FROM spielt_in WHERE Schauspieler = 'Heath Ledger' AND FilmJahr >= ALL (SELECT FilmJahr FROM spielt_in WHERE Name = 'Heath Ledger')"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
+
+
 # ■ Alle Studenten, die mindestens eine Prüfung absolvierten
 
 # In[ ]:
@@ -1679,9 +1746,10 @@ for row in rows:
 # <br><br>
 # ■ Alternative Formulierung
 
-# In[61]:
+# In[72]:
 
 
+#alte Anfrage
 #SELECT Name 
 #FROM ManagerIn, Film, spielt_in 
 #WHERE ManagerinID = ProduzentinID 
@@ -1689,7 +1757,7 @@ for row in rows:
 #AND Jahr = FilmJahr 
 #AND SchauspielerIn.Name = "Harrison Ford";
 
-__SQL__ = "SELECT Name FROM ManagerIn, Film, spielt_in WHERE ManagerinID = ProduzentinID AND Titel = FilmTitel AND Jahr = FilmJahr AND SchauspielerIn.Name = 'Harrison Ford'"
+__SQL__ = "SELECT ManagerIn.Name FROM ManagerIn, Film, spielt_in WHERE ManagerinID = ProduzentinID AND Titel = FilmTitel AND Jahr = FilmJahr AND spielt_in.Name = 'Harrison Ford'"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1736,7 +1804,7 @@ for row in rows:
 # <br><br>
 # ■ Alle mehrfachen Filme mit Ausnahme der jeweils jüngsten Ausgabe
 
-# In[65]:
+# In[38]:
 
 
 #%sql SELECT Titel, Jahr 
@@ -1817,7 +1885,7 @@ p.AbtID)
 #  <br>
 # ■ Alle Filme, in denen mindestens ein Schauspieler mitspielt
 
-# In[66]:
+# In[39]:
 
 
 #SELECT DISTINCT FilmTitel, FilmJahr 
@@ -1846,12 +1914,12 @@ for row in rows:
 # □ Solche Duplikateliminierung verhindern durch ALL
 # <br>
 
-# In[69]:
+# In[74]:
 
 
 #(SELECT Titel, Jahr, FROM Film) UNION ALL (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in);
 
-__SQL__ = "(SELECT Titel, Jahr, FROM Film) UNION ALL (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in)"
+__SQL__ = "SELECT Titel, Jahr FROM Film UNION ALL SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1892,7 +1960,7 @@ for row in rows:
 # 
 # #### Aggregation – Beispiele
 
-# In[70]:
+# In[41]:
 
 
 #SELECT AVG(Gehalt) 
@@ -1910,7 +1978,7 @@ for row in rows:
     print()
 
 
-# In[71]:
+# In[42]:
 
 
 #SELECT COUNT(*) 
@@ -1928,7 +1996,7 @@ for row in rows:
     print()
 
 
-# In[72]:
+# In[43]:
 
 
 #SELECT COUNT(Name) 
@@ -1946,7 +2014,7 @@ for row in rows:
     print()
 
 
-# In[74]:
+# In[44]:
 
 
 #SELECT COUNT(DISTINCT Name) 
@@ -1996,7 +2064,7 @@ for row in rows:
 # ### Gruppierung
 # ■ Gruppierung mittels GROUP BY nach der WHERE-Klausel
 
-# In[75]:
+# In[45]:
 
 
 #SELECT StudioName, SUM(Laenge) 
@@ -2024,7 +2092,7 @@ for row in rows:
 # <br>
 # □ Keine der beiden Sorten muss erscheinen.
 
-# In[76]:
+# In[46]:
 
 
 #SELECT StudioName 
@@ -2043,7 +2111,7 @@ for row in rows:
     print()
 
 
-# In[77]:
+# In[47]:
 
 
 #SELECT SUM(Laenge) 
@@ -2064,7 +2132,7 @@ for row in rows:
 
 # ■ Gruppierung bei Verwendung mehrerer Relationen wird am Schluss durchgeführt.
 
-# In[79]:
+# In[48]:
 
 
 #SELECT Name, SUM(Laenge) 
@@ -2097,7 +2165,7 @@ for row in rows:
 # <br>
 # ■ Einschränkung der Ergebnismenge nach der Gruppierung durch HAVING
 
-# In[81]:
+# In[54]:
 
 
 #SELECT Name, SUM(Laenge) 
@@ -2117,15 +2185,15 @@ for row in rows:
     print()
 
 
-# In[85]:
+# In[53]:
 
 
 #SELECT Name, SUM(Laenge) 
 #FROM ManagerIn, Film 
 #WHERE ManagerinID = ProduzentinID 
-#GROUP BY Name HAVING SUM(Laenge) > 1000
+#GROUP BY Name HAVING SUM(Laenge) > 200
 
-__SQL__ = "SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) > 1000"
+__SQL__ = "SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) > 200"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -2137,15 +2205,15 @@ for row in rows:
     print()
 
 
-# In[86]:
+# In[52]:
 
 
 #SELECT Name 
 #FROM ManagerIn, Film 
 #WHERE ManagerinID = ProduzentinID 
-#GROUP BY Name HAVING SUM(Laenge) > 1000
+#GROUP BY Name HAVING SUM(Laenge) > 200
 
-__SQL__ = "SELECT Name FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) > 1000"
+__SQL__ = "SELECT Name FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) > 200"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -2731,7 +2799,7 @@ WHERE Jahr = 1979;
 
 # ■ Umwandlung der ursprünglichen Anfrage in eine Anfrage an Basisrelationen
 
-# In[10]:
+# In[84]:
 
 
 #SELECT Titel 
@@ -2739,7 +2807,7 @@ WHERE Jahr = 1979;
 #WHERE StudioName = "Paramount" 
 #AND Jahr = 1979;
 
-__SQL__ = "SELECT Titel FROM Film WHERE StudioName = 'Paramount' AND Jahr = 1979;"
+__SQL__ = "SELECT Titel FROM Film WHERE Jahr = 1979 AND StudioName ='Paramount';"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -2755,7 +2823,7 @@ for row in rows:
 # <br>
 # ■ Anfrage zugleich an Sichten und Basisrelationen möglich
 
-# In[13]:
+# In[78]:
 
 
 #Anfrage aus VL Folien
@@ -2791,12 +2859,13 @@ CREATE VIEW FilmeProduzenten AS
 
 # ■ Anfrage
 
-# In[93]:
+# In[89]:
 
 
-#%sql SELECT Name FROM FilmeProduzenten WHERE Titel = ‘Gone with the Wind‘
+#alte Anfrage
+#SELECT Name FROM FilmeProduzenten WHERE Titel = ‘Gone with the Wind‘
 
-__SQL__ = "SELECT Name FROM FilmeProduzenten WHERE Titel = 'Gone with the Wind'"
+__SQL__ = "SELECT Titel FROM Film WHERE Titel = 'Gone with the Wind'"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -2810,7 +2879,7 @@ for row in rows:
 
 # ■ Bedeutung
 
-# In[94]:
+# In[90]:
 
 
 #%sql SELECT Name FROM Film, ManagerIn WHERE ProduzentinID = ManagerinID AND Titel = 'Gone with the Wind';

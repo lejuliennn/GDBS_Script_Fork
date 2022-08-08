@@ -1321,7 +1321,7 @@ Ratatouille 2007 111 TRUE Pixar 4567
 Star Wars 1977 121 TRUE Pinewood 78910 
 Star Trek 1979 132 TRUE Paramount  6789 
 Lady Bird 2017 95 TRUE Scott Rudin Productions 3456 
-Into the Wild 2007 148 TRUE Paramount  6789 
+Into the Wild 2007 148 TRUE Paramount 6789 
 Brokeback Mountain 2005 134 TRUE River Road 4712 
 The Lighthouse 2019 109 FALSE A24 1748 
 Roma 2018 135 FALSE Participant 5123 
@@ -1339,6 +1339,7 @@ House of Gucci 2021 158 TRUE MGM 5555
 James Bond 007: Spectre 2015 148 TRUE MGM 5555 
 Shipwrecked 1990 92 TRUE Disney 1234 
 The Rescuers Down Under 1990 77 TRUE Disney 1234 
+Gone with the Wind 1939 221 TRUE MGM 5555 
 </pre></div>
 </div>
 </div>
@@ -1575,7 +1576,7 @@ Ratatouille 2007 111 TRUE Pixar 4567
 Star Wars 1977 121 TRUE Pinewood 78910 
 Star Trek 1979 132 TRUE Paramount  6789 
 Lady Bird 2017 95 TRUE Scott Rudin Productions 3456 
-Into the Wild 2007 148 TRUE Paramount  6789 
+Into the Wild 2007 148 TRUE Paramount 6789 
 Brokeback Mountain 2005 134 TRUE River Road 4712 
 The Lighthouse 2019 109 FALSE A24 1748 
 Roma 2018 135 FALSE Participant 5123 
@@ -1593,6 +1594,7 @@ House of Gucci 2021 158 TRUE MGM 5555
 James Bond 007: Spectre 2015 148 TRUE MGM 5555 
 Shipwrecked 1990 92 TRUE Disney 1234 
 The Rescuers Down Under 1990 77 TRUE Disney 1234 
+Gone with the Wind 1939 221 TRUE MGM 5555 
 </pre></div>
 </div>
 </div>
@@ -1642,6 +1644,7 @@ House of Gucci 2021 TRUE
 James Bond 007: Spectre 2015 TRUE 
 Shipwrecked 1990 TRUE 
 The Rescuers Down Under 1990 TRUE 
+Gone with the Wind 1939 TRUE 
 </pre></div>
 </div>
 </div>
@@ -1695,6 +1698,7 @@ House of Gucci 2021
 James Bond 007: Spectre 2015 
 Shipwrecked 1990 
 The Rescuers Down Under 1990 
+Gone with the Wind 1939 
 </pre></div>
 </div>
 </div>
@@ -1744,6 +1748,7 @@ House of Gucci 2.6333860000000002
 James Bond 007: Spectre 2.4667160000000004 
 Shipwrecked 1.5333640000000002 
 The Rescuers Down Under 1.2833590000000001 
+Gone with the Wind 3.6834070000000003 
 </pre></div>
 </div>
 </div>
@@ -2365,20 +2370,6 @@ Shipwrecked 1990 92 TRUE Disney 1234
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [33],</span> in <span class="ni">&lt;cell line: 7&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: no such column: SchauspielerIn.Name
-</pre></div>
-</div>
-</div>
 </div>
 <p>□ Präfix ist auch erlaubt wenn Attributname eindeutig ist.
 <br>
@@ -2413,16 +2404,47 @@ Shipwrecked 1990 92 TRUE Disney 1234
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [35],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: no such column: Star1.Name
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Arnold Schwarzenegger Arnold Schwarzenegger 
+Sharon Stone Sharon Stone 
+Robert Pattinson Robert Pattinson 
+Scarlet Johansson Scarlet Johansson 
+Saorise Ronan Saorise Ronan 
+Jake Gyllenhaal Jake Gyllenhaal 
+Heath Ledger Heath Ledger 
+Mark Hamill Mark Hamill 
+Carrie Fisher Carrie Fisher 
+Harrison Ford Harrison Ford 
+Emile Hirsch Emile Hirsch 
+Vincent Cassel Léa Seydoux 
+Vincent Cassel Vincent Cassel 
+Meryl Streep Meryl Streep 
+Cameron Diaz Cameron Diaz 
+Cameron Diaz Leonardo DiCaprio 
+Emma Stone Emma Stone 
+Phyllis Smith Phyllis Smith 
+Willem Dafoe Willem Dafoe 
+Leonardo DiCaprio Cameron Diaz 
+Leonardo DiCaprio Leonardo DiCaprio 
+Tobey Maguire Kirsten Dunst 
+Tobey Maguire Tobey Maguire 
+Samuel L. Jackson Samuel L. Jackson 
+Will Smith Will Smith 
+Tom Hanks Tom Hanks 
+Kirsten Dunst Kirsten Dunst 
+Kirsten Dunst Tobey Maguire 
+Ryan Gosling Jared Leto 
+Ryan Gosling Ryan Gosling 
+Mahershala Ali Mahershala Ali 
+William Shatner William Shatner 
+Alan Young Alan Young 
+Jared Leto Jared Leto 
+Jared Leto Ryan Gosling 
+Adam Driver Adam Driver 
+Lady Gaga Lady Gaga 
+Daniel Craig Daniel Craig 
+Léa Seydoux Léa Seydoux 
+Léa Seydoux Vincent Cassel 
+Christoph Waltz Christoph Waltz 
 </pre></div>
 </div>
 </div>
@@ -2501,16 +2523,47 @@ Shipwrecked 1990 92 TRUE Disney 1234
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [36],</span> in <span class="ni">&lt;cell line: 9&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: no such column: Star1.Name
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Arnold Schwarzenegger Arnold Schwarzenegger 
+Sharon Stone Sharon Stone 
+Robert Pattinson Robert Pattinson 
+Scarlet Johansson Scarlet Johansson 
+Saorise Ronan Saorise Ronan 
+Jake Gyllenhaal Jake Gyllenhaal 
+Heath Ledger Heath Ledger 
+Mark Hamill Mark Hamill 
+Carrie Fisher Carrie Fisher 
+Harrison Ford Harrison Ford 
+Emile Hirsch Emile Hirsch 
+Vincent Cassel Léa Seydoux 
+Vincent Cassel Vincent Cassel 
+Meryl Streep Meryl Streep 
+Cameron Diaz Cameron Diaz 
+Cameron Diaz Leonardo DiCaprio 
+Emma Stone Emma Stone 
+Phyllis Smith Phyllis Smith 
+Willem Dafoe Willem Dafoe 
+Leonardo DiCaprio Cameron Diaz 
+Leonardo DiCaprio Leonardo DiCaprio 
+Tobey Maguire Kirsten Dunst 
+Tobey Maguire Tobey Maguire 
+Samuel L. Jackson Samuel L. Jackson 
+Will Smith Will Smith 
+Tom Hanks Tom Hanks 
+Kirsten Dunst Kirsten Dunst 
+Kirsten Dunst Tobey Maguire 
+Ryan Gosling Jared Leto 
+Ryan Gosling Ryan Gosling 
+Mahershala Ali Mahershala Ali 
+William Shatner William Shatner 
+Alan Young Alan Young 
+Jared Leto Jared Leto 
+Jared Leto Ryan Gosling 
+Adam Driver Adam Driver 
+Lady Gaga Lady Gaga 
+Daniel Craig Daniel Craig 
+Léa Seydoux Léa Seydoux 
+Léa Seydoux Vincent Cassel 
+Christoph Waltz Christoph Waltz 
 </pre></div>
 </div>
 </div>
@@ -2560,16 +2613,14 @@ Shipwrecked 1990 92 TRUE Disney 1234
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [37],</span> in <span class="ni">&lt;cell line: 10&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">10</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: no such column: Star1.Name
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vincent Cassel Léa Seydoux 
+Cameron Diaz Leonardo DiCaprio 
+Leonardo DiCaprio Cameron Diaz 
+Tobey Maguire Kirsten Dunst 
+Kirsten Dunst Tobey Maguire 
+Ryan Gosling Jared Leto 
+Jared Leto Ryan Gosling 
+Léa Seydoux Vincent Cassel 
 </pre></div>
 </div>
 </div>
@@ -2674,9 +2725,13 @@ Shipwrecked 1990 92 TRUE Disney 1234
 – Doppelte Attributnamen werden mit Präfix der Relation aufgelöst</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#alte Anfrage</span>
+<span class="c1">#Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr&quot;</span>
+<span class="c1">#neue Anfrage</span>
+<span class="c1">#SELECT * FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -2690,23 +2745,40 @@ Shipwrecked 1990 92 TRUE Disney 1234
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   sqlite:///filme/filme.db
- * sqlite:///salesDB/salesDB.db
-(sqlite3.OperationalError) near &quot;Film&quot;: syntax error
-[SQL: Film JOIN spielt_in ON Titel = FilmTitel AND Jahr = FilmJahr]
-(Background on this error at: http://sqlalche.me/e/e3q8)
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [38],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: near &quot;Film&quot;: syntax error
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Star Wars 1977 121 TRUE Pinewood 78910 Star Wars 1977 Mark Hamill 
+Star Wars 1977 121 TRUE Pinewood 78910 Star Wars 1977 Harrison Ford 
+Star Wars 1977 121 TRUE Pinewood 78910 Star Wars 1977 Carrie Fisher 
+Into the Wild 2007 148 TRUE Paramount  6789 Into the Wild 2007 Emile Hirsch 
+Brokeback Mountain 2005 134 TRUE River Road 4712 Brokeback Mountain 2005 Jake Gyllenhaal 
+Brokeback Mountain 2005 134 TRUE River Road 4712 Brokeback Mountain 2005 Heath Ledger 
+The Dark Knight 2008 152 TRUE Warner Bros. 6035 The Dark Knight 2008 Heath Ledger 
+The Lighthouse 2019 109 FALSE A24 1748 The Lighthouse 2019 Robert Pattinson 
+The Lighthouse 2019 109 FALSE A24 1748 The Lighthouse 2019 Willem Dafoe 
+The Great Gatsby 2013 142 TRUE Village Roadshows  8634 The Great Gatsby 2013 Leonardo DiCaprio 
+The Great Gatsby 2013 142 TRUE Village Roadshows  8634 The Great Gatsby 2013 Tobey Maguire 
+The Great Gatsby 2013 142 TRUE Village Roadshows  8634 The Great Gatsby 2013 Carey Mulligan 
+Lady Bird 2017 95 TRUE Scott Rudin Productions 3456 Lady Bird 2017 Saoirse Ronan 
+La Heine 1995 98 FALSE NULL 2212 La Heine 1995 Vincent Cassel 
+Mamma Mia! 2008 108 TRUE Littlestar Productions 8871 Mamma Mia! 2008 Meryl Streep 
+Inside Out 2015 95 TRUE Disney 1234 Inside Out 2015 Phyllis Smith 
+Total Recall 1990 113 TRUE Fox 3310 Total Recall 1990 Arnold Schwarzenegger 
+Total Recall 1990 113 TRUE Fox 3310 Total Recall 1990 Sharon Stone 
+Pulp Fiction 1994 154 TRUE A Band Apart 7654 Pulp Fiction 1994 Samuel L. Jackson 
+Up 2009 96 TRUE Pixar 4567 Up 2009 Tom Hanks 
+Spider-Man 2002 121 TRUE Marvel Enterprises 6362 Spider-Man 2002 Tobey Maguire 
+Spider-Man 2002 121 TRUE Marvel Enterprises 6362 Spider-Man 2002 Willem Dafoe 
+Spider-Man 2002 121 TRUE Marvel Enterprises 6362 Spider-Man 2002 Kirsten Dunst 
+La La Land 2016 128 TRUE Summit Entertainment 5123 La La Land 2016 Emma Stone 
+La La Land 2016 128 TRUE Summit Entertainment 5123 La La Land 2016 Ryan Gosling 
+Moonlight 2016 124 TRUE A24 1748 Moonlight 2016 Mahershala Ali 
+Star Trek 1979 132 TRUE Paramount  6789 Star Trek 1979 William Shatner 
+Ducktales the Movie: Treasure of the Lost Lamp 1990 74 TRUE Disney 1234 Ducktales the Movie: Treasure of the Lost Lamp 1990 Alan Young 
+House of Gucci 2021 158 TRUE MGM 5555 House of Gucci 2021 Jared Leto 
+House of Gucci 2021 158 TRUE MGM 5555 House of Gucci 2021 Adam Driver 
+House of Gucci 2021 158 TRUE MGM 5555 House of Gucci 2021 Lady Gaga 
+James Bond 007: Spectre 2015 148 TRUE MGM 5555 James Bond 007: Spectre 2015 Daniel Craig 
+James Bond 007: Spectre 2015 148 TRUE MGM 5555 James Bond 007: Spectre 2015 Léa Seydoux 
+James Bond 007: Spectre 2015 148 TRUE MGM 5555 James Bond 007: Spectre 2015 Christoph Waltz 
 </pre></div>
 </div>
 </div>
@@ -2792,16 +2864,14 @@ James Bond 007: Spectre 2015 148 TRUE MGM 5555 Christoph Waltz
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [43],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: no such column: Geschlecht
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Star Wars 1977 
+Mamma Mia! 2008 
+Inside Out 2015 
+Total Recall 1990 
+Spider-Man 2002 
+La La Land 2016 
+House of Gucci 2021 
+James Bond 007: Spectre 2015 
 </pre></div>
 </div>
 </div>
@@ -2869,7 +2939,7 @@ James Bond 007: Spectre 2015 148 TRUE MGM 5555 Christoph Waltz
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [8],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
+<span class="nn">Input In [15],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;salesDB/salesDB&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -2943,25 +3013,59 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [44],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: no such column: Geburtstag
-</pre></div>
-</div>
-</div>
 </div>
 <p>■ SchauspielerIn und gegebenenfalls ihre ManagerIninfo</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#…FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Arnold Schwarzenegger 3110 Main Street, Suite 300, Santa Monica, CA 90405-5354 m 1947-07-30 None None 
+Sharon Stone 407 N Maple Dr Suite 100, Beverly Hills, CA 90210-3818 f 1958-03-10 None None 
+Robert Pattinson William Morris Endeavor Entertainment, 9601 Wilshire Blvd. 3rd Floor, Beverly Hills, CA 90210-5213 m 1986-05-13 None None 
+Scarlet Johansson 15821 Ventura Blvs., Suite 370, Encino CA 91436 USA f 1984-11-22 None None 
+Saorise Ronan MacFarlane Chard Associates Ltd., 24 Adelaide Street, Dun Laoghaire Co. Dublin f 1994-04-12 None None 
+Jake Gyllenhaal Wilshire Boulevard, 3rd Floor, Beverly Hills, 90210-5213, California m 1980-12-19 None None 
+Heath Ledger 421 Broome Street, Lower Manhatta, New York City m 1979-04-04 None None 
+Mark Hamill P.O. Box 287, Grand Blanc, MI 48480 m 1951-09-25 None None 
+Carrie Fisher 6514 Lankershim Blvd. North Hollywood, California f 1956-10-21 None None 
+Harrison Ford P.O. Box 49344 Los Angeles, CA 90049-0344 m 1942-07-13 None None 
+Emile Hirsch 9336 Civic Center Drive, Beverly Hills, CA 90210-3604 m 1985-03-13 None None 
+Vincent Cassel 42/44 rue de Paradis, 75010 Paris m 1966-11-23 None None 
+Meryl Streep 42 West, 600 3rd Avenue, 23rd Floor, New York f 1949-06-22 None None 
+Cameron Diaz 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 f 1972-08-30 None None 
+Emma Stone Wilshire Blvd., Suite 930, Beverly Hills, CA 90212 f 1988-11-06 None None 
+Phyllis Smith 8383 Wilshire Blvd., Suite 100, Beverly Hills, CA 90211 f 1951-07-10 None None 
+Willem Dafoe 9601 Wilshire Blvd., 3rd Floor, Beverly Hills, CA 90210-5213 m 1995-07-22 None None 
+Leonardo DiCaprio 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 m 1974-11-11 None None 
+Tobey Maguire 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 m 1975-06-27 None None 
+Samuel L. Jackson 8501 Washington Blvd., Culver City, CA 90232-7443 m 1948-12-21 None None 
+Will Smith 1880 Century Park East, Suite 1600, Los Angeles, CA 90067 m 1968-09-25 None None 
+Tom Hanks P.O. Box 7340, Santa Monica, CA 90406-7340 m 1956-07-09 None None 
+Kirsten Dunst 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 f 1982-04-30 None None 
+Ryan Gosling 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 m 1980-11-12 None None 
+Mahershala Ali 4208 Overland Avenue Culver City, CA 90230-3736 m 1974-02-16 None None 
+William Shatner 5555 Melrose Avenue, Dreier 211, Hollywood, CA 90038 m 1931-03-22 None None 
+Alan Young P.O. Box 14 Rimrock, AZ 86335 m 1919-11-19 None None 
+Jared Leto 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 m 1971-12-26 None None 
+Adam Driver 15260 Ventura Blvd. Suite 900, Sherman Oaks, CA 91403 m 1983-11-19 None None 
+Lady Gaga 401 Broadway Suite 206, New York, NY 10013 f 1986-03-20 None None 
+Daniel Craig 40 Whitfield Street, London, W1T 2RH m 1968-03-02 None None 
+Léa Seydoux 42/44 rue de Paradis, 75010 Paris f 1985-07-01 None None 
+Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 None None 
 </pre></div>
 </div>
 </div>
@@ -2971,6 +3075,31 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="nn">Input In [18],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+
+<span class="ne">OperationalError</span>: RIGHT and FULL OUTER JOINs are not currently supported
 </pre></div>
 </div>
 </div>
@@ -2980,6 +3109,31 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#…FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="nn">Input In [19],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+
+<span class="ne">OperationalError</span>: RIGHT and FULL OUTER JOINs are not currently supported
 </pre></div>
 </div>
 </div>
@@ -4732,7 +4886,7 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 The Rescuers Down U
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#(SELECT Name, Adresse FROM SchauspielerIn) INTERSECT (SELECT Name, Adresse FROM ManagerIn);</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;(SELECT Name, Adresse FROM SchauspielerIn) INTERSECT (SELECT Name, Adresse FROM ManagerIn)&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Adresse FROM SchauspielerIn INTERSECT SELECT Name, Adresse FROM ManagerIn&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -4742,20 +4896,6 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 The Rescuers Down U
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [49],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: near &quot;(&quot;: syntax error
 </pre></div>
 </div>
 </div>
@@ -4764,7 +4904,7 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 The Rescuers Down U
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%sql (SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = &quot;f&quot;) INTERSECT (SELECT Name, Adresse FROM ManagerIn WHERE Gehalt &gt; 1000000)</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;(SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = &quot;</span><span class="sa">f</span><span class="s2">&quot;) INTERSECT (SELECT Name, Adresse FROM ManagerIn WHERE Gehalt &gt; 1000000)&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Adresse FROM SchauspielerIn WHERE Geschlecht = &#39;f&#39; INTERSECT SELECT Name, Adresse FROM ManagerIn WHERE Gehalt &gt; 1000000&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -4774,20 +4914,6 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 The Rescuers Down U
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [51],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: near &quot;(&quot;: syntax error
 </pre></div>
 </div>
 </div>
@@ -4801,7 +4927,7 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 The Rescuers Down U
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#(SELECT Name, Adresse FROM SchauspielerIn) UNION (SELECT Name, Adresse FROM ManagerIn);</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;(SELECT Name, Adresse FROM SchauspielerIn) UNION (SELECT Name, Adresse FROM ManagerIn)&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Adresse FROM SchauspielerIn UNION SELECT Name, Adresse FROM ManagerIn&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -4815,16 +4941,54 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 The Rescuers Down U
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [52],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: near &quot;(&quot;: syntax error
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam Driver 15260 Ventura Blvd. Suite 900, Sherman Oaks, CA 91403 
+Alan Bruckner 25 Whitlam Ave Unit 3, Etobicoke, ON M8V2K1 
+Alan Young P.O. Box 14 Rimrock, AZ 86335 
+Ann Sarnoff 10100 Santa Monica Blvd., Los Angeles, CA 90404 
+Arnold Schwarzenegger 3110 Main Street, Suite 300, Santa Monica, CA 90405-5354 
+Bill Pohlad 5555 Melrose Ave, Los Angeles, CA 90038 
+Bob Chapek 500 S Buena Vista St, Burbank, CA 91521 
+Brian Robbins 2000 Avenue of the Stars Suite 620-N Los Angeles 
+Cameron Diaz 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 
+Carrie Fisher 6514 Lankershim Blvd. North Hollywood, California 
+Christoph Waltz Sophienstrasse 21, 10178 Berlin 
+Daniel Craig 40 Whitfield Street, London, W1T 2RH 
+Daniel Katz 31 West 27th Street, New York City 
+Emile Hirsch 9336 Civic Center Drive, Beverly Hills, CA 90210-3604 
+Emma Stone Wilshire Blvd., Suite 930, Beverly Hills, CA 90212 
+Harrison Ford P.O. Box 49344 Los Angeles, CA 90049-0344 
+Heath Ledger 421 Broome Street, Lower Manhatta, New York City 
+Isaac Perlmutter 4000 Warner Blvd., Burbank, CA 91522 
+Jake Gyllenhaal Wilshire Boulevard, 3rd Floor, Beverly Hills, 90210-5213, California 
+Jared Leto 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 
+Jim Berk 3520 Wesley Street, Culver City, CA 90232 
+Jim Morris 1200 Park Ave, Emeryville, CA 94608 
+Kirsten Dunst 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 
+Lady Gaga 401 Broadway Suite 206, New York, NY 10013 
+Leonardo DiCaprio 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 
+Louis B.Mayer 625 Palisades Beach Rd, Santa Monica  
+Léa Seydoux 42/44 rue de Paradis, 75010 Paris 
+Mahershala Ali 4208 Overland Avenue Culver City, CA 90230-3736 
+Mark Hamill P.O. Box 287, Grand Blanc, MI 48480 
+Meryl Streep 42 West, 600 3rd Avenue, 23rd Floor, New York 
+Paul Golding Pinewood Rd, Slough, Iver SL0 0NH 
+Phyllis Smith 8383 Wilshire Blvd., Suite 100, Beverly Hills, CA 90211 
+Quentin Tarantino 10100 Santa Monica Blvd., Los Angeles, CA 90404 
+Robert Kirby Entertainment Rd, Oxenford, Queensland 4210, AU 
+Robert Pattinson William Morris Endeavor Entertainment, 9601 Wilshire Blvd. 3rd Floor, Beverly Hills, CA 90210-5213 
+Ryan Gosling 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 
+Samuel L. Jackson 8501 Washington Blvd., Culver City, CA 90232-7443 
+Saorise Ronan MacFarlane Chard Associates Ltd., 24 Adelaide Street, Dun Laoghaire Co. Dublin 
+Scarlet Johansson 15821 Ventura Blvs., Suite 370, Encino CA 91436 USA 
+Scott Rudin 120 W. 45th St., 10th Fl., New York, New York 10036 
+Sharon Stone 407 N Maple Dr Suite 100, Beverly Hills, CA 90210-3818 
+Steve Asbell 10201 Pico Blvd, Los Angeles, CA 90064 
+Tobey Maguire 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 
+Tom Hanks P.O. Box 7340, Santa Monica, CA 90406-7340 
+Vincent Cassel 42/44 rue de Paradis, 75010 Paris 
+Will Smith 1880 Century Park East, Suite 1600, Los Angeles, CA 90067 
+Willem Dafoe 9601 Wilshire Blvd., 3rd Floor, Beverly Hills, CA 90210-5213 
+William Shatner 5555 Melrose Avenue, Dreier 211, Hollywood, CA 90038 
 </pre></div>
 </div>
 </div>
@@ -4848,7 +5012,7 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 The Rescuers Down U
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%sql (SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in) </span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;(SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in)&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel, Jahr FROM Film EXCEPT SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -4862,16 +5026,11 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 The Rescuers Down U
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [53],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: near &quot;(&quot;: syntax error
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ratatouille 2007 
+Roma 2018 
+Shipwrecked 1990 
+The Rescuers Down Under 1990 
+Toy Story 1999 
 </pre></div>
 </div>
 </div>
@@ -5170,7 +5329,14 @@ werden kann.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span>
-<span class="n">SELECT</span> <span class="n">a</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">Standort</span> <span class="n">FROM</span> <span class="n">Abteilung</span> <span class="n">a</span> <span class="n">WHERE</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">AVG</span><span class="p">(</span><span class="n">bonus</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">personal</span> <span class="n">p</span> <span class="n">WHERE</span> <span class="n">a</span><span class="o">.</span><span class="n">AbtID</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">AbtID</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">SELECT</span> <span class="n">AVG</span><span class="p">(</span><span class="n">gehalt</span><span class="p">)</span><span class="n">FROM</span> <span class="n">personal</span> <span class="n">pWHERE</span> <span class="n">a</span><span class="o">.</span><span class="n">AbtID</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">AbtID</span><span class="p">)</span>
+<span class="n">SELECT</span> <span class="n">a</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">Standort</span> 
+<span class="n">FROM</span> <span class="n">Abteilung</span> <span class="n">a</span> 
+<span class="n">WHERE</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">AVG</span><span class="p">(</span><span class="n">bonus</span><span class="p">)</span> 
+           <span class="n">FROM</span> <span class="n">personal</span> <span class="n">p</span> 
+           <span class="n">WHERE</span> <span class="n">a</span><span class="o">.</span><span class="n">AbtID</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">AbtID</span><span class="p">)</span><span class="o">&gt;</span>
+      <span class="p">(</span><span class="n">SELECT</span> <span class="n">AVG</span><span class="p">(</span><span class="n">gehalt</span><span class="p">)</span>
+            <span class="n">FROM</span> <span class="n">personal</span> <span class="n">p</span>
+               <span class="n">WHERE</span> <span class="n">a</span><span class="o">.</span><span class="n">AbtID</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">AbtID</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -5350,6 +5516,45 @@ AND Note &gt;= ALL (SELECT Note
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">FilmTitel</span> <span class="n">FROM</span> <span class="n">spielt_in</span> <span class="n">WHERE</span> <span class="n">Schauspieler</span> <span class="o">=</span> <span class="s2">&quot;Heath Ledger&quot;</span> <span class="n">AND</span> <span class="n">FilmJahr</span> <span class="o">&gt;=</span> <span class="n">ALL</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">FilmTitel</span> <span class="n">FROM</span> <span class="n">spielt_in</span> <span class="n">WHERE</span> <span class="n">Schauspiele</span> <span class="o">=</span> <span class="s2">&quot;Heath Ledger&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#ALternative zu oben: der längste Film in dem Heath Ledger mitspielt</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT FilmTitel FROM spielt_in WHERE Schauspieler = &#39;Heath Ledger&#39; AND FilmJahr &gt;= ALL (SELECT FilmJahr FROM spielt_in WHERE Name = &#39;Heath Ledger&#39;)&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="nn">Input In [69],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+
+<span class="ne">OperationalError</span>: near &quot;ALL&quot;: syntax error
+</pre></div>
+</div>
+</div>
+</div>
 <p>■ Alle Studenten, die mindestens eine Prüfung absolvierten</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -5418,14 +5623,15 @@ AND Note &gt;= ALL (SELECT Note
 ■ Alternative Formulierung</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT Name </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#alte Anfrage</span>
+<span class="c1">#SELECT Name </span>
 <span class="c1">#FROM ManagerIn, Film, spielt_in </span>
 <span class="c1">#WHERE ManagerinID = ProduzentinID </span>
 <span class="c1">#AND Titel = FilmTitel </span>
 <span class="c1">#AND Jahr = FilmJahr </span>
 <span class="c1">#AND SchauspielerIn.Name = &quot;Harrison Ford&quot;;</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name FROM ManagerIn, Film, spielt_in WHERE ManagerinID = ProduzentinID AND Titel = FilmTitel AND Jahr = FilmJahr AND SchauspielerIn.Name = &#39;Harrison Ford&#39;&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT ManagerIn.Name FROM ManagerIn, Film, spielt_in WHERE ManagerinID = ProduzentinID AND Titel = FilmTitel AND Jahr = FilmJahr AND spielt_in.Name = &#39;Harrison Ford&#39;&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -5439,16 +5645,7 @@ AND Note &gt;= ALL (SELECT Note
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [61],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: ambiguous column name: Name
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paul Golding 
 </pre></div>
 </div>
 </div>
@@ -5518,12 +5715,12 @@ Anfrage
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [65],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+<span class="nn">Input In [38],</span> in <span class="ni">&lt;cell line: 8&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
 
 <span class="ne">OperationalError</span>: near &quot;SELECT&quot;: syntax error
 </pre></div>
@@ -5651,7 +5848,7 @@ James Bond 007: Spectre 2015
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#(SELECT Titel, Jahr, FROM Film) UNION ALL (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in);</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;(SELECT Titel, Jahr, FROM Film) UNION ALL (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in)&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel, Jahr FROM Film UNION ALL SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -5665,16 +5862,65 @@ James Bond 007: Spectre 2015
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [69],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: near &quot;(&quot;: syntax error
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Inside Out 2015 
+Toy Story 1999 
+Up 2009 
+Ratatouille 2007 
+Star Wars 1977 
+Star Trek 1979 
+Lady Bird 2017 
+Into the Wild 2007 
+Brokeback Mountain 2005 
+The Lighthouse 2019 
+Roma 2018 
+La Heine 1995 
+Total Recall 1990 
+Mamma Mia! 2008 
+The Dark Knight 2008 
+Pulp Fiction 1994 
+The Great Gatsby 2013 
+Spider-Man 2002 
+La La Land 2016 
+Moonlight 2016 
+Ducktales the Movie: Treasure of the Lost Lamp 1990 
+House of Gucci 2021 
+James Bond 007: Spectre 2015 
+Shipwrecked 1990 
+The Rescuers Down Under 1990 
+Star Wars 1977 
+Star Wars 1977 
+Star Wars 1977 
+Into the Wild 2007 
+Brokeback Mountain 2005 
+Brokeback Mountain 2005 
+The Dark Knight 2008 
+The Lighthouse 2019 
+The Lighthouse 2019 
+The Great Gatsby 2013 
+The Great Gatsby 2013 
+The Great Gatsby 2013 
+Lady Bird 2017 
+La Heine 1995 
+Mamma Mia! 2008 
+Inside Out 2015 
+Total Recall 1990 
+Total Recall 1990 
+Pulp Fiction 1994 
+Up 2009 
+Spider-Man 2002 
+Spider-Man 2002 
+Spider-Man 2002 
+La La Land 2016 
+La La Land 2016 
+Moonlight 2016 
+Star Trek 1979 
+Ducktales the Movie: Treasure of the Lost Lamp 1990 
+House of Gucci 2021 
+House of Gucci 2021 
+House of Gucci 2021 
+James Bond 007: Spectre 2015 
+James Bond 007: Spectre 2015 
+James Bond 007: Spectre 2015 
 </pre></div>
 </div>
 </div>
@@ -6081,9 +6327,9 @@ Steve Asbell 113
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT Name, SUM(Laenge) </span>
 <span class="c1">#FROM ManagerIn, Film </span>
 <span class="c1">#WHERE ManagerinID = ProduzentinID </span>
-<span class="c1">#GROUP BY Name HAVING SUM(Laenge) &gt; 1000</span>
+<span class="c1">#GROUP BY Name HAVING SUM(Laenge) &gt; 200</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) &gt; 1000&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, SUM(Laenge) FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) &gt; 200&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -6096,15 +6342,25 @@ Steve Asbell 113
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bill Pohlad 280 
+Bob Chapek 419 
+Daniel Katz 233 
+Jim Berk 263 
+Jim Morris 207 
+Louis B.Mayer 306 
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT Name </span>
 <span class="c1">#FROM ManagerIn, Film </span>
 <span class="c1">#WHERE ManagerinID = ProduzentinID </span>
-<span class="c1">#GROUP BY Name HAVING SUM(Laenge) &gt; 1000</span>
+<span class="c1">#GROUP BY Name HAVING SUM(Laenge) &gt; 200</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) &gt; 1000&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name FROM ManagerIn, Film WHERE ManagerinID = ProduzentinID GROUP BY Name HAVING SUM(Laenge) &gt; 200&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -6114,6 +6370,16 @@ Steve Asbell 113
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bill Pohlad 
+Bob Chapek 
+Daniel Katz 
+Jim Berk 
+Jim Morris 
+Louis B.Mayer 
 </pre></div>
 </div>
 </div>
@@ -6783,7 +7049,7 @@ Michael Stonebraker: Implementation of Integrity Constraints and Views by Query 
 <span class="c1">#WHERE StudioName = &quot;Paramount&quot; </span>
 <span class="c1">#AND Jahr = 1979;</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel FROM Film WHERE StudioName = &#39;Paramount&#39; AND Jahr = 1979;&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel FROM Film WHERE Jahr = 1979 AND StudioName =&#39;Paramount&#39;;&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -6873,9 +7139,10 @@ Christoph Waltz
 <p>■ Anfrage</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%sql SELECT Name FROM FilmeProduzenten WHERE Titel = ‘Gone with the Wind‘</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#alte Anfrage</span>
+<span class="c1">#SELECT Name FROM FilmeProduzenten WHERE Titel = ‘Gone with the Wind‘</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name FROM FilmeProduzenten WHERE Titel = &#39;Gone with the Wind&#39;&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel FROM Film WHERE Titel = &#39;Gone with the Wind&#39;&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -6889,16 +7156,7 @@ Christoph Waltz
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [93],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: no such table: FilmeProduzenten
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gone with the Wind 
 </pre></div>
 </div>
 </div>
@@ -6918,6 +7176,11 @@ Christoph Waltz
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Louis B.Mayer 
 </pre></div>
 </div>
 </div>
