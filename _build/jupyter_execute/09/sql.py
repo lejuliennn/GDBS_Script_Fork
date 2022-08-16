@@ -9,6 +9,8 @@
 import sqlite3
 get_ipython().run_line_magic('load_ext', 'sql')
 get_ipython().run_line_magic('sql', 'sqlite:///filme/filme.db')
+get_ipython().run_line_magic('sql', 'sqlite:///abteilung/abteilung.db')
+get_ipython().run_line_magic('sql', 'sqlite:///buecher/buecher.db')
 get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB')
 
 
@@ -1496,34 +1498,69 @@ WHERE (SELECT AVG(bonus)
                WHERE a.AbtID = p.AbtID)
 
 
+# In[4]:
+
+
+__SQL__ = "SELECT a.Name, a.Standort FROM Abteilung a WHERE (SELECT AVG(bonus) FROM personal p WHERE a.AbtID = p.AbtID)>(SELECT AVG(gehalt) FROM personal p WHERE a.AbtID = p.AbtID)"
+conn = sqlite3.connect("abteilung/abteilung.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
+
+
 # ■ Alle Potsdamer Abteilungen mit ihrem Maximalgehalt.
 
-# In[ ]:
+# In[7]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT a.AbtID, a.Name,
-           (SELECT MAX(Gehalt)
-                FROM Personal p
-            WHERE a.AbtID = p.AbtID) AS maxGehalt
-FROM Abteilung a
-WHERE a.Ort = ‘Potsdam‘
+#SELECT a.AbtID, a.Name,
+#           (SELECT MAX(Gehalt)
+#                FROM Personal p
+#            WHERE a.AbtID = p.AbtID) AS maxGehalt
+#FROM Abteilung a
+#WHERE a.Ort = ‘Potsdam‘
+
+__SQL__ = "SELECT a.AbtID, a.Name, (SELECT MAX(Gehalt) FROM Personal p WHERE a.AbtID = p.AbtID) AS maxGehalt FROM Abteilung a WHERE a.Standort = 'Potsdam'"
+conn = sqlite3.connect("abteilung/abteilung.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
+
+
+# In[14]:
+
+
+#SELECT a.AbtID, a.Name, MAX(p.Gehalt) AS maxGehalt
+#FROM Abteilung a, Personal p
+#WHERE a.Ort = ‘Potsdam‘
+#AND a.AbtID = p.AbtID
+#GROUP BY a.AbtID, a.Name
+
+__SQL__ = "SELECT a.AbtID, a.Name, MAX(p.Gehalt) AS maxGehalt FROM Abteilung a, Personal p WHERE a.Standort = 'Potsdam' AND a.AbtID = p.AbtID GROUP BY a.AbtID, a.Name"
+conn = sqlite3.connect("abteilung/abteilung.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Anmerkung: Auch Abteilungen ohne Mitarbeiter erscheinen im Ergebnis.
 # <br><br>
 # ■ Nicht so in der folgenden Anfrage:
-
-# In[ ]:
-
-
-get_ipython().run_line_magic('sql', '')
-SELECT a.AbtID, a.Name, MAX(p.Gehalt) AS maxGehalt
-FROM Abteilung a, Personal p
-WHERE a.Ort = ‘Potsdam‘
-AND a.AbtID = p.AbtID
-GROUP BY a.AbtID, a.Name
-
 
 # ### Bedingungen mit Relationen
 # ■ Bestimmte SQL Operatoren auf Relationen erzeugen Boole‘sche Werte
@@ -1562,16 +1599,26 @@ GROUP BY a.AbtID, a.Name
 # ### EXISTS Beispiele
 # ■ ISBNs aller ausgeliehenen Bücher
 
-# In[ ]:
+# In[18]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT ISBN
-FROM BuchExemplar
-WHERE EXISTS
-     (SELECT *
-      FROM Ausleihe
-      WHERE Ausleihe.Inventarnr = BuchExemplar.Inventarnr) 
+#SELECT ISBN
+#FROM BuchExemplar
+#WHERE EXISTS
+#     (SELECT *
+#      FROM Ausleihe
+#      WHERE Ausleihe.Inventarnr = BuchExemplar.Inventarnr) 
+
+__SQL__ = "SELECT ISBN FROM BuchExemplar WHERE EXISTS (SELECT * FROM Ausleihe WHERE Ausleihe.Inventarnr = BuchExemplar.Inventarnr) "
+conn = sqlite3.connect("buecher/buecher.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Lehrstuhlbezeichnungen der Professor*innen, die alle von ihnen gelesenen Vorlesungen auch schon einmal
@@ -1600,13 +1647,23 @@ WHERE NOT EXISTS
 # ### IN Beispiele
 # ■ Eine Auswahl an Büchern
 
-# In[ ]:
+# In[17]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Titel
-FROM Bücher
-WHERE ISBN IN (‘3898644006‘, ‘1608452204‘, ‘0130319953‘)
+#SELECT Titel
+#FROM Bücher
+#WHERE ISBN IN (3898644006, 1608452204, 0130319953)
+
+__SQL__ = "SELECT Titel FROM BuchExemplar WHERE ISBN IN (3898644006, 1608452204, 0130319953)"
+conn = sqlite3.connect("buecher/buecher.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Matrikel der Studenten, die zumindest einen Prüfer gemeinsam mit dem Studenten der Matrikel ‚123456‘ haben
@@ -1696,6 +1753,24 @@ SELECT Name, Matrikel
 FROM Student
 WHERE Matrikel = ANY (SELECT Matrikel
                       FROM Prüft)
+
+
+# In[7]:
+
+
+#Alternative zum Bsp oben
+#Name und Geburtstag der Schauspieler*Innen, die in spielt_in auftauchen
+
+__SQL__ = "SELECT Name, Geburtstag FROM SchauspielerIn WHERE Name = ANY (SELECT Name FROM spielt_in)"
+conn = sqlite3.connect("filme/filme.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ### Bedingungen mit Tupeln
@@ -1804,14 +1879,14 @@ for row in rows:
 # <br><br>
 # ■ Alle mehrfachen Filme mit Ausnahme der jeweils jüngsten Ausgabe
 
-# In[38]:
+# In[15]:
 
 
 #%sql SELECT Titel, Jahr 
 #FROM Film Alt 
 #WHERE Jahr < ANY ( SELECT Jahr FROM Film WHERE Titel = Alt.Titel);
 
-__SQL__ = "SELECT Titel, Jahr FROM Film Alt WHERE Jahr < ANY ( SELECT Jahr FROM Film WHERE Titel = Alt.Titel)"
+__SQL__ = "SELECT Titel, Jahr FROM Film Alt WHERE Jahr < ANY (SELECT Jahr FROM Film WHERE Titel = Alt.Titel)"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1831,34 +1906,54 @@ for row in rows:
 # <br>
 # Name und Gehalt aller Mitarbeiter in Potsdam
 
-# In[ ]:
+# In[10]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Name, Gehalt
-FROM Personal p
-WHERE AbtID IN
-    (SELECT AbtID
-    FROM Abteilung
-    WHERE Ort =
-‘Potsdam‘)
+#SELECT Name, Gehalt
+#FROM Personal p
+#WHERE AbtID IN
+#    (SELECT AbtID
+#    FROM Abteilung
+#    WHERE Ort =
+#‘Potsdam‘)
+
+__SQL__ = "SELECT Name, Gehalt FROM Personal p WHERE AbtID IN (SELECT AbtID FROM Abteilung WHERE Standort = 'Potsdam')"
+conn = sqlite3.connect("abteilung/abteilung.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # Korreliert:
 # <br>
 # Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbudgets ist.
 
-# In[ ]:
+# In[13]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Name, Gehalt
-FROM Personal p
-WHERE Gehalt >
-    (SELECT 0.1*Budget
-    FROM Abteilung a
-    WHERE a.AbtID =
-p.AbtID)
+#SELECT Name, Gehalt
+#FROM Personal p
+#WHERE Gehalt >
+#    (SELECT 0.1*Budget
+#    FROM Abteilung a
+#    WHERE a.AbtID =
+#p.AbtID)
+
+__SQL__ = "SELECT Name, Gehalt FROM Personal p WHERE Gehalt > (SELECT 0.1*Budget FROM Abteilung a WHERE a.AbtID = p.AbtID)"
+conn = sqlite3.connect("abteilung/abteilung.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ## Operationen auf einer Relation
@@ -2799,7 +2894,7 @@ WHERE Jahr = 1979;
 
 # ■ Umwandlung der ursprünglichen Anfrage in eine Anfrage an Basisrelationen
 
-# In[84]:
+# In[8]:
 
 
 #SELECT Titel 
@@ -2807,7 +2902,7 @@ WHERE Jahr = 1979;
 #WHERE StudioName = "Paramount" 
 #AND Jahr = 1979;
 
-__SQL__ = "SELECT Titel FROM Film WHERE Jahr = 1979 AND StudioName ='Paramount';"
+__SQL__ = "SELECT Titel FROM Film WHERE Jahr = 1979 AND StudioName = 'Paramount';"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)

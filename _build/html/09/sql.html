@@ -1293,6 +1293,8 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
 <span class="o">%</span><span class="k">load_ext</span> sql
 <span class="o">%</span><span class="k">sql</span> sqlite:///filme/filme.db
+<span class="o">%</span><span class="k">sql</span> sqlite:///abteilung/abteilung.db
+<span class="o">%</span><span class="k">sql</span> sqlite:///buecher/buecher.db
 <span class="o">%</span><span class="k">sql</span> sqlite:///salesDB/salesDB
 </pre></div>
 </div>
@@ -5341,16 +5343,92 @@ werden kann.
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT a.Name, a.Standort FROM Abteilung a WHERE (SELECT AVG(bonus) FROM personal p WHERE a.AbtID = p.AbtID)&gt;(SELECT AVG(gehalt) FROM personal p WHERE a.AbtID = p.AbtID)&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;abteilung/abteilung.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HR Potsdam 
+Produktion München 
+Geschäftsleitung Potsdam 
+PR Potsdam 
+Kundendienst Hannover 
+Buchhaltung Potsdam 
+</pre></div>
+</div>
+</div>
+</div>
 <p>■ Alle Potsdamer Abteilungen mit ihrem Maximalgehalt.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%sql
-SELECT a.AbtID, a.Name,
-           (SELECT MAX(Gehalt)
-                FROM Personal p
-            WHERE a.AbtID = p.AbtID) AS maxGehalt
-FROM Abteilung a
-WHERE a.Ort = ‘Potsdam‘
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT a.AbtID, a.Name,</span>
+<span class="c1">#           (SELECT MAX(Gehalt)</span>
+<span class="c1">#                FROM Personal p</span>
+<span class="c1">#            WHERE a.AbtID = p.AbtID) AS maxGehalt</span>
+<span class="c1">#FROM Abteilung a</span>
+<span class="c1">#WHERE a.Ort = ‘Potsdam‘</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT a.AbtID, a.Name, (SELECT MAX(Gehalt) FROM Personal p WHERE a.AbtID = p.AbtID) AS maxGehalt FROM Abteilung a WHERE a.Standort = &#39;Potsdam&#39;&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;abteilung/abteilung.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1111 HR 4536 
+1234 IT 9999 
+2850 Geschäftsleitung 2774 
+4567 PR 2846 
+9999 Buchhaltung 8653 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT a.AbtID, a.Name, MAX(p.Gehalt) AS maxGehalt</span>
+<span class="c1">#FROM Abteilung a, Personal p</span>
+<span class="c1">#WHERE a.Ort = ‘Potsdam‘</span>
+<span class="c1">#AND a.AbtID = p.AbtID</span>
+<span class="c1">#GROUP BY a.AbtID, a.Name</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT a.AbtID, a.Name, MAX(p.Gehalt) AS maxGehalt FROM Abteilung a, Personal p WHERE a.Standort = &#39;Potsdam&#39; AND a.AbtID = p.AbtID GROUP BY a.AbtID, a.Name&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;abteilung/abteilung.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1111 HR 4536 
+1234 IT 9999 
+2850 Geschäftsleitung 2774 
+4567 PR 2846 
+9999 Buchhaltung 8653 
 </pre></div>
 </div>
 </div>
@@ -5358,18 +5436,6 @@ WHERE a.Ort = ‘Potsdam‘
 <p>■ Anmerkung: Auch Abteilungen ohne Mitarbeiter erscheinen im Ergebnis.
 <br><br>
 ■ Nicht so in der folgenden Anfrage:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%sql
-SELECT a.AbtID, a.Name, MAX(p.Gehalt) AS maxGehalt
-FROM Abteilung a, Personal p
-WHERE a.Ort = ‘Potsdam‘
-AND a.AbtID = p.AbtID
-GROUP BY a.AbtID, a.Name
-</pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="section" id="bedingungen-mit-relationen">
@@ -5413,13 +5479,32 @@ GROUP BY a.AbtID, a.Name
 <p>■ ISBNs aller ausgeliehenen Bücher</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span>
-<span class="n">SELECT</span> <span class="n">ISBN</span>
-<span class="n">FROM</span> <span class="n">BuchExemplar</span>
-<span class="n">WHERE</span> <span class="n">EXISTS</span>
-     <span class="p">(</span><span class="n">SELECT</span> <span class="o">*</span>
-      <span class="n">FROM</span> <span class="n">Ausleihe</span>
-      <span class="n">WHERE</span> <span class="n">Ausleihe</span><span class="o">.</span><span class="n">Inventarnr</span> <span class="o">=</span> <span class="n">BuchExemplar</span><span class="o">.</span><span class="n">Inventarnr</span><span class="p">)</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT ISBN</span>
+<span class="c1">#FROM BuchExemplar</span>
+<span class="c1">#WHERE EXISTS</span>
+<span class="c1">#     (SELECT *</span>
+<span class="c1">#      FROM Ausleihe</span>
+<span class="c1">#      WHERE Ausleihe.Inventarnr = BuchExemplar.Inventarnr) </span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT ISBN FROM BuchExemplar WHERE EXISTS (SELECT * FROM Ausleihe WHERE Ausleihe.Inventarnr = BuchExemplar.Inventarnr) &quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;buecher/buecher.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25379173 
+48828372 
+94488201 
+130319953 
+3898644006 
 </pre></div>
 </div>
 </div>
@@ -5453,10 +5538,27 @@ ihm nicht geprüft wurde.</p>
 <p>■ Eine Auswahl an Büchern</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%sql
-SELECT Titel
-FROM Bücher
-WHERE ISBN IN (‘3898644006‘, ‘1608452204‘, ‘0130319953‘)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT Titel</span>
+<span class="c1">#FROM Bücher</span>
+<span class="c1">#WHERE ISBN IN (3898644006, 1608452204, 0130319953)</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel FROM BuchExemplar WHERE ISBN IN (3898644006, 1608452204, 0130319953)&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;buecher/buecher.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The Catcher in the Rye 
+To Kill a Mockingbird 
+Moby Dick 
 </pre></div>
 </div>
 </div>
@@ -5563,6 +5665,39 @@ AND Note &gt;= ALL (SELECT Note
 <span class="n">FROM</span> <span class="n">Student</span>
 <span class="n">WHERE</span> <span class="n">Matrikel</span> <span class="o">=</span> <span class="n">ANY</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">Matrikel</span>
                       <span class="n">FROM</span> <span class="n">Prüft</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Alternative zum Bsp oben</span>
+<span class="c1">#Name und Geburtstag der Schauspieler*Innen, die in spielt_in auftauchen</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Geburtstag FROM SchauspielerIn WHERE Name = ANY (SELECT Name FROM spielt_in)&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="nn">Input In [7],</span> in <span class="ni">&lt;cell line: 7&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+
+<span class="ne">OperationalError</span>: near &quot;SELECT&quot;: syntax error
 </pre></div>
 </div>
 </div>
@@ -5699,7 +5834,7 @@ Anfrage
 <span class="c1">#FROM Film Alt </span>
 <span class="c1">#WHERE Jahr &lt; ANY ( SELECT Jahr FROM Film WHERE Titel = Alt.Titel);</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel, Jahr FROM Film Alt WHERE Jahr &lt; ANY ( SELECT Jahr FROM Film WHERE Titel = Alt.Titel)&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel, Jahr FROM Film Alt WHERE Jahr &lt; ANY (SELECT Jahr FROM Film WHERE Titel = Alt.Titel)&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -5715,7 +5850,7 @@ Anfrage
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [38],</span> in <span class="ni">&lt;cell line: 8&gt;</span><span class="nt">()</span>
+<span class="nn">Input In [15],</span> in <span class="ni">&lt;cell line: 8&gt;</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="ne">----&gt; </span><span class="mi">8</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -5734,14 +5869,37 @@ Anfrage
 Name und Gehalt aller Mitarbeiter in Potsdam</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%sql
-SELECT Name, Gehalt
-FROM Personal p
-WHERE AbtID IN
-    (SELECT AbtID
-    FROM Abteilung
-    WHERE Ort =
-‘Potsdam‘)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT Name, Gehalt</span>
+<span class="c1">#FROM Personal p</span>
+<span class="c1">#WHERE AbtID IN</span>
+<span class="c1">#    (SELECT AbtID</span>
+<span class="c1">#    FROM Abteilung</span>
+<span class="c1">#    WHERE Ort =</span>
+<span class="c1">#‘Potsdam‘)</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Gehalt FROM Personal p WHERE AbtID IN (SELECT AbtID FROM Abteilung WHERE Standort = &#39;Potsdam&#39;)&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;abteilung/abteilung.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cem Urban 3645 
+Jonathan Müller 4536 
+Anna Graf 2345 
+Erik Meyer 9999 
+Max Mustermann 4567 
+Diana Bakker 2774 
+Sascha Stark 2846 
+Hans Meyer 2675 
+Peter Silie 8653 
 </pre></div>
 </div>
 </div>
@@ -5751,14 +5909,31 @@ WHERE AbtID IN
 Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbudgets ist.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span>
-<span class="n">SELECT</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Gehalt</span>
-<span class="n">FROM</span> <span class="n">Personal</span> <span class="n">p</span>
-<span class="n">WHERE</span> <span class="n">Gehalt</span> <span class="o">&gt;</span>
-    <span class="p">(</span><span class="n">SELECT</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">Budget</span>
-    <span class="n">FROM</span> <span class="n">Abteilung</span> <span class="n">a</span>
-    <span class="n">WHERE</span> <span class="n">a</span><span class="o">.</span><span class="n">AbtID</span> <span class="o">=</span>
-<span class="n">p</span><span class="o">.</span><span class="n">AbtID</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT Name, Gehalt</span>
+<span class="c1">#FROM Personal p</span>
+<span class="c1">#WHERE Gehalt &gt;</span>
+<span class="c1">#    (SELECT 0.1*Budget</span>
+<span class="c1">#    FROM Abteilung a</span>
+<span class="c1">#    WHERE a.AbtID =</span>
+<span class="c1">#p.AbtID)</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Gehalt FROM Personal p WHERE Gehalt &gt; (SELECT 0.1*Budget FROM Abteilung a WHERE a.AbtID = p.AbtID)&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;abteilung/abteilung.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jonathan Müller 4536 
+Peter Silie 8653 
+Jasmin Helmstedt 3574 
 </pre></div>
 </div>
 </div>
@@ -7049,7 +7224,7 @@ Michael Stonebraker: Implementation of Integrity Constraints and Views by Query 
 <span class="c1">#WHERE StudioName = &quot;Paramount&quot; </span>
 <span class="c1">#AND Jahr = 1979;</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel FROM Film WHERE Jahr = 1979 AND StudioName =&#39;Paramount&#39;;&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Titel FROM Film WHERE Jahr = 1979 AND StudioName = &#39;Paramount&#39;;&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
