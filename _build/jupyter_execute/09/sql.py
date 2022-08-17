@@ -1100,7 +1100,7 @@ AND o_orderkey = l_orderkey
 # <br><br>
 # ■ Schauspieler*innen, die zugleich Manager*in sind
 
-# In[61]:
+# In[2]:
 
 
 #SELECT Name, Adresse, Geburtstag, Gehalt 
@@ -1121,12 +1121,12 @@ for row in rows:
 
 # ■ SchauspielerIn und gegebenenfalls ihre ManagerIninfo
 
-# In[62]:
+# In[4]:
 
 
 #…FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn
 
-__SQL__ = "SELECT * FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn"
+__SQL__ = "SELECT Name, Adresse, Geburtstag, Gehalt FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1142,12 +1142,12 @@ for row in rows:
 # 
 # ■ ManagerIn und gegebenenfalls ihre Schauspielerinfo
 
-# In[18]:
+# In[8]:
 
 
 #…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn
 
-__SQL__ = "SELECT * FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn"
+__SQL__ = "SELECT Name, Adresse, Geburtstag, Gehalt FROM ManagerIn NATURAL LEFT OUTER JOIN SchauspielerIn"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)
@@ -1163,12 +1163,12 @@ for row in rows:
 # 
 # ■ Alle Schauspieler*innen und Manager*innen
 
-# In[19]:
+# In[9]:
 
 
 #…FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn
 
-__SQL__ = "SELECT * FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn"
+__SQL__ = "SELECT Name, Adresse, Geburtstag, Gehalt FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn UNION SELECT Name, Adresse, Geburtstag, Gehalt FROM ManagerIn NATURAL LEFT OUTER JOIN SchauspielerIn"
 conn = sqlite3.connect("filme/filme.db")
 cur = conn.cursor()
 cur.execute(__SQL__)

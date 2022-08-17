@@ -3021,7 +3021,7 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#…FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Adresse, Geburtstag, Gehalt FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -3035,39 +3035,39 @@ REGION is randomly selected within the list of values defined for R_NAME</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Arnold Schwarzenegger 3110 Main Street, Suite 300, Santa Monica, CA 90405-5354 m 1947-07-30 None None 
-Sharon Stone 407 N Maple Dr Suite 100, Beverly Hills, CA 90210-3818 f 1958-03-10 None None 
-Robert Pattinson William Morris Endeavor Entertainment, 9601 Wilshire Blvd. 3rd Floor, Beverly Hills, CA 90210-5213 m 1986-05-13 None None 
-Scarlet Johansson 15821 Ventura Blvs., Suite 370, Encino CA 91436 USA f 1984-11-22 None None 
-Saorise Ronan MacFarlane Chard Associates Ltd., 24 Adelaide Street, Dun Laoghaire Co. Dublin f 1994-04-12 None None 
-Jake Gyllenhaal Wilshire Boulevard, 3rd Floor, Beverly Hills, 90210-5213, California m 1980-12-19 None None 
-Heath Ledger 421 Broome Street, Lower Manhatta, New York City m 1979-04-04 None None 
-Mark Hamill P.O. Box 287, Grand Blanc, MI 48480 m 1951-09-25 None None 
-Carrie Fisher 6514 Lankershim Blvd. North Hollywood, California f 1956-10-21 None None 
-Harrison Ford P.O. Box 49344 Los Angeles, CA 90049-0344 m 1942-07-13 None None 
-Emile Hirsch 9336 Civic Center Drive, Beverly Hills, CA 90210-3604 m 1985-03-13 None None 
-Vincent Cassel 42/44 rue de Paradis, 75010 Paris m 1966-11-23 None None 
-Meryl Streep 42 West, 600 3rd Avenue, 23rd Floor, New York f 1949-06-22 None None 
-Cameron Diaz 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 f 1972-08-30 None None 
-Emma Stone Wilshire Blvd., Suite 930, Beverly Hills, CA 90212 f 1988-11-06 None None 
-Phyllis Smith 8383 Wilshire Blvd., Suite 100, Beverly Hills, CA 90211 f 1951-07-10 None None 
-Willem Dafoe 9601 Wilshire Blvd., 3rd Floor, Beverly Hills, CA 90210-5213 m 1995-07-22 None None 
-Leonardo DiCaprio 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 m 1974-11-11 None None 
-Tobey Maguire 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 m 1975-06-27 None None 
-Samuel L. Jackson 8501 Washington Blvd., Culver City, CA 90232-7443 m 1948-12-21 None None 
-Will Smith 1880 Century Park East, Suite 1600, Los Angeles, CA 90067 m 1968-09-25 None None 
-Tom Hanks P.O. Box 7340, Santa Monica, CA 90406-7340 m 1956-07-09 None None 
-Kirsten Dunst 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 f 1982-04-30 None None 
-Ryan Gosling 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 m 1980-11-12 None None 
-Mahershala Ali 4208 Overland Avenue Culver City, CA 90230-3736 m 1974-02-16 None None 
-William Shatner 5555 Melrose Avenue, Dreier 211, Hollywood, CA 90038 m 1931-03-22 None None 
-Alan Young P.O. Box 14 Rimrock, AZ 86335 m 1919-11-19 None None 
-Jared Leto 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 m 1971-12-26 None None 
-Adam Driver 15260 Ventura Blvd. Suite 900, Sherman Oaks, CA 91403 m 1983-11-19 None None 
-Lady Gaga 401 Broadway Suite 206, New York, NY 10013 f 1986-03-20 None None 
-Daniel Craig 40 Whitfield Street, London, W1T 2RH m 1968-03-02 None None 
-Léa Seydoux 42/44 rue de Paradis, 75010 Paris f 1985-07-01 None None 
-Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 None None 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Arnold Schwarzenegger 3110 Main Street, Suite 300, Santa Monica, CA 90405-5354 1947-07-30 None 
+Sharon Stone 407 N Maple Dr Suite 100, Beverly Hills, CA 90210-3818 1958-03-10 None 
+Robert Pattinson William Morris Endeavor Entertainment, 9601 Wilshire Blvd. 3rd Floor, Beverly Hills, CA 90210-5213 1986-05-13 None 
+Scarlet Johansson 15821 Ventura Blvs., Suite 370, Encino CA 91436 USA 1984-11-22 None 
+Saorise Ronan MacFarlane Chard Associates Ltd., 24 Adelaide Street, Dun Laoghaire Co. Dublin 1994-04-12 None 
+Jake Gyllenhaal Wilshire Boulevard, 3rd Floor, Beverly Hills, 90210-5213, California 1980-12-19 None 
+Heath Ledger 421 Broome Street, Lower Manhatta, New York City 1979-04-04 None 
+Mark Hamill P.O. Box 287, Grand Blanc, MI 48480 1951-09-25 None 
+Carrie Fisher 6514 Lankershim Blvd. North Hollywood, California 1956-10-21 None 
+Harrison Ford P.O. Box 49344 Los Angeles, CA 90049-0344 1942-07-13 None 
+Emile Hirsch 9336 Civic Center Drive, Beverly Hills, CA 90210-3604 1985-03-13 None 
+Vincent Cassel 42/44 rue de Paradis, 75010 Paris 1966-11-23 None 
+Meryl Streep 42 West, 600 3rd Avenue, 23rd Floor, New York 1949-06-22 None 
+Cameron Diaz 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 1972-08-30 None 
+Emma Stone Wilshire Blvd., Suite 930, Beverly Hills, CA 90212 1988-11-06 None 
+Phyllis Smith 8383 Wilshire Blvd., Suite 100, Beverly Hills, CA 90211 1951-07-10 None 
+Willem Dafoe 9601 Wilshire Blvd., 3rd Floor, Beverly Hills, CA 90210-5213 1995-07-22 None 
+Leonardo DiCaprio 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 1974-11-11 None 
+Tobey Maguire 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 1975-06-27 None 
+Samuel L. Jackson 8501 Washington Blvd., Culver City, CA 90232-7443 1948-12-21 None 
+Will Smith 1880 Century Park East, Suite 1600, Los Angeles, CA 90067 1968-09-25 None 
+Tom Hanks P.O. Box 7340, Santa Monica, CA 90406-7340 1956-07-09 None 
+Kirsten Dunst 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 1982-04-30 None 
+Ryan Gosling 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 1980-11-12 None 
+Mahershala Ali 4208 Overland Avenue Culver City, CA 90230-3736 1974-02-16 None 
+William Shatner 5555 Melrose Avenue, Dreier 211, Hollywood, CA 90038 1931-03-22 None 
+Alan Young P.O. Box 14 Rimrock, AZ 86335 1919-11-19 None 
+Jared Leto 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 1971-12-26 None 
+Adam Driver 15260 Ventura Blvd. Suite 900, Sherman Oaks, CA 91403 1983-11-19 None 
+Lady Gaga 401 Broadway Suite 206, New York, NY 10013 1986-03-20 None 
+Daniel Craig 40 Whitfield Street, London, W1T 2RH 1968-03-02 None 
+Léa Seydoux 42/44 rue de Paradis, 75010 Paris 1985-07-01 None 
+Christoph Waltz Sophienstrasse 21, 10178 Berlin 1956-10-04 None 
 </pre></div>
 </div>
 </div>
@@ -3078,7 +3078,7 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 None None
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Adresse, Geburtstag, Gehalt FROM ManagerIn NATURAL LEFT OUTER JOIN SchauspielerIn&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -3092,16 +3092,21 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 None None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [18],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: RIGHT and FULL OUTER JOINs are not currently supported
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bob Chapek 500 S Buena Vista St, Burbank, CA 91521 None 2667846,08 
+Jim Morris 1200 Park Ave, Emeryville, CA 94608 None 16918,33 
+Paul Golding Pinewood Rd, Slough, Iver SL0 0NH None 10235,4 
+Bill Pohlad 5555 Melrose Ave, Los Angeles, CA 90038 None 739482,89 
+Scott Rudin 120 W. 45th St., 10th Fl., New York, New York 10036 None 15758,57 
+Daniel Katz 31 West 27th Street, New York City None 13450,13 
+Brian Robbins 2000 Avenue of the Stars Suite 620-N Los Angeles None 12345,57 
+Ann Sarnoff 10100 Santa Monica Blvd., Los Angeles, CA 90404 None 24123,56 
+Jim Berk 3520 Wesley Street, Culver City, CA 90232 None 88584,1 
+Robert Kirby Entertainment Rd, Oxenford, Queensland 4210, AU None 45678,9 
+Steve Asbell 10201 Pico Blvd, Los Angeles, CA 90064 None 12678,1 
+Alan Bruckner 25 Whitlam Ave Unit 3, Etobicoke, ON M8V2K1 None 17853,41 
+Isaac Perlmutter 4000 Warner Blvd., Burbank, CA 91522 None 18456,1 
+Quentin Tarantino 10100 Santa Monica Blvd., Los Angeles, CA 90404 None 12345,57 
+Louis B.Mayer 625 Palisades Beach Rd, Santa Monica  None 83333,33 
 </pre></div>
 </div>
 </div>
@@ -3112,7 +3117,7 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 None None
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#…FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn</span>
 
-<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn&quot;</span>
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT Name, Adresse, Geburtstag, Gehalt FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn UNION SELECT Name, Adresse, Geburtstag, Gehalt FROM ManagerIn NATURAL LEFT OUTER JOIN SchauspielerIn&quot;</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
 <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
@@ -3126,16 +3131,54 @@ Christoph Waltz Sophienstrasse 21, 10178 Berlin m 1956-10-04 None None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [19],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;filme/filme.db&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-
-<span class="ne">OperationalError</span>: RIGHT and FULL OUTER JOINs are not currently supported
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adam Driver 15260 Ventura Blvd. Suite 900, Sherman Oaks, CA 91403 1983-11-19 None 
+Alan Bruckner 25 Whitlam Ave Unit 3, Etobicoke, ON M8V2K1 None 17853,41 
+Alan Young P.O. Box 14 Rimrock, AZ 86335 1919-11-19 None 
+Ann Sarnoff 10100 Santa Monica Blvd., Los Angeles, CA 90404 None 24123,56 
+Arnold Schwarzenegger 3110 Main Street, Suite 300, Santa Monica, CA 90405-5354 1947-07-30 None 
+Bill Pohlad 5555 Melrose Ave, Los Angeles, CA 90038 None 739482,89 
+Bob Chapek 500 S Buena Vista St, Burbank, CA 91521 None 2667846,08 
+Brian Robbins 2000 Avenue of the Stars Suite 620-N Los Angeles None 12345,57 
+Cameron Diaz 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 1972-08-30 None 
+Carrie Fisher 6514 Lankershim Blvd. North Hollywood, California 1956-10-21 None 
+Christoph Waltz Sophienstrasse 21, 10178 Berlin 1956-10-04 None 
+Daniel Craig 40 Whitfield Street, London, W1T 2RH 1968-03-02 None 
+Daniel Katz 31 West 27th Street, New York City None 13450,13 
+Emile Hirsch 9336 Civic Center Drive, Beverly Hills, CA 90210-3604 1985-03-13 None 
+Emma Stone Wilshire Blvd., Suite 930, Beverly Hills, CA 90212 1988-11-06 None 
+Harrison Ford P.O. Box 49344 Los Angeles, CA 90049-0344 1942-07-13 None 
+Heath Ledger 421 Broome Street, Lower Manhatta, New York City 1979-04-04 None 
+Isaac Perlmutter 4000 Warner Blvd., Burbank, CA 91522 None 18456,1 
+Jake Gyllenhaal Wilshire Boulevard, 3rd Floor, Beverly Hills, 90210-5213, California 1980-12-19 None 
+Jared Leto 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 1971-12-26 None 
+Jim Berk 3520 Wesley Street, Culver City, CA 90232 None 88584,1 
+Jim Morris 1200 Park Ave, Emeryville, CA 94608 None 16918,33 
+Kirsten Dunst 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 1982-04-30 None 
+Lady Gaga 401 Broadway Suite 206, New York, NY 10013 1986-03-20 None 
+Leonardo DiCaprio 2000 Avenue Of The Stars, 3rd Floor, North Tower, Century City, CA 90067 1974-11-11 None 
+Louis B.Mayer 625 Palisades Beach Rd, Santa Monica  None 83333,33 
+Léa Seydoux 42/44 rue de Paradis, 75010 Paris 1985-07-01 None 
+Mahershala Ali 4208 Overland Avenue Culver City, CA 90230-3736 1974-02-16 None 
+Mark Hamill P.O. Box 287, Grand Blanc, MI 48480 1951-09-25 None 
+Meryl Streep 42 West, 600 3rd Avenue, 23rd Floor, New York 1949-06-22 None 
+Paul Golding Pinewood Rd, Slough, Iver SL0 0NH None 10235,4 
+Phyllis Smith 8383 Wilshire Blvd., Suite 100, Beverly Hills, CA 90211 1951-07-10 None 
+Quentin Tarantino 10100 Santa Monica Blvd., Los Angeles, CA 90404 None 12345,57 
+Robert Kirby Entertainment Rd, Oxenford, Queensland 4210, AU None 45678,9 
+Robert Pattinson William Morris Endeavor Entertainment, 9601 Wilshire Blvd. 3rd Floor, Beverly Hills, CA 90210-5213 1986-05-13 None 
+Ryan Gosling 6311 Romaine Street, Suite 7327, Los Angeles, CA 90038-2617 1980-11-12 None 
+Samuel L. Jackson 8501 Washington Blvd., Culver City, CA 90232-7443 1948-12-21 None 
+Saorise Ronan MacFarlane Chard Associates Ltd., 24 Adelaide Street, Dun Laoghaire Co. Dublin 1994-04-12 None 
+Scarlet Johansson 15821 Ventura Blvs., Suite 370, Encino CA 91436 USA 1984-11-22 None 
+Scott Rudin 120 W. 45th St., 10th Fl., New York, New York 10036 None 15758,57 
+Sharon Stone 407 N Maple Dr Suite 100, Beverly Hills, CA 90210-3818 1958-03-10 None 
+Steve Asbell 10201 Pico Blvd, Los Angeles, CA 90064 None 12678,1 
+Tobey Maguire 10100 Santa Monica Blvd., Suite 2300, Los Angeles, CA 90067 1975-06-27 None 
+Tom Hanks P.O. Box 7340, Santa Monica, CA 90406-7340 1956-07-09 None 
+Vincent Cassel 42/44 rue de Paradis, 75010 Paris 1966-11-23 None 
+Will Smith 1880 Century Park East, Suite 1600, Los Angeles, CA 90067 1968-09-25 None 
+Willem Dafoe 9601 Wilshire Blvd., 3rd Floor, Beverly Hills, CA 90210-5213 1995-07-22 None 
+William Shatner 5555 Melrose Avenue, Dreier 211, Hollywood, CA 90038 1931-03-22 None 
 </pre></div>
 </div>
 </div>
