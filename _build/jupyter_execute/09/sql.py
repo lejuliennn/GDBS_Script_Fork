@@ -11,7 +11,8 @@ get_ipython().run_line_magic('load_ext', 'sql')
 get_ipython().run_line_magic('sql', 'sqlite:///filme/filme.db')
 get_ipython().run_line_magic('sql', 'sqlite:///abteilung/abteilung.db')
 get_ipython().run_line_magic('sql', 'sqlite:///buecher/buecher.db')
-get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB')
+get_ipython().run_line_magic('sql', 'sqlite:///rst/rst.db')
+get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB.db')
 
 
 # In[2]:
@@ -898,31 +899,51 @@ for row in rows:
 # <br><br>
 # ■ Gesucht: R $\cap$ (S $\cup$ T) (= (R $\cap$ S) $\cup$ (R $\cap$ T) )
 
-# In[ ]:
+# In[2]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT R.A
-FROM R, S, T
-WHERE R.A = S.A
-OR R.A = T.A;
+#SELECT R.A
+#FROM R, S, T
+#WHERE R.A = S.A
+#OR R.A = T.A;
+
+__SQL__ = "SELECT R.A FROM R, S, T WHERE R.A = S.A OR R.A = T.A;"
+conn = sqlite3.connect("rst/rst.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
-# In[ ]:
+# In[11]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT *
-FROM
-(
-    (SELECT A FROM R)
-     INTERSECT
-    (SELECT * FROM
-     (SELECT A FROM S)
-      UNION
-    (SELECT A FROM T)
-    )
-)
+#SELECT *
+#FROM
+#(
+#    (SELECT A FROM R)
+#     INTERSECT
+#    (SELECT * FROM
+#     (SELECT A FROM S)
+#      UNION
+#    (SELECT A FROM T)
+#   )
+#)
+
+__SQL__ = "SELECT * FROM (SELECT A FROM R) INTERSECT (SELECT * FROM (SELECT A FROM S) UNION (SELECT A FROM T))"
+conn = sqlite3.connect("rst/rst.db")
+cur = conn.cursor()
+cur.execute(__SQL__)
+rows = cur.fetchall()
+
+for row in rows:
+    for col in row:
+        print(col,end=' ')
+    print()
 
 
 # ■ Problemfall: T ist leer, hat also kein Tupel
@@ -1045,7 +1066,7 @@ ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
 SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = [SIZE] AND p_type like '%[TYPE]' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
 
 
-# In[15]:
+# In[12]:
 
 
 __SQL__ = "SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = [SIZE] AND p_type like '%[TYPE]' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;"

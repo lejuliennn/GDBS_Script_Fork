@@ -1295,7 +1295,8 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="o">%</span><span class="k">sql</span> sqlite:///filme/filme.db
 <span class="o">%</span><span class="k">sql</span> sqlite:///abteilung/abteilung.db
 <span class="o">%</span><span class="k">sql</span> sqlite:///buecher/buecher.db
-<span class="o">%</span><span class="k">sql</span> sqlite:///salesDB/salesDB
+<span class="o">%</span><span class="k">sql</span> sqlite:///rst/rst.db
+<span class="o">%</span><span class="k">sql</span> sqlite:///salesDB/salesDB.db
 </pre></div>
 </div>
 </div>
@@ -2678,29 +2679,70 @@ Léa Seydoux Vincent Cassel
 ■ Gesucht: R <span class="math notranslate nohighlight">\(\cap\)</span> (S <span class="math notranslate nohighlight">\(\cup\)</span> T) (= (R <span class="math notranslate nohighlight">\(\cap\)</span> S) <span class="math notranslate nohighlight">\(\cup\)</span> (R <span class="math notranslate nohighlight">\(\cap\)</span> T) )</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span>
-<span class="n">SELECT</span> <span class="n">R</span><span class="o">.</span><span class="n">A</span>
-<span class="n">FROM</span> <span class="n">R</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">T</span>
-<span class="n">WHERE</span> <span class="n">R</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">A</span>
-<span class="n">OR</span> <span class="n">R</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">A</span><span class="p">;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT R.A</span>
+<span class="c1">#FROM R, S, T</span>
+<span class="c1">#WHERE R.A = S.A</span>
+<span class="c1">#OR R.A = T.A;</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT R.A FROM R, S, T WHERE R.A = S.A OR R.A = T.A;&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;rst/rst.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 
+6 
+4 
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span>
-<span class="n">SELECT</span> <span class="o">*</span>
-<span class="n">FROM</span>
-<span class="p">(</span>
-    <span class="p">(</span><span class="n">SELECT</span> <span class="n">A</span> <span class="n">FROM</span> <span class="n">R</span><span class="p">)</span>
-     <span class="n">INTERSECT</span>
-    <span class="p">(</span><span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span>
-     <span class="p">(</span><span class="n">SELECT</span> <span class="n">A</span> <span class="n">FROM</span> <span class="n">S</span><span class="p">)</span>
-      <span class="n">UNION</span>
-    <span class="p">(</span><span class="n">SELECT</span> <span class="n">A</span> <span class="n">FROM</span> <span class="n">T</span><span class="p">)</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#SELECT *</span>
+<span class="c1">#FROM</span>
+<span class="c1">#(</span>
+<span class="c1">#    (SELECT A FROM R)</span>
+<span class="c1">#     INTERSECT</span>
+<span class="c1">#    (SELECT * FROM</span>
+<span class="c1">#     (SELECT A FROM S)</span>
+<span class="c1">#      UNION</span>
+<span class="c1">#    (SELECT A FROM T)</span>
+<span class="c1">#   )</span>
+<span class="c1">#)</span>
+
+<span class="n">__SQL__</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM (SELECT A FROM R) INTERSECT (SELECT * FROM (SELECT A FROM S) UNION (SELECT A FROM T))&quot;</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;rst/rst.db&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="nn">Input In [11],</span> in <span class="ni">&lt;cell line: 16&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;rst/rst.db&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">16</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+
+<span class="ne">OperationalError</span>: near &quot;(&quot;: syntax error
 </pre></div>
 </div>
 </div>
@@ -2941,7 +2983,7 @@ James Bond 007: Spectre 2015
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
-<span class="nn">Input In [15],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
+<span class="nn">Input In [12],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;salesDB/salesDB&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">__SQL__</span><span class="p">)</span>

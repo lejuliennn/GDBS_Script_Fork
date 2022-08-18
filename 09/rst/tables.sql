@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS R;
+CREATE TABLE R(
+	A integer);
+	
+DROP TABLE IF EXISTS S;
+CREATE TABLE S(
+	A integer);
+	
+DROP TABLE IF EXISTS T;
+CREATE TABLE T(
+	A integer);
+
+
+
+
