@@ -7,24 +7,17 @@
 
 
 import sqlite3
+import pandas as pd
 get_ipython().run_line_magic('load_ext', 'sql')
 get_ipython().run_line_magic('sql', 'sqlite:///filme/filme.db')
 get_ipython().run_line_magic('sql', 'sqlite:///abteilung/abteilung.db')
 get_ipython().run_line_magic('sql', 'sqlite:///buecher/buecher.db')
+get_ipython().run_line_magic('sql', 'sqlite:///lehre/lehre.db')
 get_ipython().run_line_magic('sql', 'sqlite:///rst/rst.db')
 get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB.db')
 
 
 # In[2]:
-
-
-import pandas as pd
-conn = sqlite3.connect("filme/filme.db")
-df = pd.read_sql_query("SELECT * FROM Film", conn)
-df
-
-
-# In[3]:
 
 
 __SQL__ = "SELECT * FROM Film"
@@ -798,7 +791,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# In[26]:
+# In[5]:
 
 
 #SELECT *
@@ -1000,10 +993,21 @@ df
 # 
 # ■ ManagerIn und gegebenenfalls ihre Schauspielerinfo
 
-# In[33]:
+# In[9]:
 
 
 #…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn
+
+__SQL__ = "SELECT Name, Adresse, Geburtstag, Gehalt FROM ManagerIn NATURAL RIGHT OUTER JOIN SchauspielerIn"
+conn = sqlite3.connect("filme/filme.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
+
+
+# RIGHT OUTER JOINS sind in sqlite3 nicht direkt möglich, da dieser Operator in sqlite3 nicht unterstützt wird. Man kann aber dennoch durch Vertauschen der Reihenfolge der Tabellen, die gewünschte Ausgabe mit LEFT OUTER JOINS erzeugen.
+
+# In[8]:
+
 
 __SQL__ = "SELECT Name, Adresse, Geburtstag, Gehalt FROM ManagerIn NATURAL LEFT OUTER JOIN SchauspielerIn"
 conn = sqlite3.connect("filme/filme.db")
@@ -1015,10 +1019,21 @@ df
 # 
 # ■ Alle Schauspieler*innen und Manager*innen
 
+# In[10]:
+
+
+#…FROM SchauspielerIn NATURAL RIGHT OUTER JOIN ManagerIn
+
+__SQL__ = "SELECT Name, Adresse, Geburtstag, Gehalt FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn"
+conn = sqlite3.connect("filme/filme.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
+
+
+# Ebenso werden FULL OUTER JOINS in sqlite3 nicht unterstützt. Eine alternative Anfrage mit äquivalenter Ausgabe, die nur LEFT OUTER JOINS verwendet ist möglich. Ein FULL OUTER JOIN ist die Vereinigung von dem LEFT und RIGHT OUTER JOIN zweier Tabellen. Wie im vorherigen Beispiel gezeigt, können wir RIGHT OUTER JOINS mithilfe von LEFT OUTER JOINS erzeugen.
+
 # In[34]:
 
-
-#…FROM SchauspielerIn NATURAL FULL OUTER JOIN ManagerIn
 
 __SQL__ = "SELECT Name, Adresse, Geburtstag, Gehalt FROM SchauspielerIn NATURAL LEFT OUTER JOIN ManagerIn UNION SELECT Name, Adresse, Geburtstag, Gehalt FROM ManagerIn NATURAL LEFT OUTER JOIN SchauspielerIn"
 conn = sqlite3.connect("filme/filme.db")
@@ -1160,7 +1175,7 @@ df
 # In[40]:
 
 
-#%sql (SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in) 
+#(SELECT Titel, Jahr FROM Film) EXCEPT (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in) 
 
 __SQL__ = "SELECT Titel, Jahr FROM Film EXCEPT SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in"
 conn = sqlite3.connect("filme/filme.db")
@@ -1172,10 +1187,25 @@ df
 # 
 # #### Klammerung
 
-# In[ ]:
+# In[6]:
 
 
-get_ipython().run_line_magic('sql', 'SELECT * FROM ((SELECT A FROM R)INTERSECT(SELECT * FROM (SELECT A FROM S) UNION (SELECT A FROM T)))')
+#SELECT *
+#FROM
+#(
+#    (SELECT A FROM R)
+#     INTERSECT
+#    (SELECT * FROM
+#     (SELECT A FROM S)
+#      UNION
+#    (SELECT A FROM T)
+#   )
+#)
+
+__SQL__ = "SELECT * FROM (SELECT A FROM R INTERSECT SELECT * FROM (SELECT A FROM S) UNION SELECT A FROM T)"
+conn = sqlite3.connect("rst/rst.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
 
 
 # ### Zusammenfassung der Semantik
@@ -1398,21 +1428,25 @@ df
 # ■ bzw. Lehrstuhlbezeichnungen von Professor*innen, so dass keine von diesem gelesene Vorlesung existiert, die von
 # ihm nicht geprüft wurde.
 
-# In[ ]:
+# In[18]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Lehrstuhlbezeichnung
-FROM Prof
-WHERE NOT EXISTS
-      (SELECT *
-       FROM Liest
-       WHERE Liest.PANr = Prof.PANr
-       AND NOT EXISTS (SELECT *
-                   FROM Prüft
-                   WHERE Prüft.PANr = Prof.PANr
-                   AND Prüft.VL_NR = Liest.VL_NR)
-) 
+#SELECT Lehrstuhlbezeichnung
+#FROM Prof
+#WHERE NOT EXISTS
+#      (SELECT *
+#       FROM Liest
+#       WHERE Liest.PANr = Prof.PANr
+#       AND NOT EXISTS (SELECT *
+#                   FROM Prueft
+#                   WHERE Prueft.PANr = Prof.PANr
+#                   AND Prüft.VL_NR = Liest.VL_NR)
+#) 
+
+__SQL__ = "SELECT Lehrstuhlbezeichnung FROM Prof WHERE NOT EXISTS (SELECT * FROM Liest WHERE Liest.PA_Nr = Prof.PA_Nr AND NOT EXISTS (SELECT * FROM Prueft WHERE Prueft.PA_Nr = Prof.PA_Nr AND Prueft.VL_NR = Liest.VL_NR)) "
+conn = sqlite3.connect("lehre/lehre.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
 
 
 # ### IN Beispiele
@@ -1433,38 +1467,50 @@ df
 
 # ■ Matrikel der Studenten, die zumindest einen Prüfer gemeinsam mit dem Studenten der Matrikel ‚123456‘ haben
 
-# In[ ]:
+# In[20]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT DISTINCT Matrikel
-FROM Prüft
-WHERE Prüfer IN ( SELECT Prüfer
-                  FROM Prüft
-                  WHERE Matrikel = ‘123456‘)``` 
+#SELECT DISTINCT Matrikel
+#FROM Prüft
+#WHERE Prüfer IN ( SELECT Prüfer
+#                  FROM Prüft
+#                  WHERE Matrikel = 123456) 
+
+__SQL__ = "SELECT DISTINCT Matrikel FROM Prueft WHERE Pruefer IN ( SELECT Pruefer FROM Prueft WHERE Matrikel = 123456) "
+conn = sqlite3.connect("lehre/lehre.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
 
 
-# In[ ]:
+# In[21]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT DISTINCT P1.Matrikel
-FROM Prüft P1, Prüft P2
-WHERE P2.Matrikel = `123456`
-AND P1.Prüfer = P2.Prüfer
+#SELECT DISTINCT P1.Matrikel
+#FROM Prueft P1, Prueft P2
+#WHERE P2.Matrikel = 123456
+#AND P1.Pruefer = P2.Pruefer
+
+__SQL__ = "SELECT DISTINCT P1.Matrikel FROM Prueft P1, Prueft P2 WHERE P2.Matrikel = 123456 AND P1.Pruefer = P2.Pruefer"
+conn = sqlite3.connect("lehre/lehre.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
 
 
 # ■ Nachnamen aller Professor*innen, die schon einmal eine 1,0 vergeben haben.
 
-# In[ ]:
+# In[25]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT Nachname
-FROM Prof
-WHERE 1.0 IN ( SELECT Note
-FROM Prüft
-WHERE Prüfer = Prof.ID )
+#SELECT Nachname
+#FROM Prof
+#WHERE 1.0 IN ( SELECT Note
+#FROM Prüft
+#WHERE Prüfer = Prof.ID )
+
+__SQL__ = "SELECT Nachname FROM Prof WHERE 1.0 IN ( SELECT Note FROM Prueft WHERE Pruefer = ProfID )"
+conn = sqlite3.connect("lehre/lehre.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
 
 
 # ■ Achtung: Korrelierte Subanfrage
@@ -1476,7 +1522,6 @@ WHERE Prüfer = Prof.ID )
 # In[ ]:
 
 
-get_ipython().run_line_magic('sql', '')
 SELECT Note
 FROM Prüft
 WHERE Matrikel = ‘123456‘
@@ -1485,18 +1530,15 @@ AND Note >= ALL (SELECT Note
                  WHERE Matrikel = ‘123456‘)
 
 
-# In[ ]:
+# Der Operator ALL wird nicht von sqlite3 unterstützt. Stattdessen kann man eine äquivalente Anfrage mithilfe MAX() formulieren.
+
+# In[27]:
 
 
-#äquivalent ohne ALL
-
-get_ipython().run_line_magic('sql', '')
-SELECT Note
-FROM Prüft
-WHERE Matrikel = ‘123456‘
-AND Note >=  (SELECT MIN(Note)
-                 FROM Prüft
-                 WHERE Matrikel = ‘123456‘)
+__SQL__ = "SELECT Note FROM Prueft WHERE Matrikel = 123456 AND Note >= (SELECT MAX(Note) FROM Prueft WHERE Matrikel = 123456)"
+conn = sqlite3.connect("lehre/lehre.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
 
 
 # ■ Alle Studenten, die mindestens eine Prüfung absolvierten
@@ -1504,21 +1546,19 @@ AND Note >=  (SELECT MIN(Note)
 # In[ ]:
 
 
-get_ipython().run_line_magic('sql', '')
 SELECT Name, Matrikel
 FROM Student
 WHERE Matrikel = ANY (SELECT Matrikel
                       FROM Prüft)
 
 
-# In[52]:
+# Der Operator ANY wird nicht von sqlite3 unterstützt. Stattdessen kann man eine äquivalente Anfrage mithilfe IN formulieren.
+
+# In[29]:
 
 
-#Alternative zum Bsp oben
-#Name und Geburtstag der Schauspieler*Innen, die in spielt_in auftauchen
-
-__SQL__ = "SELECT Name, Geburtstag FROM SchauspielerIn WHERE Name IN (SELECT Name FROM spielt_in)"
-conn = sqlite3.connect("filme/filme.db")
+__SQL__ = "SELECT Name, Matrikel FROM Student WHERE Matrikel IN (SELECT Matrikel FROM Prueft)"
+conn = sqlite3.connect("lehre/lehre.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
@@ -2239,7 +2279,7 @@ CREATE TABLE Schauspieler (
 Name CHAR(30),
 Adresse VARCHAR(255),
 Geschlecht CHAR(1) DEFAULT ‚?‘,
-Geburtstag DATE DEFAULT DATE ‚0000-00-00‘);
+Geburtstag DATE DEFAULT DATE ‚'0000-00-00');
 
 ALTER TABLE Schauspieler
 ADD Telefon CHAR(16) DEFAULT ‚unbekannt‘;
@@ -2360,13 +2400,14 @@ ON Film(Jahr, Studioname);
 # <br><br>
 # ■ Drei typische Anfragen
 
-# In[80]:
+# In[7]:
 
 
-#%sql SELECT FilmTitel, FilmJahr 
-#FROM spielt_in WHERE Name = s;
+#SELECT FilmTitel, FilmJahr 
+#FROM spielt_in 
+#WHERE Name = s;
 
-__SQL__ = "SELECT FilmTitel, FilmJahr FROM spielt_in WHERE Name = s"
+__SQL__ = "SELECT FilmTitel, FilmJahr FROM spielt_in WHERE Name = 's'"
 conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
