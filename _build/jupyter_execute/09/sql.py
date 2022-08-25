@@ -17,17 +17,14 @@ get_ipython().run_line_magic('sql', 'sqlite:///rst/rst.db')
 get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB.db')
 
 
-# In[2]:
-
-
-__SQL__ = "SELECT * FROM Film"
-conn = sqlite3.connect("filme/filme.db")
-df = pd.read_sql_query(__SQL__, conn)
-df
-
-
 # ## Einführung
+# 
+# Aus den vorherigen Kapiteln haben wir gelernt wie wir eine Datenbank auf Papier entwerfen, nun schauen wir uns die in der Realität benutzten technischen Mitteln an, insbesondere die Datenbankanfragesprache SQL.
+# 
 # ### SQL-Historie
+# 
+# SQL entstand durch die Ursprungssprache SEQUEL(1976, IBM Research Labs San Jose). Später entwickelte sich SEQUEL zu SEQUEL2(1976, IBM Research Labs San Jose), welche auf einer der Vorreitern von Datenbanksystemen "System R" benutzt wurde.
+# <br><br>
 # ■ SEQUEL (1974, IBM Research Labs San Jose)
 # <br><br>
 # ■ SEQUEL2 (1976, IBM Research Labs San Jose)
@@ -141,9 +138,14 @@ df
 
 # ## Einfach Anfragen
 
+# ### SELECT … FROM … WHERE …
+# 
+# SQL-Anfragen folgen meist einer Drei-Zeilen-Struktur aus SELECT, FROM, WHERE, wobei SELECT und FROM in jeder SQL-Anfrage enthalten sein müssen. Das Schlüsselwort SELECT entspricht dem Projektionsoperator $\pi$, den wir aus dem Kapitel Relationale Algebra schon kennengelernt haben. Die FROM-Zeile gibt an von welchen Tabellen die Daten stammen sollen. WHERE entspricht gewissermaßen dem Selektionsoperator $\sigma$, hier werden also Bedingungen an  die Tupel gestellt die diese erfüllen sollen.
+# 
+# Betrachten wir folgendes Beispielschema für Filme, welches aus den vorherigen Kapiteln bekannt sein sollte. Wir möchten nun eine Anfrage formulieren, die uns alle Filme ausgibt, welche von Disney produziert und im Jahre 1990 erschienen sind.
+
 # ### Beispielschema
 # ![title](beispielschema.jpg)
-# ### SELECT … FROM … WHERE …
 
 # In[4]:
 
@@ -157,6 +159,9 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
+
+# Wir benutzen SELECT \*, wodurch uns alle Attribute der ausgewählten Tabelle ausgibt, alternativ kann man auch SELECT Titel, Jahr, Laenge... machen. Da wir alle Filme ausgeben wollen, schreiben wir FROM Film, da wir Tupel aus der Tabelle Film wollen. Zuletzt selektieren wir die Tupel, die StudioName = "Disney" und Jahr = 1990 erfüllen.
+# 
 
 # ■ Lesereihenfolge (und Schreibreihenfolge):
 # <br>
