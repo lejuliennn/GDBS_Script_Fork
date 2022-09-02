@@ -160,8 +160,35 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# Wir benutzen SELECT \*, wodurch uns alle Attribute der ausgewählten Tabelle ausgibt, alternativ kann man auch SELECT Titel, Jahr, Laenge... machen. Da wir alle Filme ausgeben wollen, schreiben wir FROM Film, da wir Tupel aus der Tabelle Film wollen. Zuletzt selektieren wir die Tupel, die StudioName = "Disney" und Jahr = 1990 erfüllen.
+# Wir benutzen SELECT \*, wodurch uns alle Attribute der ausgewählten Tabelle ausgegeben werden, alternativ kann man auch SELECT Titel, Jahr, Laenge... machen. Da wir alle Filme ausgeben wollen, schreiben wir FROM Film, da wir Tupel aus der Tabelle Film wollen. Zuletzt selektieren wir die Tupel, die StudioName = "Disney" und Jahr = 1990 erfüllen.
 # 
+
+# In SQL wird Groß- und Kleinschreibung nicht beachtet, sowohl bei Schlüsselwörtern wie SELECT, FROM, WHERE usw., als auch bei Attribut- und Relationen.
+# <br><br>
+# D.h es gilt also:
+# ```
+# From = FROM = from = FrOm
+# ```
+# <br>
+# Und die folgenden Anfragen sind äquivalent:
+# 
+# ```
+# SELect vorNAMe fROm fiLM
+# ```
+# <br>
+# 
+# 
+# ```
+# SELECT vorname FROM film
+# ```
+# <br><br>
+# Anders ist es natürlich bei Konstanten:
+# 
+# ```
+# ‘FROM‘ ≠ ‘from‘ ≠ from = FROM
+# ```
+# <br><br>
+# Trotzdem gilt als Konvention zur Lesbarkeit, dass Schlüsselwörter großgeschrieben werden und Schemaelemente klein.
 
 # ■ Lesereihenfolge (und Schreibreihenfolge):
 # <br>
@@ -210,7 +237,13 @@ df
 # □ Schlüsselworte großschreiben
 # <br>
 # □ Schemaelemente kleinschreiben
+
 # ### Projektion in SQL (SELECT, $\pi$)
+# 
+# Wir betrachten nun die einzelnen Schlüsselwörter etwas genauer und starten mit der Projektion. In der SELECT Klausel werden Attribute von Relationen aufgelistet, die herausprojeziert werden sollen.
+# <br><br>
+# Im folgenden Beipiel wollen wir alle Attribute bzw. Spalten aus der Filmrelation ausgeben, der Stern "\*" ist hier eine kürzere Schreibweise für alle Attribute.
+# <br><br>
 # ■ Spezifikation in der SELECT Klausel
 
 # In[5]:
@@ -225,7 +258,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# – Alle Attribute
+# Es ist auch möglich konkret die Attributsnamen aufzulisten, die ausgegeben sollen werden. Im unteren Beispiel, geben wir nur die Spalten Titel, Jahr und inFarbe von der Filmrelation aus.
 
 # In[6]:
 
@@ -244,6 +277,8 @@ df
 # ■ Erweiterte Projektion
 # <br>
 # □ Umbenennung:
+
+# In der SELECT Klausel ist es auch möglich die Attributsnamen in der Ausgabetabelle umzubenennen. Die Ausgabe einer SQL-Anfrage ist immer eine Tabelle. Im unteren Beispiel projezieren wir die Attribute Titel, Jahr aus der Filmrelation und benennen die Attribute in unserer Ausgabetabelle zu Name,Zeit um. 
 
 # In[7]:
 
