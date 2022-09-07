@@ -294,6 +294,8 @@ df
 
 # □ Arithmetischer Ausdruck:
 
+# In der SELECT-Klausel ist es auch möglich arithmetische Ausdrücke zu benutzen. Im folgenden Beispiel werden Titel und Laenge der Filme herausprojeziert, wobei die Laenge direkt mit einer Konstanten multipliziert wird. Daher wird in der Ausgabetabelle die Laenge in Stunden und nicht in Minuten angegeben. Dementsprechend haben wir auch das Attribut Laenge in Stunden mit dem Umbenennungsoperator AS umbenannt.
+
 # In[8]:
 
 
@@ -308,12 +310,15 @@ df
 
 # □ Konstanten:
 
-# In[11]:
+# Zudem ist es auch möglich, sich spezielle Konstanten ausgeben zu lassen. Im unteren Beispiel fügen wir der Ausgabetabelle eine neue Spalte hinzu, mit dem Namen inStunden, in der der String 'std.' steht
+
+# In[4]:
 
 
-#SELECT Titel, Laenge * 0.016667 AS Stunden, ‘std.‘ AS inStunden FROM Film
+#SELECT Titel, Laenge * 0.016667 AS Stunden, ‘std.‘ AS inStunden 
+#FROM Film
 
-__SQL__ = "SELECT Titel, Laenge * 0.016667 AS Stunden FROM Film"
+__SQL__ = "SELECT Titel, Laenge * 0.016667 AS Stunden, 'std.' AS inStunden FROM Film"
 conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
@@ -367,6 +372,32 @@ df
 # <br>
 # ■ Beispiele
 
+# Die Selektion die wir aus der relationalen Algebra kennen wird in SQL mit dem Schlüsselwort WHERE ausgedrückt, nicht mit dem Schlüsselwort SELECT. Wie aus anderen Programmiersprachen bekannt, kann man in der WHERE-Klausel Bedinungen aufstellen. 
+# <br><br>
+# Es gibt sechs Vergleichsoperatoren =, <>, <, >, <=, >=(gleich, ungleich, kleiner, größer, kleiner gleich, größer gleich), hier können Sie links und rechts der Vergleichsoperatoren Konstanten und Attribute einsetzen. Insbesondere ist es auch möglich Attribute in der WHERE-Klausel zu vergleichen, die nicht in der SELECT- Klausel herausprojeziert werden. Auch im WHERE kann man arithmetische Ausdrücke in die Bedinung einbauen wie in diesem Beispiel:
+# ```
+# (Jahr - 1930) * (Jahr - 1930) <= 100
+# ```
+# Und Konstanten und auch Variablen konkatenieren:
+# ```
+# ‘Star‘ || ‘Wars‘ 
+# ```
+# entspricht 
+# ```
+# ‘StarWars‘
+# ```
+# oder ein Beispiel mit Variablen:
+# ```
+# Vorname || ' ' || Nachname = 'Luke Skywalker'
+# ```
+# Hier werden die Variablen Vorname und Nachname mit einer Leerstelle konkateniert und verglichen, ob der String 'Luke Skywalker' entspricht.
+# <br><br>
+# Das Ergebnis der Vergleichsoperation in SQL ist dann ein Bool'escher Wert, als TRUE oder FALSE. Dementsprechend können mehrere Vergleichsoperatoren mit AND, OR und NOT verknüpft werden, wobei die Klammerungen auch den bekannten Regeln der Logik entsprechen. 
+# <br><br> 
+# Nur wenn die gesamte WHERE-Klausel zu TRUE evaluiert wird, werden die entsprechenden Tupel ausgegeben.
+
+# Im unteren Beispiel wollen wir jene Titel aus der Relation Film ausgeben, die nach dem Jahr 1970 erschienen und schwarz-weiß sind
+
 # In[10]:
 
 
@@ -379,6 +410,8 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
+
+# In diesem Beispiel möchten wir wieder alle Filmtitel ausgeben, hier aber alle Filme die von MGM produziert wurden sind und nach dem Jahr 1970 erschienen sind oder kürzer als 90 min sind. 
 
 # In[12]:
 
@@ -424,6 +457,20 @@ df
 # □ ‘_‘: Ein beliebiges Zeichen
 # <br><br>
 
+# In SQL gibt es Datentypen unteranderem die Datentypen Array fester Länge, Buchstabenliste variabler Länge und Konstanten. Es sind viele Vergleiche über Datentypen hinweg erlaubt. In diesem Beispiel vergleichen wir eine Variable mit einer weiteren Variable und einer Stringkonstanten:
+# ```
+# foo _ _ _ _ _ = foo = ‘foo‘
+# ```
+# Ebenfalls sind Lexikographischer Vergleich mit den schon bekannten Vergleichsoperatoren =, <, >, <=, >=, <> möglich. Je nach verwendeter DBMS werden Sortierreihenfolge mit upper-case/lower-case andere behandelt
+# ```
+# 'fodder' < 'foo'
+# ```
+# ```
+# 'bar' < 'bargain'
+# ```
+
+# Mit dem LIKE Operator können Sie Stringteile miteinander vergleichen, also ob ein String einem gewissen Stringmuster folgt. Hierfür gibt es zwei spezielle Zeichen, einmal '%', welches eine beliebige Sequenz von 0 oder mehr Zeichen entspricht und '\_', welches ein einzelnes beliebiges Zeichen steht. Hierfür ein Beispiel: Wir suchen jene Titel aus der Filmrelation, wo der Titel mit 'Star' beginnt, ein Leerzeichen folgt und 4 beliebige Zeichen folgen.
+
 # In[13]:
 
 
@@ -436,7 +483,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# □ Star Wars und Star Trek
+# Hier suchen wir alle Titel, wo das Wort 'War' vorkommen muss. Sowohl vor dem 'War' als auch nachdem 'War' sind beliebige Zeichensequenzen erlaubt.
 
 # In[14]:
 
@@ -552,6 +599,25 @@ df
 # |Total|Recall|1990|NULL|True|Fox|12345|
 # 
 #  Überraschendes Verhalten
+
+# In SQL gibt es auch Datentypen um Daten und Zeiten darzustellen: Der Datentyp DATE stellt ein Datumskonstante dar:
+# <br>
+# – DATE ‘YYYY-MM-DD‘
+# <br>
+# – DATE ‘1948-05-14‘
+# <br><br>
+# Zeitkonstanten werden mit dem Datentyp TIME dargestellt:
+# – TIME ‘HH:MM:SS.S‘
+# <br>
+# – TIME ‘15:00:02.5‘
+# <br><br>
+# Zeitstempel, also eine Kombination aus Datum und Zeit, werden mit dem Datentyp TIMESTAMP dargestellt:
+# – TIMESTAMP ‘1948-05-14 15:00:02.5‘
+# <br><br>
+# Auch dieses Datentypen können wieder miteinander ,in Form von Variablen und Konstanten, verglichen werden;
+# – TIME ‘15:00:02.5‘ < TIME ‘15:02:02.5‘ ergibt TRUE
+# <br><br>
+# – ERSCHEINUNGSTAG >= DATE ‘1949-11-12‘
 
 # In[15]:
 
