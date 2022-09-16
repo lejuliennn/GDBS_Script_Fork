@@ -457,11 +457,12 @@ df
 # □ ‘_‘: Ein beliebiges Zeichen
 # <br><br>
 
+# ### Stringvergleiche
 # In SQL gibt es Datentypen unteranderem die Datentypen Array fester Länge, Buchstabenliste variabler Länge und Konstanten. Es sind viele Vergleiche über Datentypen hinweg erlaubt. In diesem Beispiel vergleichen wir eine Variable mit einer weiteren Variable und einer Stringkonstanten:
 # ```
 # foo _ _ _ _ _ = foo = ‘foo‘
 # ```
-# Ebenfalls sind Lexikographischer Vergleich mit den schon bekannten Vergleichsoperatoren =, <, >, <=, >=, <> möglich. Je nach verwendeter DBMS werden Sortierreihenfolge mit upper-case/lower-case andere behandelt
+# Ebenfalls sind lexikographische Vergleiche mit den schon bekannten Vergleichsoperatoren =, <, >, <=, >=, <> möglich. Je nach verwendeter DBMS werden Sortierreihenfolge mit upper-case/lower-case andere behandelt
 # ```
 # 'fodder' < 'foo'
 # ```
@@ -568,6 +569,17 @@ df
 # |**unknown**|unknown|unknown|false|
 # |**false**|false|false|false|
 # 
+# |OR|true|unknown|false|
+# |---|---|---|---|
+# |**true**|true|true|true|
+# |**unknown**|true|unknown|unknown|
+# |**false**|false|unknown|false|
+# 
+# |NOT|
+# |---|
+# |**true**|false|
+# |**unknown**|unknown|
+# |**false**|true|
 # 
 # ■ Rechenregeln
 # <br>
@@ -600,7 +612,8 @@ df
 # 
 #  Überraschendes Verhalten
 
-# In SQL gibt es auch Datentypen um Daten und Zeiten darzustellen: Der Datentyp DATE stellt ein Datumskonstante dar:
+# ### Datum und Uhrzeit
+# In SQL gibt es auch Datentypen um Daten und Zeiten darzustellen.Der Datentyp DATE stellt ein Datumskonstante dar:
 # <br>
 # – DATE ‘YYYY-MM-DD‘
 # <br>
@@ -619,6 +632,60 @@ df
 # <br><br>
 # – ERSCHEINUNGSTAG >= DATE ‘1949-11-12‘
 
+# ### Nullwerte
+# Nullwerte sind spezielle Datentypen, in SQL wird dieser als NULL dargestellt, auf Papier ist auch ⊥ geläufig. Es gibt mehrere Arten einen Nullwert zu interpretieren. Zum einen kann ein Nullwert bedeuten, dass ein Wert unbekannt ist, z.B kann es sein, dass der Geburtstag eines/r Schauspieler\*in unbekannt ist. Eine weitere Interpretationsart ist, dass ein Wert eingetragen wurde der unzulässig ist, wie z.B ein Ehegatte eine eines/r Schauspieler\*in. Zuletzt  können mit Nullwerten bestimmte Zellen oder Spalten maskiert werden, wie z.B bei einer unterdrückten Telefonnummer.
+# <br><br>
+# Bei dem Umgang mit Nullwerten gibt es verschiedene Regeln, die beachtet werden müssen. Wird NULL mit arithmetischen Operationen verknüpft, so ergibt sich aus der Verknüpfung wiederum NULL. Bei Vergleichen mit NULL ergibt der Wahrheitswert UNKNOWN und nicht NULL. Man muss auch beachten, dass NULL keine Konstante ist, sondern NULL erscheint als Attributwert, abhängig von dem DBMS gilt NULL = NULL oder NULL $\neq$ NULL.
+# <br><br>
+# Beispiele: Sei der Wert von einer Variablen x NULL. Der Ausdruck x+3 ergibt NULL, da x NULL ist. Der Ausdruck NULL+3 ist unzulässig und kann so auch nicht geschrieben werden. Der Vergleich x=3 ergibt UNKNOWN, auch da x NULL ist.
+# <br>
+# <br>
+# Weiterhin kann in der WHERE-Klausel mit IS NULL und IS NOT NULL überprüft werden, ob ein Wert NULL its. Z.B:
+# ```
+# Geburtstag IS NULL 
+# ```
+# ```
+# Geburtstag IS NOT NULL
+# ```
+
+# ### Wahrheitswerte
+# 
+# |AND|true|unknown|false|
+# |---|---|---|---|
+# |**true**|true|unknown|false|
+# |**unknown**|unknown|unknown|false|
+# |**false**|false|false|false|
+# 
+# |OR|true|unknown|false|
+# |---|---|---|---|
+# |**true**|true|true|true|
+# |**unknown**|true|unknown|unknown|
+# |**false**|false|unknown|false|
+# 
+# |NOT|
+# |---|
+# |**true**|false|
+# |**unknown**|unknown|
+# |**false**|true|
+# 
+# Nehmen wir an TRUE=1, FALSE=0 und UNKNOWN = ½. Dann ergeben sich folgende Rechenregeln: 
+# <br>
+# AND: Minimum der beiden Werte
+# <br>
+# OR: Maximum der beiden Werte
+# <br>
+# NOT: 1 – Wert
+# <br><br>
+# Beispiele:
+# <br>
+# TRUE AND (FALSE OR NOT(UNKNOWN))
+# <br>
+# = MIN(1, MAX(0, (1 - ½ )))
+# <br>
+# = MIN(1, MAX(0, ½ )
+# <br>
+# = MIN(1, ½ ) = ½.
+
 # In[15]:
 
 
@@ -636,17 +703,15 @@ df
 # □ Tupel erscheint nicht im Ergebnis.
 # <br><br>
 # ■ Ausführungspriorität: NOT vor AND vor OR
-# 
-# ### Sortierung
-# 
-# ■ ORDER BY Klausel ans Ende der Anfrage
-# <br>
-# □ ORDER BY \<Attributliste\> DESC/ASC
-# <br>
-# □ ASC (aufsteigend) ist default
-# <br>
 
-# In[16]:
+# ### Sortierung
+# In SQL sind Sortierungen(ASC für aufsteigend bzw. DESC für absteigend) mit der ORDER BY Klausel möglich, welche an das Ende der Anfrage geschrieben wird. ASC wird als default gewählt: 
+# <br><br>
+# ORDER BY \<Attributliste\> DESC/ASC
+# <br><br>
+# Im folgenden Beispiel wollen wir alle Attribute der Filmrelation ausgeben, welche von Disney produziert wurden und 1990 erschienen sind. Zusätzlich, soll die Ausgabe zuerst nach dem Attribut Laenge und folgend nach dem Attribut Titel aufsteigend sortiert werden.
+
+# In[4]:
 
 
 #SELECT * 
@@ -654,13 +719,15 @@ df
 #WHERE StudioName = "Disney" 
 #AND Jahr = 1990 ORDER BY Laenge, Titel;
 
-__SQL__ = "SELECT * FROM Film WHERE StudioName = 'Disney' AND Jahr = 1990 ORDER BY Laenge, Titel;"
+__SQL__ = "SELECT * FROM Film WHERE StudioName = 'Disney' AND Jahr = 1990 ORDER BY Laenge,Titel;"
 conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# In[17]:
+# Hier wird  zuerst nach Laenge aufsteigend sortiert und folgend nach Titel aber absteigend.
+
+# In[6]:
 
 
 #SELECT * 
@@ -687,6 +754,12 @@ df
 # ■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
 # <br>
 # ■ Manager*in(Name, Adresse, ManagerinID, Gehalt)
+
+# In[ ]:
+
+
+
+
 
 # In[18]:
 

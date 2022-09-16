@@ -36,7 +36,7 @@
 # - Datenbankschema: Im Groben beschreibt jedes relationale Modell ein Datenbankschema, welche aus einem oder mehreren Relationenschemata besteht. 
 # - Relationenschema: Jede Relation wird durch ihr Schema identifiziert. Das Relationenschema besteht aus dem Namen der Relation und der Liste der Attribute und ihrer Domänen. In einer Tabelle entspricht die Kopfzeile dem Relationenschema. Alle weiteren (Daten-)Einträge in der Tabelle bilden die „Relation“
 # - Die Relation besteht aus keinem oder mehr Tupeln. Im relationalen Modell bilden Tupel einer Relation immer eine Menge. Das heißt, dass kein Tupel in seiner gesamten Ausprägung doppelt auftauchen kann. Diese Annahme gilt in echten Datenbanksystemen nur dann, wenn ein Schlüssel vorhanden ist. 
-# - Attribute entsprechen den Bezeichnern der zu einander in Relation stehenden Domänenmengen. In Tabellen entsprechen Attribute den Spaltenbezeichnern ( Überschriften). In einem Relationenschema kann ein Attribut nicht doppelt vorkommen. Das Relationenschema ist somit eine Menge.
+# - Attribute entsprechen den Bezeichnern der zu einander in Relation stehenden Domänenmengen. In Tabellen entsprechen Attribute den Spaltenbezeichnern (Überschriften). In einem Relationenschema kann ein Attribut nicht doppelt vorkommen. Das Relationenschema ist somit eine Menge.
 # - Attributwert: Jeder Dateneintrag in einem Tupel entspricht dem Attributwert der jeweiligen Spalte. Attributwerte sind atomar und stammen aus einer elementaren Domäne. 
 # - Ein Tupel entspricht aus einer vollständigen Kombination von Attributwerten.
 # 
@@ -46,19 +46,13 @@
 
 # ### Formal
 
-# ■ Domänen D1, …, Dn
-# <br>
-# <br>
-# ■ Relation R $\subseteq$ D1 x … x Dn
-# <br>
-# <br>
-# ■ Beispiel
-# <br>
-# □ Relationenschema: Film(Titel, Jahr, Länge, Typ)
-# <br>
-# □ Domänen: String, Integer, Integer, String
-# <br>
-# □ Tupel: (Star Wars, 1977, 124, farbig)
+# Formal betrachtet können wir die mathematische Definition von Relationen etwas spezieller auf Relationen in Datenbanken anwenden. Ausgangspunkt sind $n$ Domänen $D_1, D_2, \dots, D_n$. Jede Domäne entspricht einer endlichen oder unendlichen Menge von gleichartigen Ausdrücken. Domänen können auch ganz allgemein als Datentypen wie String oder Integer aufgefasst werden. 
+# Eine Relation im Sinne des relationalen Modells ist die Teilmenge des Kreuzproduktes von $n$ Domänen: $R \subseteq D_1 \times D_2 \times \dots \times D_n $. Daraus Ergibt sich, dass es für jede Domäne $D_n$ eine Menge $A_n \subset D_n$ gibt die alle Werte, die in der Zieltabelle vorkommen abbilden. Zum Beispiel könnte $A_n$ die Menge aller Adressen eines Unternehmens sein. Im folgenden Beispiel wird das Nochmal verdeutlicht. Formal gibt es für jede Attributwertmenge $A_n$ auch ein Label $a_n$ welches die Menge bezeichnet. Hier: $a_n=$ "Adressen". Oft wird $A_n$ auch Synonym (unsauber) als Bezeichner verwendet.
+# 
+# - Beispiel
+#     - Relationenschema: $R(a_1,a_2,a_3,a_4)$ $\equiv$ Film(Titel, Jahr, Länge, Typ)
+#     - Domänen: String, Integer, Integer, String
+#     - Tupel: (Star Wars, 1977, 124, farbig)
 
 # ### Edgar F. Codd
 
@@ -104,14 +98,6 @@
 # ■ Normalformen
 # <br>
 # □ Erste bis dritte Normalform
-
-# ![title](codd1.jpg)
-
-# ![title](codd2.jpg)
-
-# ![title](codd3.jpg)
-
-# ![title](codd4.jpg)
 
 # ## Von ER-Diagrammen zu Relationenschemata
 
