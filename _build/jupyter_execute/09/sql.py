@@ -1176,6 +1176,8 @@ AND o_orderkey = l_orderkey
 # <br><br>
 # ■ Schauspieler*innen, die zugleich Manager*in sind
 
+# Haben wir erneut die Relationen SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag) und ManagerIn(Name, Adresse, ManagerinID, Gehalt) gegeben. Wir suchen nun alle Schauspieler\*Innen, die zugleich auch Manger\*Innen sind. 
+
 # In[31]:
 
 
@@ -1189,7 +1191,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ SchauspielerIn und gegebenenfalls ihre ManagerIninfo
+# Nun suchen wir alle Schauspieler\*Innen und ihre Manager\*Inneninfo, falls diese vorhanden ist.
 
 # In[32]:
 
@@ -1202,9 +1204,9 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# □ Gehalt bleibt gegebenenfalls NULL
-# 
-# ■ ManagerIn und gegebenenfalls ihre Schauspielerinfo
+# Falls keine Manager\*Ininfo vorhanden ist bleibt Gehalt NULL.
+
+# Im Folgenden suchen wir Manager\*Innen und gegebenenfalls ihre Schauspieler\*Inneninfo
 
 # In[9]:
 
@@ -1217,7 +1219,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# RIGHT OUTER JOINS sind in sqlite3 nicht direkt möglich, da dieser Operator in sqlite3 nicht unterstützt wird. Man kann aber dennoch durch Vertauschen der Reihenfolge der Tabellen, die gewünschte Ausgabe mit LEFT OUTER JOINS erzeugen.
+# Wir sehen, dass RIGHT OUTER JOINS in sqlite3 nicht direkt möglich sind, da dieser Operator in sqlite3 nicht unterstützt wird. Man kann aber dennoch durch Vertauschen der Reihenfolge der Tabellen, die gewünschte Ausgabe mit LEFT OUTER JOINS erzeugen.
 
 # In[8]:
 
@@ -1228,9 +1230,9 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# □ Geburtstag bleibt gegebenenfalls NULL
-# 
-# ■ Alle Schauspieler*innen und Manager*innen
+# Falls die Schauspieler\*Inneninfo nicht vorhanden ist bleibt Geburtstag NULL.
+
+# Nun suchen wir alle Schauspieler\*innen und Manager\*innen.
 
 # In[10]:
 
@@ -1254,26 +1256,12 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# □ Geburtstag oder Gehalt bleiben gegebenenfalls leer
-# 
-# □ Unterschied zu UNION: Nur eine Zeile pro Person
-# 
-# ![](outerjoins.jpg)
-# 
-# |Geburtstag|Name|Adresse|Gehalt|
-# |---|---|---|---|
-# |1.2.1960|Mark Hamill|LA|NULL|
-# |27.5.1969|Carrie Fischer|New York|NULL|
-# |11.12.1940|Alec Guinness|London|NULL|
-# |22.3.1981|Ben Affleck|Boston|5Mio|
-# |23.8.1973|Quentin Tarantino|Berlin|10Mio|
-# |NULL|George Lukas |San Jose|100Mio|
-# |NULL|Steven Spielberg|LA|500Mio|
-# 
-# ->geschweifte Klammern fehlen in md Tabelle
-# 
+# Falls zu den Schauspieler\*Innen die Manager\*Inneninfo bzw. Manager\*Innen die Schauspieler\*Inneninfo fehlt, bleiben Geburtstag oder Gehalt gegebenenfalls leer.
+
+# Der Unterschied von FULL OUTER JOINS zu UNION ist, dass nur eine Zeile pro Person ausgegeben wird.
+
 # ### Kreuzprodukt
-# ■ Alle Paare aus Tupeln der beteiligten Relationen
+# Wie aus der Relationalen Algebra bekannt bildet das Kreuzprodukt lle Paare aus Tupeln den beteiligten Relationen. In SQL können Kreuzprodukte mit CROSS JOIN gebildet werden, wie unten gezeigt oder auch mit Komma zwischen den beteiligten Relationen in der FROM-Klausel, wie ein Beispielt weiter gezeigt wird. Kreuzprodukte werden in der Regel selten verwendet, sie sind aber der Grundbaustein für Joins.
 
 # In[35]:
 
@@ -1302,7 +1290,7 @@ df
 # ■ Selten verwendet
 # <br>
 # ■ Grundbaustein für Joins
-# 
+
 # ### Mengenoperationen in SQL
 #  Vereinigung: UNION
 # <br><br>
@@ -1327,9 +1315,11 @@ df
 # ■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
 # <br><br>
 # ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)
-# 
+
+# Die Mengenoperationen UNION(Vereinigung), INTERSECT(Schnittmenge) und EXCEPT/MINUS(Differenz) können nur zwischen geklammertern Anfrageergebnissen benutzt werden, die das selbe Schema besitzen. Sobald einer dieser Operationen verwendet wird, wird implizit Mengensemantik verwendet. Möchte man Multimengensemantik haben, so müssen die Operatoren UNION ALL, INTERSECT ALL und EXCEPT/MINUS ALL verwendet werden. Das bietet sich an, wenn die Semantik egal ist oder die Mengeneigenschaft von Input und Output bereits bekannt ist.
+
 # #### Schnittmenge: INTERSECT
-# ■ Entspricht dem logischen „und“
+# INTERSECT entspricht dem logischen „und“. Im Folgenden suchen wir die Schnittmenge zwischen den Namen und Adressen der Schauspieler\*Innen und den Mangager\*Innen.
 
 # In[37]:
 
@@ -1342,6 +1332,8 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
+# In diesem Beispiel suchen wir die Schnittmenge zwischen den Namen und Adressen der  weiblichen Schauspieler\*Innen und den Mangager\*Innen, die ein Gehalt größer als 1000000 haben.
+
 # In[38]:
 
 
@@ -1353,10 +1345,8 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Multimengen-Semantik: INTERSECT ALL
-# 
 # #### Vereinigung: UNION
-# ■ Entspricht dem logischen „oder“
+# UNION entspricht dem logischen „oder“. Im unteren Beispiel geben wir alle Namen und Adressen der Schauspieler\*Innen und den Mangager\*Innen aus.
 
 # In[39]:
 
@@ -1380,10 +1370,9 @@ df
 # – Multimengensemantik erwünscht
 # <br>
 # – Mengeneigenschaft von Input und Output bereits bekannt
-# 
-# #### Differenz: EXCEPT
-# 
-# ■ Auch MINUS
+
+# #### Differenz: EXCEPT/MINUS
+# Im unteren Beispiel suchen wir den Titel und das Jahr jener Filme die in der Film-Relation vorkommen, aber nicht in der spielt_in-Relation. Damit diese Anfrage funktioniert, muss Umbenennung benutzt werden, da die beiden Mengen sonst nicht das selbe Schema besitzten.
 
 # In[40]:
 
@@ -1396,8 +1385,6 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Multimenge: EXCEPT ALL
-# 
 # #### Klammerung
 
 # In[6]:
