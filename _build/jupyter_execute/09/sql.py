@@ -190,61 +190,11 @@ df
 # <br><br>
 # Trotzdem gilt als Konvention zur Lesbarkeit, dass Schlüsselwörter großgeschrieben werden und Schemaelemente klein.
 
-# ■ Lesereihenfolge (und Schreibreihenfolge):
-# <br>
-# 1. FROM: Relation(en) aus denen die Daten stammen
-# <br>
-# 2. WHERE: Bedingung(en) an die Daten
-# <br>
-# 3. SELECT: Schema der Ergebnisrelation
-# <br>
-# – *: Alle Attribute der Inputrelationen
-# <br><br>
-# ■ Ausführung
-# <br>
-# □ Für jedes Tupel aus „Film“ prüfe die Bedingungen und gebe gültige Tupel aus
-# ### Groß- und Kleinschreibung
-# ■ In SQL wird Groß- und Kleinschreibung nicht beachtet
-# <br>
-# 
-# ```
-# From = FROM = from = FrOm
-# ```
-# 
-# <br><br>
-# ■ Auch bei Attribut- und Relationennamen
-# <br>
-# 
-# ```
-# SELect vorNAMe fROm fiLM
-# ```
-# <br>
-# 
-# 
-# ```
-# SELECT vorname FROM film
-# ```
-# <br><br>
-# ■ Natürlich nicht bei Konstanten:
-# <br>
-# 
-# ```
-# ‘FROM‘ ≠ ‘from‘ ≠ from = FROM
-# ```
-# <br><br>
-# ■ Konvention zur Lesbarkeit
-# <br>
-# □ Schlüsselworte großschreiben
-# <br>
-# □ Schemaelemente kleinschreiben
-
 # ### Projektion in SQL (SELECT, $\pi$)
 # 
 # Wir betrachten nun die einzelnen Schlüsselwörter etwas genauer und starten mit der Projektion. In der SELECT Klausel werden Attribute von Relationen aufgelistet, die herausprojeziert werden sollen.
 # <br><br>
 # Im folgenden Beipiel wollen wir alle Attribute bzw. Spalten aus der Filmrelation ausgeben, der Stern "\*" ist hier eine kürzere Schreibweise für alle Attribute.
-# <br><br>
-# ■ Spezifikation in der SELECT Klausel
 
 # In[5]:
 
@@ -272,12 +222,6 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# – Projektion auf die drei Attribute
-# <br><br>
-# ■ Erweiterte Projektion
-# <br>
-# □ Umbenennung:
-
 # In der SELECT Klausel ist es auch möglich die Attributsnamen in der Ausgabetabelle umzubenennen. Die Ausgabe einer SQL-Anfrage ist immer eine Tabelle. Im unteren Beispiel projezieren wir die Attribute Titel, Jahr aus der Filmrelation und benennen die Attribute in unserer Ausgabetabelle zu Name,Zeit um. 
 
 # In[7]:
@@ -292,8 +236,6 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# □ Arithmetischer Ausdruck:
-
 # In der SELECT-Klausel ist es auch möglich arithmetische Ausdrücke zu benutzen. Im folgenden Beispiel werden Titel und Laenge der Filme herausprojeziert, wobei die Laenge direkt mit einer Konstanten multipliziert wird. Daher wird in der Ausgabetabelle die Laenge in Stunden und nicht in Minuten angegeben. Dementsprechend haben wir auch das Attribut Laenge in Stunden mit dem Umbenennungsoperator AS umbenannt.
 
 # In[8]:
@@ -307,8 +249,6 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# □ Konstanten:
 
 # Zudem ist es auch möglich, sich spezielle Konstanten ausgeben zu lassen. Im unteren Beispiel fügen wir der Ausgabetabelle eine neue Spalte hinzu, mit dem Namen inStunden, in der der String 'std.' steht
 
@@ -325,53 +265,6 @@ df
 
 
 # ### Selektion in SQL (WHERE, $\sigma$)
-# ■ Spezifikation in der WHERE Klausel
-# <br>
-# □ Bedingungen wie in einer Programmiersprache
-# <br>
-# □ Sechs Vergleichsoperatoren
-# <br>
-# – =, <>, <, >, <=, >=
-# <br>
-# – <>, <=, >= entspricht ≠, $\geq, \leq$
-# <br>
-# □ Operanden
-# <br>
-# – Konstanten und Attributnamen
-# <br>
-# – Auch Attribute, die nicht in der SELECT Klausel genannt werden.
-# <br>
-# □ Arithmetische Ausdrücke für numerische Attribute
-# <br>
-# – Z.B.: 
-# ```
-# (Jahr - 1930) * (Jahr - 1930) <= 100
-# ```
-# □ Konkatenation für Strings
-# ```
-# ‘Star‘ || ‘Wars‘ 
-# ```
-# entspricht 
-# ```
-# ‘StarWars‘
-# ```
-# – Vorname || \` \` || Nachname = \`Luke Skywalker\`
-# 
-# ### Selektion in SQL
-# 
-# ■ Ergebnis ist stets Boole‘scher Wert
-# <br>
-# □ TRUE oder FALSE
-# <br>
-# □ Können mit AND, OR und NOT verknüpft werden.
-# <br>
-# – Klammerungen sind erlaubt.
-# <br>
-# □ Nur wenn insgesamt auf TRUE evaluiert wird, erscheint das entsprechende Tupel im Ergebnis.
-# <br>
-# <br>
-# ■ Beispiele
-
 # Die Selektion die wir aus der relationalen Algebra kennen wird in SQL mit dem Schlüsselwort WHERE ausgedrückt, nicht mit dem Schlüsselwort SELECT. Wie aus anderen Programmiersprachen bekannt, kann man in der WHERE-Klausel Bedinungen aufstellen. 
 # <br><br>
 # Es gibt sechs Vergleichsoperatoren =, <>, <, >, <=, >=(gleich, ungleich, kleiner, größer, kleiner gleich, größer gleich), hier können Sie links und rechts der Vergleichsoperatoren Konstanten und Attribute einsetzen. Insbesondere ist es auch möglich Attribute in der WHERE-Klausel zu vergleichen, die nicht in der SELECT- Klausel herausprojeziert werden. Auch im WHERE kann man arithmetische Ausdrücke in die Bedinung einbauen wie in diesem Beispiel:
@@ -427,37 +320,6 @@ df
 
 
 # ### Stringvergleiche
-# ■ Datentypen
-# <br>
-# □ Array fester Länge, Buchstabenliste variabler Länge, Konstanten
-# <br>
-# □ SQL erlaubt viele Vergleiche über Datentypen hinweg
-# <br><br>
-# ■ foo _ _ _ _ _ = foo = ‘foo‘
-# <br><br>
-# ■ Vergleiche mit =, <, >, <=, >=, <>
-# <br>
-# □ Lexikographischer Vergleich
-# <br>
-# □ ‘fodder‘ < ‘foo‘; ‘bar‘ < ‘bargain‘;
-# <br>
-# □ Sortierreihenfolge upper-case/lower-case usw. je nach DBMS
-# <br>
-# □ Achtung: Auch nicht immer identisch zur Reihenfolge in Programmiersprachen
-# 
-# ### String-Mustervergleiche mit LIKE
-# ■ string LIKE pattern
-# <br>
-# □ bzw. string NOT LIKE pattern
-# <br><br>
-# ■ Pattern hat spezielle Zeichen
-# <br>
-# □ ‘%‘: Beliebige Sequenz von 0 oder mehr Zeichen
-# <br>
-# □ ‘_‘: Ein beliebiges Zeichen
-# <br><br>
-
-# ### Stringvergleiche
 # In SQL gibt es Datentypen unteranderem die Datentypen Array fester Länge, Buchstabenliste variabler Länge und Konstanten. Es sind viele Vergleiche über Datentypen hinweg erlaubt. In diesem Beispiel vergleichen wir eine Variable mit einer weiteren Variable und einer Stringkonstanten:
 # ```
 # foo _ _ _ _ _ = foo = ‘foo‘
@@ -470,6 +332,7 @@ df
 # 'bar' < 'bargain'
 # ```
 
+# ### String-Mustervergleiche mit LIKE
 # Mit dem LIKE Operator können Sie Stringteile miteinander vergleichen, also ob ein String einem gewissen Stringmuster folgt. Hierfür gibt es zwei spezielle Zeichen, einmal '%', welches eine beliebige Sequenz von 0 oder mehr Zeichen entspricht und '\_', welches ein einzelnes beliebiges Zeichen steht. Hierfür ein Beispiel: Wir suchen jene Titel aus der Filmrelation, wo der Titel mit 'Star' beginnt, ein Leerzeichen folgt und 4 beliebige Zeichen folgen.
 
 # In[13]:
@@ -500,119 +363,6 @@ df
 
 
 # ### Datum und Uhrzeit
-# ■ Spezielle Datentypen und Repräsentationen
-# <br>
-# □ Datumskonstante:
-# <br>
-# – DATE ‘YYYY-MM-DD‘
-# <br>
-# – DATE ‘1948-05-14‘
-# <br><br>
-# □ Zeitkonstante
-# <br>
-# – TIME ‘HH:MM:SS.S‘
-# <br>
-# – TIME ‘15:00:02.5‘
-# <br><br>
-# □ Zeitstempel
-# <br>
-# – TIMESTAMP ‘1948-05-14 15:00:02.5‘
-# <br><br>
-# □ Zeitvergleiche
-# <br>
-# – TIME ‘15:00:02.5‘ < TIME ‘15:02:02.5‘ ergibt TRUE
-# <br>
-# – Selektion: ERSCHEINUNGSTAG >= DATE ‘1949-11-12‘
-# ### Nullwerte
-# Darstellung: NULL bzw. ⊥
-# <br>
-# <br>
-# Mögliche Interpretationen
-# <br>
-# Unbekannter Wert
-# <br>
-# -> Geburtstag einer/s Schauspieler*in
-# <br>
-# Wert unzulässig
-# <br>
-# -> Ehegatte eines unverheirateten Schauspielers
-# <br>
-# Wert unterdrückt
-# <br>
-# -> Geheime Telefonnummer
-# <br>
-# <br>
-# Regeln für Umgang mit Nullwerten
-# <br>
-# Arithmetische Operationen mit NULL ergeben NULL
-# <br>
-# Vergleich mit NULL ergibt Wahrheitswert UNKNOWN
-# <br>
-# NULL ist keine Konstante, sondern erscheint nur als Attributwert
-# <br><br>
-# Beispiel (sei der Wert von x NULL):
-# <br>
-# x+3 ergibt NULL.
-# <br>
-# NULL+3 ist kein zulässiger Ausdruck.
-# <br>
-# x = 3 ergibt UNKNOWN.
-# <br><br>
-# Prüfen von Nullwerten in WHERE Klausel
-# <br>
-# Geburtstag IS NULL bzw. Geburtstag IS NOT NULL
-# ### Wahrheitswerte
-# 
-# |AND|true|unknown|false|
-# |---|---|---|---|
-# |**true**|true|unknown|false|
-# |**unknown**|unknown|unknown|false|
-# |**false**|false|false|false|
-# 
-# |OR|true|unknown|false|
-# |---|---|---|---|
-# |**true**|true|true|true|
-# |**unknown**|true|unknown|unknown|
-# |**false**|false|unknown|false|
-# 
-# |NOT|
-# |---|
-# |**true**|false|
-# |**unknown**|unknown|
-# |**false**|true|
-# 
-# ■ Rechenregeln
-# <br>
-# □ TRUE = 1
-# <br>
-# FALSE = 0
-# <br>
-# UNKNOWN = ½
-# <br>
-# □ AND: Minimum der beiden Werte
-# <br>
-# □ OR: Maximum der beiden Werte
-# <br>
-# □ NOT: 1 – Wert
-# <br><br>
-# □ Beispiel
-# <br>
-# – TRUE AND (FALSE OR NOT(UNKNOWN))
-# <br>
-# = MIN(1, MAX(0, (1 - ½ )))
-# <br>
-# = MIN(1, MAX(0, ½ )
-# <br>
-# = MIN(1, ½ ) = ½.
-# 
-# 
-# |Titel|Jahr|Länge|inFarbe|Studio|ProduzentinID|
-# |---|---|---|---|---|---|
-# |Total|Recall|1990|NULL|True|Fox|12345|
-# 
-#  Überraschendes Verhalten
-
-# ### Datum und Uhrzeit
 # In SQL gibt es auch Datentypen um Daten und Zeiten darzustellen.Der Datentyp DATE stellt ein Datumskonstante dar:
 # <br>
 # – DATE ‘YYYY-MM-DD‘
@@ -625,9 +375,11 @@ df
 # – TIME ‘15:00:02.5‘
 # <br><br>
 # Zeitstempel, also eine Kombination aus Datum und Zeit, werden mit dem Datentyp TIMESTAMP dargestellt:
+# <br>
 # – TIMESTAMP ‘1948-05-14 15:00:02.5‘
 # <br><br>
-# Auch dieses Datentypen können wieder miteinander ,in Form von Variablen und Konstanten, verglichen werden;
+# Auch dieses Datentypen können wieder miteinander ,in Form von Variablen und Konstanten, verglichen werden:
+# <br>
 # – TIME ‘15:00:02.5‘ < TIME ‘15:02:02.5‘ ergibt TRUE
 # <br><br>
 # – ERSCHEINUNGSTAG >= DATE ‘1949-11-12‘
@@ -685,6 +437,8 @@ df
 # = MIN(1, MAX(0, ½ )
 # <br>
 # = MIN(1, ½ ) = ½.
+# <br><br>
+# Zu beachten bei der Ausführungspriorität: NOT vor AND vor OR
 
 # In[15]:
 
@@ -699,10 +453,6 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# □ Tupel erscheint nicht im Ergebnis.
-# <br><br>
-# ■ Ausführungspriorität: NOT vor AND vor OR
 
 # ### Sortierung
 # In SQL sind Sortierungen(ASC für aufsteigend bzw. DESC für absteigend) mit der ORDER BY Klausel möglich, welche an das Ende der Anfrage geschrieben wird. ASC wird als default gewählt: 
@@ -744,20 +494,6 @@ df
 # ## Anfragen über mehrere Relationen
 # 
 # ### Motivation
-# ■ Hauptstärke der Relationalen Algebra ist die Kombination von Relationen
-# <br><br>
-# ■ Erst mit mehreren Relationen sind viele interessante Anfragen möglich.
-# <br><br>
-# ■ Nennung der beteiligten Relationen in der FROM Klausel
-# 
-# ### Kreuzprodukt und Join
-# ■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
-# <br>
-# ■ Manager*in(Name, Adresse, ManagerinID, Gehalt)
-
-# ## Anfragen über mehrere Relationen
-# 
-# ### Motivation
 # Die Hauptstärke der Relationalen Algebra ist die Kombination von Relationen. Erst durch die Kombination mehrerer Relationen sind viele interessante Anfragen möglich. In SQL ist das möglich, indem man die beteiligten Relationen in der FROM-Klausel nennt.
 # 
 # ### Kreuzprodukt und Join
@@ -788,17 +524,6 @@ df
 #AND ProduzentinID = ManagerinID; --Joinbedingung
 
 
-# ■ Semantik
-# <br>
-# □ Betrachte jedes Tupelpaar der Relationen Film und Manager.
-# □ Wende Bedingung der WHERE Klausel auf jedes Tupelpaar an
-# <br>
-# □ Falls Bedingung erfüllt, produziere ein Ergebnistupel.
-# <br><br>
-# ■ Kreuzprodukt gefolgt von Selektion: Join
-# <br><br>
-# ■ Reihenfolge der WHERE Bedingungen egal
-
 # In[19]:
 
 
@@ -813,15 +538,6 @@ cur = conn.cursor()
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# ### Uneindeutige Attributnamen
-# ■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
-# <br><br>
-# ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)
-# <br><br>
-# ■ Bei gleichen Attributnamen aus mehreren beteiligten Relationen:
-# <br>
-# □ Relationenname als Präfix:
 
 # ### Uneindeutige Attributnamen
 # 
@@ -840,19 +556,6 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# □ Präfix ist auch erlaubt wenn Attributname eindeutig ist.
-# <br>
-# – Erleichtert das Lesen von SQL Anfragen
-
-# ### Tupelvariablen
-# ■ Zur eindeutigen Kennzeichnung von Tupeln beteiligter Relationen
-# <br>
-# □ „Alias“ einer Relation
-# <br>
-# □ Insbesondere: Bei der mehrfachen Verwendung einer Relation in einer Anfrage
-# <br><br>
-# ■ Gesucht: Schauspieler, die zusammen leben
 
 # ### Tupelvariablen
 # In SQL ist es möglich einen Alias für eine Relation innerhalb einer Anfrage festzulegen. Dies ist sinnvoll, um die Tupeln, der beteiligten Relationen eindeutig zu Kennzeichnen, insbesondere wenn eine Relation mehrfach innerhalb einer Anfrage vorkommt. Umbenennung kann ebenfalls sinnvoll sein, um lange Relationennamen abzukürzen, um bessere Lesbarkeit zu schaffen. Ein Beispiel hierfür ist, z.B der Selfjoin im unteren Beispiel ,wo wir Schauspieler suchen, die zusammenleben. Und das Beispiel danach, wo wir Umbennenung zur Verkürzung der Anfrage benutzen.
@@ -877,10 +580,6 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# □ Äquivalent zu Schauspieler AS Star2
-# <br><br>
-# ■ Auch sinnvoll als abkürzenden Schreibweise
-
 # In[22]:
 
 
@@ -895,16 +594,8 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Ohne explizites Angeben einer Tupelvariablen wird der Relationenname als Tupelvariable verwendet.
-#  
 # ### Tupelvariablen-Selfjoin
 # 
-# 
-# |Name|Adresse|Geschlecht|Geburt|
-# |---|---|---|---|
-# |Carrie Fisher|123 Maple St., Hollywood|F|9/9/99|
-# |Mark Hamill|456 Oak Rd., Brentwood|M|8/8/88|
-# |Brad Pitt|123 Maple St., Hollywood|M|7/7/77|
 
 # In[23]:
 
@@ -918,14 +609,6 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# |Star1.Name|Star2.Name|
-# |---|---|
-# |Carrie Fisher|Carrie Fisher|
-# |Carrie Fisher|Brad Pitt|
-# |Brad Pitt|Carrie Fisher|
-# |Brad Pitt|Brad Pitt|
-# |Mark Hamill|Mark Hamill|
 
 # Damit wir wie in der Ausgabe der obigen Beispiels, keine redundanten Tupel haben, setzten wir zusätzlich noch die Bedingung, dass die Namen der Schauspieler\*Innen verschieden sein müssen.
 
@@ -943,38 +626,6 @@ cur = conn.cursor()
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# |Star1.Name|Star2.Name|
-# |---|---|
-# |Carrie Fisher|Brad Pitt|
-# |Brad Pitt|Carrie Fisher|
-
-# |Star1.Name|Star2.Name|
-# |---|---|
-# |Brad Pitt|Carrie Fisher|
-
-# ### Interpretation von Anfragen
-# 
-# ■ Drei Interpretationsvarianten für Anfragen mit mehreren Relationen
-# <br>
-# □ Nested Loops (geschachtelte Schleifen)
-# <br>
-# – Bei mehreren Tupelvariablen: Eine geschachtelte Schleife für jede Variable
-# <br>
-# □ Parallele Zuordnung
-# <br>
-# – Alle Kombinationen werden parallel bezüglich der Bedingungen geprüft.
-# <br>
-# □ Relationale Algebra
-# <br>
-# – Bilde Kreuzprodukt
-# <br>
-# – Wende Selektionsbedingungen auf jedes Resultat-Tupel an
-# <br><br>
-# 
-# ■ Gegeben drei Relationen: R(A), S(A) und T(A)
-# <br><br>
-# ■ Gesucht: R $\cap$ (S $\cup$ T) (= (R $\cap$ S) $\cup$ (R $\cap$ T) )
 
 # ### Interpretation von Anfragen
 # Anfragen können auf unterschiedlich Arten und Weisen interpretiert werden. Es gibt drie Interpretationsvarianten für Anfragen mit mehreren Relationen. Mit der Nested Loops(geschachtelte Schleifen) gibt es bei mehreren Tupelvariablen, für jede Variable eine geschachtelte Schleife. Bei der parallelen Zuordnung werden alle Kombinationen parallel bzgl. der Bedingungen geprüft. In der Relationen Algebra wird zuerst das Kreuzprodukt gebildet und dann auf jedes Resulat-Tupel die Selektionsbedingungen angewendet.
@@ -1019,29 +670,9 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Problemfall: T ist leer, hat also kein Tupel
-# <br><br>
-# ■ Vermeintliches Resultat: R $\cap$ S
-# <br><br>
-# ■ Tatsächliches Resultat: leere Menge
-# <br>
-# □ Ausführung als drei geschachtelte Schleifen
-
 # ### Joins
 # ![title](joins.jpg)
-# 
-#  Man kann Joins auch auf andere Weise ausdrücken.
-#  <br>
-# □ Geschmacksfrage
-#  <br>
-# □ Film CROSS JOIN spielt_in
-#  <br>
-# – Kreuzprodukt
-#  <br>
-# – Doppelte Attributnamen werden mit Präfix der Relation aufgelöst
 
-# ### Joins
-# 
 # Bis hierhin haben wir Joins nur mit Komma zwischen den Relationennamen in der FROM-Klausel und der Joinbedingung in der WHERE-Klausel kennengelernt. Kreuzprodukte können auch mit CROSS JOIN ausgedrückt werden,z.B Film CROSS JOIN spielt_in, hier werden direkt doppelte Attributnamen mit Präfix der Relation schon aufgelöst. 
 # <br><br>
 # Ein Beispiel für ein Theta-Join finden wir unten. 
@@ -1074,8 +705,6 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# – Eliminiert redundante Attribute FilmTitel und FilmJahr
-
 # Es ist ebenfalls möglich mehrere Joins hintereinander durchzuführen, wie im Beispiel unten gezeigt. 
 
 # In[29]:
@@ -1091,10 +720,6 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# □ Schauspieler NATURAL JOIN Manager
-# <br>
-# – Natural Join; Eliminiert redundante Attribute
 
 # ### The TPC-H Schema
 # ![title](tpc-h_schema.jpg)
@@ -1287,35 +912,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Selten verwendet
-# <br>
-# ■ Grundbaustein für Joins
-
 # ### Mengenoperationen in SQL
-#  Vereinigung: UNION
-# <br><br>
-# ■ Schnittmenge: INTERSECT
-# <br><br>
-# ■ Differenz: EXCEPT / MINUS
-# <br><br>
-# ■ Mengenoperationen nur zwischen geklammerten Anfrageergebnissen
-# <br><br>
-# ■ Mengenoperationen haben implizit eine Mengensemantik
-# <br>
-# □ Wandeln Input-Relationen in Mengen um
-# <br>
-# □ Wandeln Output in Menge um
-# <br><br>
-# ■ Input-Relationen müssen gleiche Schemata haben
-# <br>
-# □ Gleiche Attributnamen
-# <br>
-# □ Gleiche Datentypen
-# <br>
-# ■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
-# <br><br>
-# ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)
-
 # Die Mengenoperationen UNION(Vereinigung), INTERSECT(Schnittmenge) und EXCEPT/MINUS(Differenz) können nur zwischen geklammertern Anfrageergebnissen benutzt werden, die das selbe Schema besitzen. Sobald einer dieser Operationen verwendet wird, wird implizit Mengensemantik verwendet. Möchte man Multimengensemantik haben, so müssen die Operatoren UNION ALL, INTERSECT ALL und EXCEPT/MINUS ALL verwendet werden. Das bietet sich an, wenn die Semantik egal ist oder die Mengeneigenschaft von Input und Output bereits bekannt ist.
 
 # #### Schnittmenge: INTERSECT
@@ -1358,18 +955,6 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# ■ Multimenge: UNION ALL
-# <br>
-# □ Beliebt, da schnell
-# <br>
-# □ Verwenden falls
-# <br>
-# – Semantik egal
-# <br>
-# – Multimengensemantik erwünscht
-# <br>
-# – Mengeneigenschaft von Input und Output bereits bekannt
 
 # #### Differenz: EXCEPT/MINUS
 # Im unteren Beispiel suchen wir den Titel und das Jahr jener Filme die in der Film-Relation vorkommen, aber nicht in der spielt_in-Relation. Damit diese Anfrage funktioniert, muss Umbenennung benutzt werden, da die beiden Mengen sonst nicht das selbe Schema besitzten.
