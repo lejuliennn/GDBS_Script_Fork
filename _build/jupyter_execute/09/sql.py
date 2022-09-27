@@ -21,60 +21,56 @@ get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB.db')
 # 
 # Aus den vorherigen Kapiteln haben wir gelernt wie wir eine Datenbank auf Papier entwerfen, nun schauen wir uns die in der Realität benutzten technischen Mitteln an, insbesondere die Datenbankanfragesprache SQL.
 # 
+# ### Motivation für SQL
+# SQL ist die meist-verbreiteste Datenbankanfragesprache. Es handelt sich hierbei um eine Very-High-Level Language, die Ad-hoc, deklarativ und nicht prozedural / imperativ ist. SQL-Anfragen sich an die relationale Algebra angelehnt. Zusätzlich sind Data definition(DDL) und Data manipulation(DML) mit SQL möglich. Wichtig zu beachten ist noch, dass sowohl Syntax, als auch Funktionalität sich von System zu System leicht unterscheiden können.
+# 
 # ### SQL-Historie
 # 
-# SQL entstand durch die Ursprungssprache SEQUEL(1976, IBM Research Labs San Jose). Später entwickelte sich SEQUEL zu SEQUEL2(1976, IBM Research Labs San Jose), welche auf einer der Vorreitern von Datenbanksystemen "System R" benutzt wurde.
-# <br><br>
-# ■ SEQUEL (1974, IBM Research Labs San Jose)
-# <br><br>
-# ■ SEQUEL2 (1976, IBM Research Labs San Jose)
-# <br>
-# □ System R
-# <br><br>
-# ■ SQL (1982, IBM)
-# <br><br>
+# SQL(1982, IBM) entstand durch die Ursprungssprache SEQUEL(1976, IBM Research Labs San Jose). Später entwickelte sich SEQUEL zu SEQUEL2(1976, IBM Research Labs San Jose), welche auf einer der Vorreitern von Datenbanksystemen "System R" benutzt wurde.
+# 
 # ![title](historie1.jpg)
 # <br>
 # ![title](historie2.jpg)
 # <br>
 # ![title](historie3.jpg)
 # ### SQL – Standardisierung
-# ■ SQL1 von ANSI als Standard verabschiedet (1986)
-#  <br>
-#  <br>
-# ■ SQL1 von der (ISO) als Standard verabschiedet (1987)
-#  <br>
-# □ 1989 nochmals überarbeitet.
-#  <br> <br>
-# ■ SQL2 oder SQL-92 von der ISO verabschiedet (1992)
-#  <br> <br>
-# ■ SQL3 oder SQL:1999 verabschiedet
-#  <br> 
-# □ Trigger, rekursive Anfragen
-#  <br>
-# □ Objektrelationale Erweiterungen
-#  <br> <br>
-# ■ SQL:2003 von der ISO verabschiedet
-#  <br>
-# □ XML-Support durch SQL/XML
-#  <br> <br>
-# ■ SQL/XML:2006
-#  <br>
-# □ XQuery eingebunden
-#  <br> <br>
-# ■ SQL:2008
-#  <br>
-# □ Updates auf Sichten, logisches Löschen (TRUNCATE), …
-#  <br> <br>
-# ■ SQL:2011
-#  <br>
-# □ Adds temporal data (PERIOD FOR)
-#  <br> <br>
-# ■ SQL:2016
-#  <br>
-# □ Adds row pattern matching, polymorphic table functions, JSON.
+# Im Laufe der Zeit durchlief SQL verschiedene Standardisierungen, die Sie aus der folgenden Auflistung entnehmen können. Trotz der Standardisierung sind Inkompatibilitäten zwischen Systemen der einzelnen Hersteller noch möglich.
+# 
+# 
+# - SQL1 von ANSI als Standard verabschiedet (1986)
 # <br><br>
-# Trotz Standardisierung: Inkompatibilitäten zwischen Systemen der einzelnen Hersteller
+# - SQL1 von der (ISO) als Standard verabschiedet (1987)
+#  <br>
+#  - 1989 nochmals überarbeitet.
+#  <br> <br>
+# - SQL2 oder SQL-92 von der ISO verabschiedet (1992)
+#  <br> <br>
+# - SQL3 oder SQL:1999 verabschiedet
+#  <br> 
+#  - Trigger, rekursive Anfragen
+#  <br>
+#  - Objektrelationale Erweiterungen
+#  <br> <br>
+# - SQL:2003 von der ISO verabschiedet
+#  <br>
+#  - XML-Support durch SQL/XML
+#  <br> <br>
+# - SQL/XML:2006
+#  <br>
+#  - XQuery eingebunden
+#  <br> <br>
+# - SQL:2008
+#  <br>
+#  - Updates auf Sichten, logisches Löschen (TRUNCATE), …
+#  <br> <br>
+# - SQL:2011
+#  <br>
+#  - Adds temporal data (PERIOD FOR)
+#  <br> <br>
+# - SQL:2016
+#  <br>
+#  - Adds row pattern matching, polymorphic table functions, JSON.
+# 
 # ### SQL:2008 Struktur
 # ■ Part 1: Framework (SQL/Framework) – 82 Seiten
 # <br>
@@ -113,28 +109,7 @@ get_ipython().run_line_magic('sql', 'sqlite:///salesDB/salesDB.db')
 # □ XML Datentyp und Erweiterung von SQL um XQuery
 # <br><br>
 # => Zusammen: 3777 Seiten
-# ### Motivation für SQL
-# ■ Meist-verbreitete Datenbankanfragesprache
-# <br><br>
-# ■ Ad-hoc und einfach
-# <br><br>
-# ■ Deklarativ
-# <br>
-# □ Nicht prozedural / imperativ
-# <br>
-# □ Optimierbar
-# <br><br>
-# ■ Very-High-Level Language
-# <br><br>
-# ■ Anfragen an relationale Algebra angelehnt
-# <br>
-# □ Hinzu kommt DDL: Data definition language
-# <br>
-# □ Hinzu kommt DML: Data manipulation language
-# <br><br>
-# ■ Achtung: Syntax kann sich von System zu System leicht unterscheiden.
-# <br><br>
-# ■ Achtung: Funktionalität kann sich von System zu System leicht unterscheiden.
+# 
 
 # ## Einfach Anfragen
 
@@ -723,83 +698,69 @@ df
 
 # ### The TPC-H Schema
 # ![title](tpc-h_schema.jpg)
+# 
+# Das TPC-H ist ein Benchmark, dessen Datensätze zufällig generiert werden. Die Daten sind an Unternehmen und ihren Handelsketten orientiert. Datenbankentwickler*\Innen benutzen TPC-H ,um neu entwickelte Systeme zu testen.  
+# <br><br>
+# Eine Beispielanfrage für das TPC-H Schema finden Sie unten.
 #  
-# #### TPC Query 2 - Minimum Cost Supplier
+# #### TPC Query - Minimum Cost Supplier 
 
-# In[28]:
-
-
-get_ipython().run_line_magic('sql', '')
-SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone,
-s_comment
-FROM part, supplier, partsupp, nation, region
-WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
-AND p_size = [SIZE] AND p_type like '%[TYPE]'
-AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
-AND r_name = '[REGION]'
-AND ps_supplycost =
-(SELECT min(ps_supplycost)
-FROM partsupp, supplier, nation, region
-WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
-AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
-AND r_name = '[REGION]' )
-ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
+# In[14]:
 
 
-# In[ ]:
+#%sql
+#SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone,
+#s_comment
+#FROM part, supplier, partsupp, nation, region
+#WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
+#AND p_size = 2 AND p_type like 'PROMO PLATED TIN'
+#AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
+#AND r_name = 'EUROPE'
+#AND ps_supplycost =
+#(SELECT min(ps_supplycost)
+#FROM partsupp, supplier, nation, region
+#WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey
+#AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey
+#AND r_name = 'EUROPE' )
+#ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
 
 
-SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = [SIZE] AND p_type like '%[TYPE]' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;
+# In[12]:
 
 
-# In[30]:
-
-
-__SQL__ = "SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = [SIZE] AND p_type like '%[TYPE]' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = '[REGION]' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;"
+__SQL__ = "SELECT s_acctbal, s_name, n_name, p_partkey, p_mfgr, s_address, s_phone, s_comment FROM part, supplier, partsupp, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND p_size = 2 AND p_type like 'PROMO PLATED TIN' AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = 'EUROPE' AND ps_supplycost = (SELECT min(ps_supplycost) FROM partsupp, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND s_nationkey = n_nationkey AND n_regionkey = r_regionkey AND r_name = 'EUROPE' ) ORDER BY s_acctbal desc, n_name, s_name, p_partkey;"
 conn = sqlite3.connect("salesDB/salesDB")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# SIZE is randomly selected within [1. 50];
-# <br>
-# TYPE is randomly selected within the list Syllable 3 defined for Types
-# <br>
-# REGION is randomly selected within the list of values defined for R_NAME
-# 
 # #### The TPC-H Universal Table
 
-# In[ ]:
+# In[16]:
 
 
-get_ipython().run_line_magic('sql', '')
-SELECT l_linenumber, l_quantity, l_extendedprice, l_discount, l_tax, l_returnflag, l_linestatus, l_shipdate, l_commitdate, l_receiptdate, l_shipinstruct, l_shipmode, l_comment, o_orderkey, o_orderstatus, o_totalprice, o_orderdate, o_orderpriority, o_clerk, o_shippriority, o_comment, ps_availqty, ps_supplycost, ps_comment, p_partkey, p_name, p_mfgr, p_brand, p_type, p_size, p_container, p_retailprice, p_comment, c_custkey, c_name, c_address, c_phone, c_acctbal, c_mktsegment, c_comment, s_suppkey, s_name, s_address, s_phone, s_acctbal, s_comment, n_nationkey, n_name, n_comment, r_regionkey, r_name, r_comment
+#%sql
+#SELECT l_linenumber, l_quantity, l_extendedprice, l_discount, l_tax, l_returnflag, l_linestatus, l_shipdate, l_commitdate, l_receiptdate, l_shipinstruct, l_shipmode, l_comment, o_orderkey, o_orderstatus, o_totalprice, o_orderdate, o_orderpriority, o_clerk, o_shippriority, o_comment, ps_availqty, ps_supplycost, ps_comment, p_partkey, p_name, p_mfgr, p_brand, p_type, p_size, p_container, p_retailprice, p_comment, c_custkey, c_name, c_address, c_phone, c_acctbal, c_mktsegment, c_comment, s_suppkey, s_name, s_address, s_phone, s_acctbal, s_comment, n_nationkey, n_name, n_comment, r_regionkey, r_name, r_comment
+#FROM lineitem, orders, partsupp, part, customer, supplier, nation, region
+#WHERE p_partkey = ps_partkey
+#AND s_suppkey = ps_suppkey
+#AND n_nationkey = s_nationkey
+#AND r_regionkey = n_regionkey
+#AND c_custkey = o_custkey
+#AND ps_partkey = l_partkey
+#AND ps_suppkey = l_suppkey
+#AND o_orderkey = l_orderkey
 
-FROM lineitem, orders, partsupp, part, customer, supplier, nation, region
 
-WHERE p_partkey = ps_partkey
+# In[15]:
 
-AND s_suppkey = ps_suppkey
 
-AND n_nationkey = s_nationkey
-
-AND r_regionkey = n_regionkey
-
-AND c_custkey = o_custkey
-
-AND ps_partkey = l_partkey
-
-AND ps_suppkey = l_suppkey
-
-AND o_orderkey = l_orderkey
+__SQL__ = "SELECT l_linenumber, l_quantity, l_extendedprice, l_discount, l_tax, l_returnflag, l_linestatus, l_shipdate, l_commitdate, l_receiptdate, l_shipinstruct, l_shipmode, l_comment, o_orderkey, o_orderstatus, o_totalprice, o_orderdate, o_orderpriority, o_clerk, o_shippriority, o_comment, ps_availqty, ps_supplycost, ps_comment, p_partkey, p_name, p_mfgr, p_brand, p_type, p_size, p_container, p_retailprice, p_comment, c_custkey, c_name, c_address, c_phone, c_acctbal, c_mktsegment, c_comment, s_suppkey, s_name, s_address, s_phone, s_acctbal, s_comment, n_nationkey, n_name, n_comment, r_regionkey, r_name, r_comment FROM lineitem, orders, partsupp, part, customer, supplier, nation, region WHERE p_partkey = ps_partkey AND s_suppkey = ps_suppkey AND n_nationkey = s_nationkey AND r_regionkey = n_regionkey AND c_custkey = o_custkey AND ps_partkey = l_partkey AND ps_suppkey = l_suppkey AND o_orderkey = l_orderkey"
+df = pd.read_sql_query(__SQL__, conn)
+df
 
 
 # ### Outer Joins
-# ■ SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag)
-# <br><br>
-# ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)
-# <br><br>
-# ■ Schauspieler*innen, die zugleich Manager*in sind
 
 # Haben wir erneut die Relationen SchauspielerIn(Name, Adresse, Geschlecht, Geburtstag) und ManagerIn(Name, Adresse, ManagerinID, Gehalt) gegeben. Wir suchen nun alle Schauspieler\*Innen, die zugleich auch Manger\*Innen sind. 
 
