@@ -979,46 +979,18 @@ df
 
 # ## Geschachtelte Anfragen
 # ### Motivation
-# ■ Eine Anfrage kann Teil einer anderen Anfrage sein.
+# In vorherigen Beispielen haben wir schon geschachtelte Anfragen gesehen, nun betrachten wir diese etwas genauer. Eine Anfrage kann Teil einer anderen theoretisch beliebig tief geschachtelten Anfrage sein. Hier gibt es drei verschiedene Varianten:
 # <br>
-# □ Theoretisch beliebig tiefe Schachtelung
-# <br><br>
-# ■ Drei Varianten
-# <br>
-# 1. Subanfrage erzeugt einen einzigen Wert, der in der WHERE-Klausel mit einem anderen Wert verglichen
-# werden kann.
-# <br>
-# 2. Subanfrage erzeugt eine Relation, die auf verschiedene Weise in WHERE-Klausel verwendet werden kann.
-# <br>
-# 3. Subanfrage erzeugt eine Relation, die in der FROM Klausel verwendet werden kann.
-# <br>
-# – Wie jede normale Relation
+# 1. Die Subanfrage erzeugt einen einzigen Wert, der in der WHERE-Klausel mit einem anderen Wert verglichen werden kann.
+# 2. Die Subanfrage erzeugt eine Relation, die auf verschiedene Weise in der WHERE-Klausel verwendet werden kann.
+# 3. Die Subanfrage erzeugt eine Relation, die in der FROM Klausel (sozusagen als weitere Datenquelle) verwendet werden kann. – Wie jede andere normale Relation
 # 
 # ### Skalare Subanfragen
-# 
-# ■ Allgemeine Anfragen produzieren Relationen.
-# <br>
-# □ Mit mehreren Attributen
-# <br>
-# – Zugriff auf ein bestimmtes Attribut ist möglich
-# <br>
-# □ i.A. mit mehreren Tupeln
-# <br>
-# □ Manchmal (garantiert) nur maximal ein Tupel und Projektion auf nur ein Attribut
-# <br>
-# – „Skalare Anfrage“
-# <br>
-# – Verwendung wie eine Konstante möglich
-# <br>
-# – Falls keine Zeile: null
+# Bei der ersten der drei Varianten von geschachtelten Anfrage, handelt es sich um skalare Subanfragen. Allgemeine Anfragen produzieren Relationen, mit mehreren Attributen, wo Zugriff auf ein bestimmtes Attribut auch möglich ist. Bei skalaren Subanfragen wird (garantiert) maximal nur ein Tupel und Projektion auf nur ein Attribut ausgegeben. Das Ergbenis einer skalaren Anfrage ist entweder genau ein Wert, der dann wie eine Konstante verwendet werden kann, oder wenn keine Zeilen gefunden werden, ist das Ergebnis der skalaren Anfrage NULL.
 # <br>
 # ![title](skalare_subanfragen.jpg)
 # <br>
-# ■ ManagerIn(Name, Adresse, ManagerinID, Gehalt)
-# <br>
-# ■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
-# <br>
-# ■ Gesucht: Produzent von Star Wars
+# Wir haben im Folgenden Beispiel die Relationen ManagerIn(Name, Adresse, ManagerinID, Gehalt)und Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID) gegeben. Wir suchen nun den Produzent von Star Wars auf zwei Wegen, wobei garantiert ist, dass es nur einen Produzenten gibt. Zuerst suchen wir ,mithilfe einer allgemeinen Anfrage, unter allen Filmen jene mit dem Titel = 'Star Wars' und Jahr = 1977, wo die ProduzentinID mit der MangaerinID gematcht werden kann. Zuletzt geben wir den Namen aus.
 
 # In[41]:
 
@@ -1035,7 +1007,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Oder aber
+# In dieser Variante suchen wir wieder den Produzent von Star Wars, jedoch mithile einer skalaren Subanfrage. Wir suchen zuerst die ProduzentinID des Films, wo Titel = 'Star Wars' und Jahr = 1977 gilt und vergleichen diesen einen mit der ManagerinID. Wenn eine identische ManagerinID gefunden wurde, geben wir den dazugehörigen Namen aus.
 
 # In[42]:
 
@@ -1049,14 +1021,11 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ DBMS erwartet maximal ein Tupel als Ergebnis der Teilanfrage
-# <br>
-# □ Falls kein Tupel: null
-# <br>
-# □ Falls mehr als ein Tupel: Laufzeitfehler
-# 
+# Das DBMS erwartet maximal ein Tupel als Ergebnis der Teilanfrage, falls kein Tupel in der Subanfrage gefunden wird, ist das Ergebnis NULL, falls mehr als ein Tupel gefunden werden, wird ein Laufzeitfehler ausgegeben.
+
 # #### Skalare Subanfragen – Beispiel 
-# ■ Abteilungen, deren durchschnittliche Bonuszahlungen höher sind als deren durchschnittliches Gehalt.
+# 
+# Im folgenden Beispiel suchen wir die Abteilungen, deren durchschnittliche Bonuszahlungen höher sind als deren durchschnittliches Gehalt. Wir verwenden zwei Subanfragen, die einmal die durchschnittliche Bonuszahlung pro Abteilung ausgibt und einmal das durchschnittliche Gehalt pro Abteilung. Zuletzt vergleichen wir diese Werte miteinander und geben nur die aus, wo die durchschnittliche Bonuszahlung höher ist als das jeweilige durchschnittliche Gehalt.
 
 # In[43]:
 
@@ -1076,9 +1045,15 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Alle Potsdamer Abteilungen mit ihrem Maximalgehalt.
+# In[ ]:
 
-# In[44]:
+
+
+
+
+# In diesem Beispiel suchen wir alle Potsdamer Abteilungen mit ihrem jeweiligen Maximalgehalt. Auch hier benutzen wir wieder eine skalare Subanfrage. Wir geben neben der AbteilungsID, dem Abteilungsnamen, zusätzlich noch das Maximum aller Gehälter der jeweiligen Abteilung als maxGehatlt aus, die sich in Potsdam befindet.
+
+# In[3]:
 
 
 #SELECT a.AbtID, a.Name,
@@ -1093,6 +1068,8 @@ conn = sqlite3.connect("abteilung/abteilung.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
+
+# In dieser Beispielanfrage suchen wir erneut alle Potsdamer Abteilungen mit ihrem jeweiligen Maximalgehalt. Im Vergleich zu der vorherigen Anfrage, können im Ergebnis dieser Anfrage Abteilungen ohne Mitarbeiter nicht vorkommen.
 
 # In[45]:
 
@@ -1109,10 +1086,6 @@ cur = conn.cursor()
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# ■ Anmerkung: Auch Abteilungen ohne Mitarbeiter erscheinen im Ergebnis.
-# <br><br>
-# ■ Nicht so in der folgenden Anfrage:
 
 # ### Bedingungen mit Relationen
 # ■ Bestimmte SQL Operatoren auf Relationen erzeugen Boole‘sche Werte
