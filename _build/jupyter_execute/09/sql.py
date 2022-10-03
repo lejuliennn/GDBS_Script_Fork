@@ -1045,12 +1045,6 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# In[ ]:
-
-
-
-
-
 # In diesem Beispiel suchen wir alle Potsdamer Abteilungen mit ihrem jeweiligen Maximalgehalt. Auch hier benutzen wir wieder eine skalare Subanfrage. Wir geben neben der AbteilungsID, dem Abteilungsnamen, zusätzlich noch das Maximum aller Gehälter der jeweiligen Abteilung als maxGehatlt aus, die sich in Potsdam befindet.
 
 # In[3]:
@@ -1088,29 +1082,37 @@ df
 
 
 # ### Bedingungen mit Relationen
-# ■ Bestimmte SQL Operatoren auf Relationen erzeugen Boole‘sche Werte
+# Nun betrachten wir weitere SQL Operatoren auf Relationen die Boole‘sche Werte erzeugen:
+# <br><br>
+# Um zu überprüfen ob eine Relation leer oder nicht ist, kann der EXISTS-Operator benutzt werden: 
 # <br>
-# □ EXISTS R
+# Z.B. EXISTS R
 # <br>
 # – TRUE, falls R nicht leer
+# <br><br>
+# Um zu überprüfen ob ein Wert in einer Relation mind. einmal vorkommt, kann der IN-Operator benutzt werden:
 # <br>
-# □ x IN R
+# Z.B. x IN R
 # <br>
 # – TRUE falls x gleich einem Wert in R ist (R hat nur ein Attribut)
-# <br>
-# – Verallgemeinerung auf Tupel später
+# <br><br>
+# Um zu überprüfen ob x nicht in R vorkommt, kann NOT IN benutzt werden:
 # <br>
 # – x NOT IN R: TRUE falls x keinem Wert in R gleicht
+# <br><br>
+# Um, zu überprüfen ob ein Wert größer als alle Werte in R ist, kann der ALL-Operator benutzt werden:
 # <br>
-# □ x > ALL R
+# Z.B. x > ALL R
 # <br>
 # – TRUE falls x größer als jeder Wert in R ist (R hat nur ein Attribut)
 # <br>
-# – Alternativ: <, >, <=, >=, <>, =
-# <br>
 # – x <> ALL R: Entspricht x NOT IN R bzw. auch NOT(x in R)
 # <br>
-# □ x > ANY R
+# – Alternativ: <, >, <=, >=, <>, =
+# <br><br>
+# Um zu überprüfen, ob ein Wert größer als mind. ein Wert aus einer Relation ist, kann der ANY-Operator benutzt werden
+# <br>
+# Z.B. x > ANY R
 # <br>
 # – TRUE falls x größer als mindestens ein Wert in R ist (R hat nur ein Attribut)
 # <br>
@@ -1119,10 +1121,10 @@ df
 # – x = ANY R: Entspricht x IN R
 # <br>
 # – Alternativer Befehl: SOME
-# <br>
-# □ Negation mit NOT(…) ist immer möglich.
+# <br><br>
+# Die Negation mit NOT(…) ist immer möglich.
 # ### EXISTS Beispiele
-# ■ ISBNs aller ausgeliehenen Bücher
+# Im folgendne Beispiel wollen wir die ISBNs aller ausgeliehenen Bücher ausgeben. Hierbei verwenden wir den EXISTS-Operator und geben jene ISBNs aus der Relation BuchExemplar aus, dessen Inventarnr in der Relation Ausleihe existiert.
 
 # In[46]:
 
@@ -1141,11 +1143,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Lehrstuhlbezeichnungen der Professor*innen, die alle von ihnen gelesenen Vorlesungen auch schon einmal
-# geprüft haben.
-# <br><br>
-# ■ bzw. Lehrstuhlbezeichnungen von Professor*innen, so dass keine von diesem gelesene Vorlesung existiert, die von
-# ihm nicht geprüft wurde.
+# Im folgenden Beispiel suchen wir die Lehrstuhlbezeichnungen der Professor\*innen, die alle von ihnen gelesenen Vorlesungen auch schon einmal geprüft haben bzw. Lehrstuhlbezeichnungen von Professor\*innen, wo keine von diesem/er gelesene Vorlesung existiert, die von ihm/ihr nicht geprüft wurde. 
 
 # In[18]:
 
@@ -1169,7 +1167,7 @@ df
 
 
 # ### IN Beispiele
-# ■ Eine Auswahl an Büchern
+# Im folgenden Beispiel suchen wir eine Auswahl an Büchern mit bestimmter ISBN.
 
 # In[47]:
 
@@ -1184,7 +1182,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Matrikel der Studenten, die zumindest einen Prüfer gemeinsam mit dem Studenten der Matrikel ‚123456‘ haben
+# Hier suchen wir die Matrikelnr. der Studierenden, die zumindest einen Prüfer/in gemeinsam mit dem Studierenden mit der Matrikelnr. ‚123456‘ haben. 
 
 # In[20]:
 
@@ -1201,6 +1199,8 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
+# Eine Alternativanfrage, welche dieselbe Ausgabe erzeugt, aber nicht den IN-Operator benutzt:
+
 # In[21]:
 
 
@@ -1215,7 +1215,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Nachnamen aller Professor*innen, die schon einmal eine 1,0 vergeben haben.
+# In diesem Beispiel geben wir alle Nachnamen aller Professor\*innen aus, die schon einmal eine 1,0 vergeben haben.
 
 # In[25]:
 
@@ -1232,24 +1232,29 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Achtung: Korrelierte Subanfrage
+# Achtung: Korrelierte Subanfrage, die Subanfrag wird für jede ProfID ausgeführt.
 # 
 # ### ALL und ANY Beispiele
 # 
-# ■ Die schlechteste Note des Studenten mit Matrikel 123456
+# Im folgenden Beispiel suchen wir die schlechteste Note des Studierenden mit der Matrikelnr. 123456.
 
-# In[ ]:
-
-
-SELECT Note
-FROM Prüft
-WHERE Matrikel = ‘123456‘
-AND Note >= ALL (SELECT Note
-                 FROM Prüft
-                 WHERE Matrikel = ‘123456‘)
+# In[3]:
 
 
-# Der Operator ALL wird nicht von sqlite3 unterstützt. Stattdessen kann man eine äquivalente Anfrage mithilfe MAX() formulieren.
+#SELECT Note
+#FROM Prüft
+#WHERE Matrikel = ‘123456‘
+#AND Note >= ALL (SELECT Note
+#                 FROM Prüft
+#                 WHERE Matrikel = ‘123456‘)
+
+__SQL__ = "SELECT Note FROM Prueft WHERE Matrikel = ‘123456‘ AND Note >= ALL (SELECT Note FROM Prueft WHERE Matrikel = ‘123456‘)"
+conn = sqlite3.connect("lehre/lehre.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
+
+
+# Wie man sehen kann wird der Operator ALL nicht von sqlite3 unterstützt. Stattdessen kann man eine äquivalente Anfrage mithilfe MAX() formulieren.
 
 # In[27]:
 
@@ -1260,20 +1265,25 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Alle Studenten, die mindestens eine Prüfung absolvierten
+# Im folgenden Beispiel suchen wir alle Studierenden, die mindestens eine Prüfung absolviert haben.
 
-# In[ ]:
-
-
-SELECT Name, Matrikel
-FROM Student
-WHERE Matrikel = ANY (SELECT Matrikel
-                      FROM Prüft)
+# In[4]:
 
 
-# Der Operator ANY wird nicht von sqlite3 unterstützt. Stattdessen kann man eine äquivalente Anfrage mithilfe IN formulieren.
+#SELECT Name, Matrikel
+#FROM Student
+#WHERE Matrikel = ANY (SELECT Matrikel
+#                      FROM Prueft)
 
-# In[29]:
+__SQL__ = "SELECT Name, Matrikel FROM Student WHERE Matrikel = ANY (SELECT Matrikel FROM Prueft)"
+conn = sqlite3.connect("lehre/lehre.db")
+df = pd.read_sql_query(__SQL__, conn)
+df
+
+
+# Wie man sehen kann wird der Operator ANY nicht von sqlite3 unterstützt. Stattdessen kann man eine äquivalente Anfrage mithilfe IN formulieren.
+
+# In[5]:
 
 
 __SQL__ = "SELECT Name, Matrikel FROM Student WHERE Matrikel IN (SELECT Matrikel FROM Prueft)"
