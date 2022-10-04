@@ -1086,45 +1086,37 @@ df
 # <br><br>
 # Um zu überprüfen ob eine Relation leer oder nicht ist, kann der EXISTS-Operator benutzt werden: 
 # <br>
-# Z.B. EXISTS R
-# <br>
-# – TRUE, falls R nicht leer
+# EXISTS R gibt TRUE zurück, falls R nicht leer ist
 # <br><br>
 # Um zu überprüfen ob ein Wert in einer Relation mind. einmal vorkommt, kann der IN-Operator benutzt werden:
 # <br>
-# Z.B. x IN R
-# <br>
-# – TRUE falls x gleich einem Wert in R ist (R hat nur ein Attribut)
+# x IN R gibt TRUE zurück, falls x gleich einem Wert in R ist (R hat nur ein Attribut)
 # <br><br>
 # Um zu überprüfen ob x nicht in R vorkommt, kann NOT IN benutzt werden:
 # <br>
-# – x NOT IN R: TRUE falls x keinem Wert in R gleicht
+# x NOT IN R gibt TRUE zurück, falls x keinem Wert in R gleicht
 # <br><br>
 # Um, zu überprüfen ob ein Wert größer als alle Werte in R ist, kann der ALL-Operator benutzt werden:
 # <br>
-# Z.B. x > ALL R
+# x > ALL R gibt TRUE zurück, falls x größer als jeder Wert in R ist (R hat nur ein Attribut)
 # <br>
-# – TRUE falls x größer als jeder Wert in R ist (R hat nur ein Attribut)
+# x <> ALL R entspricht x NOT IN R bzw. auch NOT(x in R)
 # <br>
-# – x <> ALL R: Entspricht x NOT IN R bzw. auch NOT(x in R)
-# <br>
-# – Alternativ: <, >, <=, >=, <>, =
+# Natürlich kann man alternativ auch die anderen Vergleichsoperatoren verwenden: <, >, <=, >=, <>, =
 # <br><br>
 # Um zu überprüfen, ob ein Wert größer als mind. ein Wert aus einer Relation ist, kann der ANY-Operator benutzt werden
 # <br>
-# Z.B. x > ANY R
+# x > ANY R gibt TRUE zurück, falls x größer als mindestens ein Wert in R ist (R hat nur ein Attribut)
 # <br>
-# – TRUE falls x größer als mindestens ein Wert in R ist (R hat nur ein Attribut)
+# Auch hier kann man natürlich auch alternativ die anderen Vergleichsoperatoren verwenden: <, >, <=, >=, <>, =
 # <br>
-# – Alternativ: <, >, <=, >=, <>, =
+# x = ANY R entspricht x IN R
 # <br>
-# – x = ANY R: Entspricht x IN R
-# <br>
-# – Alternativer Befehl: SOME
+# Ein alternativer Befehl für ANY ist SOME
 # <br><br>
 # Die Negation mit NOT(…) ist immer möglich.
 # ### EXISTS Beispiele
-# Im folgendne Beispiel wollen wir die ISBNs aller ausgeliehenen Bücher ausgeben. Hierbei verwenden wir den EXISTS-Operator und geben jene ISBNs aus der Relation BuchExemplar aus, dessen Inventarnr in der Relation Ausleihe existiert.
+# Im folgenden Beispiel wollen wir die ISBNs aller ausgeliehenen Bücher ausgeben. Hierbei verwenden wir den EXISTS-Operator und geben jene ISBNs aus der Relation BuchExemplar aus, dessen Inventarnr in der Relation Ausleihe existiert.
 
 # In[46]:
 
@@ -1293,28 +1285,16 @@ df
 
 
 # ### Bedingungen mit Tupeln
-# ■ Verallgemeinerung von IN, ALL und ANY auf Tupel
-# <br>
-# □ t IN R
-# <br>
-# – TRUE falls t ein Tupel in R ist (mehr als ein Attribut möglich)
-# <br>
-# – Setzt gleiche Schemata voraus
-# <br>
-# – Setzt gleiche Reihenfolge der Attribute voraus
-# <br>
-# □ t > ALL R
-# <br>
-# – TRUE falls t größer als jedes Tupel in R ist
-# <br>
-# – Vergleiche in Standardreihenfolge der Attribute
-# <br>
-# □ t <> ANY R
-# <br>
-# – TRUE falls R mindestens ein Tupel hat, das ungleich t ist
+# Verallgemeinerungen von IN, ALL und ANY auf Tupel sind auch möglich. 
+# <br><br>
+# t IN R gibt TRUE zurück, falls t ein Tupel in R ist (mehr als ein Attribut möglich). Hierbei ist vorausgesetzt, dass beide dasselbe Schemata haben und dieselbe Reihenfolge der Attribute.
+# <br><br>
+# t > ALL R gibt TRUE zurück, falls t größer als jedes Tupel in R ist. Die Vergleiche finden in Standardreihenfolge der Attribute statt.
+# <br><br>
+# t <> ANY R gibt TRUE zurück, falls R mindestens ein Tupel hat, das ungleich t ist.
 # <br>
 # <br>
-# ■ Namen von Produzenten von Filmen mit Harrison Ford
+# Im folgenden Beispiel wollen wir alle Namen von Produzenten von Filmen mit Harrison Ford ausgeben. Wir suchen erst Titel und Jahr aller Filme mit Harrison Ford mithilfe einer Subanfrage. Für jene Filme suchen wir dann die ProduzentinIDs und gleichen die mit den ManagerinIDs ab, zuletzt geben wir die Namen der passenden Manager\*Innen aus.
 
 # In[58]:
 
@@ -1330,20 +1310,17 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Analyse am besten von innen nach außen
-# <br><br>
-# ■ Alternative Formulierung
+# Es gibt auch eine alternative Formulierung der Anfrage ohne IN. Wir joinen ManagerIn, Film und spielt_in und geben jene Manager\*Innamen aus, wo spielt_in.Name Harrison Ford entspricht.
 
 # In[59]:
 
 
-#alte Anfrage
-#SELECT Name 
+#SELECT ManagerIn.Name 
 #FROM ManagerIn, Film, spielt_in 
 #WHERE ManagerinID = ProduzentinID 
 #AND Titel = FilmTitel 
 #AND Jahr = FilmJahr 
-#AND SchauspielerIn.Name = "Harrison Ford";
+#AND spielt_in.Name = "Harrison Ford";
 
 __SQL__ = "SELECT ManagerIn.Name FROM ManagerIn, Film, spielt_in WHERE ManagerinID = ProduzentinID AND Titel = FilmTitel AND Jahr = FilmJahr AND spielt_in.Name = 'Harrison Ford'"
 conn = sqlite3.connect("filme/filme.db")
@@ -1352,12 +1329,9 @@ df
 
 
 # ### Subanfragen in FROM-Klausel
-# ■ Bisher: Nur Subanfragen in WHERE-Klausel
-# <br>
-# □ Anstelle einfacher Relation steht eine geklammerte Subanfrage
-# <br>
-# □ Es muss ein Alias vergeben werden.
-# <br>
+# Wir können anstelle einer einfachen Relation auch eine geklammerte Subanfrage in der FROM-Klausel schreiben. Der Subanfrage mussein Alias vergeben werden, um auf die Attribute zuzugreifen.
+# <br><br>
+# Im folgenden Beispiel wollen wir wieder alle Namen von Produzenten von Filmen mit Harrison Ford ausgeben. Wir stellen eine Subanfrage in der FROM-Klausel, die alle ProduzentinIDs zurückgibt, welche in Filmen mit Harrison Ford beteiligt waren. Zum Schluss werden die ProduzentinIDs wieder mit den ManagerinIDs abgeglichen.
 
 # In[60]:
 
@@ -1373,17 +1347,14 @@ df
 
 
 # ### Korrelierte Subanfragen
-# ■ Unkorreliert: Subanfragen einmalig ausführen und das Ergebnis weiterverwenden
+# Wird eine Subanfragen einmalig ausgeführt, so handelt es sich um eine unkorrelierte Subanfrage. Korrelierte Subanfragen werden mehrfach ausgeführt, undzwar einmal pro Bindung der korrelierten Variable der äußeren Anfrage.
 # <br><br>
-# ■ Korrelierte Subanfragen werden mehrfach ausgeführt, einmal pro Bindung der korrelierten Variable der äußeren
-# Anfrage
-# <br><br>
-# ■ Alle mehrfachen Filme mit Ausnahme der jeweils jüngsten Ausgabe
+# Im folgenden ein Beispiel für eine korrelierte Subanfrage. Wir suchen alle mehrfachen Filme mit Ausnahme der jeweils jüngsten Ausgabe. Die Subanfrage wird für jedes Tupel in Filme ausgeführt.
 
 # In[63]:
 
 
-#%sql SELECT Titel, Jahr 
+#SELECT Titel, Jahr 
 #FROM Film Alt 
 #WHERE Jahr < ANY ( SELECT Jahr FROM Film WHERE Titel = Alt.Titel);
 
@@ -1395,13 +1366,9 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# □ Ausführung der Subanfrage für jedes Tupel in Filme
-# 
-# Scope: Attributnamen gehören zunächst zur Tupelvariablen der aktuellen Anfrage. Sonst: Suche von innen nach außen.
-# 
-# Unkorreliert:
-# <br>
-# Name und Gehalt aller Mitarbeiter in Potsdam
+# Nun suchen wir die Namen und Gehälter aller Mitarbeiter\*Innen in Potsdam, wir formulieren zunächst eine Anfrage mit einer unkorrelierten und dann eine mit einr korrelierte Subanfrage.
+# <br><br>
+# Unten wird die Subanfrage nur einmal ausgeführt, da wir sofort alle AbtIDs haben. Daher handelt es sich hierbei um eine unkorrelierte Subanfrage.
 
 # In[64]:
 
@@ -1420,9 +1387,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# Korreliert:
-# <br>
-# Name und Gehalt aller Mitarbeiter, deren Gehalt höher als 10% des Abteilungsbudgets ist.
+# Hierbei handelt es sich um eine korrelierte Subanfrage, aufgrund des p.AbtID, da die Subanfrage für jedes Tupel aus Personal p ausgeführt werden muss.
 
 # In[65]:
 
