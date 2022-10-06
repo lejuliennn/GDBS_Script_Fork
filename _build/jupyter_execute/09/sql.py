@@ -1408,27 +1408,15 @@ df
 
 # ## Operationen auf einer Relation
 # ### Duplikateliminierung
-#  Relationale DBMS verwenden i.d.R. Multimengensemantik, nicht Mengensemantik.
-#  <br>
-# □ Duplikate entstehen durch
-#  <br>
-# – Einfügen von Duplikaten in Basisrelation
-#  <br>
-# – Veränderung von Tupeln in Basisrelation
-#  <br>
-# – Projektion in Anfragen
-#  <br>
-# – Durch Subanfragen (UNION ALL)
-#  <br>
-# – Vermehrung von Duplikaten durch Kreuzprodukt
-#  <br> <br>
-# ■ Duplikateliminierung
-#  <br>
-# □ SELECT DISTINCT Attributnamen
-#  <br>
-# □ Kosten sind hoch: Sortierung oder hashing
-#  <br>
-# ■ Alle Filme, in denen mindestens ein Schauspieler mitspielt
+# Wie aus der Relationalen Algebra bekannt, ist die Duplikateliminierung auch in SQL möglich. Relationale DBMS verwenden i.d.R. Multimengensemantik und nicht Mengensemantik. Durch Operationen, wie das Enfügen von Duplikaten in Basisrelationen, die Veränderung von Tupeln in Basisrelationen, Projektion in Anfragen, Subanfragen mit z.B UNION ALL oder die Vermehrung von Duplikaten durch Kreuzprodukte, entstehen Duplikate.
+# 
+# Um Duplikate zu eliminieren kann man das DISTINCt-Schlüsselwort benutzen, nach folgendem Schema:
+# ```
+# SELECT DISTINCT Attributnamen
+# ```
+# So wird gewährleistet, dass jedes projezierte Element aus Attributnamen nur einmal in der Ausgabe vorkommt. Zu beachten ist noch, dass DISTINCT eine kostenaufwändige Operation ist, da die Ausgabe einmal auf Duplikate hin durchsucht werden muss, mithilfe Sortierung oder Hashing.
+# <br><br>
+# Im folgenden Beispiel suchen wir alle Filme, in denen mindestens ein Schauspieler mitspielt. In der Relation spielt_in sind pro Schauspieler Titel und Jahr vorhanden. 
 
 # In[66]:
 
@@ -1443,57 +1431,17 @@ df
 
 
 # ![title](duplikateliminierung.jpg)
-# #### Wdh.: Duplikateliminierung bei Mengenoperationen
-# ■ Mengenoperationen in SQL entfernen Duplikate
-# <br>
-# □ UNION, INTERSECT, EXCEPT
-# <br>
-# □ wandeln Multimengen in Mengen um und verwenden Mengensemantik
-# <br>
-# □ Solche Duplikateliminierung verhindern durch ALL
-# <br>
-
-# In[67]:
-
-
-#(SELECT Titel, Jahr, FROM Film) UNION ALL (SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in);
-
-__SQL__ = "SELECT Titel, Jahr FROM Film UNION ALL SELECT FilmTitel AS Titel, FilmJahr AS Jahr FROM spielt_in"
-conn = sqlite3.connect("filme/filme.db")
-df = pd.read_sql_query(__SQL__, conn)
-df
-
-
-# – Film mit drei Schauspielern erscheint also 4 Mal im Ergebnis
-# <br>
-# □ R INTERSECT ALL S
-# <br>
-# □ R EXCEPT ALL S
 # 
+
+# Wir erinnern uns zurück an die Anfragen, wo wir die Produzent\*Innen von Filmen mit Harrison Ford gesucht haben. Einmal sind wir an das Ergebnis durch Subanfragen gelangt und auf einem anderen Wege mit einem Join. Nun sind beide Anfragen nicht äquivalent, da bei der Anfrage mit dem Join Duplikate möglich sind, welches sich aber mit dem DISTINCT-Schlüsselwort lösen lässt.
+
 # ### Aggregation
-# ■ Standardaggregationsoperatoren
-# <br>
-# □ SUM, AVG, MIN, MAX, COUNT
-# <br>
-# □ Angewendet auf einzelne Attribute in der SELECT-Klausel
-# <br><br>
-# ■ Typische weitere Aggregationsoperatoren
-# <br>
-# □ VAR, STDDEV
-# <br><br>
-# ■ COUNT(*) zählt Anzahl der Tupel
-# <br>
-# □ in der Relation, die durch die FROM und WHERE Klauseln definiert wird.
-# <br><br>
-# ■ Kombination mit DISTINCT
-# <br>
-# □ COUNT(DISTINCT Jahr)
-# <br>
-# □ SUM(DISTINCT Gehalt)
+# Die aus der Relationalen Algebra bekannte Aggregation ist auch in SQL möglich, die Standardaggregationsoperatoren SUM, AVG, MIN, MAX, COUNT können auf einzelne Attribute in der SELECT-Klausel angewendet werden. Zudem gibt es noch weitere Aggregationsoperatoren wir z.B VAR, STDDEV für die Varianz und Standardabweichung. Es wird auch COUNT(\*) häufig benutzt, welches die Anzahl der Tupel in der Relation, die durch die FROM und WHERE Klauseln definiert wird zählt. Auch die Kombination mit DISTINCT wird häufig benutzt wie z.B COUNT(DISTINCT Jahr) SUM(DISTINCT Gehalt)
 # 
 # #### Aggregation – Beispiele
+# Im folgenden Beispiel möchten wir das Durchschnittsgehalt aller Manager*\Innen ausgeben.
 
-# In[68]:
+# In[3]:
 
 
 #SELECT AVG(Gehalt) 
@@ -1504,6 +1452,8 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
+
+# In diesem Beispiel möchten wir alle Einträger der Relation spielt_in zählen.
 
 # In[69]:
 
@@ -1517,6 +1467,8 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
+# In diesem Beispiel zählen wir alle Schauspiel in der spielt_in Relation, jedoch wird doppelt gezählt.
+
 # In[70]:
 
 
@@ -1528,6 +1480,8 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
+
+# Mit DISTINCT wird nicht mehr doppelt gezählt.
 
 # In[71]:
 
@@ -1543,32 +1497,26 @@ df
 
 
 # ### Gruppierung, Aggregation und NULL
-# ■ NULL wird bei Aggregation ignoriert.
-# <br>
-# □ Trägt also nicht zu SUM, AVG oder COUNT bei.
-# <br>
-# □ Ist nicht MIN oder MAX
-# <br>
-# □ Anzahl Tupel: SELECT COUNT(*) FROM spielt_in;
-# <br>
-# □ Anzahl nicht-NULL Werte: SELECT COUNT(Länge) FROM Film;
-# <br><br>
-# ■ NULL ist ein eigener Gruppierungswert
-# <br>
-# □ Es gibt also z.B. die NULL-Gruppe
-# <br>
-# □ SELECT A, COUNT(B) FROM R GROUP BY A;
-# <br>
-# – Ergebnis: (NULL, 0)
-# <br>
-# □ SELECT A, SUM(B) FROM R GROUP BY A;
-# <br>
-# – Ergebnis: (NULL, NULL)
-# <br>
+# NULL wird bei der Aggregation ignoriert und trägt somit nicht zu SUM, AVG oder COUNT bei und wird auch nicht als MIN oder MAX ausgegeben. Um die Anzahl der nicht-NULL Werte zuzählen, kann also folgende Anfrage benutzt werden:
+# ```
+# SELECT COUNT(Länge) FROM Film;
+# ```
+# 
+# Bei der Gruppierung ist NULL ein eigener Gruppierungswert, also gibt es z.B die NULL-Gruppe. Um das zu veranschaulichen betrachten wir die folgende Relation R:
 # 
 # |A|B|
 # |---|---|
 # |NULL|NULL|
+# 
+# 
+# SELECT A, COUNT(B) FROM R GROUP BY A;
+# <br>
+# Ergebnis: (NULL, 0)
+# <br><br>
+# SELECT A, SUM(B) FROM R GROUP BY A;
+# <br>
+# Ergebnis: (NULL, NULL)
+# 
 # 
 # ### Gruppierung
 # ■ Gruppierung mittels GROUP BY nach der WHERE-Klausel
