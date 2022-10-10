@@ -1642,47 +1642,29 @@ df
 
 # ### Zusammenfassung SQL
 # Hier werden nocheinmal die Grundbausteine einer SQL Anfrage (mit empfohlener Lesereihenfolge) aufgelistet.
+
+# 6\. SELECT
 # <br>
+# 1\. FROM
 # <br>
-# 6. SELECT
+# 2\. WHERE
 # <br>
-# 1. FROM
+# 3\. GROUP BY
 # <br>
-# 2. WHERE
+# 4\. HAVING
 # <br>
-# 3. GROUP BY
-# <br>
-# 4. HAVING
-# <br>
-# 5. ORDER BY
-# <br><br>
+# 5\. ORDER BY
+
 # Bei einer Anfrage die auf eine Datenbank zugreift sins SELECT … FROM … Pflicht. Zuletzt darf HAVING nur in Kombination mit GROUP BY erscheinen.
 
 # ## Datenbearbeitung(DML)
-# ### Überblick
-# ■  CRUD: Create, Read, Update, Delete
-# <br><br>
-# ■ Einfügen
-# <br>
-# □ INSERT INTO … VALUES…
-# <br><br>
-# ■ Löschen
-# <br>
-# □ DELETE FROM … WHERE …
-# <br><br>
-# ■ Ändern
-# <br>
-# □ UPDATE … SET … WHERE …
+# Zuvor haben wir SQL nur als Anfragesprache betrachtet. In diesem Kapitel betrachten wir SQL nun als DMl(Data Manipulation Language), also das Bearbeiten von Daten. In SQL stehen folgende Funktione zur Verfügung um Daten zu bearbeiten Create, Read, Update und Delete(CRUD). Um einzelne Tupel einzufügen, zu löschen und zu ändern.
+# 
+# 
 # ### Einfügen
-# ■ Grundbaustein
-# <br>
-# □ INSERT INTO R(A1, …, An) VALUES (v1,…,vn);
-# <br>
-# □ Bei fehlenden Attributen
-# <br>
-# – Default-Wert aus Tabellendefinition (NULL, falls nicht anders angegeben)
-# <br>
-# □ Beispiel
+# Als Grundbaustein für das Einfügen in einer Relation R, muss man folgendem Schema folgen INSERT INTO R(A1, …, An) VALUES (v1,…,vn), wobei A1,...,An die Attribute der Relation R sind und v1,...,vn die zu einfügenden Werte. Hierbei muss die Reihenfolge der Werte und Attribute beachtet werden, die Reihenfolge sollte entsprechend der Spezifikation des Schemas (CREATE TABLE ...) erfolgen. Falls beim INSERT Attribute fehlen, wird der Default-Wert aus der Tabellendefinition eingesetzt bzw. NULL, falls nicht anders angegeben wurde. 
+# <br><br>
+# Ein Beispiel für das Einfügen eines Tupels in die spielt_in-Relation ist unten zu finden.
 
 # In[ ]:
 
@@ -1690,9 +1672,7 @@ df
 get_ipython().run_line_magic('sql', 'INSERT INTO spielt_in(FilmTitel, FilmJahr, Schauspieler) VALUES (‘Star Wars‘, 1977, ‘Alec Guinness‘);')
 
 
-# – Reihenfolge der Werte und Attribute wird beachtet.
-# 
-# □ Falls alle Attribute gesetzt werden, kann Attributliste fehlen:
+# Falls alle Attribute gesetzt werden, kann die Attributliste auch ausgelassen werden, wie unten zu sehen ist.
 
 # In[ ]:
 
@@ -1700,14 +1680,11 @@ get_ipython().run_line_magic('sql', 'INSERT INTO spielt_in(FilmTitel, FilmJahr, 
 get_ipython().run_line_magic('sql', 'INSERT INTO spielt_in VALUES (‘Star Wars‘, 1977, ‘Alec Guinness‘);')
 
 
-# – Reihenfolge entsprechend der Spezifikation des Schemas
-# (CREATE TABLE …)
 # #### Einfügen per Anfrage
-#  Füge in Studio-Tabelle alle Studios der Filme-Relation ein
-#  <br>
-# □ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
-#  <br>
-# □ Studio(Name, Adresse, VorsitzendeID)
+# In SQL ist es auch möglich Einfügeoperationen mit Anfragen zu kombinieren.
+# <br>
+# <br>
+# Haben wir die beiden Relationen Studio(Name, Adresse, VorsitzendeID) und Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID). Nun kann es sein, dass Studios in der Film-Relation vorkommen, aber nicht in der Studio-Relation. Wir möchten also alle Studios der Film-Relation ind die Studio-Relation einfügen. In der unteren Anfrage fügen wir jene StudioNamen in die Studio-Relation ein, die nicht in der Studio-Relation vorkommen. Jedoch bleiben bei dieser Anfrage die Attribute Adresse und VorsitzendeID auf NULL, welches im Allgemeinen Redundanz erzeugt, was vermieden werden sollte.
 
 # In[ ]:
 
@@ -1721,9 +1698,6 @@ WHERE StudioName NOT IN
     FROM Studio);
 
 
-# Adresse und VorsitzendeIDbleiben NULL.
-#  <br>
-# □ Erzeugt im Allgemeinen Redundanz und sollte vermieden werden.
 # ### Ausführungsreihenfolge beim Einfügen
 # Wann wird eingefügt?
 # <br>
@@ -1764,32 +1738,9 @@ WHERE StudioName NOT IN
 
 
 # #### Bulk insert
-# 
-# ■ INSERT
-# <br>
-# □ Zeilenbasiertes Einfügen aus SQL statements
+# Beim INSERT werden die Daten zeilenbasiert aus SQL statements eingefügt. Es ist möglich, dass die Daten ,die in eine Datenbank eingefügt werden sollen schon in einer bestimmten Form vorliegen. Da bietet es sich an den Befehl IMPORT zu benutzten, mitdem Daten aus einer Datei Zeilenbasiert eingefügt werden. Hierbei bleiben die gesetzten Trigger und Nebenbedingungen weiterhin aktiv und auch die Indizes werden laufend aktualisiert.
 # <br><br>
-# ■ IMPORT
-# <br>
-# □ Zeilen-basiertes Einfügen aus Datei
-# <br>
-# □ Trigger und Nebenbedingungen bleiben aktiv
-# <br>
-# □ Indizes werden laufend aktualisiert
-# <br><br>
-# ■ LOAD
-# <br>
-# □ Seiten-basiertes Einfügen aus Datei
-# <br>
-# □ Trigger und Nebenbedingungen werden deaktiviert
-# <br>
-# □ Deutlich effizienter
-# <br>
-# □ Indizes werden am Ende neu generiert
-# <br><br>
-# ■ Syntax ist jeweils DBMS-spezifisch.
-# <br>
-# □ Viele Parameter
+# Eine deutlich effizientere Weise Daten einzufügen ist mit LOAD, hier wird seitenbasiert aus einer Datei eingefügt, wobei Trigger und Nebenbedingungen nicht berücksichtigt werden und die Indizes am Ende neu generiert werden. Man muss beachten, dass die Syntax von IMPORT und LOAD jeweils DBMS-spezifisch ist, z.B gibt es in sqlite keinen LOAD-Befehl.
 # 
 # ### Löschen
 # ■ Grundbaustein
