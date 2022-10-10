@@ -1519,7 +1519,7 @@ df
 # 
 # 
 # ### Gruppierung
-# ■ Gruppierung mittels GROUP BY nach der WHERE-Klausel
+# Auch die aus der Relationalen Algebra bekannte Gruppierung ist in SLQ möglich mittels GROUP BY nach der WHERE-Klausel. Bei der Gruppierung gibt es in der SELECT-Klausel zwei "Sorten" von Attributen, einmal Gruppierungsattribute und einmal aggregierte Attribute. Nicht-aggregierte Werte der SELECT-Klausel müssen in der GROUP BY-Klausel erscheinen, es müssen jedoch keiner der beiden Sorten erscheinen. Eine Gruppierung mit Aggregation können wir im unteren Beispiel sehen.
 
 # In[72]:
 
@@ -1533,15 +1533,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ In SELECT-Klausel zwei „Sorten“ von Attributen
-# <br>
-# 1. Gruppierungsattribute
-# <br>
-# 2. Aggregierte Attribute
-# <br>
-# □ Nicht-aggregierte Werte der SELECT-Klausel müssen in der GROUP BY-Klausel erscheinen.
-# <br>
-# □ Keine der beiden Sorten muss erscheinen.
+# In diesem Beispiel lassen wir die Aggregation weg und suchen nur die Studionamen gruppiert bei StudioName.
 
 # In[73]:
 
@@ -1556,6 +1548,8 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
+# In diesem Beispiel suchen wir nur die Gesamtlänge der Studios.
+
 # In[74]:
 
 
@@ -1568,8 +1562,6 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
-
-# ■ Gruppierung bei Verwendung mehrerer Relationen wird am Schluss durchgeführt.
 
 # In[75]:
 
@@ -1585,7 +1577,7 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Reihenfolge der Ausführung (und des Lesens)
+# Wenn mehrere Relationen verwendet werden, wie im obigen Beispiel wird die Gruppierung am Schluss durchgeführt. Sie können sich an die folgende Reihenfolge der Ausführung (und des Lesens) richten:
 # <br>
 # 1. FROM-Klausel
 # <br>
@@ -1596,9 +1588,13 @@ df
 # 4. SELECT-Klausel
 # <br>
 # <br>
-# ■ Einschränkung der Ergebnismenge nach der Gruppierung durch HAVING
 
-# In[76]:
+# Möchte man nun die Ergebnismenge nach der Gruppierung einschränken, so geht das nicht durch eine zusätzliche Bedingung in der WHERE-Klausel, sondern es muss das Schlüsselwort HAVING benutzt werden.Benutzt man zusätzlich noch Aggregationen in der HAVING-Klausel, so beziehen sich diese nur auf die aktuelle Gruppe. Wie bei der SELECT-Klausel, dürfen bei der Gruppierung in der HAVING-Klausel nur un-aggregierte Gruppierungsattribute erscheinen.
+# <br>
+# <br>
+# Wir möchten die Summe der Filmlänge von Manager\*Innen ausgeben, dessen Gehälter über 1000000 liegt. Das untere Beispiel erfüllt nicht die Anfrage.
+
+# In[1]:
 
 
 #SELECT Name, SUM(Laenge) 
@@ -1611,6 +1607,8 @@ conn = sqlite3.connect("filme/filme.db")
 df = pd.read_sql_query(__SQL__, conn)
 df
 
+
+# Wie oben schon genannt muss HAVING benutzt werden, um die Ergebnismenge nach der Gruppierung einzuschränken, wie um unteren Beispiel dargestellt wird.
 
 # In[77]:
 
@@ -1626,6 +1624,8 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
+# In diesem Beispiel geben wir nur die Namen der Manager\*Innen aus und benutzten Aggregation, um diese zu filtern.
+
 # In[78]:
 
 
@@ -1640,30 +1640,23 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# ■ Aggregationen in HAVING-Klausel beziehen sich nur auf aktuelle Gruppe.
-# <br>
-# ■ Nur Gruppierungsattribute dürfen un-aggregiert in HAVING Klausel erscheinen (wie bei
-# SELECT-Klausel).
 # ### Zusammenfassung SQL
-#  Grundbausteine einer SQL Anfrage (mit empfohlener Lesereihenfolge)
-#  <br>
-# □ 6. SELECT
+# Hier werden nocheinmal die Grundbausteine einer SQL Anfrage (mit empfohlener Lesereihenfolge) aufgelistet.
 # <br>
-# □ 1. FROM
 # <br>
-# □ 2. WHERE
+# 6. SELECT
 # <br>
-# □ 3. GROUP BY
+# 1. FROM
 # <br>
-# □ 4. HAVING
+# 2. WHERE
 # <br>
-# □ 5. ORDER BY
+# 3. GROUP BY
+# <br>
+# 4. HAVING
+# <br>
+# 5. ORDER BY
 # <br><br>
-# ■ SELECT … FROM … sind Pflicht.
-# <br>
-# □ Ausnahme: z.B. SELECT 7 + 3
-# <br><br>
-# ■ HAVING darf nur in Kombination mit GROUP BY erscheinen.
+# Bei einer Anfrage die auf eine Datenbank zugreift sins SELECT … FROM … Pflicht. Zuletzt darf HAVING nur in Kombination mit GROUP BY erscheinen.
 
 # ## Datenbearbeitung(DML)
 # ### Überblick
