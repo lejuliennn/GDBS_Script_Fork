@@ -1743,11 +1743,7 @@ WHERE StudioName NOT IN
 # Eine deutlich effizientere Weise Daten einzufügen ist mit LOAD, hier wird seitenbasiert aus einer Datei eingefügt, wobei Trigger und Nebenbedingungen nicht berücksichtigt werden und die Indizes am Ende neu generiert werden. Man muss beachten, dass die Syntax von IMPORT und LOAD jeweils DBMS-spezifisch ist, z.B gibt es in sqlite keinen LOAD-Befehl.
 # 
 # ### Löschen
-# ■ Grundbaustein
-# <br>
-# □ DELETE FROM R WHERE …
-# <br>
-# □ Lösche alle Tupel in R, für die die Bedingung wahr ist.
+# Der Grundbaustein zum Löschen von Tupeln ist DELETE FROM R WHERE …, wobei R wie beim Einfügen eine Relation ist. Beim Delete werden immer ganze Tupel gelöscht. Im Gegensatz zum Einfügen, können die zu löschenden Tupel nicht direkt angegeben werden, sondern müssen in der WHERE-Klausel umschrieben werden. Um ein konkretes Tupel zu löschen, müssen also alle Werte dieses Tupel oder wenn vorhanden eine ID bekannt sein. Es werden alle Tupel gelöscht für die TRUE in der WHERE-Kausel gilt. Es ist auch möglich die WHERE-Klausel wegzulassen, dann werden alle Tupel der Relation gelöscht. Unten finden Sie einige Beispiele.
 
 # In[ ]:
 
@@ -1759,9 +1755,6 @@ AND FilmJahr = 1942
 AND Schauspieler = ‘Sydney Greenstreet‘;
 
 
-# ■ Tupel können im Gegensatz zum Einfügen nicht direkt angegeben werden, sondern müssen umschrieben werden.
-# <br>
-
 # In[ ]:
 
 
@@ -1770,19 +1763,16 @@ DELETE FROM Manager
 WHERE Gehalt < 10000000;
 
 
-# ■ Alle Manager-Tupel löschen: DELETE FROM Manager;
-# 
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+DELETE FROM Manager;
+
+
 # ### Verändern (update)
-# ■ Grundbaustein
-# <br>
-# □ UPDATE R SET … WHERE …
-# <br>
-# □ SET Klausel
-# <br>
-# – Wertzuweisungen
-# <br>
-# – Komma-separiert
-# <br>
+# Der Grundbaustein zum Verändern von Tupeln ist UPDATE R SET … WHERE …, wobei auch hier R eine Relation ist. In der SET-Klausel werden komma-separiert Werte zugewiesen. Im Beispiel unten wird in der Managerrelation vor dem Name jener Manager\*Innen eine 'Präs.' gesetzt, dessen Manager\*InID in den Präsident\*InnenIDs vorkommt.
+# 
 
 # In[ ]:
 
@@ -1796,6 +1786,7 @@ WHERE ManagerinID IN
 
 # ## Schemata(DDL)
 # ### Überblick
+# In diesem Kapitel betrachten wir SQL als Data Definition Language(DDL)
 # ■ Datentypen 
 # <br>
 # ■ Tabellen
