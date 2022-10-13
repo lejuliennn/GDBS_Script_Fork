@@ -70,7 +70,7 @@
 
 # Wie bereits gesagt beschreiben ER-Diagramme Datenbanken, die eine Instanz haben (werden).
 # Dabei gilt, dass der „Wert“ eines Entitytypen die (endliche) Menge der zugehörigen Entities ist. Jede Entity hat bestimmte Werte für seine Attribute, z.B., Basic Instinct = {Titel=Basic Instinct, Jahr = 1992, Länge = 127, Typ = Farbe}. Die Instanz eines n-ären Relationshiptypen ist eine Menge von n-Tupel, z.B spielt_in_instanz_1= (Basic Instinct, Sharon Stone).
-# Dies alles ist an dieser Stelle nur abstrakte Denkhilfe. Die Modellierung im relationalen Modell wird sich nochmal unterscheiden, sodass sich die Abspeicherung durch ein DBMS auch unterscheiden wird. 
+# Dies alles ist an dieser Stelle nur eine abstrakte Denkhilfe. Die Modellierung im relationalen Modell wird sich nochmal unterscheiden, sodass sich die Abspeicherung durch ein DBMS auch unterscheiden wird. 
 # 
 # **Beispiel:** Die folgenden Tabellen stellen die Instanzen eines Teils unseres Modells in der finalen Datenbank im **relationalen Modell** (als Tabellen) dar. 
 # 
@@ -108,7 +108,7 @@
 
 # ## Kardinalitäten von Relationshiptypen
 
-# Allgemein: Ein binärer Relationshiptyp kann beliebig viele Entities des einen Typen mit beliebig vielen des anderen Typen verbinden. Betrachten wir zum Beispiel unsere Beispieldatenbank über Filme. Hier kann eine Schauspieler\*in in mehreren Filmen mitspielen und gleichzeitig mehrere Schauspieler\*innen in einem einzigen Film. Hierbei nutzen wir bewusst "kann", da nicht jede Entity mit einem anderen Entity des jeweiligen Typen verbunden sein muss. Beispielsweise spielen in Animationsfilme keine Schauspieler\*innen. Anders ist es bei Relationshiptypen, bei denen eine Verbindung erzwungen werden muss. Beispielsweise muss jeder Film von einem Studio produziert werden - in diesem Fall sogar von genau einem Studio.
+# Allgemein: Ein binärer Relationshiptyp kann beliebig viele Entities des einen Typen mit beliebig vielen des anderen Typen verbinden. Betrachten wir zum Beispiel unsere Beispieldatenbank über Filme. Hier kann eine Schauspieler\*in in mehreren Filmen mitspielen und gleichzeitig mehrere Schauspieler\*innen in einem einzigen Film. Hierbei nutzen wir bewusst "kann", da nicht jede Entity mit einer anderen Entity des jeweiligen Typen verbunden sein muss. Beispielsweise spielen in Animationsfilme keine Schauspieler\*innen mit. Anders ist es bei Relationshiptypen, bei denen eine Verbindung erzwungen werden muss. Beispielsweise muss jeder Film von einem Studio produziert werden - in diesem Fall sogar von genau einem Studio.
 # 
 # Man kann diese Kardinalitäten im ER-Modell genau spezifizieren. Es gibt im Allgemeinen drei häufige Kardinalitäten:
 # 
@@ -144,13 +144,13 @@
 
 # ## Weitere Notationen für Kardinalitäten
 # 
-# Sie werden in der Literatur verschiedene Notationen für die Darstellung von Kardinalitäten finden. Diese sind unterschiedlich mächtig. Bisher haben wir lediglich die grafische Notation kennengerlernt, die über Pfeiltypen ausgedrückt wird. Eine Verbindung ohne einer Pfeilspitze ,der eine beliebige Anzahl von Verbindungen also "n" suggeriert und einer Verbindung mit Pfeilspitze, der maximal eine Verbindung also "1" darstellt. Diese Notation lässt noch keine Nebenbedingungen hinsichtlich konkreter "n"-Werte zu.
-# Im folgenden werden wir noch die Min-Max-Notation und numerische Notation kennenlernen. 
+# Sie werden in der Literatur verschiedene Notationen für die Darstellung von Kardinalitäten finden. Diese sind unterschiedlich mächtig. Bisher haben wir lediglich die grafische Notation kennengerlernt, die über Pfeiltypen ausgedrückt wird. Eine Verbindung ohne eine Pfeilspitze, die eine beliebige Anzahl von Verbindungen, also "n", suggeriert und eine Verbindung mit einer Pfeilspitze, die maximal eine Verbindung, also "1", darstellt. Diese Notation lässt noch keine Nebenbedingungen hinsichtlich konkreter "n"-Werte zu.
+# Im Folgenden werden wir noch die Min-Max-Notation und die numerische Notation kennenlernen. 
 # 
 # 
 # ### Min-Max-Notation (Look-Up-Semantik)
 # 
-# Die Min-Max-Notation schränkt die möglichen Teilnahmen von Instanzen der beteiligten Entitytypen an der Beziehung ein. Insbesondere drückt sie aus wie häufig eine Instanz minimal bzw. maximal an einer Beziehung teilnimmt. Die Notation ist (Min,Max) an der Seite des Entitytypen. 
+# Die Min-Max-Notation schränkt die möglichen Teilnahmen von Instanzen der beteiligten Entitytypen an der Beziehung ein. Insbesondere drückt sie aus, wie häufig eine Instanz minimal bzw. maximal an einer Beziehung teilnimmt. Die Notation ist (Min,Max) an der Seite des Entitytypen. 
 # 
 # Im folgenden Beispiel sagt (0,1) an der Seite des Produktes aus, dass ein Produkt entweder in einem oder keinem Regal gelagert wird. Andersherum sagt (0,3) auf der Seite des Regals aus, dass in einem Regal 0 bis 3 unterschiedliche Produkte gelagert werden können. 
 # 
@@ -159,14 +159,14 @@
 # 
 # ### Numerische Notation (Partizipationssemantik)
 # 
-# Die numerische Notation ist eine vereinfachende Form, in der man ausdrück mit wie vielen Instanzen des gegenüberliegenden Typen eine Verbindung maximal aufgebaut wird. 
+# Die numerische Notation ist eine vereinfachende Form, in der man ausdrückt mit wie vielen Instanzen des gegenüberliegenden Typen eine Verbindung maximal aufgebaut wird. 
 # 
-# Im folgenden Beispiel besagt die Angabe von "n" auf der Seite der Filme, dass bis zu n Filme mit einem Studio verbunden sein können. Die "1" auf der Seite von Studio besagt, dass jeder Film mit maximal einem Studio verbunden sein kann.
+# Im Folgenden Beispiel besagt die Angabe von "n" auf der Seite der Filme, dass bis zu n Filme mit einem Studio verbunden sein können. Die "1" auf der Seite von Studio besagt, dass jeder Film mit maximal einem Studio verbunden sein kann.
 # 
 # 
 # <img src="numerisch-beispiel.jpg" width="500" />
 
-# In der folgenden Tabelle sind nochmal alle drei Möglichkeiten Kardinalitäten anzugeben gegenübr gestellt.
+# In der folgenden Tabelle sind nochmal alle drei Möglichkeiten Kardinalitäten anzugeben gegenübergestellt.
 # 
 # 
 # |Beziehungsart|(min,max) links|(min, max) rechts| Numerisch links|Numerisch rechts|Grafische Notation|

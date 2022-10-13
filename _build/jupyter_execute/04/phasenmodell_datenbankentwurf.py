@@ -18,12 +18,12 @@
 
 # ### Anforderungsanalyse
 
-# Der aller erste Schritt des Datenbankentwurfes besteht in der Anforderungsanalyse. Die Methoden hier sind analog zu den Methoden der Anforderungsanalyse in Software-Engineering-Projekten. Insbesondere werden alle Stakeholder und Anwendungsgebiete der und deren Informationsbedarf identifiziert. Das Ergebnis ist eine informelle Beschreibung des Fachproblems. Der klassische Datenbankentwurf befasst sich hauptsächlich mit der Datenanalyse (- nicht mit der Funktionsanalyse, welche das Ergebnisdokument von der Anforderungsanalyse von Softwaresystemen ist). 
+# Der aller erste Schritt des Datenbankentwurfes besteht in der Anforderungsanalyse. Die Methoden hier sind analog zu den Methoden der Anforderungsanalyse in Software-Engineering-Projekten. Insbesondere werden alle Stakeholder und Anwendungsgebiete und deren Informationsbedarf identifiziert. Das Ergebnis ist eine informelle Beschreibung des Fachproblems. Der klassische Datenbankentwurf befasst sich hauptsächlich mit der Datenanalyse (- nicht mit der Funktionsanalyse, welche das Ergebnisdokument von der Anforderungsanalyse von Softwaresystemen ist). 
 
 # ### Konzeptioneller Entwurf
 
 # Im nächsten Entwurfsschritt versucht man die informelle Beschreibung der Datenbank zu formalisieren. 
-# Hier wird formal der Diskurswelt (Universe of Discourse) festgegelt. Das heißt es wird bestimmt, um was es sich bei den Daten handeln soll und wie diese auf reale Objekte in der Welt abgebildet und abgegrenzt werden können. 
+# Hier wird formal die Diskurswelt (Universe of Discourse) festgegelt. Das heißt es wird bestimmt, um was es sich bei den Daten handeln soll und wie diese auf reale Objekte in der Welt abgebildet und abgegrenzt werden können. 
 # 
 # Das Sprachmittel hierbei ist eine Modellierungssprache, die Semantik von Daten ausdrücken kann. Es hat sich bisher die Entity-Relationship-Modellierung durchgesetzt, in der Objekte der realen Welt als Entitypen und deren Beziehungen als Relationshiptypen modelliert werden können. 
 # 
@@ -66,9 +66,9 @@
 
 # ### Physischer Entwurf
 
-# Der physische Entwurf bestimmt wie die Daten konkret auf den Speichermedien abgelegt werden. Beispielsweise können Datensätze unsortiert nach einander auf einer Festplattenspur angelegt werden. 
+# Der physische Entwurf bestimmt wie die Daten konkret auf den Speichermedien abgelegt werden. Beispielsweise können Datensätze unsortiert nacheinander auf einer Festplattenspur angelegt werden. 
 # Diese Aufgabe wird automatisch vom DBMS durchgeführt. 
-# Ergänzend kann die DB-Administration diesen Prozess durch das Anlegen von weiteren Indizes für die effiziente Datenverarbeitung beeinflussen. Der typische Befehlt hierzu ist
+# Ergänzend kann die DB-Administration diesen Prozess durch das Anlegen von weiteren Indizes für die effiziente Datenverarbeitung beeinflussen. Der typische Befehl hierzu ist
 # - CREATE INDEX …
 
 # ### Implementierung und Wartung

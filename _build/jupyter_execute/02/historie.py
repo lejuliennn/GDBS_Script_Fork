@@ -24,7 +24,7 @@
 
 # ![title](lochkartenleser.jpg)
 # 
-# **Lochkartenleser** Bei der Volkszähling in 1890 wurden über 40 solcher Maschinen zum lesen und stanzen von Lochkarten eingesetzt. Lochkartensysteme wurden bis in der 60er Jahre als Speichermedien benutzt bis sie dann von Magnetbändern abgelöst werden konnten. 
+# **Lochkartenleser** Bei der Volkszählung in 1890 wurden über 40 solcher Maschinen zum Lesen und Stanzen von Lochkarten eingesetzt. Lochkartensysteme wurden bis in die 60er Jahre als Speichermedien benutzt bis sie dann von Magnetbändern abgelöst werden konnten. 
 
 # ## 1960er Jahre
 
