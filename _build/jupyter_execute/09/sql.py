@@ -1662,7 +1662,7 @@ df
 # 
 # 
 # ### Einfügen
-# Als Grundbaustein für das Einfügen in einer Relation R, muss man folgendem Schema folgen INSERT INTO R(A1, …, An) VALUES (v1,…,vn), wobei A1,...,An die Attribute der Relation R sind und v1,...,vn die zu einfügenden Werte. Hierbei muss die Reihenfolge der Werte und Attribute beachtet werden, die Reihenfolge sollte entsprechend der Spezifikation des Schemas (CREATE TABLE ...) erfolgen. Falls beim INSERT Attribute fehlen, wird der Default-Wert aus der Tabellendefinition eingesetzt bzw. NULL, falls nicht anders angegeben wurde. 
+# Als Grundbaustein für das Einfügen in einer Relation R, muss man folgendem Schema folgen INSERT INTO R($A_1$, …, $A_n$) VALUES ($v_1$,…,$v_n$), wobei $A_1$,...,$A_n$ die Attribute der Relation R sind und $v_1$ ,...,$v_n$ die zu einfügenden Werte. Hierbei muss die Reihenfolge der Werte und Attribute beachtet werden, die Reihenfolge sollte entsprechend der Spezifikation des Schemas (CREATE TABLE ...) erfolgen. Falls beim INSERT Attribute fehlen, wird der Default-Wert aus der Tabellendefinition eingesetzt bzw. NULL, falls nicht anders angegeben wurde. 
 # <br><br>
 # Ein Beispiel für das Einfügen eines Tupels in die spielt_in-Relation ist unten zu finden.
 
@@ -1699,19 +1699,8 @@ WHERE StudioName NOT IN
 
 
 # ### Ausführungsreihenfolge beim Einfügen
-# Wann wird eingefügt?
-# <br>
-# Nach vollständiger Ausführung der SELECT FROM WHERE Anfrage?
-# <br>
-# Sofort?
-# <br>
-# Schnellere Implementation
-# <br>
-# Was passiert jeweils bei Anfrage 1?
-# <br>
-# Was passiert jeweils bei Anfrage 2?
-# <br>
-# SQL Standard: Erst gesamte Anfrage ausführen
+# 
+# Betrachten wir wieder das vorherige Beispiel, einmal mit DISTINCT und einmal ohne. Wir fragen uns, ob jedes mal wenn, ein StudioName gefunden wurde, der noch nicht in der Tabelle enthalten ist, dieser direkt schon in die Tabelle eingefügt wird oder ob zuerst die ganze Anfrage ausgeführt wird. Tatsächlich ist es in SQL Standard so, dass zuerst die gesamte Anfrage ausgeführt wird und dann erst in die Relation eingefügt wird.
 
 # In[ ]:
 
@@ -1786,45 +1775,40 @@ WHERE ManagerinID IN
 
 # ## Schemata(DDL)
 # ### Überblick
-# In diesem Kapitel betrachten wir SQL als Data Definition Language(DDL)
-# ■ Datentypen 
-# <br>
-# ■ Tabellen
-# <br>
-# ■ Default-Werte 
-# <br>
-# ■ Indizes
+# In diesem Kapitel betrachten wir SQL als Data Definition Language(DDL). Möchte man eine neue Tabelle anlegen, müssen die verschiedenen Datentypen, Default-Werte, Indizes und damit zusammenhängende Tabellen beachten, welche wir uns in diesem Kapitel genauer anschauen.
 # 
 # ### Datentypen
-# ■ Jedes Attribut muss einen Datentyp haben. 
+# 
+# Die vorhandenen Datentypen hängen von dem benutzten DBMS ab, wir betrachten die Datentypen von DB2 von IBM. Jedes definierte Attribut muss einen Datentyp haben. Es gibt: 
 # <br>
-# □ CHAR(n) – String fester Länge (n Zeichen) 
+# - CHAR(n) – String fester Länge (n Zeichen) 
 # <br>
-# □ VARCHAR(n) – String variabler Länge, maximal n Zeichen 
+# - VARCHAR(n) – String variabler Länge, maximal n Zeichen 
 # <br>
-# □ BIT(n) bzw. BIT VARYING(n) – Wie CHAR, aber Bits 
+# - BIT(n) bzw. BIT VARYING(n) – Wie CHAR, aber Bits 
 # <br>
-# □ BOOLEAN – TRUE, FALSE oder UNKNOWN 
+# - BOOLEAN – TRUE, FALSE oder UNKNOWN 
 # <br>
-# □ INT / INTEGER bzw. SHORTINT – 8 bzw. 4 Byte 
+# - INT / INTEGER bzw. SHORTINT – 8 bzw. 4 Byte 
 # <br>
-# □ FLOAT / REAL bzw. DOUBLE PRECISION 
+# - FLOAT / REAL bzw. DOUBLE PRECISION 
 # <br>
-# □ DECIMAL (n,d) – Z.B. Gehalt DECIMAL(7,2) – 7 Stellen, davon 2 Nachkommastellen
+# - DECIMAL (n,d) – Z.B. Gehalt DECIMAL(7,2) – 7 Stellen, davon 2 Nachkommastellen
 # <br>
-# □ CLOB und BLOB
+# - CLOB und BLOB
+# <br><br>
+# Unten finden Sie einen Überblick aller DB2 Datentypen.
 # 
 # ### Überblick DB2 Datentypen
 # ![title](db2_datentypen.jpg)
-# 
+
 # ### Tabellen
-# ■ Grundbaustein zum Erzeugen
+# Der Grundbaustein zum Erzeugenvon Tabellen ist CREATE TABLE R …, wobei R der Name der Tabelle ist. In runden Klammern werden kommasepariert die gewünschten Attribute mit den jeweiligen Datentypen genannt. 
 
 # In[ ]:
 
 
 get_ipython().run_line_magic('sql', '')
-CREATE TABLE R …
 CREATE TABLE Schauspieler (
 Name CHAR(30),
 Adresse VARCHAR(255),
@@ -1832,21 +1816,18 @@ Geschlecht CHAR(1),
 Geburtstag DATE );
 
 
-# ■ Löschen
-# <br>
-# □ DROP TABLE Schauspieler;
+# Um eine Tabelle zu löschen wird DROP TABLE R ... verwendet.
 # <br><br>
-# ■ Verändern
+# Auch das Verändern des Tabellenschemas ist möglich, undzwar mit ALTER TABLE R ... . Es können neue Attribute hinzugefügt werden, alte gelöscht oder auch Datentypen von bestehenden Attributen verändert werden. Zu beachten ist, dass bei dem Hinzufügen von neuen Attributen Nullwerte entstehen.
 # <br>
-# □ ALTER TABLE Schauspieler ADD Telefon CHAR(6);
+# - ALTER TABLE Schauspieler ADD Telefon CHAR(6);
 # <br>
-# – Nullwerte entstehen
+# - ALTER TABLE Schauspieler DROP Geburtstag;
 # <br>
-# □ ALTER TABLE Schauspieler DROP Geburtstag;
-# <br>
-# □ ALTER TABLE Schauspieler MODIFY Telefon CHAR(10);
-# 
+# - ALTER TABLE Schauspieler MODIFY Telefon CHAR(10);
+
 # ### Default-Werte
+# Default-Werte können mit dem Schlüsselwort DEFAULT gesetzt werden. In dem Beispiel unten wird für das Attribut Geschlecht der Default-Wert '?' bestimmt und für den Geburtstag das Default-Datum '0000-00-00'.
 
 # In[ ]:
 
@@ -1858,35 +1839,21 @@ Adresse VARCHAR(255),
 Geschlecht CHAR(1) DEFAULT ‚?‘,
 Geburtstag DATE DEFAULT DATE ‚'0000-00-00');
 
+
+# Ein Default-Wert kann auch nachträglich mit einem ALTER TABLE hinzugefügt werden.
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
 ALTER TABLE Schauspieler
 ADD Telefon CHAR(16) DEFAULT ‚unbekannt‘;
 
 
-# ### Constraints und Trigger
-#  Weitere Optionen für Tabellen
-#  <br>
-# □ PRIMARY KEY
-#  <br>
-# □ UNIQUE
-#  <br>
-# □ FOREIGN KEY … REFERENCES …
-#  <br>
-# □ NOT NULL
-#  <br>
-# □ CHECK
-#  <br>
-# □ CREATE ASSERTION
-#  <br>
-# □ CREATE TRIGGER
-#  <br>
-# ■ Siehe separater Foliensatz
-# 
 # ### Indizes
-# ■ Ein Index auf einem Attribut ist eine Datenstruktur, die es dem DBMS erleichtert, Tupel mit einem bekannten Wert des Attributs zu finden.
-# <br>
-# □ Nicht SQL-Standard, aber in (fast) jedem DBMS verfügbar.
+# Ein Index auf einem Attribut ist eine Datenstruktur, die es dem DBMS erleichtert, Tupel mit einem bekannten Wert des Attributs zu finden. Indizes sind nicht SQL-Standard, aber sind in (fast) jedem DBMS verfügbar.
 # <br><br>
-# ■ Motivation
+# Möchten wir z.B alle Disney Filme aus 1990 ausgeben. Wir könnte mit Variante 1 alle Tupel der Filmerelation durchsuchen und die WHERE Bedingung prüfen. Mit Variante 2 erstellen wir einen Index CREATE INDEX JahrIndex ON Film(Jahr) und können direkt alle Filme aus 1990 betrachten und diese auf ‚Disney‘ prüfen, da der Optimizer des DBMS unsern erstellten Inddex sofort zur Filterung der Bedingung Jahr = 1990 benutzen kann. Zuletzt in einer dritten Variante erstellen wir einen multidimensionalen Index CREATE INDEX JahrStudioIndex ON Film(Jahr, Studioname) und holen uns direkt alle Filme aus 1990 von Disney. Welche der Varianten wir letzlich wählen, hängt von zu erwartenden Anfragen ab. Bei dem Anlegen von Indizes muss auch beachtet werden, dass diese Speicher belegen und aktualisiert werden müssen, wenn neue Daten hinzugefügt wurden.
 
 # In[79]:
 
@@ -1902,13 +1869,16 @@ df = pd.read_sql_query(__SQL__, conn)
 df
 
 
-# □ Variante 1: Alle 100.000 Tupel durchsuchen und WHERE Bedingung prüfen
-# <br>
-# □ Variante 2: Direkt alle 2000 Filme aus 1990 betrachten und auf ‚Disney‘ prüfen.
-# <br>
-# – CREATE INDEX JahrIndex ON Film(Jahr);
-# <br>
-# □ Variante 3: Direkt alle 100 Filme aus 1990 von ‘Disney‘ holen.
+# Indizes auf einzelnen Attributen:
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
+CREATE INDEX JahrIndex ON Film(Jahr);
+
+
+# Indizes auf mehreren Attributen:
 
 # In[ ]:
 
@@ -1918,26 +1888,17 @@ CREATE INDEX JahrStudioIndex
 ON Film(Jahr, Studioname);
 
 
-# ■ Indizes auf einzelnen Attributen
-# <br>
-# □ CREATE INDEX JahrIndex ON Film(Jahr);
+# Die Reihenfolge der Relationen bei Indizes auf mehreren Attributen ist wichtig! Für unser Beispiel suchen implizit zuerst nach Jahr gefolgt von StudioName.
 # <br><br>
-# ■ Indizes auf mehreren Attributen
+# Um einen Index zu löschen kann DROP INDEX ... verwendet werden.
 
 # In[ ]:
 
 
 get_ipython().run_line_magic('sql', '')
-CREATE INDEX JahrStudioIndex
-ON Film(Jahr, Studioname);
+DROP INDEX JahrIndex;
 
 
-# □ Reihenfolge wichtig! Warum?
-# <br><br>
-# ■ Löschen
-# <br>
-# □ DROP INDEX JahrIndex;
-# 
 # #### Indexwahl
 # ■ Abwägung
 # <br>
