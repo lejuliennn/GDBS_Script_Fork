@@ -1984,7 +1984,7 @@ SELECT AVG(DOUBLE(m)) FROM counts
 # ## Sichten
 # ### Virtuelle Relationen
 # 
-# Bisher kennen wir nur Relationen, die aus CREATE TABLE Ausdrücken existieren und tatsächlich (materialisiert, physisch) in der Datenbank vorhanden sind. Dieses sind persistent und auf ihnen können Updates ausgeführt werden. In diesem Kapitel beschäftigen wir uns mit Sichten. Sichten entsprechen Anfragen, denen man einen Namen gibt. Sie wirken wie physische Relationen, jedoch existieren die Daten aus Sichten nur virtuell und Updates darafu sind nur manchmal möglich.
+# Bisher kennen wir nur Relationen, die aus CREATE TABLE Ausdrücken existieren und tatsächlich (materialisiert, physisch) in der Datenbank vorhanden sind. Dieses sind persistent und auf ihnen können Updates ausgeführt werden. In diesem Kapitel beschäftigen wir uns mit Sichten. Sichten entsprechen Anfragen, denen man einen Namen gibt. Sie wirken wie physische Relationen, jedoch existieren die Daten aus Sichten nur virtuell und Updates darauf sind nur manchmal möglich. Views stellen Separation of Concern dar, können Effizienz verbessern und ermöglichen einfachere Anfragen.
 # <br>
 # <br>
 # ![title](stonebraker1.jpg)
@@ -2008,29 +2008,12 @@ FROM Film
 WHERE StudioName = "Paramount";
 
 
-# ■ Bedeutung einer Anfrage an die Sicht
-# <br>
-# 1. Ausführung der Anfrage aus der Sichdefinition
-# <br>
-# 2. Die ursprüngliche Anfrage verwendet dann das Ergebnis als Relation.
+# Bei einer Anfrage an eine Sicht, wird die Anfrage aus der Sichtdefinition ausgeführt und die ursprüngliche Anfrage verwendet das Ergebnis dann als Relation. Bei Änderungen der zugrundeliegenden Relationen ändern sich quch die Daten der Sicht.
 # <br><br>
-# ■ Daten der Sicht ändern sich mit der Änderung der zugrundeliegenden Relationen.
-# <br>
-# ■ Entfernen der Sicht: DROP VIEW ParamountFilme
-# <br>
-# □ Basisdaten bleiben unverändert.
+# Um eine Sicht zu löschen kann DROP VIEW Name, für unser Beispiel DROP VIEW ParamountFilme, benutzt werden, das Löschen der Sicht hat keinen Einfluss auf die Basisdaten
 # 
 # ### Anfragen an Sichten
-
-# In[ ]:
-
-
-get_ipython().run_line_magic('sql', '')
-CREATE VIEW ParamountFilme AS
-SELECT Titel, Jahr
-FROM Film
-WHERE StudioName = "Paramount";
-
+# Wir suchen nun alle Filme von Paramount aus 1979 und tun dies indem wir eine Anfrage an unsere ParamountFilme-Sicht stellen. Ohne Sicht müssten wir die Anfrage in eine Anfrage an die Basisrelation umwandeln wie eine Codezelle weiter zu sehen ist.
 
 # In[ ]:
 
@@ -2041,82 +2024,61 @@ FROM ParamountFilme
 WHERE Jahr = 1979;
 
 
-# ■ Umwandlung der ursprünglichen Anfrage in eine Anfrage an Basisrelationen
-
 # In[81]:
 
 
-#SELECT Titel 
-#FROM Film 
-#WHERE StudioName = "Paramount" 
-#AND Jahr = 1979;
-
-__SQL__ = "SELECT Titel FROM Film WHERE Jahr = 1979 AND StudioName = 'Paramount';"
-conn = sqlite3.connect("filme/filme.db")
-df = pd.read_sql_query(__SQL__, conn)
-df
+get_ipython().run_line_magic('sql', '')
+SELECT Titel 
+FROM Film 
+WHERE StudioName = "Paramount" 
+AND Jahr = 1979;
 
 
-# □ Übersetzung durch DBMS
-# <br>
-# ■ Anfrage zugleich an Sichten und Basisrelationen möglich
+# Ebenso sind Anfrage zugleich an Sichten und Basisrelationen möglich, wie unten gezeigt.
 
 # In[82]:
 
 
-#Anfrage aus VL Folien
-#SELECT DISTINCT SchauspielerIn
-#FROM ParamountFilme, spielt_in
-#WHERE Titel = FilmTitel AND Jahr = FilmJahr;
-
-#Anfrage für filme.db
-__SQL__ = "SELECT DISTINCT Name FROM Film, spielt_in WHERE Titel = FilmTitel AND Jahr = FilmJahr;"
-conn = sqlite3.connect("filme/filme.db")
-df = pd.read_sql_query(__SQL__, conn)
-df
+get_ipython().run_line_magic('sql', '')
+SELECT DISTINCT SchauspielerIn
+FROM ParamountFilme, spielt_in
+WHERE Titel = FilmTitel AND Jahr = FilmJahr;
 
 
-# ■ Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
-# ■ Manager(Name, Adresse, ManagerinID, Gehalt)
+# Im Folgenden nochmal ein weiteres Beispiel. Haben wir die Relationen Film(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID) und ManagerIn (Name, Adresse, ManagerinID, Gehalt) gegeben. Wir erstellen eine View von allen Filmproduzent\*Innen und suchen mit der Sicht den/die Profuzent\*In für den Film Gone with the Wind.
 
 # In[ ]:
 
 
 get_ipython().run_line_magic('sql', '')
-CREATE VIEW FilmeProduzenten AS
+CREATE VIEW FilmeProduzentenInnen AS
     SELECT Titel, Name
-    FROM Film, Manager
+    FROM Film, ManagerIn
     WHERE ProduzentinID = ManagerinID;
 
-
-# ■ Anfrage
 
 # In[83]:
 
 
-#alte Anfrage
-#SELECT Name FROM FilmeProduzenten WHERE Titel = ‘Gone with the Wind‘
-
-__SQL__ = "SELECT Titel FROM Film WHERE Titel = 'Gone with the Wind'"
-conn = sqlite3.connect("filme/filme.db")
-df = pd.read_sql_query(__SQL__, conn)
-df
+get_ipython().run_line_magic('sql', '')
+SELECT Name 
+FROM FilmeProduzenten 
+WHERE Titel = ‘Gone with the Wind‘
 
 
-# ■ Bedeutung
+# Dieselbe Anfrage an die Basisrelation
 
 # In[84]:
 
 
-#%sql SELECT Name FROM Film, ManagerIn WHERE ProduzentinID = ManagerinID AND Titel = 'Gone with the Wind';
+get_ipython().run_line_magic('sql', '')
+SELECT Name 
+FROM Film, ManagerIn 
+WHERE ProduzentinID = ManagerinID 
+AND Titel = 'Gone with the Wind';
 
-__SQL__ = "SELECT Name FROM Film, ManagerIn WHERE ProduzentinID = ManagerinID AND Titel = 'Gone with the Wind';"
-conn = sqlite3.connect("filme/filme.db")
-df = pd.read_sql_query(__SQL__, conn)
-df
 
-
-# ■ Nebenbei: Umbenennung von Attributen
+# Es ist auch möglich die Attribute der Basisrelation in der Sicht umzubennen. Im Beispiel unten wird aus Titel FilmTitel und ManagerIn zu Produzentenname in der Sicht.
 
 # In[ ]:
 
@@ -2128,7 +2090,7 @@ FROM Film, ManagerIn
 WHERE ProduzentinID = ManagerinID;
 
 
-# ■ Oder auch: Sicht einfach nur zur Umbenennung
+# Sichten können auch nur zur Umbennenung dienen, wie unten gezeigt.
 
 # In[ ]:
 
@@ -2140,12 +2102,9 @@ FROM Film;
 
 
 # ### Diskussion
-# ■ Vorteile
+# Die Vorteile von Sichten beinhalten die Vereinfachung von Anfragen, sowie die Strukturierung der Datenbank. Es wird ebenfalls eine logische Datenunabhängigkeit geschaffen. Der Zugriff auf die Daten kann beschränkt werden, z.B könnten wir für unser Beispiel nur Paramount-Mitarbeiter\*Innen den Zugriff auf die Sicht ParamountFilme erlauben.
 # <br>
-# □ Vereinfachung von Anfragen
-# <br>
-# □ Strukturierung der Datenbank
-# <br>
+# 
 # □ Logische Datenunabhängigkeit
 # <br>
 # – Sichten stabil bei Änderungen der Datenbankstruktur
@@ -2154,10 +2113,9 @@ FROM Film;
 # <br>
 # – Stabilität nicht bei jeder Änderung
 # <br>
-# □ Beschränkung von Zugriffen (Datenschutz)
-# <br>
 # □ Optimierung durch materialisierte Sichten
 # <br><br>
+# 
 # ■ Probleme
 # <br>
 # □ Automatische Anfragetransformation schwierig
