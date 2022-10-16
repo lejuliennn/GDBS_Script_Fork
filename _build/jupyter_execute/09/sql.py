@@ -1888,7 +1888,7 @@ CREATE INDEX JahrStudioIndex
 ON Film(Jahr, Studioname);
 
 
-# Die Reihenfolge der Relationen bei Indizes auf mehreren Attributen ist wichtig! Für unser Beispiel suchen implizit zuerst nach Jahr gefolgt von StudioName.
+# Die Reihenfolge der Relationen bei Indizes auf mehreren Attributen ist wichtig. Wenn der Index sort-basiert ist, wird nach Jahr sortiert und für jedes Jahr jeweils nach Studioname. Für unser Beispiel wird mplizit zuerst nach Jahr gefolgt von StudioName gesucht.
 # <br><br>
 # Um einen Index zu löschen kann DROP INDEX ... verwendet werden.
 
@@ -1900,83 +1900,43 @@ DROP INDEX JahrIndex;
 
 
 # #### Indexwahl
-# ■ Abwägung
-# <br>
-# □ Index beschleunigt Punkt- (und Bereichs-) Anfragen und Join-Anfragen erheblich.
-# <br>
-# □ Index verlangsamt das Einfügen, Löschen und Verändern von Tupeln der Relation.
-# <br>
-# – Index muss jeweils zusätzlich aktualisiert werden.
-# <br>
-# □ Indizes benötigen Speicherplatz.
-# <br><br>
-# ■ Wahl der besten Indizes ist eine der schwierigsten Aufgaben des Datenbankdesigns.
-# <br>
-# □ Vorhersage der query workload und update-Frequenz
-# <br>
-# □ Wahl der Attribute
-# <br>
-# – Häufiger Vergleich mit Konstanten
-# <br>
-# – Häufiges Joinattribut
+# Aufgrund der Kosten muss die Indexwahl abgewogen werden. Zum einen beschleunigen Indizes Punkt- (und Bereichs-) Anfragen und Join-Anfragen erheblich, aber das Einfügen, Löschen und Verändern von Tupeln der Relation wird verlangsamt, da der Index immer wieder aktualisiert werden muss. Zudem benötigen Indizes auch noch Speicherplatz.
+# 
+# Die Wahl der besten Indizes ist eine der schwierigsten Aufgaben des Datenbankdesigns, in welcher auch viel Forschung betrieben wird. Im Idealfall ist die Vorhersage der Query Workload und Update-Frequenz bekannt und es werden Attribute gewählt mit denen häufig Konstanten verglichen werden oder die häufig als Joinattribute fungieren.
 # 
 # #### Indexwahl – Vorüberlegungen
-# ■ Relationen sind typischerweise über mehrere Diskblöcke gespeichert.
-# <br>
-# □ Wichtigste Datenbankkosten sind die Anzahl der Diskblöcke, die in den Hauptspeicher gelesen werden müssen.
-# <br>
-# □ Bei Punktanfragen mit Index müssen statt aller Blöcke nur ein Block gelesen werden.
-# <br>
-# □ Aber Index selbst muss ebenfalls gespeichert und gelesen werden.
-# <br>
-# – IdR viel mehr Tupel pro Block repräsentiert: Nur Schlüsselwert und Speicheradresse, keine Daten
-# <br>
-# □ Updates kosten sogar doppelt: Lesen und Schreiben auch der Index-Blöcke
+# 
+# Bei Vorüberlegungen zur Indexwahl muss ebenso beachtet werden, wie Indizes implementiert sind. Typischerweise sind Relationen über mehrere Diskblöcke gespeichert, wobei sich die wichtigsten Datenbankkosten aus der Anzahl, der in den Hauptspeicher gelesenen Diskblöcke bildet. Anders müssen bei Punktanfragen mit einem Index nur ein Block, statt allen gelesen werden, aber der Index selbst muss auch gespeichert und gelesen werden. In der Regel sind viel mehr Tupel pro Block repräsentiert und es werden häufig nur Schlüsselwerte und Speicheradresse und keine Daten gespeichert. Beim Updaten sind die Kosten sogar doppelt, da die Blöcke für das Lesen und Schriben der Index-Blöcke geladen werden muss.
 # 
 # #### Indexwahl – Beispiel
-# ■ spielt_in(FilmTitel, FilmJahr, Schauspieler)
-# <br><br>
-# ■ Drei typische Anfragen
+# Nun schauen wir uns ein Beispiel an. Haben wir die Relation spielt_in(FilmTitel, FilmJahr, SchauspielerName) udn die Variablen s,t,j gegeben und möchten drei typische Anfragen ausführen. Wir suchen einma lden Titel und das Jahr eines bestimmten Filmes s, den Schauspieler der in einem bestimmten Film eines bestimmten Jahres mitgespielt hat und wollen zuletzt in die Relation spielt_in Tupel einfügen.
 
 # In[7]:
 
 
-#SELECT FilmTitel, FilmJahr 
-#FROM spielt_in 
-#WHERE Name = s;
-
-__SQL__ = "SELECT FilmTitel, FilmJahr FROM spielt_in WHERE Name = 's'"
-conn = sqlite3.connect("filme/filme.db")
-df = pd.read_sql_query(__SQL__, conn)
-df
+get_ipython().run_line_magic('sql', '')
+SELECT FilmTitel, FilmJahr FROM spielt_in WHERE Name = s;
 
 
 # In[ ]:
 
 
 get_ipython().run_line_magic('sql', '')
-SELECT Schauspieler FROM spielt_in
+SELECT SchauspielerName FROM spielt_in
 WHERE FilmTitel = t AND FilmJahr = j;
+
+
+# In[ ]:
+
+
+get_ipython().run_line_magic('sql', '')
 INSERT INTO spielt_in VALUES(t, j, s);
 
 
-# ■ Annahmen
-# <br>
-# □ spielt_in ist auf 10 Disk-Blöcke verteilt.
-# <br>
-# □ Durchschnittlich habe jeder Film 3 Schauspieler.
-# <br>
-# □ Durchschnittlich spiele jeder Schauspieler in 3 Filmen.
-# <br>
-# □ Annahme des Schlimmsten: 3 Tupel sind auf 3 Blöcke verteilt
-# <br>
-# □ Index ist auf 1 Block gespeichert.
-# <br>
-# □ Lesen und Schreiben kostet 1.
-# <br>
-# □ Update und Insert kosten jeweils 2.
+# Wir nehmen an, dass spielt_in auf 10 Disk-Blöcke verteilt ist. Im Durchschnitt hat jeder Film 3 Schauspiel und jeder Schauspieler spielte in 3 Filmen mit. Im schlimmsten Fall sind 3 Tupel auf 3 Blöcke verteilt und eine Index ist auf einem Block gespeichert. Die Operationen Lesen und Schreiben kosten 1 und Update und Insert kosten jeweils 2.
 # 
 # #### Indexwahl – Beispiel
+# Im fogenden sind die Kosten der drei Anfragen tabellarisch aufgeführt. Die Variable p1 bildet den Anteil der Anfrage 1, p2 den Anteil der Anfrage 2 und 1-p1-p2 den Anteil der Anfrage 3.
 # 
 # |Anfrage|Kein Index|SchauspielerIndex|FilmIndex|Beide Indizes|
 # |---|---|---|---|---|
@@ -1984,18 +1944,13 @@ INSERT INTO spielt_in VALUES(t, j, s);
 # |**FilmTitel = t AND FilmJahr = j**|10|10|4|4|
 # |**INSERT INTO spielt_in**|2|4|4|6|
 # |**Gesamtkosten**|2+8$p_1$8$p_2$|4+6$p_2$|4+6$p_1$|6-2$p_1$-2$p_2$|
-# 
-# 
-# ■ p1: Anteil Anfrage 1
-# <br>
-# ■ p2: Anteil Anfrage 2
-# <br>
-# ■ 1‒p1‒p2: Anteil Anfrage 3
-# <br>
-# 
-# 
+
 # ### Verteilung in IMDB (Real-world Daten, Stand ca. 2010)
+# Im folgenden betrachten wir eine größere Datenbank, die dem Sternenschema folgt. In der Mitte sehen wir die Relation Movie und daherum viele weitere Relationen die mit der Movie_ID in Verbindung stehen.
+# 
 # ![title](imdb.jpg)
+# 
+# Wir wollen nun die Durchschnittliche Anzahl an Schauspieler\*Innen pro Film und umgekehrt berechnen und benutzen das Schlüsselwort WITH, um bestimmte Anfragen mit einem Alias vorzudefinieren.
 
 # In[ ]:
 
@@ -2005,8 +1960,8 @@ WITH
 m AS (SELECT count(*) AS ZahlMovies FROM imdb.movie),
 actress AS (SELECT count(*) AS ZahlActress FROM imdb.actress),
 actor AS (SELECT count(*) AS ZahlActor FROM imdb.actor),
-actors AS (SELECT (ZahlActress + ZahlActor) AS GesamtActors
-FROM actress, actor)
+actors AS (SELECT (ZahlActress + ZahlActor) AS GesamtActors FROM actress, actor)
+
 SELECT DOUBLE(actors.GesamtActors) / DOUBLE(m.ZahlMovies)
 FROM m, actors
 
@@ -2018,10 +1973,9 @@ FROM m, actors
 
 get_ipython().run_line_magic('sql', '')
 WITH
-actors AS (SELECT * FROM imdb.actor UNION
-SELECT * FROM imdb.actress),
-counts AS (SELECT name, count(movie_id) AS m
-FROM actors GROUP BY name)
+actors AS (SELECT * FROM imdb.actor UNION SELECT * FROM imdb.actress),
+counts AS (SELECT name, count(movie_id) AS m FROM actors GROUP BY name)
+
 SELECT AVG(DOUBLE(m)) FROM counts
 
 
@@ -2030,17 +1984,7 @@ SELECT AVG(DOUBLE(m)) FROM counts
 # ## Sichten
 # ### Virtuelle Relationen
 # 
-# ■ Relationen aus CREATE TABLE Ausdrücken existieren tatsächlich (materialisiert, physisch) in der Datenbank.
-# <br>
-# □ Persistenz
-# <br>
-# □ Updates sind möglich
-# <br><br>
-# ■ Die Daten aus Sichten (views) existieren nur virtuell.
-# <br>
-# □ Sichten entsprechen Anfragen, denen man einen Namen gibt. Sie wirken wie physische Relationen.
-# <br>
-# □ Updates sind nur manchmal möglich.
+# Bisher kennen wir nur Relationen, die aus CREATE TABLE Ausdrücken existieren und tatsächlich (materialisiert, physisch) in der Datenbank vorhanden sind. Dieses sind persistent und auf ihnen können Updates ausgeführt werden. In diesem Kapitel beschäftigen wir uns mit Sichten. Sichten entsprechen Anfragen, denen man einen Namen gibt. Sie wirken wie physische Relationen, jedoch existieren die Daten aus Sichten nur virtuell und Updates darafu sind nur manchmal möglich.
 # <br>
 # <br>
 # ![title](stonebraker1.jpg)
@@ -2048,9 +1992,11 @@ SELECT AVG(DOUBLE(m)) FROM counts
 # ![title](stonebraker2.jpg)
 # <br>
 # Michael Stonebraker: Implementation of Integrity Constraints and Views by Query Modification. SIGMOD Conference 1975: 65-78
-# 
+
 # ### Sichten in SQL
-# ■ CREATE VIEW Name AS Anfrage
+# Der Grundbaustein zum erstellen von Sichten(Views) ist CREATE VIEW Name AS Anfrage. In der Anfrage dürfen Relationen auch gejoint sein.
+# <br><br>
+# Im folgenden erstellen wir eine View auf alle Filme von Paramount und nennen die View ParamountFilme.
 
 # In[ ]:
 
@@ -2062,8 +2008,6 @@ FROM Film
 WHERE StudioName = "Paramount";
 
 
-# □ Auch mehr als eine Relation möglich!
-# <br><br>
 # ■ Bedeutung einer Anfrage an die Sicht
 # <br>
 # 1. Ausführung der Anfrage aus der Sichdefinition
