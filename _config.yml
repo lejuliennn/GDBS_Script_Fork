@@ -30,9 +30,17 @@ repository:
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+#-----
+# delete extra footer!
+#-----
 html:
   use_issues_button: true
   use_repository_button: true
+  extra_footer: | 
+        <div>
+          <p>hello</p>
+          <script src="https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js" charset="UTF-8"></script>
+        </div>
   
 parse:
   myst_enable_extensions:
