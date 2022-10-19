@@ -2125,16 +2125,10 @@ FROM Film;
 # □ Updatepropagierung für materialisierte Sichten
 # 
 # ### Updates auf Sichten
-# ■ In einigen Fällen ist es möglich, Einfüge-, Lösch- oder Updateoperationen auf Sichten durchzuführen.
-# <br>
-# □ Wo speichern?
-# <br>
-# □ Welche Relation?
-# <br>
-# □ Zuordnung der Änderung zur Sicht?
+# In einigen Fällen ist es möglich, Einfüge-, Lösch- oder Updateoperationen auf Sichten durchzuführen. Hier stellen sich die Fragen: Wo sind die Sichten gespeichert? Welche Relationen sind betroffen? Wie verläuft die Zuordnung der Änderung zur Sicht?
 # <br><br>
-# ■ Übersetzung der Update-Operation auf eine Update-Operation der zugrunde liegenden Basisrelationen
-# <br>
+# In den meisten Fällen die Update-Operation einer Sicht auf eine Update-Operation der zugrunde liegenden Basisrelationen übersetzt. Hierbei darf kein DISTINCT, sondern nur eine normales SELECT verwendet werden. Eine gute Kenntnis der Datenbank muss vorausgesetzt sein, da durch das Vergessen mancher Attribute Inkonsistenzen durch NULL-Werte entstehen können.
+# <br><br>
 # □ Nur bei einer Relation
 # <br>
 # – Keine Subanfragen mit Selbstbezug
@@ -2146,7 +2140,8 @@ FROM Film;
 # □ Nur falls genug Attribute verwendet werden, so dass alle anderen Attribute mit NULL oder dem Default-Wert gefüllt werden können.
 # 
 # ### Einfügen auf Sichten – Beispiel
-# ■ Filme(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID)
+# 
+# Haben wir die Relation Filme(Titel, Jahr, Länge, inFarbe, StudioName, ProduzentinID) gegeben. Wir wollen nun einen weiteren Film in unsere ParamountFilme-Sicht einfügen.
 
 # In[ ]:
 
@@ -2166,8 +2161,7 @@ INSERT INTO ParamountFilme
 VALUES (‚Star Trek‘, 1979);
 
 
-# □ Wert für Studioname?
-# □ Einfügen also nicht erlaubt.
+# Das Einfügen wie oben dargestellt ist nicht erlaubt, das kein Wert für Studioname vorhanden ist und nicht überprüft wern kann, ob es sich um ein Paramountfilm handelt. Unten sehen wir eine korrekte Weise des Einfügens in die Sicht. Es wurde eine neue Sicht erstellt die StudioName beinhaltet. Der StudioName bei der Einfügeoperation muss Paramount sein, da kein anderer StudioName der Sicht entspricht. Das Neue Tupel ist (‚Star Trek‘, 1979, 0, NULL, ‚Paramount‘, NULL).
 
 # In[ ]:
 
@@ -2187,12 +2181,8 @@ INSERT INTO ParamountFilme
 VALUES (‚Star Trek‘, 1979, ‚Paramount‘);
 
 
-# Dies muss Paramount sein. Ein anderes Studio entspricht nicht der View.
-# <br><br>
-# ■ Neues Tupel (‚Star Trek‘, 1979, 0, NULL, ‚Paramount‘, NULL)
-# 
 # ### Löschen und Updates auf Sichten
-# ■ Löschen
+# Im Folgenden möchten wir alle Filme aus unserer Sicht entfernen die 'Trek' im Filmtitel enthalten.
 
 # In[ ]:
 
@@ -2202,17 +2192,18 @@ DELETE FROM ParamountFilme
 WHERE Titel LIKE ‚%Trek%‘;
 
 
-# ■ Wird umgeschrieben zu
+# Diese Anfrage wird umgeschrieben zu der unteren.
 
 # In[ ]:
 
 
+#Korrekte Anfrage
 get_ipython().run_line_magic('sql', '')
 DELETE FROM Filme
 WHERE Titel LIKE ‚%Trek%‘ AND StudioName = ‚Paramount‘;
 
 
-# ■ Update
+# Auch bei einem Update muss die Prüfbedingung der Sicht mit übernommen werden.
 
 # In[ ]:
 
@@ -2223,11 +2214,10 @@ SET Jahr = 1979
 WHERE Titel = ‚Star Trek the Movie‘;
 
 
-# ■ Wird zu
-
 # In[ ]:
 
 
+#Korrekte Anfrage
 get_ipython().run_line_magic('sql', '')
 UPDATE Filme
 SET Jahr = 1979
@@ -2235,7 +2225,7 @@ WHERE Titel = ‚Star Trek the Movie‘ AND StudioName = ‚Paramount‘;
 
 
 # ### Tupelmigration
-# ■ Manager(Name, Adresse, ManagerinID, Gehalt)
+# Angenommen wir erstellen eine Sicht auf die Relation ManagerIn(Name, Adresse, ManagerinID, Gehalt), welche alle Manager\*Innen mit einem Gehalt größer als 2 Millionen beinhaltet. 
 
 # In[ ]:
 
@@ -2247,9 +2237,7 @@ CREATE VIEW Reiche AS
     WHERE Gehalt > 2000000;
 
 
-# ■ Tupelmigration:
-# <br>
-# □ Ein Tupel (‚Eisner\`, ‚Hollywood‘, 25, 3000000) wird aus der Sicht „herausbewegt“.
+# Nun updaten wir unsere View, sodass der Manager mit der MnagerinID=25 ein Gehalt von 1,5 Millionen haben muss. Das Tupel (‚Eisner\`, ‚Hollywood‘, 25, 3000000), welches vor dem Update noch in der Sicht enthalten war, wird danach aus der Sicht „herausbewegt“.
 
 # In[ ]:
 
@@ -2259,9 +2247,9 @@ UPDATE Reiche SET Gehalt = 1500000
 WHERE ManagerinID = 25;
 
 
-# ■ Vorsicht bei der Implementierung, oder explizite Verhinderung:
+# Um Tupelmigration zu verhindern, können problematische Update durch WITH CHECK OPTION abgelehnt werden.
 
-# In[ ]:
+# In[1]:
 
 
 get_ipython().run_line_magic('sql', '')
@@ -2272,28 +2260,18 @@ WHERE Gehalt > 2000000
 WITH CHECK OPTION;
 
 
-# □ Verhindert Tupelmigration durch Ablehnung problematischer Updates.
-# 
 # ### Anfrageplanung mit Sichten
-# ■ Baumdarstellung von Anfragen
+# Üblicherweise werden Anfragen in Form eines Baums dargestellt. Die Blätter repräsentieren Basisrelationen und Sichten. Die Sichten können auch durch die Sichtdefinitionen erstezt werden.
 # <br>
-# □ Blätter repräsentieren Relationen
-# <br>
-# – Basisrelationen
-# <br>
-# – Sichten
-# <br>
-# □ Ersetzung der Sichten durch die Sichtdefinition
-# <br>
-# – Als Subanfrage
-# <br>
+# Ein Beispiel hierfür sehen wir in der unteren Abbildung. Die Dreiecke sind die Anfragen und die Kreise Sichten. Wir ersetzen die Sichten v und w durch ihre Sichtdefinitionen und sehen, das w eine weitere Sicht z in Anspruch nimmt.
+
 # ![title](anfrageplanung1.jpg)
-# <br><br>
-# ■ Sicht
+# 
 
 # In[ ]:
 
 
+#Sicht
 get_ipython().run_line_magic('sql', '')
 CREATE VIEW ParamountFilme AS
 SELECT Titel, Jahr
@@ -2301,27 +2279,13 @@ FROM Filme
 WHERE StudioName = ‚Paramount‘;
 
 
-# ■ Anfrage
-
 # In[14]:
 
 
-#Anfrage aus VL Folien
-#SELECT Titel 
-#FROM ParamountFilme 
-#WHERE Jahr = 1979;
-
-#Neue Anfrage für filme.db
-__SQL__ = "SELECT Titel FROM Film WHERE Jahr = 1979"
-conn = sqlite3.connect("filme/filme.db")
-cur = conn.cursor()
-cur.execute(__SQL__)
-rows = cur.fetchall()
-
-for row in rows:
-    for col in row:
-        print(col,end=' ')
-    print()
+#Anfrage
+SELECT Titel 
+FROM ParamountFilme 
+WHERE Jahr = 1979;
 
 
 # ![title](anfrageplanung2.jpg)
