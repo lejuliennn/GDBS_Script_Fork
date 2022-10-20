@@ -2116,18 +2116,13 @@ FROM Film;
 # □ Optimierung durch materialisierte Sichten
 # <br><br>
 # 
-# ■ Probleme
-# <br>
-# □ Automatische Anfragetransformation schwierig
-# <br>
-# □ Änderungen auf Sichten
-# <br>
-# □ Updatepropagierung für materialisierte Sichten
+# Weiterhin bleibt die Änderung auf Sichten ein Problembereich, sowie die Updatepropagierung für materialisierte Sichten. Auch die automatische Anfragetransformation gestaltet sich mit Sichten schwieriger.
+# 
 # 
 # ### Updates auf Sichten
 # In einigen Fällen ist es möglich, Einfüge-, Lösch- oder Updateoperationen auf Sichten durchzuführen. Hier stellen sich die Fragen: Wo sind die Sichten gespeichert? Welche Relationen sind betroffen? Wie verläuft die Zuordnung der Änderung zur Sicht?
 # <br><br>
-# In den meisten Fällen die Update-Operation einer Sicht auf eine Update-Operation der zugrunde liegenden Basisrelationen übersetzt. Hierbei darf kein DISTINCT, sondern nur eine normales SELECT verwendet werden. Eine gute Kenntnis der Datenbank muss vorausgesetzt sein, da durch das Vergessen mancher Attribute Inkonsistenzen durch NULL-Werte entstehen können.
+# In den meisten Fällen wird die Update-Operation einer Sicht auf eine Update-Operation der zugrunde liegenden Basisrelationen übersetzt. Hierbei darf kein DISTINCT, sondern nur eine normales SELECT verwendet werden. Eine gute Kenntnis der Datenbank muss vorausgesetzt sein, da durch das Vergessen mancher Attribute Inkonsistenzen durch NULL-Werte entstehen können.
 # <br><br>
 # □ Nur bei einer Relation
 # <br>
@@ -2268,6 +2263,8 @@ WITH CHECK OPTION;
 # ![title](anfrageplanung1.jpg)
 # 
 
+# Betrachten wir wieder unsere Beispielsicht ParamountFilme. Wir möchten nun die unten stehende Anfrage ausführen. 
+
 # In[ ]:
 
 
@@ -2289,78 +2286,45 @@ WHERE Jahr = 1979;
 
 
 # ![title](anfrageplanung2.jpg)
-# <br>
+# <br><br>
+# Hier wird die Sichtendefinition der ParamountFilme dargestellt.
+# <br><br>
 # ![title](anfrageplanung3.jpg)
-# <br>
+# <br><br>
+# Im zweiten Schritt sehen wir die Ausführungsreihenfolge der Anfrage, die direkt auf der Sicht ParamountFilme ausgeführt wird
+# <br><br>
 # ![title](anfrageplanung4.jpg)
-# 
+# <br><br>
+# Zuletzt sehen wir, dass ParamountFilme durch die Sichtendefnition ersetzt wurde.
+
 # ### Materialisierte Sichten
-# ■ Viele Anfragen an eine Datenbank wiederholen sich häufig
-# <br>
-# □ Business Reports, Bilanzen, Umsätze
-# <br>
-# □ Bestellungsplanung, Produktionsplanung
-# <br>
-# □ Kennzahlenberechnung
+# In der realen Welt ist es möglich, dass viele Anfragen an eine Datenbank sich häufig wiederholen, wie z.B bei Business Reports, Bilanzen, Umsätze oder Bestellungsplanung, Produktionsplanung oder auch bei der Kennzahlenberechnung. Diese vielen Anfragen sind oft Variationen mit gemeinsamen Kern. Um Ressourcen zu sparen kann eine Anfrage als Sicht einmalig berechnet und dann materialisiert werden. So kann die Sicht automatisch und transparent in folgenden Anfragen wiederbenutzt werden.
 # <br><br>
-# ■ Viele Anfragen sind Variationen mit gemeinsamem Kern
-# <br><br>
-# ■ Idee: Einmaliges Berechnen der Anfrage als Sicht
-# <br>
-# □ Automatische, transparente Verwendung in folgenden Anfragen
-# <br>
-# □ Materialisierte Sicht (materialized view, MV)
-# <br>
 # Drei Folien nach Prof. Ulf Leser, HU Berlin
 # 
 # #### MV – Themen und Probleme
-# ■ Wahl von Views zur Materialisierung
-# <br>
-# □ MVs kosten: Platz und Aktualisierungsaufwand
-# <br>
-# □ Wahl der optimalen MVs hängt von Workload ab
-# <br>
-# □ Auswahl der „optimalen“ Menge von MVs
+# Es stellt sich die Frage welche Views nun zur Materialisierung ausgewählt werden, hierbei müssen die Kosten(Platz und Aktualisierungsaufwand) von MV beachtete werden, als auch der Workload und die Menge von MVs, beeinflussen die optimale Wahl.
 # <br><br>
-# ■ Automatische Aktualisierung von MVs
-# <br>
-# □ Aktualisierung bei Änderungen der Basisrelationen
-# <br>
-# □ U.U. schwierig: Aggregate, Joins, Outer-Joins, ...
-# <br>
-# □ Algorithmen zur inkrementellen Aktualisierung
+# Ein anderes Problemengebiet ist die automatische Aktualisierung von MVs, wie also z.B mit einer Aktualisierung bei Änderungen der Basisrelationen umgegangen wird, v.A. bei Aggregaten, Joins, Outer-Joins usw. . Hierfür bieten sich
+# Algorithmen zur inkrementellen Aktualisierung an.
 # <br><br>
-# ■ Automatische Verwendung von MV
-# <br>
-# □ „Answering Queries using Views“
-# <br>
-# □ Umschreiben der Anfrage notwendig
-# <br>
-# □ Schwierigkeit hängt von Komplexität der Anfrage / Views ab
-# <br>
-# □ Algorithmen zur transparenten und kostenoptimalen Verwendung der materialisierten Sichten
+# Weiterhin stellt sich auch die Frage, wie die Verwendung von MVs bei der Ausführung von Anfragen automatisiert wird. Die Schwierigkeit dieser Aufgabe hängt von der Komplexität der Anfragen bzw. Views ab, da das Umschreiben der Anfrage notwendig ist. Demnach werden Algorithmen zur transparenten und kostenoptimalen Verwendung der materialisierten Sichten notwendig.
 # 
 # ### „Answering Queries using Views“
-# ■ Gegeben
+# Angenommen wir habene ine Anfrage Q und eine Menge V (materialisierten) von Sichten gegeben. Es stellen sich folgende Fragen:
 # <br>
-# □ Eine Anfrage Q
+# - Kann man Q überhaupt unter Verwendung von V beantworten?
 # <br>
-# □ Eine Menge V (materialisierten) von Sichten
-# <br><br>
-# ■ Fragen
+# - Kann man Q nur mit V beantworten?
 # <br>
-# □ Kann man Q überhaupt unter Verwendung von V beantworten?
+# - Kann man Q mit V vollständig beantworten?
 # <br>
-# □ Kann man Q nur mit V beantworten?
-# <br>
-# □ Kann man Q mit V vollständig beantworten?
-# <br>
-# □ Ist es günstig, Sichten aus V zur Beantwortung von Q zu verwenden? Welche?
-# 
+# - Ist es günstig, Sichten aus V zur Beantwortung von Q zu verwenden? Welche?
+
 # ## Zusammenfassung
-# Die Anfragesprache SQL
+# In diesem Kapitel haben wir uns mit der Anfragesprache SQL beschäftigt.
 # <br>
-# Der SFW Block
+# SFW Block
 # <br>
 # Subanfragen
 # <br>
