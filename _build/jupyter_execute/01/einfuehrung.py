@@ -7,7 +7,7 @@
 from IPython.display import IFrame
 
 url = "https://lejuliennn.github.io/mct-trainer/"
-IFrame(src=url, width=1000, height=800)
+IFrame(src=url, width='100%', height=800)
 
 
 # # Einführung
