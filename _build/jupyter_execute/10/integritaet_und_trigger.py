@@ -2,45 +2,21 @@
 # coding: utf-8
 
 # # Integrität und Trigger
-# 
+# In diesem Kapitel beschäftigen wir uns mit Integritätsbedingungen und Triggern.
 # ## Motivation – Aktive Datenbanken
-# ■ Einzufügende Daten können fehlerhaft sein
-# <br>
-# □ Typographische Fehler, logische Fehler
-# <br><br>
-# ■ Lösung 1: Bessere Anwendung schreiben
-# <br>
-# □ Aber: Konsistenz und Korrektheit sind schwer zu prüfen (komplexe Bedingungen, abhängig von schon vorhandenen Daten).
-# <br><br>
-# ■ Lösung 2: Aktive Elemente im DBMS
-# <br>
-# □ Einmal spezifiziert
-# <br>
-# □ Ausgeführt wenn nötig
-# <br>
-# □ „Integritätsbedingungen“ (integrity constraints, ICs)
+# Die Daten, die wir in eine Datenbank einfügen wollen können fehlerhaft sein, es kann sich um typographische Fehler, logische Fehler oder auch Andere handeln. Um den Fehlern entgegenzuwirken wäre eine Möglichkeit , das Schreiben besserer Anwendungen, jedoch ist das Prüfen der Konsistenz und Korrektheit sehr schwer, da z.B komplexe Bedingungen, schon abhängig von vorhandenen Daten sein können. Eine andere Möglichkeit ist das Benutzen von aktiven Elementen im DBMS wie Integritätsbedingungen(integrity constraints, ICs), die einmal spezifiziert werden und wenn nötig dann ausgeführt werden. Integritätsbedingungen "bewachen", dass nur Daten die der spezifizierten Form entsprechen, zugelassen werden.
 
 # ## Schlüssel und Fremdschlüssel
 # 
 # ### Schlüssel
-# ■ Wichtigste Bedingung: Ein oder mehrere Attribute bilden einen Schlüssel.
+# Die einfachtse und am häufigsten genutzte Bedingung sind Schlüssel. Schlüssel sollten aus den vorherigen Kapiteln bekannt sein, sie bilden sich auch ein oder mehreren Attributen und identifizieren eindeutig ein Tupel. Falls eine Schlüsselmenge S gegeben ist, müssen sich also zwei Tupel einer Relation in mindestens einem Attributwert der Schlüsselmenge unterscheiden.
 # <br>
-# □ Falls S die Schlüsselmenge ist, müssen sich zwei Tupel in mindestens einem Attributwert der Schlüsselmenge
-# unterscheiden.
 # <br>
-# □ Spezifikation im CREATE TABLE Ausdruck
-# <br>
-# – Primärschlüssel: PRIMARY KEY
-# <br>
-# – Schlüssel: UNIQUE oder UNIQUE NOT NULL
+# Schlüssel werden im CREATE TABLE Ausdruck spezifiziert. Der Primärschlüssel wird mit dem Schlüsselwort PRIMARY KEY gekennzeichnet und kann nie einen Nullwert enthalten. Es gibt pro Relation maximal einen PRIMARY KEY. Ein weiterer Schlüssel ist UNIQUE, hiervon ist es erlaubt mehrere pro Relation und auch Nullwerte zu haben. Falls UNIQUE ohne Nullwerte benutzt werden soll, ist dies mit UNIQUE NOT NULL möglich. 
 # 
 # #### Primärschlüssel
-# ■ Maximal ein Primärschlüssel pro Relation
-# <br>
-# □ Zwei Tupel müssen sich in mindestens einem Attributwert der Primärschlüsselattribute unterscheiden.
-# <br>
-# □ Tupel dürfen keinen NULL-Werte in den Primärschlüsselattributen haben.
-# Bei einem Attribut: Deklaration direkt in Attributliste
+# Primaärschlüssel werden im CREATE TABLE Ausdruck spezifiziert. Im Folgenden finden Sie eine Deklaration eines Primärschlüssels bei genau einem Attribut, dort findet die Deklaration dirket in der Attributenliste statt. Es ist auch möglich bei nur einem Attribut die Deklaration nach den Attributen zu nennen.
+# 
 # ```
 # CREATE TABLE SchauspielerIn(
 # Name CHAR(30) PRIMARY KEY,
@@ -48,7 +24,7 @@
 # Geschlecht CHAR(1),
 # Geburtstag DATE);
 # ```
-# ■ Bei (einem oder) mehreren Attributen: Deklaration nach den Attributen
+# Bei mehreren Attributen findet die Deklaration zwingend nach den Attributen statt, wie im Beispiel unten gezeigt.
 # ```
 # CREATE TABLE SchauspielerIn(
 # Name CHAR(30),
@@ -59,25 +35,9 @@
 # ```
 # 
 # #### Sekundärschlüssel
-# ■ Spezifikation mit UNIQUE
-# <br>
-# □ Syntax wie für PRIMARY KEY
-# <br>
-# – Direkt beim Attribut
-# <br>
-# – Als separate Attributliste
+# Sekundärschlüssel bzw. Schlüsselkandidaten werden mit dem Schlüsseltwort UNIQUE spezifiziert. Die Sytax ist genau wie bei der Deklaration von einem PRIMARY KEY, also direkt beim Attribut oder als separate Attributliste nach den Attributen.
 # <br><br>
-# ■ Bedeutung etwas anders:
-# <br>
-# □ Es darf mehrere UNIQUE Deklarationen geben
-# <br>
-# □ UNIQUE erlaubt NULL-Werte
-# <br>
-# – und NULL ≠ NULL (bzw. UNKNOWN)
-# <br>
-# => Zwei Tupel können in UNIQUE Attributen übereinstimmen: NULL
-# <br>
-# – Abhilfe: NOT NULL
+# Der große Unterschied zu PRIMARY KEY  ist, dass es mehrere UNIQUE Deklarationen geben darf. Standardmäßig erlaubt UNIQUE NULL-Werte, da von NULL ≠ NULL (bzw. UNKNOWN) ausgegangen wird. Bei NULL ist es also möglich, dass zwei Tupel in UNIQUE Attributen übereinstimmen. Um auch Nullwerte zu unterbinden, kann UNIQUE NOT NULL verwendet werden. Ein Beispiel für eine Deklaration eines Sekundärschlüssel befindet sich unten.
 # ```
 # CREATE TABLE SchauspielerIn(
 # Name CHAR(30),
@@ -86,31 +46,13 @@
 # Geburtstag DATE UNIQUE,
 # UNIQUE (Name, Adresse));
 # ```
-# 
+
 # #### Schlüsselbedingungen erzwingen
-# Schlüsselbedingungen müssen stets gelten.
+# Die spezifizierten Schlüsselbedingungen müssen stets gelten. Diese sind nur relevant bei INSERT und UPDATE, da bei DELETE keine Verletzung der Bedingungen passieren kann, denn es wurden keine Tupel der Relation hinzugefügt, die nicht den Bedingungen entsprechen. Beim Einfügen oder Ändern wird geprüft der neue Schlüsselwert bereits vorhanden ist.
+# 
+# Meistens ist die effiziente Prüfung der Bedingungen mittels Index möglich, da DBMS in der Regel automatisch Indizes für Primärschlüsselattribute anlegen. Optional ist es auch möglich manuell für UNIQUE-Attribute Indizes zu erstellen, z.B CREATE UNIQUE INDEX JahrIndex ON Filme(Jahr). Das entspricht CREATE INDEX JahrIndex ON Filme(Jahr), aber mit einer neuen UNIQUE Bedingung auf Jahr.
 # <br><br>
-# Relevant nur bei INSERT und UPDATE
-# <br>
-# Bei DELETE kann nichts passieren.
-# <br><br>
-# Effiziente Prüfung mittels Index
-# <br>
-# DBMS legen idR automatisch Indizes für Primärschlüsselattribute an.
-# <br>
-# Optional auch für UNIQUE Attribute
-# <br>
-# CREATE UNIQUE INDEX JahrIndex ON Filme(Jahr);
-# <br>
-# Wie CREATE INDEX JahrIndex ON Filme(Jahr), aber mit neuer UNIQUE Bedingung auf Jahr.
-# <br>
-# Bei Einfügen oder Ändern: Prüfen ob neuer Schlüsselwert bereits vorhanden
-# <br><br>
-# Ineffiziente Prüfung (falls kein Index vorhanden ist)
-# <br>
-# Binäre Suche falls Daten sortiert sind
-# <br>
-# Sequentielle Suche sonst
+# Ohne Indizes ist die Überprüfung eher ineffizient, da die gesamte Spalte durchsucht werden muss. Sind die Dtaen sortiert, kann binäre Suche verwendet werden, andernfalls muss sequentielle Suche benutzt werden.
 # 
 # #### Fremdschlüssel
 # Werte in bestimmten Attributen sollen „sinnvoll“ sein.

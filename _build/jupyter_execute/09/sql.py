@@ -2322,48 +2322,7 @@ WHERE Jahr = 1979;
 # - Ist es günstig, Sichten aus V zur Beantwortung von Q zu verwenden? Welche?
 
 # ## Zusammenfassung
-# In diesem Kapitel haben wir uns mit der Anfragesprache SQL beschäftigt.
+# In diesem Kapitel haben wir uns mit der Anfragesprache SQL beschäftigt. Zuerst haben wir uns mit dem Grundgerüst aller SQL-Anfragen dem SFW(SELECT FROM WHERE) Block beschäftigt, gefolgt von Subanfragen in der FROM- und WHERE-Klausel und den Schlüsselwörtern EXISTS, IN, ALL, ANY ,die genutzt werden um Bedingungen an Relationen zu stellen. Weiterhin haben wir die Mengenoperationen UNION, INTERSECT, EXCEPT und diesbezüglich DISTINCT,ALL(bei Multimengensemantik) kennengelernt. Wir haben auch die verschiedenen Joins und Outerjoins betrachtet und den Einsatz von Nullwerten kennengelernt. Darüber hinaus haben wir gesehen wie Gruppierung und Aggregation in SQL in Kombination mit Schlüsselwörtern wie GROUP BY, HAVING und MIN, MAX, COUNT umgesetzt wird.
 # <br>
-# SFW Block
 # <br>
-# Subanfragen
-# <br>
-# In FROM und WHERE
-# <br>
-# EXISTS, IN, ALL, ANY
-# <br>
-# Mengenoperationen
-# <br>
-# UNION, INTERSECT, EXCEPT
-# <br>
-# Joins und Outerjoins
-# <br>
-# Nullwerte
-# <br>
-# Mengen vs. Multimengen
-# <br>
-# DISTINCT, ALL
-# <br>
-# Gruppierung und Aggregation
-# <br>
-# MIN, MAX, COUNT
-# <br>
-# GROUP BY, HAVING
-# <br>
-# Datenbankveränderungen
-# <br>
-# INSERT, UPDATE, DELETE
-# <br>
-# Schemata und Datentypen
-# <br>
-# CREATE TABLE
-# <br>
-# ALTER TABLE
-# <br>
-# Indizes
-# <br>
-# Sichten
-# <br>
-# Anfragen (und updates)
-# <br>
-# Materialisierte Sichten
+# Im Weiteren haben wir SQL als DML betrachtet ,um Datenbankveränderungen mit INSERT, UPDATE, DELETE zu schaffen. In Bezug auf SQL als DDL haben wir Schemata und Datentypen kennengelernt, die zur Erstellung und Veränderung von Relationen mit CREATE TABLE und ALTER TABLE nötig sind. Anschließend haben wir die Datenstruktur Index betrachtet, die die Suche nach Tupel erleichtert. Zuletzt haben wir uns mit Sichten und materalisierten Sichten, sowie Anfragen und Updates darauf beschäftigt.
