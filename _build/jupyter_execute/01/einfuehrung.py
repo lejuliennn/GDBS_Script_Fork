@@ -4,16 +4,6 @@
 # In[1]:
 
 
-{
-    "tags": [
-        "hide-input",
-    ]
-}
-
-
-# In[2]:
-
-
 from IPython.display import IFrame
 
 url = "https://lejuliennn.github.io/mct-trainer/"
